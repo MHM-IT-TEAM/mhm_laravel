@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'mysql'),
+    'default' => env('DB_CONNECTION', 'loginSyst'),
 
     /*
     |--------------------------------------------------------------------------
@@ -43,14 +43,14 @@ return [
             'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
         ],
 
-        'mysql' => [
+        'patSyst' => [
             'driver' => 'mysql',
             'url' => env('DATABASE_URL'),
-            'host' => env('DB_HOST', '127.0.0.1'),
-            'port' => env('DB_PORT', '3306'),
-            'database' => env('DB_DATABASE', 'forge'),
-            'username' => env('DB_USERNAME', 'forge'),
-            'password' => env('DB_PASSWORD', ''),
+            'host' => env('DB_HOST_PAT_SYST', '127.0.0.1'),
+            'port' => env('DB_PORT_PAT_SYST', '3306'),
+            'database' => env('DB_DATABASE_PAT_SYST', 'forge'),
+            'username' => env('DB_USERNAME_PAT_SYST', 'forge'),
+            'password' => env('DB_PASSWORD_PAT_SYST', ''),
             'unix_socket' => env('DB_SOCKET', ''),
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',
@@ -63,14 +63,54 @@ return [
             ]) : [],
         ],
 
+        'loginSyst' => [
+            'driver' => 'mysql',
+            'url' => env('DATABASE_URL'),
+            'host' => env('DB_HOST_LOGIN_SYST', '127.0.0.1'),
+            'port' => env('DB_PORT_LOGIN_SYST', '3306'),
+            'database' => env('DB_DATABASE_LOGIN_SYST', 'forge'),
+            'username' => env('DB_USERNAME_LOGIN_SYST', 'forge'),
+            'password' => env('DB_PASSWORD_LOGIN_SYST', ''),
+            'unix_socket' => env('DB_SOCKET', ''),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'strict' => true,
+            'engine' => null,
+            'options' => extension_loaded('pdo_mysql') ? array_filter([
+                PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
+            ]) : [],
+        ],
+        'inventSyst' => [
+            'driver' => 'mysql',
+            'url' => env('DATABASE_URL'),
+            'host' => env('DB_HOST', '127.0.0.1'),
+            'port' => env('DB_PORT', '3306'),
+            'database' => env('DB_DATABASE_THIRD', 'forge'),
+            'username' => env('DB_USERNAME_THIRD', 'forge'),
+            'password' => env('DB_PASSWORD_THIRD', ''),
+            'unix_socket' => env('DB_SOCKET', ''),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'strict' => true,
+            'engine' => null,
+            'options' => extension_loaded('pdo_mysql') ? array_filter([
+                PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
+            ]) : [],
+        ],
+
+
         'pgsql' => [
             'driver' => 'pgsql',
             'url' => env('DATABASE_URL'),
-            'host' => env('DB_HOST', '127.0.0.1'),
-            'port' => env('DB_PORT', '5432'),
-            'database' => env('DB_DATABASE', 'forge'),
-            'username' => env('DB_USERNAME', 'forge'),
-            'password' => env('DB_PASSWORD', ''),
+            'host' => env('DB_HOST_INVENT_SYST', '127.0.0.1'),
+            'port' => env('DB_PORT_INVENT_SYST', '5432'),
+            'database' => env('DB_INVENT_SYST', 'forge'),
+            'username' => env('DB_INVENT_SYST', 'forge'),
+            'password' => env('DB_INVENT_SYST', ''),
             'charset' => 'utf8',
             'prefix' => '',
             'prefix_indexes' => true,
