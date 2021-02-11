@@ -20,21 +20,25 @@ class CreatePatientsTable extends Migration
             $table->string('lastname',50)->nullable();
             $table->string('birthdate',40);
             $table->string('birth_place',40);
-            $table->string('cin_date',10);
-            $table->string('cin_place',50);
-            $table->string('job',20);
-            $table->string('mom_name',50);
-            $table->string('dad_name',50);
+            $table->string('cin_date',10)->nullable();
+            $table->string('cin_place',50)->nullable();
+            $table->string('job',20)->nullable();
+            $table->string('mom_name',50)->nullable();
+            $table->string('dad_name',50)->nullable();
             $table->string('tel',20)->nullable();
             $table->string('gender',2)->nullable();
             $table->string('adress',50);
             $table->string('avatar',200)->nullable();
             $table->integer('height')->nullable();
             $table->string('reg_date',10)->nullable();
+            $table->String('martialStatus',1)->nullable();
+            $table->string('nationality',20)->nullable();
+            $table->string('bloodGroup',20)->nullable();
+            $table->string('education',20)->nullable();
+            $table->string('email',20)->nullable();
 
         });
     }
-
 
     /**
      * Reverse the migrations.
