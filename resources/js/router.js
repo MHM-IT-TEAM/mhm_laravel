@@ -1,12 +1,12 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router';
-import PatientForm from "./components/PatientForm";
+import PatientForm from "./components/patient";
 
 Vue.use(VueRouter);
 
 const routes=[
     {
-        path:"/home/patient",
+        path:"/joyCenter/patient",
         name:"patForm",
         component:PatientForm
     }

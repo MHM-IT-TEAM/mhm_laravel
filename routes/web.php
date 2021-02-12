@@ -22,3 +22,12 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/home/{any}', [App\Http\Controllers\VueController::class, 'index'])->where('any','.*');
 
+//joyCenter
+Route::group(['prefix'=>'joyCenter'],function(){
+    Route::get('/home',[App\Http\Controllers\joyCenter\JoyCenterController::class, 'index'])->name('joyHome');
+    Route::get('/patient',[App\Http\Controllers\joyCenter\JoyCenterController::class, 'patient']);
+    Route::get('/queue',[App\Http\Controllers\joyCenter\JoyCenterController::class, 'queue']);
+    Route::get('/consultation',[App\Http\Controllers\joyCenter\JoyCenterController::class, 'consultation']);
+});
+
+

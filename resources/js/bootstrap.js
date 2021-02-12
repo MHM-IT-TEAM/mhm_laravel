@@ -1,5 +1,7 @@
 window._ = require('lodash');
-
+import Vue from 'vue';
+import Vuex from 'vuex';
+Vue.use(Vuex);
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
  * for JavaScript based Bootstrap features such as modals and tabs. This

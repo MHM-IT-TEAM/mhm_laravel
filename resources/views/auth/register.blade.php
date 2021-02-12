@@ -10,6 +10,19 @@
                 <div class="card-body">
                     <form method="POST" action="{{ route('register') }}">
                         @csrf
+                        <div class="form-group row">
+                            <label for="employee_id" class="col-md-4 col-form-label text-md-right">{{ __('ID') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="employee_id" type="text" class="form-control @error('employee_id') is-invalid @enderror" name="employee_id" value="{{ old('employee_id') }}" required autocomplete="employee_id" autofocus>
+
+                                @error('employee_id')
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
 
                         <div class="form-group row">
                             <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
@@ -26,13 +39,24 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
+                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('Department') }}</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
-
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
+                                <select class="form-control" id="department" name="department_id">
+                                    <option></option>
+                                    <optgroup label="Medical">
+                                        <option value="3">Generalist</option>
+                                        <option value="4">Dentist</option>
+                                        <option value="5">Pink</option>
+                                    </optgroup>
+                                    <optgroup label="Operations">
+                                        <option value="0">joyCenter</option>
+                                        <option value="1">graceCenter</option>
+                                        <option value="Storage">Storage</option>
+                                    </optgroup>
+                                </select>
+                                @error('department_id')
+                                <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
