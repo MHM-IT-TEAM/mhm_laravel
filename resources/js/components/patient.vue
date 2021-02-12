@@ -1,6 +1,6 @@
 <template>
-    <div class="container">
-        <form id="patientForm" enctype="multipart/form-data" @submit.prevent="submit">
+    <div class="container-fluid p-4">
+        <form id="patientForm" enctype="multipart/form-data" @submit.prevent="submit" class="form" autocomplete="off">
             <input type="hidden" id="patId" name="patId" value="<?= $patId ?>"/>
 
 
@@ -9,32 +9,51 @@
                 <hr>
                 <div class="row perso_detail">
                     <div class="col-4">
-                        <label for="firstName" class="pb-0 col-form-label">First Name</label>
+                        <label for="firstName" class="pb-0 col-form-label">First Name</label><span class="text-danger">*</span>
                         <div class="row">
-                            <div class="col-sm-12">
-                                <input class="form-control" name="firstName" id="firstName" v-model="patient.firstName"/>
+                            <div class="col-sm-12" :class="{ 'form-group--error': $v.patient.firstName.$error }">
+                                <input class="form-control" name="firstName" id="firstName"
+                                       v-model="patient.firstName"
+                                       @input="$v.patient.firstName.$touch()"
+                                />
+                                <div v-if="$v.patient.firstName.$error">
+                                    <div class="error  alert-danger" v-if="!$v.patient.firstName.required">Name is required</div>
+                                    <div class="error  alert-danger" v-if="!$v.patient.firstName.minLength">Name must have at least {{$v.patient.firstName.$params.minLength.min}} letters.</div>
+                                </div>
                             </div>
                         </div>
-                        <label for="lastName" class="pb-0 col-form-label">Last Name</label>
+                        <label for="lastName" class="pb-0 col-form-label">Last Name</label><span class="text-danger">*</span>
                         <div class="row">
                             <div class="col-sm-12">
-                                <input class="form-control" name="lastName" id="lastName" v-model="patient.lastName"/>
+                                <input class="form-control" name="lastName" id="lastName" v-model="patient.lastName"
+                                  @input="$v.patient.lastName.$touch()"
+                                />
+                                <div v-if="$v.patient.lastName.$error">
+                                    <div class="error  alert-danger" v-if="!$v.patient.lastName.required">lastName is required</div>
+                                </div>
+
                             </div>
                         </div>
-                        <label for="gender" class="pb-0 col-form-label">Gender</label>
+                        <label for="gender" class="pb-0 col-form-label">Gender</label><span class="text-danger">*</span>
                         <div class="row">
                             <div class="col-sm-12">
-                                <select class="form-control" name="gender" id="gender" v-model="patient.gender" required>
+                                <select class="form-control" name="gender" id="gender" v-model="patient.gender" >
                                     <option value=""></option>
                                     <option value="M">Male</option>
                                     <option value="F">Female</option>
                                 </select>
+                                <div v-if="$v.patient.gender.$error">
+                                    <div class="error  alert-danger" v-if="!$v.patient.gender.required">gender is required</div>
+                                </div>
                             </div>
                         </div>
-                        <label for="dob" class="pb-0 col-form-label">DOB</label>
+                        <label for="dob" class="pb-0 col-form-label">DOB</label><span class="text-danger">*</span>
                         <div class="row">
                             <div class="col-sm-12">
-                                <input type="date" class="form-control" name="dob" id="dob" v-model="patient.dob" required/>
+                                <input type="date" class="form-control" name="dob" id="dob" v-model="patient.dob" />
+                                <div v-if="$v.patient.dob.$error">
+                                    <div class="error  alert-danger" v-if="!$v.patient.dob.required">The birthdate is required</div>
+                                </div>
                             </div>
                         </div>
                     </div><!--personal info-->
@@ -82,7 +101,8 @@
                                 <label for="Nationality" class="pb-0 col-form-label">Nationality</label>
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        <input class="form-control" name="nationality" id="nationality" v-model="patient.nationality"/>
+<!--                                        <input class="form-control" name="nationality" id="nationality" v-model="patient.nationality"/>-->
+                                        <Multiselect></Multiselect>
                                     </div>
                                 </div>
                                 <label for="idCard" class="pb-0 col-form-label">ID card</label>
@@ -123,10 +143,13 @@
                 <hr>
                 <div class="row">
                     <div class="col-4">
-                        <label for="idDate" class="pb-0 col-form-label">Adress</label>
+                        <label for="idDate" class="pb-0 col-form-label">Adress</label><span class="text-danger">*</span>
                         <div class="row">
                             <div class="col-sm-12">
-                                <input type="text" class="form-control" name="adress" id="adress" v-model="patient.adress" required/>
+                                <input type="text" class="form-control" name="adress" id="adress" v-model="patient.adress"/>
+                                <div v-if="$v.patient.adress.$error">
+                                    <div class="error  alert-danger" v-if="!$v.patient.adress.required">The adress is required</div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -152,7 +175,7 @@
                 <h4> Relatives Contact</h4>
                 <hr>
                 <div class="row">
-                    <div class="col-6">
+
                         <table class="table w-100 table-borderless" >
                             <thead>
                             <tr>
@@ -171,48 +194,52 @@
                             </tr>
                             </tbody>
                         </table>
-                    </div>
-                    <div class="col-6">
-                        <div class="row">
-                            <div class="col-10">
-                                <h6 class="text-danger">Emergency Contact</h6>
-                            </div>
-                            <div class="col-2">
-                                <button class="btn btn-sm btn-primary float-right" onclick="add_row()" type="button"><i class="fa fa-plus"></i></button>
-                            </div>
-                        </div>
-                        <table id="emergency_table" class="table w-100 table-borderless">
-                            <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Tel</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr id="row0">
-                                <td>
-                                    <input type="text" class="form-control" name="emContact_name[]" id="emContact_name" v-model="patient.emContact_name"/>
-                                </td>
-                                <td>
-                                    <input type="text" class="form-control" name="emContact_tel[]" id="emContact_tel" v-model="patient.emContact_tel"/>
-                                </td>
-                            </tr>
-
-                            </tbody>
-                        </table>
-                    </div>
                 </div>
+                <div class="">
+                    <div class="row">
+                        <div class="col-10">
+                            <h4 class="text-danger">Emergency Contact</h4>
+                        </div>
+                        <div class="col-2">
+                            <button class="btn btn-sm btn-primary float-right" onclick="add_row()" type="button"><i class="fa fa-plus"></i></button>
+                        </div>
+                    </div>
+                    <table id="emergency_table" class="table w-100 table-borderless">
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Tel</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr id="row0">
+                            <td>
+                                <input type="text" class="form-control" name="emContact_name[]" id="emContact_name" v-model="patient.emContact_name"/>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" name="emContact_tel[]" id="emContact_tel" v-model="patient.emContact_tel"/>
+                            </td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+
                 <div id="test">
                     <button type="submit" id="submit" name="submit" class="btn btn-sm btn-primary">Submit</button>
                 </div>
             </div>
+
         </form>
     </div>
 </template>
 
 <script>
+    import { validationMixin } from 'vuelidate'
+    const { required, minLength, email, url, maxLength } = require('vuelidate/lib/validators')
     export default {
         name: "Patient",
+        mixins:[validationMixin],
         data(){
             return {
                 patient:{
@@ -238,6 +265,27 @@
                     emContact_tel : ""
                 },
                 isEdit:false,
+                countries:[]
+            }
+        },
+        validations:{
+            patient:{
+                firstName:{
+                    required,
+                    minLength:minLength(4)
+                },
+                lastName:{
+                    required
+                },
+                gender:{
+                    required
+                },
+                dob:{
+                    required
+                },
+                adress:{
+                    required
+                }
             }
         },
 
@@ -245,10 +293,14 @@
 
         },
         created() {
-
+            this.getCountries();
         },
         methods:{
+            getCountries(){
+                axios.get("../api/countries").then(response=>this.countries.push(response.data))
+            },
             submit(){
+                this.$v.patient.$touch()
                 console.log("ok")
             }
         }

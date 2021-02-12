@@ -10,6 +10,8 @@ import store from './store/index';
 
 window.Vue = require('vue').default;
 import patient from "./components/patient";
+import Multiselect from 'vue-multiselect'
+
 
 
 
@@ -37,6 +39,7 @@ const app = new Vue({
     store,
     el: '#app',
     components:{
-        patient
+        patient,
+        Multiselect
     }
 });
