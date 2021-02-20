@@ -6,7 +6,8 @@ const initialState = {
     patients: [],
     totalPatients: 0,
     selectAllField: false,
-    selectedPatients: []
+    selectedPatients: [],
+    selectedPatient:null
 }
 
 export default {

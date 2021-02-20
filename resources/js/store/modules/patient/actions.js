@@ -2,10 +2,10 @@ import * as types from './mutation_types'
 
 export const fetchPatients = ({ commit, dispatch, state }, params) => {
     return new Promise((resolve, reject) => {
-        window.axios.get(`/api/patients`, {params}).then((response) => {
-            commit(types.BOOTSTRAP_PATIENTS, response.data.patients.data)
-            commit(types.SET_TOTAL_PATIENTS, response.data.patients.total)
-            resolve(response)
+        window.axios.get(`/api/patients/search`, { params: { query: params } }).then((response) => {
+            commit(types.BOOTSTRAP_PATIENTS, response.data)
+            //commit(types.SET_TOTAL_PATIENTS, response.data.patients.total)
+            //resolve(response)
         }).catch((err) => {
             reject(err)
         })
@@ -26,7 +26,7 @@ export const addPatient = ({ commit, dispatch, state }, data) => {
     return new Promise((resolve, reject) => {
         window.axios.post('/api/patients', data).then((response) => {
             commit(types.ADD_PATIENT, response.data)
-            resolve(response)
+            resolve(response.data)
         }).catch((err) => {
             reject(err)
         })
@@ -35,9 +35,9 @@ export const addPatient = ({ commit, dispatch, state }, data) => {
 
 export const updatePatient = ({ commit, dispatch, state }, data) => {
     return new Promise((resolve, reject) => {
-        window.axios.put(`/api/patients/${data.id}`, data).then((response) => {
-            if(response.data.success){
-                commit(types.UPDATE_PATIENT, response.data)
+        window.axios.post(`/api/patients/${data.get("id")}`, data).then((response) => {
+            if (response.data.success) {
+                //commit(types.UPDATE_PATIENT, response.data)
             }
             resolve(response)
         }).catch((err) => {
@@ -59,7 +59,7 @@ export const deletePatient = ({ commit, dispatch, state }, id) => {
 
 export const deleteMultiplePatients = ({ commit, dispatch, state }, id) => {
     return new Promise((resolve, reject) => {
-        window.axios.post(`/api/patients/delete`, {'id': state.selectedPatients}).then((response) => {
+        window.axios.post(`/api/patients/delete`, { 'id': state.selectedPatients }).then((response) => {
             commit(types.DELETE_MULTIPLE_PATIENTS, state.selectedPatients)
             resolve(response)
         }).catch((err) => {
@@ -83,7 +83,7 @@ export const selectAllPatients = ({ commit, dispatch, state }) => {
     }
 }
 
-export const selectPatient = ({ commit, dispatch, state }, data) => {
+export const selectPatients = ({ commit, dispatch, state }, data) => {
     commit(types.SET_SELECTED_PATIENTS, data)
     if (state.selectedPatients.length === state.patients.length) {
         commit(types.SET_SELECT_ALL_STATE, true)
@@ -91,7 +91,15 @@ export const selectPatient = ({ commit, dispatch, state }, data) => {
         commit(types.SET_SELECT_ALL_STATE, false)
     }
 }
+export const selectPatient = ({ commit, dispatch, state }, data) => {
+    commit(types.SET_SELECTED_PATIENT, data)
+    if (state.selectedPatient.length === state.patients.length) {
+        commit(types.SET_SELECT_ALL_STATE, true)
+    } else {
+        commit(types.SET_SELECT_ALL_STATE, false)
+    }
+}
 
-export const resetSelectedCustomer = ({ commit, dispatch, state }, data) => {
+export const resetSelectedPatient = ({ commit, dispatch, state }, data) => {
     commit(types.RESET_SELECTED_PATIENT)
 }

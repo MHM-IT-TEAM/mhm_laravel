@@ -7,11 +7,12 @@
 require('./bootstrap');
 import router from './router';
 import store from './store/index';
+import vuetify from "./plugins/vuetify";
 
 window.Vue = require('vue').default;
-import patient from "./components/patient";
-import Multiselect from 'vue-multiselect'
 
+import Multiselect from 'vue-multiselect'
+Vue.component('multiselect',Multiselect);
 
 
 
@@ -37,9 +38,10 @@ import Multiselect from 'vue-multiselect'
 const app = new Vue({
     router,
     store,
+    vuetify,
     el: '#app',
     components:{
-        patient,
-        Multiselect
+
+
     }
 });

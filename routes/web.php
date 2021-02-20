@@ -28,6 +28,7 @@ Route::group(['prefix'=>'joyCenter'],function(){
     Route::get('/patient',[App\Http\Controllers\joyCenter\JoyCenterController::class, 'patient']);
     Route::get('/queue',[App\Http\Controllers\joyCenter\JoyCenterController::class, 'queue']);
     Route::get('/consultation',[App\Http\Controllers\joyCenter\JoyCenterController::class, 'consultation']);
+    Route::get('/patient/search',[App\Http\Controllers\joyCenter\JoyCenterController::class, 'patientSearch']);
 });
 
 

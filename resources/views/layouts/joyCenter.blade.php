@@ -33,8 +33,12 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <!-- Left Side Of Navbar -->
                 <ul class="navbar-nav ml-4 mr-auto">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{url('/joyCenter/patient')}}">Patients</a>
+                    <li class="nav-item dropdown" id="navOrder">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="glyphicon glyphicon-plus-sign"></i> Patient <span class="caret"></span></a>
+                        <ul class=" dropdown-menu">
+                            <a href="{{url("/joyCenter/patient")}}" class="dropdown-item"> <i class="glyphicon glyphicon-plus"></i> New</a>
+                            <a href="{{url("/joyCenter/patient/search")}}" class="dropdown-item"> <i class="glyphicon glyphicon-plus"></i> search</a>
+                        </ul>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{url('/joyCenter/queue')}}">Queue</a>

@@ -32,7 +32,7 @@ class LoginController extends Controller
         $depart= Auth::user()->department_id;
         switch ($depart){
             case 1:
-                return "/joyCenter";
+                return "/joyCenter/home";
                 break;
             case 2:
                 return "/graceCenter";

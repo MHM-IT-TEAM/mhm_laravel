@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class JoyCenterController extends Controller
 {
     public function index (){
-        return view("joyCenter/dashboard");
+        return view("joyCenter/home");
 
     }
     public function patient(){
@@ -19,5 +19,8 @@ class JoyCenterController extends Controller
     }
     public function consultation(){
         return view("joyCenter/queue");
+    }
+    public function patientSearch(){
+        return view("joyCenter/patientSearch");
     }
 }

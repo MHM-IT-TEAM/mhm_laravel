@@ -16,10 +16,11 @@ class CreatePatientsTable extends Migration
         Schema::connection('patSyst')->create('patients', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('firstname',50);
-            $table->string('lastname',50)->nullable();
-            $table->string('birthdate',40);
-            $table->string('birth_place',40);
+            $table->string('firstName',50);
+            $table->string('lastName',50)->nullable();
+            $table->string('birthDate',40);
+            $table->string('birth_place',40)->nullable();
+            $table->string('cin_no',20)->nullable();
             $table->string('cin_date',10)->nullable();
             $table->string('cin_place',50)->nullable();
             $table->string('job',20)->nullable();

@@ -1,5 +1,4 @@
 @extends("layouts.joyCenter")
 @section("content")
-<patient method="edit"></patient>
+<patient-search></patient-search>
 @endsection
-

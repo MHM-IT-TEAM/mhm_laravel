@@ -2,6 +2,9 @@ window._ = require('lodash');
 import Vue from 'vue';
 import Vuex from 'vuex';
 import Vuelidate from 'vuelidate';
+import VueToast from 'vue-toast-notification';
+import 'vue-toast-notification/dist/theme-sugar.css';
+Vue.use(VueToast);
 Vue.use(Vuex);
 Vue.use(Vuelidate);
 /**

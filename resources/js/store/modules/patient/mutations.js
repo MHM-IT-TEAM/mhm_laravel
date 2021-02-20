@@ -9,7 +9,8 @@ export default {
     },
 
     [types.ADD_PATIENT] (state, data) {
-        state.patients.push(data.patient)
+        //state.patients.push(data)
+        Object.assign(state.patients,data)
     },
 
     [types.UPDATE_PATIENT] (state, data) {
@@ -33,7 +34,10 @@ export default {
     },
 
     [types.SET_SELECTED_PATIENTS] (state, data) {
-        state.selectedPATIENTS = data
+        state.selectedPatients = data
+    },
+    [types.SET_SELECTED_PATIENT] (state, data) {
+        state.selectedPatient = data
     },
 
     [types.RESET_SELECTED_PATIENT] (state, data) {

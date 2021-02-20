@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\centralized;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\patientRequest;
+use App\Models\Patient;
+use App\Service\PatientService;
 use Illuminate\Http\Request;
 
 class patientController extends Controller
@@ -31,11 +34,14 @@ class patientController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return PatientService
      */
-    public function store(Request $request)
+    public function store(patientRequest $request)
     {
-        //
+
+        $patService=new PatientService($request);
+        return $patService ->store();
+
     }
 
     /**
@@ -57,7 +63,7 @@ class patientController extends Controller
      */
     public function edit($id)
     {
-        //
+
     }
 
     /**
@@ -69,7 +75,8 @@ class patientController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $patService=new PatientService($request);
+        return $patService->update($id);
     }
 
     /**
@@ -81,5 +88,14 @@ class patientController extends Controller
     public function destroy($id)
     {
         //
+    }
+    /**
+     * return result based on the query
+     * @param string $query
+    */
+    public function search(Request $request){
+        $patient= new Patient();
+
+        return $patient->search($request->get('query'))->get();
     }
 }
