@@ -1,14 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\centralized;
+namespace App\Http\Controllers\joyCenter;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\patientRequest;
-use App\Models\Patient;
-use App\Service\PatientService;
 use Illuminate\Http\Request;
 
-class patientController extends Controller
+class ConsultationController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,13 +31,10 @@ class patientController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return PatientService
+     * @return \Illuminate\Http\Response
      */
-    public function store(patientRequest $request)
+    public function store(Request $request)
     {
-
-        $patService=new PatientService($request);
-        return $patService ->store();
 
     }
 
@@ -59,15 +53,11 @@ class patientController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return array
+     * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        $patient= Patient::find($id);
-        return [
-            "patient"=>$patient,
-            "dueSum"=>$patient->patient_due()->get()
-        ];
+        //
     }
 
     /**
@@ -79,8 +69,7 @@ class patientController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $patService=new PatientService($request);
-        return $patService->update($id);
+        //
     }
 
     /**
@@ -91,15 +80,6 @@ class patientController extends Controller
      */
     public function destroy($id)
     {
-        return Patient::find($id)->delete();
-    }
-    /**
-     * return result based on the query
-     * @param string $query
-    */
-    public function search(Request $request){
-        $patient= new Patient();
-
-        return $patient->search($request->get('query'))->get();
+        //
     }
 }

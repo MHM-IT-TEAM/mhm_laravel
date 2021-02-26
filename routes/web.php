@@ -24,11 +24,9 @@ Route::get('/home/{any}', [App\Http\Controllers\VueController::class, 'index'])-
 
 //joyCenter
 Route::group(['prefix'=>'joyCenter'],function(){
-    Route::get('/home',[App\Http\Controllers\joyCenter\JoyCenterController::class, 'index'])->name('joyHome');
-    Route::get('/patient',[App\Http\Controllers\joyCenter\JoyCenterController::class, 'patient']);
+//    Route::get('/consultation',[App\Http\Controllers\joyCenter\JoyCenterController::class, 'consultation']);
     Route::get('/queue',[App\Http\Controllers\joyCenter\JoyCenterController::class, 'queue']);
-    Route::get('/consultation',[App\Http\Controllers\joyCenter\JoyCenterController::class, 'consultation']);
-    Route::get('/patient/search',[App\Http\Controllers\joyCenter\JoyCenterController::class, 'patientSearch']);
+    Route::get('/{any}',[App\Http\Controllers\joyCenter\JoyCenterController::class, 'index'])->name('joyHome')->where('any','.*');
 });
 
 

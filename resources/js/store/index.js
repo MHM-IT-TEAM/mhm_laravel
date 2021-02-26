@@ -6,6 +6,7 @@ import mutations from './mutations'
 import actions from './actions'
 /** modules**/
 import patient from "./modules/patient";
+import consultation from "./modules/consultation";
 
 Vue.use(Vuex)
 const initialState = {
@@ -18,6 +19,7 @@ export default new Vuex.Store({
     mutations,
     actions,
     modules:{
-        patient
+        patient,
+        consultation
     }
 })

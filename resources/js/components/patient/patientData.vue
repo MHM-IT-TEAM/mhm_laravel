@@ -25,13 +25,15 @@
                 </v-btn>
               </template>
               <v-card>
-                <patient-create :isEdit="isEdit"></patient-create>
+                <patient-create
+                  :isEdit="isEdit"
+                  v-on:close="dialog = false"
+                ></patient-create>
                 <v-card-actions>
                   <v-spacer></v-spacer>
                   <v-btn color="blue darken-1" text @click="close">
                     Cancel
                   </v-btn>
-                  <v-btn color="blue darken-1" text @click="save"> Save </v-btn>
                 </v-card-actions>
               </v-card>
             </v-dialog>
@@ -155,7 +157,11 @@ export default {
   created() {},
 
   methods: {
-    ...mapActions("patient", ["selectPatient", "resetSelectedPatient"]),
+    ...mapActions("patient", [
+      "selectPatient",
+      "resetSelectedPatient",
+      "deletePatient",
+    ]),
     initialize() {},
     async editItem(item) {
       this.editedIndex = this.patients.indexOf(item);
@@ -173,6 +179,7 @@ export default {
 
     deleteItemConfirm() {
       this.patients.splice(this.editedIndex, 1);
+      this.deletePatient(this.editedPatient.id);
       this.closeDelete();
     },
 

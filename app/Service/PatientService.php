@@ -41,7 +41,7 @@ class PatientService
     }
     /**
      * Store new Patient
-     * 
+     *
      */
 
     public function store(){
@@ -79,7 +79,7 @@ class PatientService
 
     /***
      * check if the request has an emergency contact data
-     * 
+     *
      */
     public function storeEmData(){
         if(count($this->em_data)>1){
@@ -94,4 +94,5 @@ class PatientService
     public function returnAll(){
         return Patient::all();
     }
+
 }

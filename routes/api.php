@@ -20,6 +20,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 // return countries list
 Route::get('/countries',[App\Http\Controllers\centralized\CountryController::class, 'index']);
+// return  type_consultations
+Route::resource('/typeConsult',\App\Http\Controllers\joyCenter\TypeConsultController::class);
+//service Price controller
+Route::resource('/servicePrice',\App\Http\Controllers\joyCenter\servicePriceController::class);
+//Consultation resource controller
+Route::resource('/consultation', \App\Http\Controllers\joyCenter\ConsultationController::class);
 // return fokontany list
 Route::get('/fokontany',[App\Http\Controllers\centralized\fktController::class, 'index']);
 

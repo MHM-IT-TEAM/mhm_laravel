@@ -22,4 +22,7 @@ class Patient extends Model
     public function emContacts(){
         return $this->hasMany(EmContact::class);
     }
+    public function patient_due(){
+            return $this->hasOne(PatientDue::class);
+    }
 }

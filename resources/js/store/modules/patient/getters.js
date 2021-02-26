@@ -1,4 +1,4 @@
-export const patients = (state) => state.patients
+export const getPatients = (state) => state.patients
 export const selectAllField = (state) => state.selectAllField
 export const selectedPatients = (state) => state.selectedPatients
 export const selectedPatient = (state) => state.selectedPatient

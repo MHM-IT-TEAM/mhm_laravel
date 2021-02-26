@@ -18,7 +18,7 @@ class JoyCenterController extends Controller
         return view("joyCenter/queue");
     }
     public function consultation(){
-        return view("joyCenter/queue");
+        return view("joyCenter/consultation");
     }
     public function patientSearch(){
         return view("joyCenter/patientSearch");

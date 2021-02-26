@@ -15,7 +15,8 @@ export const fetchPatients = ({ commit, dispatch, state }, params) => {
 export const fetchPatient = ({ commit, dispatch }, id) => {
     return new Promise((resolve, reject) => {
         window.axios.get(`/api/patients/${id}/edit`).then((response) => {
-            resolve(response)
+            commit(types.BOOTSTRAP_PATIENTS,response.data)
+            resolve(response.data)
         }).catch((err) => {
             reject(err)
         })
@@ -48,7 +49,7 @@ export const updatePatient = ({ commit, dispatch, state }, data) => {
 
 export const deletePatient = ({ commit, dispatch, state }, id) => {
     return new Promise((resolve, reject) => {
-        window.axios.delete(`/api/patient/${id}`).then((response) => {
+        window.axios.delete(`/api/patients/${id}`).then((response) => {
             commit(types.DELETE_PATIENT, id)
             resolve(response)
         }).catch((err) => {
