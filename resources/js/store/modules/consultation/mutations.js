@@ -5,5 +5,8 @@ export default {
     },
     [types.ADD_CONSULTATION](state,formData){
         state.consultations.push(formData)
+    },
+    [types.BOOTSTRAP_CONSULTATIONS](state,consultations){
+        state.consultations=consultations
     }
 }

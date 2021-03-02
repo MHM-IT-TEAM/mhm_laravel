@@ -25,4 +25,7 @@ class Patient extends Model
     public function patient_due(){
             return $this->hasOne(PatientDue::class);
     }
+    public function vitalSigns(){
+        return $this->hasMany(VitalSign::class);
+    }
 }

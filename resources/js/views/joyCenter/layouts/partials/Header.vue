@@ -29,7 +29,7 @@
               >
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="">Queue</a>
+                <router-link :to="{name:'consultation.list'}" class="nav-link">Queue</router-link>
             </li>
 
             <li class="nav-item dropdown" id="navOrder">

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\joyCenter;
 
 use App\Http\Controllers\Controller;
+use App\Models\Consultation;
+use App\Service\ConsultationService;
 use Illuminate\Http\Request;
 
 class ConsultationController extends Controller
@@ -14,7 +16,8 @@ class ConsultationController extends Controller
      */
     public function index()
     {
-        //
+        $consult= new Consultation();
+        return $consult->with('patient')->todayConsultation()->get();
     }
 
     /**
@@ -36,6 +39,8 @@ class ConsultationController extends Controller
     public function store(Request $request)
     {
 
+        $consult= new consultationService($request);
+        return $consult->store();
     }
 
     /**

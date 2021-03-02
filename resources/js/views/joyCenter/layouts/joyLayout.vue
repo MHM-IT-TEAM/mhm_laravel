@@ -17,7 +17,8 @@
     import Header from "./partials/Header"
     export default {
         name: "joyLayout",
-        components:{Header}
+        components:{Header},
+
     }
 </script>
 

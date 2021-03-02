@@ -151,17 +151,22 @@
               </v-icon>
           </v-btn>
       </div>
+      <div class="chat">
 
+          <queue></queue>
+      </div>
   </div>
 </template>
 <script>
     import {mapGetters,mapActions} from 'vuex';
     import vitalSign from "../../../components/nurseStation/vitalSign";
+    import {fetchTodayConsultations} from "../../../store/modules/consultation/actions";
+    import Queue from "./queue";
 
 
 export default {
   name: "consultation",
-    components:{vitalSign},
+    components:{Queue,vitalSign},
     data(){
       return{
           typeConsult_list:[],
@@ -206,17 +211,18 @@ export default {
         this.init()
     },
     methods:{
-      ...mapActions('consultation',['fetch_type_consult','newConsultation']),
+      ...mapActions('consultation',['fetch_type_consult','newConsultation','fetchTodayConsultations']),
         ...mapActions('patient',['fetchPatient']),
       async init(){
           await this.fetch_type_consult()
-         this.typeConsult_list=  this.getTypeConsult
+          this.typeConsult_list=  this.getTypeConsult
+          await this.fetchTodayConsultations()
       },
         async changePat(){
            await this.fetchPatient(this.formData.patId)
             let patData= await this.getPatients
             this.patient= patData.patient
-            this.patient_last_due= patData.dueSum[0].amount
+            this.patient_last_due= (patData.dueSum.length>0)?patData.dueSum[0].amount:0
             let adress= this.patient.adress.toLowerCase()
             adress= adress.split(' ')
             let arg=['ambovo','rangaina','mahazo','tanjondroa']
@@ -260,12 +266,13 @@ export default {
         removeRow(rowId){
           return this.formData.item.splice(rowId,1)
         },
-        submit(e){
+        async submit(e){
             e.preventDefault()
             this.readyToSend=true
-            this.newConsultation(this.formData)
+           await this.newConsultation(this.formData)
             this.resetForm()
-
+            this.formData.patId=""
+            this.formData.type_consult=""
         },
         resetForm(){
             this.formData= this.defaultFormData
@@ -306,4 +313,7 @@ export default {
 };
 </script>
 <style scoped>
+    .chat{
+        width:200px;
+    }
 </style>

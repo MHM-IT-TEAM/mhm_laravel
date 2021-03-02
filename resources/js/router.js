@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 import joyLayout from "./views/joyCenter/layouts/joyLayout";
 import patientSearch from "./components/patient/patientSearch";
 import consultation from "./views/joyCenter/consultation/index";
+import queue from "./views/joyCenter/consultation/queue";
 
 
 
@@ -30,6 +31,13 @@ const routes = [
                 path:'consultation',
                 name:"consultation.new",
                 component:consultation
+            },
+            //queue list
+            //consultation
+            {
+                path:'queueList',
+                name:"consultation.list",
+                component:queue
             }
         ]
     }
