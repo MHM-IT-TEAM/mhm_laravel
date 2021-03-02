@@ -315,5 +315,6 @@ export default {
 <style scoped>
     .chat{
         width:200px;
+        color:red
     }
 </style>
