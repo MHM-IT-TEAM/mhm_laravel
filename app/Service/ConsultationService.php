@@ -16,12 +16,13 @@ class ConsultationService
     private $vitalSigns;
     public function __construct($formData)
     {
-        $this->invoices=$formData->item;
-        $this->vitalSigns= $formData->vitalSign;
+        $this->invoices=$formData->careDetails['care_line'];
+        $this->vitalSigns= $formData->careDetails['vitalSign'];
         $this->consult_data=[
-            'patient_id'=>$formData->patId,
-            'type_consult_id'=>$formData->type_consult,
-            'priority'=>$formData->priority
+            'patient_id'=>$formData->patient['id'],
+            'type_consult_id'=>$formData->careDetails['type_consult'],
+            'priority'=>$formData->careDetails['priority'],
+            'status'=>'RUNNING'
         ];
     }
     public function store(){

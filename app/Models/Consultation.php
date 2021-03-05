@@ -20,4 +20,8 @@ class Consultation extends Model
     public function patient(){
         return $this->belongsTo(Patient::class);
     }
+    public function typeConsult(){
+        return $this->belongsTo(TypeConsult::class);
+    }
+
 }

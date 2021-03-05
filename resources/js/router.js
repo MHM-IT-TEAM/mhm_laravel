@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router';
 import joyLayout from "./views/joyCenter/layouts/joyLayout";
 import patientSearch from "./components/patient/patientSearch";
-import consultation from "./views/joyCenter/consultation/index";
+import consultation from "./views/joyCenter/consultation/consultation";
 import queue from "./views/joyCenter/consultation/queue";
 
 

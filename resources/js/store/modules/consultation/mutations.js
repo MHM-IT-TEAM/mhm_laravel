@@ -4,7 +4,7 @@ export default {
          state.type_consult= type_consult
     },
     [types.ADD_CONSULTATION](state,formData){
-        state.consultations.push(formData)
+        state.consultations.unshift(formData)
     },
     [types.BOOTSTRAP_CONSULTATIONS](state,consultations){
         state.consultations=consultations

@@ -17,7 +17,7 @@ class ConsultationController extends Controller
     public function index()
     {
         $consult= new Consultation();
-        return $consult->with('patient')->todayConsultation()->get();
+        return $consult->with(['patient','typeConsult','patientCareDetails'])->todayConsultation()->get();
     }
 
     /**

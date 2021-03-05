@@ -11,7 +11,7 @@
       />
     </form>
     <v-divider></v-divider>
-    <patient-data :data="patients"></patient-data>
+    <patient-data :data="getPatients"></patient-data>
   </div>
 </template>
 
@@ -34,9 +34,9 @@ export default {
     },
   },
   computed: {
-    ...mapGetters("patient", ["patients"]),
+    ...mapGetters("patient", ["getPatients"]),
     get: function () {
-      return this.patients;
+      return this.getPatients;
     },
   },
 };

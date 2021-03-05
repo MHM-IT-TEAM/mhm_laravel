@@ -14,10 +14,20 @@
 </template>
 
 <script>
+
     import Header from "./partials/Header"
     export default {
         name: "joyLayout",
         components:{Header},
+        created() {
+
+        },
+        methods:{
+
+        },
+        computed:{
+
+        }
 
     }
 </script>

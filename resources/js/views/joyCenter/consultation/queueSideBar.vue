@@ -1,12 +1,14 @@
 <template>
     <div>
-        <v-app>
+<!--        <v-app>-->
             <v-data-table
                 :headers="headers"
                 :items="list"
                 :search="search"
                 sort-by="calories"
                 class="elevation-1"
+                height="500"
+                mobile-breakpoint="2000"
             >
                 <template v-slot:item.name="{ item }">
                     <v-chip
@@ -67,9 +69,6 @@
 
                                 <v-card-text>
                                     <v-container>
-                                        <consultation
-                                            :editData="childEditData"
-                                        ></consultation>
                                     </v-container>
                                 </v-card-text>
 
@@ -120,24 +119,23 @@
                         mdi-delete
                     </v-icon>
                 </template>
-                <template v-slot:no-data>
-                    <v-btn
-                        color="primary"
-                        @click="initialize"
-                    >
-                        Reset
-                    </v-btn>
-                </template>
+<!--                <template v-slot:no-data>-->
+<!--                    <v-btn-->
+<!--                        color="primary"-->
+<!--                        @click="initialize"-->
+<!--                    >-->
+<!--                        Reset-->
+<!--                    </v-btn>-->
+<!--                </template>-->
             </v-data-table>
-        </v-app>
+<!--        </v-app>-->
     </div>
 
 </template>
 <script>
-    import consultation from "./consultation";
     import {mapGetters,mapActions} from 'vuex';
     export default {
-        components: {consultation},
+        name:'queueSideBar',
         data: () => ({
             dialog: false,
             search:'',
@@ -191,7 +189,6 @@
 
             async editItem (item) {
                 this.editedIndex =this.consultations.indexOf(item)
-                this.childEditData= Object.assign({}, item)
                 this.dialog = true
             },
 
