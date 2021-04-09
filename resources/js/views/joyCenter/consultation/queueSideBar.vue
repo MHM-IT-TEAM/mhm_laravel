@@ -18,12 +18,12 @@
                         {{ item.type_consult.name }}
                     </v-chip>
                 </template>
-                <template v-slot:item.status="{ item }">
+                <template v-slot:item.careDetails.status="{ item }">
                     <v-chip
-                        :color="doneColor(item.status)"
+                        :color="doneColor(item.careDetails.status)"
                         dark
                     >
-                        {{ item.status }}
+                        {{ item.careDetails.status }}
                     </v-chip>
                 </template>
                 <template v-slot:top>
@@ -145,8 +145,8 @@
                 { text: 'Patient Id', value: 'patient.id' },
                 { text: 'firstName', value: 'patient.firstName' },
                 { text: 'lastName', value: 'patient.lastName' },
-                { text: 'Service', value: 'type_consult' },
-                { text: 'status',value:'status'},
+                { text: 'Service', value: 'careDetails.type_consult' },
+                { text: 'status',value:'careDetails.status'},
                 { text: 'Actions', value: 'actions', sortable: false },
             ],
             list: [],

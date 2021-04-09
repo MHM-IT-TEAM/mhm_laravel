@@ -16,12 +16,12 @@
                         {{ item.type_consult.name }}
                     </v-chip>
                 </template>
-                <template v-slot:item.status="{ item }">
+                <template v-slot:item.careDetails.status="{ item }">
                     <v-chip
-                        :color="doneColor(item.status)"
+                        :color="doneColor(item.careDetails.status)"
                         dark
                     >
-                        {{ item.status }}
+                        {{ item.careDetails.status }}
                     </v-chip>
                 </template>
                 <template v-slot:top>
@@ -47,18 +47,6 @@
                             v-model="dialog"
                             max-width="100vw"
                         >
-<!--                                                <template v-slot:activator="{ on, attrs }">-->
-<!--                                                    <v-btn-->
-<!--                                                        color="primary"-->
-<!--                                                        dark-->
-<!--                                                        class="mb-2"-->
-<!--                                                        v-bind="attrs"-->
-<!--                                                        v-on="on"-->
-<!--                                                    >-->
-<!--                                                        New Item-->
-<!--                                                    </v-btn>-->
-<!--                                                </template>-->
-
                             <v-card>
                                 <v-card-title>
                                     <span class="headline">{{ formTitle }}</span>
@@ -69,6 +57,7 @@
                                     <v-container>
                                         <consultation
                                             :editData="childEditData"
+                                            :edit="childEdit"
                                         ></consultation>
                                     </v-container>
                                 </v-card-text>
@@ -82,13 +71,7 @@
                                     >
                                         Cancel
                                     </v-btn>
-                                    <v-btn
-                                        color="blue darken-1"
-                                        text
-                                        @click="save"
-                                    >
-                                        Save
-                                    </v-btn>
+
                                 </v-card-actions>
                             </v-card>
                         </v-dialog>
@@ -143,12 +126,11 @@
             search:'',
             dialogDelete: false,
             headers: [
-                { text: 'N', value: 'id', align:'start',sortable:true},
                 { text: 'Patient Id', value: 'patient.id' },
                 { text: 'firstName', value: 'patient.firstName' },
                 { text: 'lastName', value: 'patient.lastName' },
-                { text: 'Service', value: 'type_consult' },
-                { text: 'status',value:'status'},
+                { text: 'Service', value: 'careDetails.type_consult' },
+                { text: 'status',value:'careDetails.status'},
                 { text: 'Actions', value: 'actions', sortable: false },
             ],
             list: [],
@@ -156,7 +138,8 @@
             editedItem:"",
             defaultItem: {
             },
-            childEditData:""
+            childEditData:"",
+            childEdit:false
         }),
 
         computed: {
@@ -175,7 +158,7 @@
                 val || this.closeDelete()
             },
             consultations(newValue){
-                return this.list= newValue
+                return this.list= [...newValue]
             }
         },
 
@@ -185,13 +168,16 @@
         },
 
         methods:{
+            ...mapActions('consultation',['fetchTodayConsultations']),
             async initialize () {
-                this.list=this.consultations
+                await this.fetchTodayConsultations()
+                this.list=[...this.consultations]
             },
 
             async editItem (item) {
                 this.editedIndex =this.consultations.indexOf(item)
-                this.childEditData= Object.assign({}, item)
+               this.childEditData= Object.assign({}, item)
+                this.childEdit=true
                 this.dialog = true
             },
 
@@ -204,6 +190,7 @@
             deleteItemConfirm () {
                 this.consultations.splice(this.editedIndex, 1)
                 this.closeDelete()
+                axios.delete(`/api/consultation/${this.editedItem.consult_id}`, this.editedItem)
             },
 
             close () {
@@ -241,13 +228,12 @@
                 }
             },
             doneColor(status){
-                if(status=='DONE'){
+                if(status==='DONE'){
                     return 'green'
                 }else{
                     return 'grey'
                 }
             }
-
         },
     }
 </script>

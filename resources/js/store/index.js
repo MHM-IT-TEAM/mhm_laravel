@@ -13,7 +13,6 @@ const initialState = {
     isAppLoaded: false
 }
 export default new Vuex.Store({
-    strict: true,
     state: initialState,
     getters,
     mutations,

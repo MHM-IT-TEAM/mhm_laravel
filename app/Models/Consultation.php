@@ -23,5 +23,8 @@ class Consultation extends Model
     public function typeConsult(){
         return $this->belongsTo(TypeConsult::class);
     }
+    public function scopeUnpaid ($query){
+        return $query->where('payment_status','UNPAID');
+    }
 
 }

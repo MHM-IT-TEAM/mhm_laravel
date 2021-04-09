@@ -6,7 +6,7 @@
         name="searchBAr"
         class="form-control"
         v-model="query"
-        @change="runSearch"
+        @keyup="runSearch"
         placeholder="type your search here"
       />
     </form>
@@ -25,12 +25,19 @@ export default {
     return {
       query: null,
       result: null,
+        timeout:null
     };
   },
   methods: {
-    ...mapActions("patient", ["fetchPatients"]),
-    async runSearch() {
-      let response = await this.fetchPatients(this.query);
+    ...mapActions("patient", ["fetchPatients","resetPatient"]),
+     runSearch(e) {
+        e.preventDefault()
+         this.resetPatient()
+         clearTimeout(this.timeout);
+         let self= this
+        this.timeout=setTimeout(function(){
+            (self.query.length>3)?self.fetchPatients(self.query):""
+        },1000)
     },
   },
   computed: {

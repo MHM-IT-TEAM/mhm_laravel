@@ -440,27 +440,6 @@ export default {
         dad_name: "",
         avatar: null,
       },
-      default_patient: {
-        patId: "",
-        firstName: "",
-        lastName: "",
-        gender: "",
-        birthDate: "",
-        martialStatus: "",
-        bloodGroup: "",
-        nationality: "",
-        education: "",
-        job: "",
-        cin_no: "",
-        cin_date: "",
-        cin_place: "",
-        adress: "",
-        tel: "",
-        email: "",
-        mom_name: "",
-        dad_name: "",
-        avatar: null,
-      },
       countries: [],
       em_rows: [{ name: "", tel: "" }],
       default_em_rows: [{ name: "", tel: "" }],
@@ -570,8 +549,10 @@ export default {
       this.resetForm();
     },
     resetForm() {
-      Object.assign(this.patient, this.default_patient);
-      this.em_rows = this.default_em_rows;
+        for( let [key, value] of Object.entries(this.patient)){
+            this.patient[key]=""
+        }
+      this.em_rows = [...this.default_em_rows]
       this.$v.$reset();
       this.$emit("close");
     },

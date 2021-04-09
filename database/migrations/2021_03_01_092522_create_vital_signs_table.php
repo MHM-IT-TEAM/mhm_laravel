@@ -23,6 +23,7 @@ class CreateVitalSignsTable extends Migration
             $table->integer('pulse')->nullable();
             $table->integer('O2')->nullable();
             $table->foreignId('patient_id')->constrained();
+            $table->foreignId('consultation_id')->constrained();
         });
     }
 

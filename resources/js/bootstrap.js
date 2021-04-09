@@ -4,6 +4,7 @@ import Vuex from 'vuex';
 import Vuelidate from 'vuelidate';
 import VueToast from 'vue-toast-notification';
 import 'vue-toast-notification/dist/theme-sugar.css';
+
 Vue.use(VueToast);
 Vue.use(Vuex);
 Vue.use(Vuelidate);
@@ -27,6 +28,7 @@ try {
  */
 
 window.axios = require('axios');
+window.Chart= require('chart.js/dist/Chart.bundle.js');
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 

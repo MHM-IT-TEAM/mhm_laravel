@@ -4,20 +4,28 @@ namespace App\Http\Controllers\joyCenter;
 
 use App\Http\Controllers\Controller;
 use App\Models\Consultation;
+use App\Models\Patient;
+use App\Models\PatientCareDetail;
+use App\Models\VitalSign;
 use App\Service\ConsultationService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ConsultationController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
         $consult= new Consultation();
-        return $consult->with(['patient','typeConsult','patientCareDetails'])->todayConsultation()->get();
+        $result= $consult->todayConsultation()->with(['patient','typeConsult','patientCareDetails'])->get();
+        return response()->json([
+            'main_data'=>$result,
+        ]);
     }
 
     /**
@@ -74,7 +82,8 @@ class ConsultationController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $cons=new ConsultationService($request);
+        return $cons->update($id);
     }
 
     /**
@@ -83,8 +92,13 @@ class ConsultationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+        //delete care_details
+        PatientCareDetail::where('consultation_id',$id)->delete();
+        //delete vitalSigns
+        VitalSign::where('consultation_id',$id)->delete();
+        //delete consultations
+        Consultation::find($id)->delete();
     }
 }

@@ -44,16 +44,9 @@
                             <div class="col-md-6">
                                 <select class="form-control" id="department" name="department_id">
                                     <option></option>
-                                    <optgroup label="Medical">
-                                        <option value="3">Generalist</option>
-                                        <option value="4">Dentist</option>
-                                        <option value="5">Pink</option>
-                                    </optgroup>
-                                    <optgroup label="Operations">
-                                        <option value="0">joyCenter</option>
-                                        <option value="1">graceCenter</option>
-                                        <option value="Storage">Storage</option>
-                                    </optgroup>
+                                    @foreach($departments as $depart)
+                                        <option value="{{$depart->id}}">{{$depart->name}}</option>
+                                    @endforeach
                                 </select>
                                 @error('department_id')
                                 <span class="invalid-feedback" role="alert">
@@ -62,6 +55,10 @@
                                 @enderror
                             </div>
                         </div>
+
+
+
+
 
                         <div class="form-group row">
                             <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>

@@ -46,6 +46,10 @@ class LoginController extends Controller
             case 5:
                 return"/pink";
                 break;
+            case 6:
+                return "/cash/home";
+                break;
+
         }
     }
 

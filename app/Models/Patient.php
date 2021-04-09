@@ -11,7 +11,9 @@ class Patient extends Model
     protected $connection= "patSyst";
     protected $guarded=[];
     public function search($search){
-        return $this->with("emContacts")->where('firstName','LIKE','%'.$search.'%')
+        return $this->with("emContacts")
+            ->where('id',$search)
+            ->orWhere('firstName','LIKE','%'.$search.'%')
             ->orWhere('lastName','LIKE','%'.$search.'%')
             ->orWhere('adress','LIKE','%'.$search.'%')
             ->orWhere('birthDate','LIKE','%'.$search.'%')
@@ -27,5 +29,17 @@ class Patient extends Model
     }
     public function vitalSigns(){
         return $this->hasMany(VitalSign::class);
+    }
+    public function patientCashFlows(){
+        return $this->hasMany(PatientCashFlow::class);
+    }
+    public function babyCheckups(){
+        return $this->hasManyThrough(BabyCheckup::class,Consultation::class);
+    }
+    public function birth(){
+        return $this->belongsTo(Birth::class);
+    }
+    public function birth_medical_data(){
+        return $this->hasManyThrough(BirthMedicalData::class,Birth::class);
     }
 }

@@ -26,7 +26,7 @@
                                                 @change="changeConsult"
                                             >
                                                 <option>Choose</option>
-                                                <option v-for="option in formData.accessories.typeConsult_list" :value="option.id">{{option.name}}</option>
+                                                <option v-for="option in accessories.typeConsult_list" :value="option.id">{{option.name}}</option>
                                             </select>
 
                                         </div>
@@ -85,10 +85,10 @@
                                         </th>
                                         </thead>
                                         <tbody>
-                                        <tr v-if="formData.accessories.servicePrice.length>0" v-for="(row,index) in formData.careDetails.care_line">
+                                        <tr v-if="accessories.servicePrice.length>0" v-for="(row,index) in formData.careDetails.care_line">
                                             <td>
                                                 <select v-model="row.id" @change="changeItem($event,index)" class="form-control" >
-                                                    <option v-for="option in formData.accessories.servicePrice" :key="option.id" :value="option.id" :data-price="option.price"  >{{option.name}}</option>
+                                                    <option v-for="option in accessories.servicePrice" :key="option.id" :value="option.id" :data-price="option.price"  >{{option.name}}</option>
                                                 </select>
                                             </td>
                                             <td>
@@ -98,7 +98,7 @@
                                                 <input type="number" @change="changeQty(index)" class="form-control" v-model="row.quantity"/>
                                             </td>
                                             <td>
-                                                <input type="text" class="form-control" disabled v-model="row.totLine" />
+                                                <input type="text" class="form-control" disabled :value="row.totLine" />
                                             </td>
                                             <td>
                                                 <button type="button" class="btn btn-sm " @click="removeRow(index)"><i class="fas fa-trash"></i></button>
@@ -115,21 +115,24 @@
                                             <div class="col-4">
                                                 <div class="form-group">
                                                     <label for="subTotal" class="label">Subtotal</label>
-                                                    <input type="text" name="subTotal" id="subTotal" disabled class="form-control form-control-sm" v-model="formData.careDetails.itemSubTotal"/>
+                                                    <input type="text" name="subTotal" id="subTotal" disabled class="form-control form-control-sm" :value="formData.careDetails.itemSubTotal"/>
 
                                                 </div>
                                             </div>
                                             <div class="col-4">
                                                 <div class="form-group">
                                                     <label for="lastDue" class="label">Last Due</label>
-                                                    <input type="text" name="lastDue" id="lastDue" v-model="formData.patient.last_due" disabled class="form-control form-control-sm" />
-                                                    <input type="hidden" name="lastDues" id="lastDues"  class="form-control form-control-sm"/>
+                                                    <input type="text" name="lastDue" id="lastDue"
+                                                           :value="formData.patient.last_due"
+                                                           :class="checkLastDue"
+                                                           disabled class="form-control form-control-sm"
+                                                    />
                                                 </div>
                                             </div>
                                             <div class="col-4">
                                                 <div class="form-group">
                                                     <label for="total" class="label">Total</label>
-                                                    <input type="text" name="total" id="total" v-model="formData.careDetails.itemTotal" disabled class="form-control form-control-sm"/>
+                                                    <input type="text" name="total" id="total" :value="formData.careDetails.itemTotal" disabled class="form-control form-control-sm"/>
                                                 </div>
                                             </div>
                                         </div><!--row-->
@@ -156,9 +159,9 @@
                     </section>
                 </v-col>
                 <v-col cols="12" sm="3">
-                    <v-card class="rounded-xl p-2">
-                        <queue-side-bar></queue-side-bar>
-                    </v-card>
+<!--                    <v-card class="rounded-xl p-2">-->
+<!--                        <queue-side-bar></queue-side-bar>-->
+<!--                    </v-card>-->
                 </v-col>
             </v-row>
         </div>
@@ -166,7 +169,7 @@
 </template>
 <script>
     import vitalSign from "../../../components/nurseStation/vitalSign";
-    import queueSideBar from "./queueSideBar";
+    //import queueSideBar from "./queueSideBar";
     import {mapActions, mapGetters} from 'vuex';
 
 
@@ -176,12 +179,14 @@
             editData:{
                 type:Object,
                 default:null
-            }
+            },
+            edit:false
         },
-        components:{vitalSign,queueSideBar},
+        components:{vitalSign},
         data(){
           return{
               formData:{
+                  consult_id:"",
                   patient:  {
                       id:"",
                       firstName:"",
@@ -208,11 +213,11 @@
                           remark:""
                       },
                   },
-                  accessories:{
-                      servicePrice:[],
-                      typeConsult_list:[]
-                  }
               },
+              accessories:{
+                  servicePrice:[],
+                  typeConsult_list:[]
+              }
 
           }
         },
@@ -226,7 +231,8 @@
           ...mapActions('consultation',['fetch_type_consult','newConsultation']),
           async init(){
               await this.fetch_type_consult()
-              this.formData.accessories.typeConsult_list=  this.getTypeConsult
+             this.accessories.typeConsult_list=  [...this.getTypeConsult]
+              //this.update
           },
             async changePat(){
                 let patData= await axios.get(`/api/patients/${this.formData.patient.id}/edit`)
@@ -258,13 +264,12 @@
                         sector:this.formData.patient.sector
                     }
                 })
-                return this.formData.accessories.servicePrice=servicePrice.data
+                return this.accessories.servicePrice=servicePrice.data
             },
             changeItem(e,rowId){
                 var table=document.getElementById('invoiceTable');
                 let rowPrice=  e.target.options[e.target.options.selectedIndex].dataset.price
                 this.formData.careDetails.care_line[rowId].price= rowPrice
-
             },
             changeQty(index){
               return this.formData.careDetails.care_line[index].totLine=  this.formData.careDetails.care_line[index].price * this.formData.careDetails.care_line[index].quantity
@@ -279,13 +284,22 @@
             },
             async submit(e){
                 e.preventDefault()
-                await this.newConsultation(this.formData)
+                if(this.edit===true){
+                    await axios.put(`/api/consultation/${this.formData.consult_id}`,this.formData)
+                }else{
+                    await this.newConsultation(this.formData)
+                }
                 this.resetForm()
-                this.formData.accessories.typeConsult_list=  this.getTypeConsult
+                this.$toast.open({
+                    message: "Data submited",
+                    position: "top-right",
+                });
+                this.accessories.typeConsult_list=  [...this.getTypeConsult]
             },
             resetForm(){
                 Object.assign(this.$data, this.$options.data.call(this));
-            }
+            },
+
         },
         watch:{
           subTotal(val){
@@ -296,10 +310,17 @@
           },
           editData:{
               handler(newVal,oldVal){
-                  this.formData=newVal
+                  this.formData=Object.assign({},newVal)
+                  this.update
               },
               deep:true
-          }
+          },
+          'formData.careDetails.type_consult':function(val){
+             this.changeConsult()
+          },
+          'formData.patient.id':function(val){
+              this.changePat()
+          },
         },
 
         computed:{
@@ -314,8 +335,19 @@
             },
             data(){
               if(this.editData !== null){
-                  return this.formData= this.editData
+                  return this.formData= {...this.editData}
               }
+            },
+            checkLastDue(){
+              return this.formData.patient.last_due>0?'text-white bg-danger':''
+            },
+            async update(){
+                let vitalSign= await axios.get(`/api/patients/vitalSign/${this.formData.patient.id}`)
+                this.formData.careDetails.vitalSign.pulse= vitalSign.data[0].pulse
+                this.formData.careDetails.vitalSign.temp= vitalSign.data[0].temp
+                this.formData.careDetails.vitalSign.taSysto= vitalSign.data[0].TaSysto
+                this.formData.careDetails.vitalSign.taDia= vitalSign.data[0].taDia
+                this.formData.careDetails.vitalSign.weight= vitalSign.data[0].weight
             }
 
         }
