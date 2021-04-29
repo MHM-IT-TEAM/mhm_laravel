@@ -20,4 +20,14 @@ class Consultation extends Model
     public function patient(){
         return $this->belongsTo(Patient::class);
     }
+    public function typeConsult(){
+        return $this->belongsTo(TypeConsult::class);
+    }
+    public function scopeUnpaid ($query){
+        return $query->where('payment_status','UNPAID');
+    }
+    public function vitalSigns(){
+        return $this->hasOne(VitalSign::class);
+    }
+
 }

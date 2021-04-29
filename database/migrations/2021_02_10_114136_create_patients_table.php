@@ -19,7 +19,7 @@ class CreatePatientsTable extends Migration
             $table->string('firstName',50);
             $table->string('lastName',50)->nullable();
             $table->string('birthDate',40);
-            $table->string('birth_place',40)->nullable();
+            $table->string('birthPlace',40)->nullable();
             $table->string('cin_no',20)->nullable();
             $table->string('cin_date',10)->nullable();
             $table->string('cin_place',50)->nullable();
@@ -31,12 +31,12 @@ class CreatePatientsTable extends Migration
             $table->string('adress',50);
             $table->string('avatar',200)->nullable();
             $table->integer('height')->nullable();
-            $table->string('reg_date',10)->nullable();
-            $table->String('martialStatus',1)->nullable();
+            $table->String('martialStatus',15)->nullable();
             $table->string('nationality',20)->nullable();
             $table->string('bloodGroup',20)->nullable();
             $table->string('education',20)->nullable();
             $table->string('email',20)->nullable();
+            $table->string('datereg',20)->nullable();
 
         });
     }

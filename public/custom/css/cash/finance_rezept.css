@@ -1,0 +1,38 @@
+* {
+    font-size: 20px;
+    font-family: 'Times New Roman';
+    color:black;
+}
+body{
+    width:77mm;
+}
+.dateTime{
+    font-size: 15px;
+}
+
+td,
+th,
+tr,
+table {
+    border: 1px solid black;
+    border-collapse: collapse;
+    width:90vw;
+    text-align: center;
+}
+
+.centered {
+    text-align: center;
+    align-content: center;
+}
+
+img {
+    height: 50px;
+    width: 40px;
+}
+
+@media print {
+    .hidden-print,
+    .hidden-print * {
+        display: none !important;
+    }
+}

@@ -29,7 +29,9 @@
               >
             </li>
             <li class="nav-item">
-                <router-link :to="{name:'consultation.list'}" class="nav-link">Queue</router-link>
+              <router-link :to="{ name: 'consultation.list' }" class="nav-link"
+                >Queue</router-link
+              >
             </li>
 
             <li class="nav-item dropdown" id="navOrder">
@@ -45,26 +47,23 @@
                 <span class="caret"></span
               ></a>
               <ul class="dropdown-menu">
-                <router-link :to="{name:'consultation.new'}" class="dropdown-item">
-                  <i class="glyphicon glyphicon-plus"></i> Consultation</router-link
+                <router-link
+                  :to="{ name: 'consultation.new' }"
+                  class="dropdown-item"
                 >
-                <a href="" class="dropdown-item">
-                  <i class="glyphicon glyphicon-plus"></i> GDOC</a
+                  <i class="glyphicon glyphicon-plus"></i>
+                  Consultation</router-link
                 >
+                <router-link
+                  :to="{ name: 'hospital_admission_home' }"
+                  class="dropdown-item"
+                >
+                  <i class="glyphicon glyphicon-plus"></i> Hospital Admission
+                </router-link>
               </ul>
             </li>
-
-            <li id="navReport" class="nav-item">
-              <a class="nav-link">
-                <i class="glyphicon glyphicon-check"></i> Cash
-              </a>
-            </li>
-            <li id="sendinfo" class="nav-item">
-              <a href="" class="nav-link">
-                <i class="glyphicon glyphicon-edit"></i> Send Info
-              </a>
-            </li>
           </ul>
+          <v-icon medium @click="logout"> mdi-exit-to-app</v-icon>
         </div>
       </div>
     </nav>
@@ -74,6 +73,12 @@
 <script>
 export default {
   name: "Header",
+  methods: {
+    async logout() {
+      await axios.post("/logout").then((resp) => console.log(resp));
+      window.location.href = "/login";
+    },
+  },
 };
 </script>
 

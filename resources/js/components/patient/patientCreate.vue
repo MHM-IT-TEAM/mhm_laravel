@@ -45,7 +45,7 @@
             </div>
             <label for="lastName" class="pb-0 col-form-label">Last Name</label
             ><span class="text-danger">*</span>
-            <div class="row">
+            <div class="row mb-0">
               <div class="col-sm-12">
                 <input
                   class="form-control"
@@ -64,7 +64,7 @@
                 </div>
               </div>
             </div>
-            <label for="gender" class="pb-0 col-form-label">Gender</label
+            <label for="gender" class="pb-0 pt-0 col-form-label">Gender</label
             ><span class="text-danger">*</span>
             <div class="row">
               <div class="col-sm-12">
@@ -88,11 +88,11 @@
                 </div>
               </div>
             </div>
-            <label for="dob" class="pb-0 col-form-label">DOB</label
-            ><span class="text-danger">*</span>
-            <div class="row">
-              <div class="col-sm-12">
-                <input
+            <div class="row mt-0">
+                <div class="col-sm-6 pt-0">
+                    <label for="dob" class="pb-0 col-form-label">DOB</label
+                    ><span class="text-danger">*</span>
+                    <input
                   type="date"
                   class="form-control"
                   name="dob"
@@ -108,6 +108,16 @@
                   </div>
                 </div>
               </div>
+                <div class="col-sm-6 pt-0">
+                    <label for="dob" class="pb-0 col-form-label ">Height</label
+                    >
+                    <input
+                        type="text"
+                        class="form-control"
+                        v-model="patient.height"
+                    />
+
+                </div>
             </div>
           </div>
           <!--personal info-->
@@ -187,11 +197,12 @@
                   <div class="col-sm-12">
                     <!--                                        <input class="form-control" name="nationality" id="nationality" v-model="patient.nationality"/>-->
                     <multiselect
-                      v-model="patient.nationality"
+                      v-model="nationality"
                       label="country_name"
                       track-by="country_name"
                       placeholder="Type to search"
                       :options="countries"
+                      value="countries.country_name"
                     >
                     </multiselect>
                   </div>
@@ -424,31 +435,10 @@ export default {
         firstName: "",
         lastName: "",
         gender: "",
+          height:"",
         birthDate: "",
         martialStatus: "",
         bloodGroup: "",
-        nationality: "",
-        education: "",
-        job: "",
-        cin_no: "",
-        cin_date: "",
-        cin_place: "",
-        adress: "",
-        tel: "",
-        email: "",
-        mom_name: "",
-        dad_name: "",
-        avatar: null,
-      },
-      default_patient: {
-        patId: "",
-        firstName: "",
-        lastName: "",
-        gender: "",
-        birthDate: "",
-        martialStatus: "",
-        bloodGroup: "",
-        nationality: "",
         education: "",
         job: "",
         cin_no: "",
@@ -462,6 +452,7 @@ export default {
         avatar: null,
       },
       countries: [],
+      nationality: "",
       em_rows: [{ name: "", tel: "" }],
       default_em_rows: [{ name: "", tel: "" }],
     };
@@ -552,6 +543,7 @@ export default {
         formData.append(key, value)
       );
       formData.append("em_rows", JSON.stringify(this.em_rows));
+      formData.append("nationality", this.nationality.country_name);
       if (this.isEdit === true) {
         formData.append("_method", "PUT");
         await this.updatePatient(formData);
@@ -570,8 +562,10 @@ export default {
       this.resetForm();
     },
     resetForm() {
-      Object.assign(this.patient, this.default_patient);
-      this.em_rows = this.default_em_rows;
+      for (let [key, value] of Object.entries(this.patient)) {
+        this.patient[key] = "";
+      }
+      this.em_rows = [...this.default_em_rows];
       this.$v.$reset();
       this.$emit("close");
     },

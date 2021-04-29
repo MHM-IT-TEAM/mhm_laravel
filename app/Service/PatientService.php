@@ -16,21 +16,28 @@ class PatientService
     private $em_data;
     private $avatar;
     private $patId;
+    private $nationality;
     public function __construct($request){
         //check if the request has uploaded file
         $this->checkFile($request);
         ///emergency contact data
         $this->em_data= json_decode($request->em_rows);
+        $this->nationality=$request->nationality;
+
         $this->patientData= [
             'firstName'=>strtoupper($request->firstName),
             'lastName'=>ucfirst($request->lastName),
             'gender'=>$request->gender,
+            'height'=>$request->height,
+            'bloodGroup'=>$request->bloodGroup,
             'birthDate'=>$request->birthDate,
             'martialStatus'=>$request->martialStatus,
-            'nationality'=>$request->nationality,
+            'nationality'=>$this->nationality,
             'job'=>$request->job,
             'cin_no'=>$request->cin_no,
             'cin_date'=>$request->cin_date,
+            'cin_place'=>$request->cin_place,
+            'education'=>$request->education,
             'adress'=>ucfirst($request->adress),
             'tel'=>$request->tel,
             'email'=>$request->email,
@@ -72,7 +79,7 @@ class PatientService
     public function checkFile($request){
         if($request->hasFile('avatar')){
             $path= time().'_'.$request->avatar->getClientOriginalName();
-            $request->avatar->storeAs('avatar',$path,'public');
+            $request->avatar->storeAs('assets/media/images/patients/avatar',$path,'public');
             return $this->avatar= $path;
         }
     }
@@ -82,7 +89,7 @@ class PatientService
      *
      */
     public function storeEmData(){
-        if(count($this->em_data)>1){
+        if(count($this->em_data)>0){
             foreach ($this->em_data as $data) {
                 DB::connection('patSyst')->table('em_contacts')->insert(['tel'=>$data->tel,'name'=>$data->name,'patient_id'=>$this->patId]);
             }

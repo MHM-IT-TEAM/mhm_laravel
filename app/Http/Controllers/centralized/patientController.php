@@ -66,7 +66,7 @@ class patientController extends Controller
         $patient= Patient::find($id);
         return [
             "patient"=>$patient,
-            "dueSum"=>$patient->patient_due()->get()
+            "dueSum"=>$patient->patient_due()->get("amount")
         ];
     }
 
@@ -82,7 +82,6 @@ class patientController extends Controller
         $patService=new PatientService($request);
         return $patService->update($id);
     }
-
     /**
      * Remove the specified resource from storage.
      *
@@ -99,7 +98,10 @@ class patientController extends Controller
     */
     public function search(Request $request){
         $patient= new Patient();
-
         return $patient->search($request->get('query'))->get();
+    }
+    public function vitalSign($id){
+        return Patient::find($id)->vitalSigns()->latest()->take(1)->get();
+
     }
 }

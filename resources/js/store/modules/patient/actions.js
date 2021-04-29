@@ -104,3 +104,6 @@ export const selectPatient = ({ commit, dispatch, state }, data) => {
 export const resetSelectedPatient = ({ commit, dispatch, state }, data) => {
     commit(types.RESET_SELECTED_PATIENT)
 }
+export const resetPatient=({commit,state})=>{
+    commit(types.RESET_PATIENT)
+}

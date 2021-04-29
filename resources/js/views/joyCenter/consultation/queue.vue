@@ -8,6 +8,22 @@
                 sort-by="calories"
                 class="elevation-1"
             >
+                <template v-slot:item.name="{ item }">
+                    <v-chip
+                        :color="serviceColor(item.name)"
+                        dark
+                    >
+                        {{ item.type_consult.name }}
+                    </v-chip>
+                </template>
+                <template v-slot:item.careDetails.status="{ item }">
+                    <v-chip
+                        :color="doneColor(item.careDetails.status)"
+                        dark
+                    >
+                        {{ item.careDetails.status }}
+                    </v-chip>
+                </template>
                 <template v-slot:top>
                     <v-toolbar
                         flat
@@ -29,20 +45,8 @@
                         ></v-text-field>
                         <v-dialog
                             v-model="dialog"
-                            max-width="500px"
+                            max-width="100vw"
                         >
-<!--                                                <template v-slot:activator="{ on, attrs }">-->
-<!--                                                    <v-btn-->
-<!--                                                        color="primary"-->
-<!--                                                        dark-->
-<!--                                                        class="mb-2"-->
-<!--                                                        v-bind="attrs"-->
-<!--                                                        v-on="on"-->
-<!--                                                    >-->
-<!--                                                        New Item-->
-<!--                                                    </v-btn>-->
-<!--                                                </template>-->
-
                             <v-card>
                                 <v-card-title>
                                     <span class="headline">{{ formTitle }}</span>
@@ -51,58 +55,10 @@
 
                                 <v-card-text>
                                     <v-container>
-                                        <v-row>
-                                            <v-col
-                                                cols="12"
-                                                sm="6"
-                                                md="4"
-                                            >
-                                                <v-text-field
-                                                    v-model="editedItem.name"
-                                                    label="Dessert name"
-                                                ></v-text-field>
-                                            </v-col>
-                                            <v-col
-                                                cols="12"
-                                                sm="6"
-                                                md="4"
-                                            >
-                                                <v-text-field
-                                                    v-model="editedItem.calories"
-                                                    label="Calories"
-                                                ></v-text-field>
-                                            </v-col>
-                                            <v-col
-                                                cols="12"
-                                                sm="6"
-                                                md="4"
-                                            >
-                                                <v-text-field
-                                                    v-model="editedItem.fat"
-                                                    label="Fat (g)"
-                                                ></v-text-field>
-                                            </v-col>
-                                            <v-col
-                                                cols="12"
-                                                sm="6"
-                                                md="4"
-                                            >
-                                                <v-text-field
-                                                    v-model="editedItem.carbs"
-                                                    label="Carbs (g)"
-                                                ></v-text-field>
-                                            </v-col>
-                                            <v-col
-                                                cols="12"
-                                                sm="6"
-                                                md="4"
-                                            >
-                                                <v-text-field
-                                                    v-model="editedItem.protein"
-                                                    label="Protein (g)"
-                                                ></v-text-field>
-                                            </v-col>
-                                        </v-row>
+                                        <consultation
+                                            :editData="childEditData"
+                                            :edit="childEdit"
+                                        ></consultation>
                                     </v-container>
                                 </v-card-text>
 
@@ -115,13 +71,7 @@
                                     >
                                         Cancel
                                     </v-btn>
-                                    <v-btn
-                                        color="blue darken-1"
-                                        text
-                                        @click="save"
-                                    >
-                                        Save
-                                    </v-btn>
+
                                 </v-card-actions>
                             </v-card>
                         </v-dialog>
@@ -167,43 +117,36 @@
 
 </template>
 <script>
+    import consultation from "./consultation";
     import {mapGetters,mapActions} from 'vuex';
     export default {
+        components: {consultation},
         data: () => ({
             dialog: false,
             search:'',
             dialogDelete: false,
             headers: [
-                { text: 'N', value: 'id', align:'start',sortable:true},
-                { text: 'Patient Id', value: 'patient_id' },
+                { text: 'Patient Id', value: 'patient.id' },
                 { text: 'firstName', value: 'patient.firstName' },
                 { text: 'lastName', value: 'patient.lastName' },
-                { text: 'Service', value: 'protein' },
-                { text: 'Status', value: 'actions', sortable: false },
+                { text: 'Service', value: 'careDetails.type_consult_name' },
+                { text: 'status',value:'careDetails.status'},
+                { text: 'Actions', value: 'actions', sortable: false },
             ],
             list: [],
             editedIndex: -1,
-            editedItem: {
-                name: '',
-                calories: 0,
-                fat: 0,
-                carbs: 0,
-                protein: 0,
-            },
+            editedItem:"",
             defaultItem: {
-                name: '',
-                calories: 0,
-                fat: 0,
-                carbs: 0,
-                protein: 0,
             },
+            childEditData:"",
+            childEdit:false
         }),
 
         computed: {
             ...mapGetters('consultation',['consultations']),
 
             formTitle () {
-                return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
+                return this.editedIndex === -1 ? 'New Consultation' : 'Edit Consultation'
             },
         },
 
@@ -215,7 +158,7 @@
                 val || this.closeDelete()
             },
             consultations(newValue){
-                return this.list= newValue
+                return this.list= [...newValue]
             }
         },
 
@@ -226,15 +169,15 @@
 
         methods:{
             ...mapActions('consultation',['fetchTodayConsultations']),
-
             async initialize () {
                 await this.fetchTodayConsultations()
-                this.list=this.consultations
+                this.list=[...this.consultations]
             },
 
-            editItem (item) {
-                this.editedIndex = this.consultations.indexOf(item)
-                this.editedItem = Object.assign({}, item)
+            async editItem (item) {
+                this.editedIndex =this.consultations.indexOf(item)
+               this.childEditData= Object.assign({}, item)
+                this.childEdit=true
                 this.dialog = true
             },
 
@@ -247,6 +190,7 @@
             deleteItemConfirm () {
                 this.consultations.splice(this.editedIndex, 1)
                 this.closeDelete()
+                axios.delete(`/api/consultation/${this.editedItem.consult_id}`, this.editedItem)
             },
 
             close () {
@@ -273,6 +217,23 @@
                 }
                 this.close()
             },
+            serviceColor(service){
+                switch (service) {
+                    case 'Generalist':
+                       return 'blue'
+                    break;
+                    case 'Dentist':
+                        return 'orange'
+                    break;
+                }
+            },
+            doneColor(status){
+                if(status==='DONE'){
+                    return 'green'
+                }else{
+                    return 'grey'
+                }
+            }
         },
     }
 </script>

@@ -13,4 +13,10 @@ class PatientCareDetail extends Model
     public function consultation(){
         return $this->belongsTo(Consultation::class);
     }
+    public function servicePrices(){
+        return $this->belongsTo(ServicePrice::class);
+    }
+    public static function consult($id){
+        return self::where('consultation_id',$id);
+    }
 }

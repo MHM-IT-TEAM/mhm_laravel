@@ -30,12 +30,13 @@ class LoginController extends Controller
 //    protected $redirectTo = RouteServiceProvider::HOME;
     public function redirectTo(){
         $depart= Auth::user()->department_id;
+
         switch ($depart){
             case 1:
-                return "/joyCenter/home";
+                return "/joyCenter/consultation";
                 break;
             case 2:
-                return "/graceCenter";
+                return "/graceCenter/home";
                 break;
             case 3:
                 return "/generalist";
@@ -44,8 +45,12 @@ class LoginController extends Controller
                 return "/dentist";
                 break;
             case 5:
-                return"/pink";
+                return"/obstetrics/home";
                 break;
+            case 6:
+                return "/cash/home";
+                break;
+
         }
     }
 
