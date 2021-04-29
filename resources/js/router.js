@@ -11,6 +11,8 @@ import obstetrics_layout from "./views/medical/obstetrics/layouts/obstetrics_lay
 import cpn_followup from "./views/medical/obstetrics/cpn/cpn_followup";
 import first_cpn_list from "./views/medical/obstetrics/cpn/first_cpn_list";
 import pregnancy_test from "./views/medical/obstetrics/cpn/pregnancy_test";
+import ultrasound_form from "./views/medical/obstetrics/ultrasound/ultrasound_form";
+import ultrasound_list from "./views/medical/obstetrics/ultrasound/ultrasound_list";
 import welcoming from "./components/welcoming";
 
 
@@ -91,6 +93,16 @@ const routes = [
                 path: 'pregnancy_test',
                 name: 'pregnancy_test',
                 component: pregnancy_test
+            },
+            {
+                path: 'ultrasound_form',
+                name: 'ultrasound_form',
+                component: ultrasound_form
+            },
+            {
+                path: 'ultrasound_list',
+                name: 'ultrasound_list',
+                component: ultrasound_list
             }
         ]
     }
