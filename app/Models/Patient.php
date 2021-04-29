@@ -42,4 +42,7 @@ class Patient extends Model
     public function birth_medical_data(){
         return $this->hasManyThrough(BirthMedicalData::class,Birth::class);
     }
+    public function cpnAdmissions(){
+        return $this->hasMany(CpnAdmission::class);
+    }
 }

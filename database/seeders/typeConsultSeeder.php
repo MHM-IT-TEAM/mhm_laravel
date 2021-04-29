@@ -20,7 +20,36 @@ class typeConsultSeeder extends Seeder
             ],
             [
                 'name'=>'Dentist'
+            ],
+            [
+                'name'=>'Family Planning'
+            ],
+            [
+                'name'=>'CPN Admission'
+            ],
+            [
+                'name'=>'Echo'
+            ],
+            [
+                'name'=>'Post Partum'
+            ],
+            [
+                'name'=>'Vaccination'
+            ],
+            [
+                'name'=>'Baby Checkup'
+            ],
+            [
+                'name'=>'Dermato'
+            ],
+            [
+                'name'=>'Milk Program'
+            ],
+            [
+                'name'=>'CPN Followup'
             ]
+
+
         ]);
     }
 }

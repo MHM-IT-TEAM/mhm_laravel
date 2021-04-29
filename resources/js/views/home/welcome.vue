@@ -78,14 +78,14 @@ body {
   /* align-items: center; */
   /* height: 100%; */
 }
-.card {
-  background-color: #fff;
-  color: #333;
-  border-radius: 10px;
-  /* box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2); */
-  padding: 20px;
-  margin: 10px;
-}
+/*.card {*/
+/*  background-color: #fff;*/
+/*  color: #333;*/
+/*  border-radius: 10px;*/
+/*  !* box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2); *!*/
+/*  padding: 20px;*/
+/*  margin: 10px;*/
+/*}*/
 .showcase h1 {
   font-size: 25px;
   font-weight: lighter;

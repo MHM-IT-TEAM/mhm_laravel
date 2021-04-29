@@ -22,8 +22,14 @@ class CreatePregnancyHistoriesTable extends Migration
             $table->string('birth_type',20)->nullable();
             $table->string('birth_place',100)->nullable();
             $table->text('birth_problems')->nullable();
-            $table->string('newBorn',50)->nullable();
+            $table->string('baby_gender',10)->nullable();
+            $table->string('infection',50)->nullable();
+            $table->string('malformation',50)->nullable();
+            $table->integer('baby_weight')->nullable();
+            $table->string('baby_condition',20)->nullable();
+            $table->string('sa',10)->nullable();
             $table->string('pueperium',50)->nullable();
+            $table->boolean('ourPatient')->nullable();
         });
     }
 

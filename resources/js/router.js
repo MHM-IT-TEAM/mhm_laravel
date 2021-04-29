@@ -5,8 +5,13 @@ import patientSearch from "./components/patient/patientSearch";
 import consultation from "./views/joyCenter/consultation/consultation";
 import queue from "./views/joyCenter/consultation/queue";
 import welcome from "./views/home/welcome";
-import hospital_admission from "./components/hospital_admission/hospital_admission";
-import cpn_admission from "./components/obstetrics/cpn/cpn_admission";
+import hospital_admission from "./views/medical/hospitalization/hospital_admission";
+import cpn_admission from "./views/medical/obstetrics/cpn/cpn_admission";
+import obstetrics_layout from "./views/medical/obstetrics/layouts/obstetrics_layout";
+import cpn_followup from "./views/medical/obstetrics/cpn/cpn_followup";
+import first_cpn_list from "./views/medical/obstetrics/cpn/first_cpn_list";
+import pregnancy_test from "./views/medical/obstetrics/cpn/pregnancy_test";
+import welcoming from "./components/welcoming";
 
 
 
@@ -15,8 +20,8 @@ Vue.use(VueRouter);
 const routes = [
     /** welcome routes**/
     {
-        path:"/",
-        name:"welcome",
+        path: "/",
+        name: "welcome",
         component: welcome
     },
     /**
@@ -25,7 +30,7 @@ const routes = [
      |--------------------------
      */
     {
-        path: "/joyCenter/home",
+        path: "/joyCenter",
         name: "joyHome",
         component: joyLayout,
         children: [
@@ -37,29 +42,56 @@ const routes = [
             },
             //consultation
             {
-                path:'consultation',
-                name:"consultation.new",
-                component:consultation
+                path: 'consultation',
+                name: "consultation.new",
+                component: consultation
             },
             //queue list
             {
-                path:'queueList',
-                name:"consultation.list",
-                component:queue
+                path: 'queueList',
+                name: "consultation.list",
+                component: queue
             },
-            // hospital admission
+        ]
+    },
+    // hospitalisation
+    {
+        path: "hospital_admission/home",
+        name: "hospital_admission_home",
+        component: hospital_admission
+    },
+    // obstetrics
+    {
+        path: '/obstetrics',
+        name: 'obstetrics_home',
+        component: obstetrics_layout,
+        children: [
             {
-                path:'hospital_admission',
-                name:"hospital_admission.new",
-                component:hospital_admission
+                path: 'home',
+                name: 'obstetrics_welcome',
+                component: welcoming
             },
-            // CPN
             {
-                path:'cpn_admission',
-                name:'cpn_admission',
-                component: cpn_admission
-            }
+                path: 'first_cpn_list',
+                name: 'first_cpn_list',
+                component: first_cpn_list
 
+            },
+            {
+                path: 'admission',
+                name: 'cpn_admission',
+                component: cpn_admission
+            },
+            {
+                path: 'followup',
+                name: 'cpn_followup',
+                component: cpn_followup
+            },
+            {
+                path: 'pregnancy_test',
+                name: 'pregnancy_test',
+                component: pregnancy_test
+            }
         ]
     }
 ];

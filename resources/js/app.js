@@ -8,12 +8,15 @@ require('./bootstrap');
 import router from './router';
 import store from './store/index';
 import vuetify from "./plugins/vuetify";
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
+
 
 window.Vue = require('vue').default;
 
 import Multiselect from 'vue-multiselect'
-Vue.component('multiselect',Multiselect);
-
+Vue.component('multiselect', Multiselect);
+Vue.component('Loading', Loading)
 
 
 /**
@@ -40,8 +43,4 @@ const app = new Vue({
     store,
     vuetify,
     el: '#app',
-    components:{
-
-
-    }
 });

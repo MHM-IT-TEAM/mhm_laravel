@@ -168,7 +168,7 @@
     </div>
 </template>
 <script>
-    import vitalSign from "../../../components/nurseStation/vitalSign";
+    import vitalSign from "../../medical/nurseStation/vitalSign";
     //import queueSideBar from "./queueSideBar";
     import {mapActions, mapGetters} from 'vuex';
 
@@ -242,7 +242,11 @@
                 this.formData.patient.last_due= (patData.data.dueSum.length>0)?patData.data.dueSum[0].amount:0
                 let adress= this.formData.patient.adress.toLowerCase()
                 adress= adress.split(' ')
-                let arg=['ambovo','rangaina','mahazo','tanjondroa']
+                let arg=['ambovo','atsimomparihy','amboasary','tanjondroa',
+                    'iarinarivo','ambodisaha','ambohinanjakana',
+                    'atanantanana','andriantany','iarinarivo','manonilahy',
+                    'maroloha','tsarazaza','ambohidehilahy','ambohitsiroa','ampanataovana'
+                ]
                 let check=false
                 adress.forEach(ad=>{
                      if(arg.indexOf(ad) !== -1){
@@ -267,7 +271,7 @@
                 return this.accessories.servicePrice=servicePrice.data
             },
             changeItem(e,rowId){
-                var table=document.getElementById('invoiceTable');
+                //var table=document.getElementById('invoiceTable');
                 let rowPrice=  e.target.options[e.target.options.selectedIndex].dataset.price
                 this.formData.careDetails.care_line[rowId].price= rowPrice
             },

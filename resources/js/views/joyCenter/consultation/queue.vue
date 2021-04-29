@@ -129,7 +129,7 @@
                 { text: 'Patient Id', value: 'patient.id' },
                 { text: 'firstName', value: 'patient.firstName' },
                 { text: 'lastName', value: 'patient.lastName' },
-                { text: 'Service', value: 'careDetails.type_consult' },
+                { text: 'Service', value: 'careDetails.type_consult_name' },
                 { text: 'status',value:'careDetails.status'},
                 { text: 'Actions', value: 'actions', sortable: false },
             ],

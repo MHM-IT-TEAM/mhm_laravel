@@ -68,7 +68,7 @@ class ConsultationService
     public function update($id){
         $consult= Consultation::find($id);
         //update the consultations table
-        $consult->fill($this->consult_data);
+        $consult->fill($this->consult_data)->save();
         //update the invoices
         PatientCareDetail::where('consultation_id',$id)->delete();
         if(count($this->invoices)>0){

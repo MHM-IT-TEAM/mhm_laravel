@@ -16,16 +16,17 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('vue');
 });
+Route::get('/test',[App\Http\Controllers\TestController::class, 'index']);
 
 Auth::routes();
+//auth
+Route::get('/auth/login',[App\Http\Controllers\authController::class,'index']);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/home/{any}', [App\Http\Controllers\VueController::class, 'index'])->where('any','.*');
 
 //joyCenter
 Route::group(['prefix'=>'joyCenter','middleware'=>'auth'],function(){
-//    Route::get('/consultation',[App\Http\Controllers\joyCenter\JoyCenterController::class, 'consultation']);
-    Route::get('/queue',[App\Http\Controllers\joyCenter\JoyCenterController::class, 'queue']);
     Route::get('/{any}',[App\Http\Controllers\joyCenter\JoyCenterController::class, 'index'])->name('joyHome')->where('any','.*');
 });
 //cash
@@ -35,7 +36,8 @@ Route::group(['prefix'=>'cash','middleware'=>'auth'],function(){
     route::Get('/home/pay/{consult_id}/patId/{patient_id}/type_consult/{type_consult}',[App\Http\Controllers\cash\cashController::class, 'pay'] )->name('cash_pay');
 });
 //obstetrics
-Route::group(['prefix'=>'obstetrics'],function(){
+Route::group(['prefix'=>'obstetrics','middleware'=>'auth'],function(){
     route::get('/baby/weight_overview',[App\Http\Controllers\medical\obstetrics\BabyController::class,'index']);
+    Route::get('/{any}',[App\Http\Controllers\medical\obstetrics\ObstetricsController::class, 'index'])->where('any','.*');
 });
 

@@ -55,12 +55,11 @@
                   Consultation</router-link
                 >
                 <router-link
-                  :to="{ name: 'hospital_admission.new' }"
+                  :to="{ name: 'hospital_admission_home' }"
                   class="dropdown-item"
                 >
-                  <i class="glyphicon glyphicon-plus"></i> Hospital
-                  Admission</router-link
-                >
+                  <i class="glyphicon glyphicon-plus"></i> Hospital Admission
+                </router-link>
               </ul>
             </li>
           </ul>
@@ -76,10 +75,8 @@ export default {
   name: "Header",
   methods: {
     async logout() {
-      axios
-        .post("/logout")
-        .then((resp) => console.log(resp))
-        .then((window.location.href = "/login"));
+      await axios.post("/logout").then((resp) => console.log(resp));
+      window.location.href = "/login";
     },
   },
 };

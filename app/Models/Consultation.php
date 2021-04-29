@@ -26,5 +26,8 @@ class Consultation extends Model
     public function scopeUnpaid ($query){
         return $query->where('payment_status','UNPAID');
     }
+    public function vitalSigns(){
+        return $this->hasOne(VitalSign::class);
+    }
 
 }

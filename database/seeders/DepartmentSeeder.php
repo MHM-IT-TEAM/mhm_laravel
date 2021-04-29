@@ -22,20 +22,24 @@ class DepartmentSeeder extends Seeder
                 "medical"=>0
             ],
             [
-                "name"=>"graceCenter",
+                "name"=>"Grace Center",
                 "medical"=>0
             ],
             [
-                "name"=>"generalist",
+                "name"=>"Generalist",
                 "medical"=>1
             ],
             [
-                "name"=>"dentist",
+                "name"=>"Dentist",
                 "medical"=>1
             ],
             [
-                "name"=>"pink",
+                "name"=>"Pink",
                 "medical"=>1
+            ],
+            [
+                "name"=>"Cashier",
+                "medical"=>0
             ]
         ]);
 

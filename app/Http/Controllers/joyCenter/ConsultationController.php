@@ -46,7 +46,6 @@ class ConsultationController extends Controller
      */
     public function store(Request $request)
     {
-
         $consult= new consultationService($request);
         return $consult->store();
     }
@@ -100,5 +99,8 @@ class ConsultationController extends Controller
         VitalSign::where('consultation_id',$id)->delete();
         //delete consultations
         Consultation::find($id)->delete();
+    }
+    public function first_cpn_list(){
+
     }
 }
