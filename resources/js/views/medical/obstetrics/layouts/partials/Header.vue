@@ -2,7 +2,11 @@
   <div>
     <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
       <div class="container-fluid">
-        <router-link :to="{ name: 'obstetrics_welcome' }" class="navbar-brand" href="#">
+        <router-link
+          :to="{ name: 'obstetrics_welcome' }"
+          class="navbar-brand"
+          href="#"
+        >
           Pink Section
         </router-link>
         <button
@@ -52,28 +56,28 @@
                   :to="{ name: 'hospital_admission_home' }"
                   class="dropdown-item"
                 >
-<!--                  <i class="glyphicon glyphicon-plus"></i> Echographie-->
-<!--                </router-link>-->
-<!--                <router-link-->
-<!--                  :to="{ name: 'hospital_admission_home' }"-->
-<!--                  class="dropdown-item"-->
-<!--                >-->
-<!--                  <i class="glyphicon glyphicon-plus"></i> Baby Checkup-->
-<!--                </router-link>-->
-<!--                <router-link-->
-<!--                  :to="{ name: 'hospital_admission_home' }"-->
-<!--                  class="dropdown-item"-->
-<!--                >-->
-<!--                  <i class="glyphicon glyphicon-plus"></i> Milk Program-->
+                  <!--                  <i class="glyphicon glyphicon-plus"></i> Echographie-->
+                  <!--                </router-link>-->
+                  <!--                <router-link-->
+                  <!--                  :to="{ name: 'hospital_admission_home' }"-->
+                  <!--                  class="dropdown-item"-->
+                  <!--                >-->
+                  <!--                  <i class="glyphicon glyphicon-plus"></i> Baby Checkup-->
+                  <!--                </router-link>-->
+                  <!--                <router-link-->
+                  <!--                  :to="{ name: 'hospital_admission_home' }"-->
+                  <!--                  class="dropdown-item"-->
+                  <!--                >-->
+                  <!--                  <i class="glyphicon glyphicon-plus"></i> Milk Program-->
                 </router-link>
               </ul>
             </li>
 
-<!--            <li class="nav-item">-->
-<!--              <router-link :to="{ name: 'consultation.list' }" class="nav-link"-->
-<!--                >Queue</router-link-->
-<!--              >-->
-<!--            </li>-->
+            <!--            <li class="nav-item">-->
+            <!--              <router-link :to="{ name: 'consultation.list' }" class="nav-link"-->
+            <!--                >Queue</router-link-->
+            <!--              >-->
+            <!--            </li>-->
 
             <li class="nav-item dropdown" id="navOrder">
               <a
@@ -95,27 +99,27 @@
                   <i class="glyphicon glyphicon-plus"></i>
                   CPN</router-link
                 >
-<!--                <router-link-->
-<!--                  :to="{ name: 'hospital_admission_home' }"-->
-<!--                  class="dropdown-item"-->
-<!--                >-->
-<!--                  <i class="glyphicon glyphicon-plus"></i> Echographie-->
-<!--                </router-link>-->
-<!--                <router-link-->
-<!--                  :to="{ name: 'hospital_admission_home' }"-->
-<!--                  class="dropdown-item"-->
-<!--                >-->
-<!--                  <i class="glyphicon glyphicon-plus"></i> Baby Checkup-->
-<!--                </router-link>-->
-<!--                <router-link-->
-<!--                  :to="{ name: 'hospital_admission_home' }"-->
-<!--                  class="dropdown-item"-->
-<!--                >-->
-<!--                  <i class="glyphicon glyphicon-plus"></i> Milk Program-->
-<!--                </router-link>-->
+                <!--                <router-link-->
+                <!--                  :to="{ name: 'hospital_admission_home' }"-->
+                <!--                  class="dropdown-item"-->
+                <!--                >-->
+                <!--                  <i class="glyphicon glyphicon-plus"></i> Echographie-->
+                <!--                </router-link>-->
+                <!--                <router-link-->
+                <!--                  :to="{ name: 'hospital_admission_home' }"-->
+                <!--                  class="dropdown-item"-->
+                <!--                >-->
+                <!--                  <i class="glyphicon glyphicon-plus"></i> Baby Checkup-->
+                <!--                </router-link>-->
+                <!--                <router-link-->
+                <!--                  :to="{ name: 'hospital_admission_home' }"-->
+                <!--                  class="dropdown-item"-->
+                <!--                >-->
+                <!--                  <i class="glyphicon glyphicon-plus"></i> Milk Program-->
+                <!--                </router-link>-->
               </ul>
             </li>
-            <li class="nav-item">
+            <!-- <li class="nav-item">
               <input
                 type="text"
                 id="searchText"
@@ -127,22 +131,39 @@
               <span v-show="search_text" class="removeInput" @click="reset"
                 >X</span
               >
+            </li> -->
+            <li>
+              <v-autocomplete
+                :loading="loading"
+                :items="results"
+                item-text="firstName"
+                :search-input.sync="search_text"
+                cache-items
+                class="mx-4"
+                flat
+                dense
+                hide-no-data
+                hide-details
+                label="Type your search here"
+                solo-inverted
+                width="200px"
+              ></v-autocomplete>
             </li>
           </ul>
           <v-icon medium @click="logout"> mdi-exit-to-app</v-icon>
         </div>
       </div>
     </nav>
-    <v-card id="result" max-height="700px">
-      <!-- <button
+    <!-- <v-card id="result" max-height="700px"> -->
+    <!-- <button
         class="btn btn-primary btn-sm float-right position-fixed"
         v-if="isResult"
         @click="reset"
       >
         X
       </button> -->
-      <p v-if="noResult">No matching data</p>
-      <div v-for="result of results" class="result_content" v-if="isResult">
+    <!-- <p v-if="noResult">No matching data</p> -->
+    <!-- <div v-for="result of results" class="result_content" v-if="isResult">
         <p class="text-headline">
           Id: &nbsp{{ result.id }}
           <span class="float-right">
@@ -177,7 +198,7 @@
           </tbody>
         </table>
       </div>
-    </v-card>
+    </v-card> -->
   </div>
 </template>
 
@@ -190,11 +211,13 @@ export default {
       noResult: false,
       search_text: "",
       results: [],
+      loading: false,
     };
   },
   watch: {
     search_text(val) {
-      val === "" ? (this.isResult = false) : (this.isResult = true);
+      // val === "" ? (this.isResult = false) : (this.isResult = true);
+      this.fetch(val);
     },
   },
   methods: {
@@ -204,18 +227,21 @@ export default {
         .then((resp) => console.log(resp))
         .then((window.location.href = "/login"));
     },
-    async search() {
+    async fetch(val) {
+      this.loading = true;
       let response = await axios.get("/api/obstetrics/search", {
-        params: { search: this.search_text },
+        params: { search: val },
       });
-      if (response.data.length > 0) {
-        this.results = response.data;
-        this.noResult = false;
-        this.isResult = true;
-      } else {
-        this.isResult = false;
-        this.noResult = true;
-      }
+      // if (response.data.length > 0) {
+      //   this.results = response.data;
+      //   this.noResult = false;
+      //   this.isResult = true;
+      // } else {
+      //   this.isResult = false;
+      //   this.noResult = true;
+      // }
+      this.results = response.data;
+      this.loading = false;
     },
     reset() {
       this.isResult = false;
