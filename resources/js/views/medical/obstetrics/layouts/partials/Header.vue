@@ -119,8 +119,8 @@
                 <!--                </router-link>-->
               </ul>
             </li>
-            <!-- <li class="nav-item">
-              <input
+            <li class="nav-item">
+              <!-- <input
                 type="text"
                 id="searchText"
                 placeholder="Type here"
@@ -130,9 +130,17 @@
               />
               <span v-show="search_text" class="removeInput" @click="reset"
                 >X</span
-              >
-            </li> -->
-            <li>
+              > -->
+              <v-text-field
+                dense
+                append-icon="mdi-magnify"
+                placeholder="Type your search here"
+                class="search_input"
+                v-model="search_text"
+                @change="fetch"
+              ></v-text-field>
+            </li>
+            <!-- <li>
               <v-autocomplete
                 :loading="loading"
                 :items="results"
@@ -146,24 +154,16 @@
                 hide-details
                 label="Type your search here"
                 solo-inverted
-                width="200px"
               ></v-autocomplete>
-            </li>
+            </li> -->
           </ul>
           <v-icon medium @click="logout"> mdi-exit-to-app</v-icon>
         </div>
       </div>
     </nav>
-    <!-- <v-card id="result" max-height="700px"> -->
-    <!-- <button
-        class="btn btn-primary btn-sm float-right position-fixed"
-        v-if="isResult"
-        @click="reset"
-      >
-        X
-      </button> -->
-    <!-- <p v-if="noResult">No matching data</p> -->
-    <!-- <div v-for="result of results" class="result_content" v-if="isResult">
+    <v-card id="result" max-height="700px" v-click-outside="onClickOutside">
+      <p v-if="noResult">No matching data</p>
+      <div v-for="result of results" class="result_content" v-if="gotResult">
         <p class="text-headline">
           Id: &nbsp{{ result.id }}
           <span class="float-right">
@@ -198,7 +198,7 @@
           </tbody>
         </table>
       </div>
-    </v-card> -->
+    </v-card>
   </div>
 </template>
 
@@ -207,7 +207,7 @@ export default {
   name: "Header",
   data() {
     return {
-      isResult: false,
+      gotResult: false,
       noResult: false,
       search_text: "",
       results: [],
@@ -215,10 +215,10 @@ export default {
     };
   },
   watch: {
-    search_text(val) {
-      // val === "" ? (this.isResult = false) : (this.isResult = true);
-      this.fetch(val);
-    },
+    // search_text(val) {
+    //   // val === "" ? (this.isResult = false) : (this.isResult = true);
+    //   this.fetch(val);
+    // },
   },
   methods: {
     async logout() {
@@ -227,25 +227,20 @@ export default {
         .then((resp) => console.log(resp))
         .then((window.location.href = "/login"));
     },
-    async fetch(val) {
+    async fetch() {
       this.loading = true;
       let response = await axios.get("/api/obstetrics/search", {
-        params: { search: val },
+        params: { search: this.search_text },
       });
-      // if (response.data.length > 0) {
-      //   this.results = response.data;
-      //   this.noResult = false;
-      //   this.isResult = true;
-      // } else {
-      //   this.isResult = false;
-      //   this.noResult = true;
-      // }
       this.results = response.data;
-      this.loading = false;
+      this.gotResult = true;
     },
     reset() {
       this.isResult = false;
       this.search_text = "";
+    },
+    onClickOutside() {
+      this.gotResult = false;
     },
   },
 };
@@ -258,26 +253,13 @@ export default {
 </script>
 
 <style scoped>
-#searchText {
-  width: 500px;
+.search_input {
+  width: 400px;
   margin-left: 100px;
-  height: 20px;
-  margin-top: 10px;
-  border: 0;
-  border-radius: 0;
-  border-bottom: 1px solid grey;
-}
-#searchText::placeholder {
-  color: rgba(0, 0, 0, 0.26);
-}
-#searchText:focus {
-  border: 0;
-  outline: none;
-  border-bottom: 2px solid #000;
 }
 #result {
   width: 500px;
-  margin-left: 525px;
+  margin-left: 455px;
   position: absolute;
   z-index: 1000;
   border-radius: 0;

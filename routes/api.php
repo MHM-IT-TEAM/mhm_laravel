@@ -56,6 +56,10 @@ Route::get('/cervix_opening',function(){
 Route::get('/position_of_baby',function(){
     return \App\Models\PositionOfBaby::all();
 });
+// presentation of babies
+Route::get('/presentation_of_baby',function(){
+    return \App\Models\PresentationOfBaby::all();
+});
 // lp1
 Route::get('/lp1',function(){
     return \App\Models\lpi::all();

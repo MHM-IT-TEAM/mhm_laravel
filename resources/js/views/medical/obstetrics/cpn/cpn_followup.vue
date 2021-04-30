@@ -689,9 +689,11 @@ const {
                 this.dialogDelete = true
             },
 
-            deleteItemConfirm () {
+            async deleteItemConfirm () {
+                await axios.delete(`/api/obstetrics/cpn_followup/${this.cpn_data[this.editedIndex].id}`)
                 this.cpn_data.splice(this.editedIndex, 1)
                 this.closeDelete()
+
             },
 
             close () {

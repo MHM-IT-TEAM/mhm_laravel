@@ -31,13 +31,13 @@
           </tr>
           <tr>
             <td>
-              <input type="date" />
+              <input type="date" v-model="formData.first_screening.created_at"/>
             </td>
             <td>
-              <input type="text" />
+              <input type="text" v-model="formData.first_screening.wop" />
             </td>
             <td>
-              <input type="text" />
+              <input type="text" v-model="formData.first_screening.wop_corrected" />
             </td>
             <td colspan="3" rowspan="2" class="border">
               <table class="table table-borderless">
@@ -45,21 +45,21 @@
                   <td>
                     <div class="form-check form-check-inline">
                       <label class="form-check-label">Intrauterine</label> &nbsp
-                      <input type="checkbox" class="form-check-input" />
+                      <input type="checkbox" class="form-check-input" v-model="formData.first_screening.intrauterine" />
                     </div>
                   </td>
                   <td>
                     <div class="form-check form-check-inline">
                       <label class="form-check-label">Embryo visible</label>
                       &nbsp
-                      <input type="checkbox" class="form-check-input" />
+                      <input type="checkbox" class="form-check-input" v-model="formData.first_screening.embryo_visible" />
                     </div>
                   </td>
                   <td>
                     <div class="form-check form-check-inline">
                       <label class="form-check-label">Heart beating</label>
                       &nbsp
-                      <input type="checkbox" class="form-check-input" />
+                      <input type="checkbox" class="form-check-input" v-model="formData.first_screening.heart_beat" />
                     </div>
                   </td>
                 </tr>
@@ -68,8 +68,8 @@
                     <div class="form-group">
                       <label>Position</label>
                       [&nbsp
-                      <select>
-                        <option>Choose</option>
+                      <select v-model="formData.first_screening.position_of_baby">
+                        <option v-for="item in position_of_baby">{{item.name}}</option>
                       </select>
                       &nbsp]
                     </div>
@@ -78,8 +78,8 @@
                     <div class="form-group">
                       <label>Presentation</label>
                       [&nbsp
-                      <select>
-                        <option>Choose</option>
+                      <select v-model="formData.first_screening.presentation_of_baby">
+                        <option v-for="item in presentation_of_baby">{{item.name}}</option>
                       </select>
                       &nbsp]
                     </div>
@@ -87,25 +87,25 @@
                 </tr>
               </table>
             </td>
-            <td><input type="text" /></td>
-            <td><input type="text" /></td>
-            <td><input type="text" /></td>
-            <td><input type="text" /></td>
-            <td><input type="text" /></td>
-            <td><input type="text" /></td>
+            <td><input type="text" v-model="formData.first_screening.hc" /></td>
+            <td><input type="text" v-model="formData.first_screening.ac" /></td>
+            <td><input type="text" v-model="formData.first_screening.fl" /></td>
+            <td><input type="text" v-model="formData.first_screening.gs" /></td>
+            <td><input type="text" v-model="formData.first_screening.crl" /></td>
+            <td><input type="text" v-model="formData.first_screening.bdcf" /></td>
           </tr>
           <tr>
             <td colspan="3">
               <div class="form-inline">
                 <label>Other</label>
-                <textarea style="width: 100%" class="form-control"></textarea>
+                <textarea style="width: 100%" class="form-control" v-model="formData.first_screening.other"></textarea>
               </div>
             </td>
 
             <td colspan="6">
               <div class="form-inline">
                 <label>Remark and precautions</label>
-                <textarea style="width: 100%" class="form-control"></textarea>
+                <textarea style="width: 100%" class="form-control" v-model="formData.first_screening.remark"></textarea>
               </div>
             </td>
           </tr>
@@ -191,6 +191,48 @@
 <script>
 export default {
   name: "ultrasound_form",
+    data:()=>{
+      return{
+          formData:{
+              first_screening:{
+                created_at:"",
+                  wop:"",
+                  wop_corrected:"",
+                  hc:"",
+                  ac:"",
+                  fl:"",
+                  gs:"",
+                  crl:"",
+                  bdcf:"",
+                  other:"",
+                  intrauterine:false,
+                  heart_beat:false,
+                  position_of_baby:'',
+                  presentation_of_baby:'',
+                  embryo_visible:false,
+                  remark:""
+              },
+              second_screening:{
+
+              }
+
+          },
+          position_of_baby:[],
+          presentation_of_baby:[]
+      }
+    },
+    created(){
+        this.init()
+    },
+    methods:{
+      async init(){
+          await axios.get('/api/position_of_baby')
+          .then(res=>this.position_of_baby=res.data)
+          await axios.get('/api/presentation_of_baby')
+          .then(res=>this.presentation_of_baby=res.data)
+      }
+    },
+
 };
 </script>
 

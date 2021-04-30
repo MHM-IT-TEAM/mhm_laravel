@@ -54,4 +54,7 @@ class CpnFollowupService
     $followup->fill($this->fill_data($request))->save();
      return ['success'=>true];
  }
+ public function delete($id){
+     CpnFollowup::find($id)->delete();
+ }
 }

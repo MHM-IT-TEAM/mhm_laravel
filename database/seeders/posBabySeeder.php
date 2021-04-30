@@ -15,19 +15,13 @@ class posBabySeeder extends Seeder
     public function run()
     {
         PositionOfBaby::insert([
-            ['name'=>'PCGF'],
-            ['name'=>'PCGM'],
-            ['name'=>'PSGA'],
-            ['name'=>'PCDA'],
-            ['name'=>'PSDM'],
-            ['name'=>'PSDA'],
-            ['name'=>'PSDF'],
-            ['name'=>'PO'],
-            ['name'=>'PCDF'],
-            ['name'=>'PCDM'],
-            ['name'=>'PCGA'],
-            ['name'=>'PCGM'],
-            ['name'=>'PT'],
+            ['name'=>'back'],
+            ['name'=>'left'],
+            ['name'=>'right'],
+            ['name'=>'anterior'],
+            ['name'=>'posterior'],
+            ['name'=>'up'],
+            ['name'=>'down'],
         ]);
     }
 }
