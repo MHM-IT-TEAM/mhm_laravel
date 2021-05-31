@@ -480,6 +480,8 @@
                   <option value="kiwi">kiwi</option>
                   <option value="forceps">forceps</option>
                   <option value="C-section">C-section</option>
+                  <option value="Curretage">Curretage</option>
+                  <option value="Cytotec">Cytotec</option>
                 </select>
                 &nbsp] /
                 <input
@@ -853,8 +855,9 @@ export default {
       let patData = await axios.get(
         `/api/patients/${this.formData.patient_id}/edit`
       );
+        let lastName= patData.data.patient.lastName==null?'':patData.data.patient.lastName
       this.patient_details.firstName = patData.data.patient.firstName.toUpperCase();
-      this.patient_details.lastName = patData.data.patient.lastName;
+      this.patient_details.lastName = lastName;
       this.patient_details.dob = patData.data.patient.birthDate;
       this.patient_details.adress = patData.data.patient.adress;
       this.patient_details.height = patData.data.patient.height;
@@ -974,9 +977,8 @@ export default {
 
   computed: {
     fullName() {
-      return (
-        this.patient_details.firstName + " " + this.patient_details.lastName
-      );
+      return this.patient_details.firstName + " " + this.patient_details.lastName
+
     },
     age() {
       if (this.patient_details.dob !== "") {

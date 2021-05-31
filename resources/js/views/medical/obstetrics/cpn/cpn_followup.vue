@@ -20,8 +20,8 @@
                                 class="search ml-4"
                                 @change="search"
                                 prepend-icon="mdi-magnify"
-                                clearable
                             ></v-text-field>
+
                             <v-spacer></v-spacer>
                         <v-btn color="primary" @click="redirect">View main page</v-btn>
                         <v-divider
@@ -659,16 +659,17 @@ const {
 
         methods: {
             async initialize () {
-                let table_data= await axios.get(`/api/obstetrics/cpn_followup/${this.$route.params.cpn_admission_id}`)
-                this.cpn_data= table_data.data
-                this.editedItem.cpn_admission_id=this.$route.params.cpn_admission_id
-                let lp1 =await axios.get('/api/lp1')
-                let lp2 =await axios.get('/api/lp2')
-                let lp3 =await axios.get('/api/lp3')
-                let cervix_length= await axios.get('/api/cervix_length')
-                let cervix_opening= await axios.get('/api/cervix_opening')
-                let cervix_position= await axios.get('/api/cervix_position')
-                this.reference= this.$route.params.cpn_admission_id
+                if(this.$route.params.cpn_admission_id !== undefined){
+                    let table_data= await axios.get(`/api/obstetrics/cpn_followup/${this.$route.params.cpn_admission_id}`)
+                    this.cpn_data= table_data.data
+                    this.reference= this.editedItem.cpn_admission_id= this.$route.params.cpn_admission_id
+                }
+                let lp1 = await axios.get('/api/lp1')
+                let lp2 = await axios.get('/api/lp2')
+                let lp3 = await axios.get('/api/lp3')
+                let cervix_length=  await axios.get('/api/cervix_length')
+                let cervix_opening=  await axios.get('/api/cervix_opening')
+                let cervix_position=  await axios.get('/api/cervix_position')
                 this.lp1=lp1.data
                 this.lp2= lp2.data
                 this.lp3=lp3.data
@@ -689,9 +690,11 @@ const {
                 this.dialogDelete = true
             },
 
-            deleteItemConfirm () {
+            async deleteItemConfirm () {
+                await axios.delete(`/api/obstetrics/cpn_followup/${this.cpn_data[this.editedIndex].id}`)
                 this.cpn_data.splice(this.editedIndex, 1)
                 this.closeDelete()
+
             },
 
             close () {
@@ -713,7 +716,6 @@ const {
            async save () {
 
                     if (this.editedIndex > -1) {
-                        //edit data
                         Object.assign(this.cpn_data[this.editedIndex], this.editedItem)
                         let update= await axios.put(`/api/obstetrics/cpn_followup/${this.cpn_data[this.editedIndex].id}`,this.editedItem)
                         if(update.data.success===true){
@@ -726,6 +728,7 @@ const {
                     } else {
                         //new data
                         this.$v.editedItem.$touch();
+                        this.editedItem.cpn_admission_id=this.reference
                         this.cpn_data.push(this.editedItem)
                         if (!this.$v.$invalid) {
                             let post= await axios.post('/api/obstetrics/cpn_followup',this.editedItem)
@@ -742,6 +745,7 @@ const {
 
             },
             async search(){
+
                 let fetch= await axios.get(`/api/obstetrics/cpn_followup/${this.reference}`)
                 this.cpn_data= fetch.data
             },

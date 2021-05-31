@@ -33,7 +33,7 @@ class LoginController extends Controller
 
         switch ($depart){
             case 1:
-                return "/joyCenter/consultation";
+                return "/joyCenter/welcome";
                 break;
             case 2:
                 return "/graceCenter/home";
@@ -45,7 +45,7 @@ class LoginController extends Controller
                 return "/dentist";
                 break;
             case 5:
-                return"/obstetrics/home";
+                return"/obstetrics/admission";
                 break;
             case 6:
                 return "/cash/home";

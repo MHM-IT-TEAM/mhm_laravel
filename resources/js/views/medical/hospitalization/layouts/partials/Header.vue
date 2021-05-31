@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+    <nav class="navbar fixed-top navbar-expand-md navbar-light bg-white shadow-sm ">
       <div class="container-fluid">
         <router-link :to="{ name: 'joyHome' }" class="navbar-brand" href="#">
           JoyCenter

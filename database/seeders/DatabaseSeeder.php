@@ -28,7 +28,8 @@ class DatabaseSeeder extends Seeder
             cervixLengthSeeder::class,
             cervixOpeningSeeder::class,
             cervixPositionSeeder::class,
-            posBabySeeder::class
+            posBabySeeder::class,
+            PresentationOfBabySeeder::class
 
         ]);
     }

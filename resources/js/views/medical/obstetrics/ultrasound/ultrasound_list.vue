@@ -1,7 +1,7 @@
 <template>
-    <div>
-        <v-app>
-            <v-card>
+    <div class="container">
+        <v-app >
+            <v-card class="p-4">
                 <v-card-title>
                     List of patient
                     <v-spacer></v-spacer>
@@ -20,7 +20,7 @@
                         </v-icon>
                     </template>
                     <template v-slot:item.status="{ item }">
-                        <v-chip :color="getColor(item.status)" dark>
+                        <v-chip :color="getColor(item.status)" dark x-small>
                             {{ item.status }}
                         </v-chip>
                     </template>
@@ -41,6 +41,7 @@ export default {
                 { text: "FirstName", value: "patient.firstName" },
                 { text: "LastName", value: "patient.lastName" },
                 { text: "Status", value: "status" },
+                {text:'ref',value:"patient.ultra_sound_admissions[0].id"},
                 { text: "Actions", value: "actions", sortable: false },
             ],
             items: [],
@@ -51,12 +52,14 @@ export default {
     },
     methods: {
         editItem(item) {
-            console.log(item.patient_id);
+            let ref=item.patient.ultra_sound_admissions.length>0?item.patient.ultra_sound_admissions[0].id:''
             this.$router.push({
-                name: "pregnancy_test",
+                name: "ultrasound_form",
                 params: {
-                    patient_id: item.patient_id, fullName:item.patient.firstName +" "+ item.patient.lastName,
+                    patient_id: item.patient_id,
+                    fullName:item.patient.firstName +" "+ item.patient.lastName,
                     consultation_id: item.id,
+                    ref:ref
                 },
             });
         },

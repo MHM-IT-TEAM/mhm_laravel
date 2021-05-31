@@ -3,6 +3,7 @@
 use App\Models\Consultation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\centralized\patientController;
 use App\Models\BloodGroup;
@@ -56,9 +57,13 @@ Route::get('/cervix_opening',function(){
 Route::get('/position_of_baby',function(){
     return \App\Models\PositionOfBaby::all();
 });
+// presentation of babies
+Route::get('/presentation_of_baby',function(){
+    return \App\Models\PresentationOfBaby::all();
+});
 // lp1
 Route::get('/lp1',function(){
-    return \App\Models\lpi::all();
+        return \App\Models\lpi::get();
 });
 //lp2
 Route::get('/lp2',function(){
@@ -68,6 +73,30 @@ Route::get('/lp2',function(){
 Route::get('/lp3',function(){
     return \App\Models\lpiii::all();
 });
+// placenta_type
+Route::get('/placenta_type',function(){
+    return \App\Models\PlacentaType::all();
+});
+
+//verify credentials
+Route::post('/auth/credentials/',[App\Http\Controllers\Auth\CredentialController::class,'check']);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //patient routes
 Route::get('/patients/search/',[App\Http\Controllers\centralized\patientController::class, 'search']);
 Route::get('/patients/vitalSign/{id}',[App\Http\Controllers\centralized\patientController::class, 'vitalSign']);
@@ -88,12 +117,15 @@ Route::group(['prefix'=>'hospitalisation'],function(){
 Route::group(['prefix'=>'obstetrics'],function(){
     route::post('/cpn_admission',[App\Http\Controllers\medical\obstetrics\ObstetricsController::class,'store']);
     route::put('/cpn_admission/{reference}',[App\Http\Controllers\medical\obstetrics\ObstetricsController::class,'update']);
-    route::get('/baby/weight_overview/{id}',[App\Http\Controllers\medical\obstetrics\BabyController::class,'fetch_data']);
     route::get('/cpn/{reference}',[App\Http\Controllers\medical\obstetrics\ObstetricsController::class,'show']);
     route::post('/pregTest',[App\Http\Controllers\medical\obstetrics\ObstetricsController::class,'storePregTest']);
     route::get('/first_cpn_list',function(){return Consultation::where('type_consult_id',4)->whereDate('created_at', '=', date('Y-m-d'))->with(['patient','vitalSigns'])->get();});
     route::get('/search',[App\Http\Controllers\medical\obstetrics\ObstetricsController::class,'search']);
     route::resource('/cpn_followup',\App\Http\Controllers\medical\obstetrics\CpnFollowupController::class);
     route::resource('ultrasound',\App\Http\Controllers\medical\obstetrics\UltraSoundController::class);
-
+        // baby checkup routes
+    route::get('/baby_checkup/todayList',[App\Http\Controllers\medical\obstetrics\BabyCheckupController::class,'todayList']);
+    route::get('/baby_vaccination/todayList',[App\Http\Controllers\medical\obstetrics\BabyVaccinationController::class,'todayList']);
+    route::resource('/baby_checkup',\App\Http\Controllers\medical\obstetrics\BabyCheckupController::class);
+    route::resource('/baby_vaccination',\App\Http\Controllers\medical\obstetrics\BabyVaccinationController::class);
 });

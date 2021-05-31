@@ -46,12 +46,14 @@ class CpnFollowupService
          'us_needed'=>$request->us_needed,
          'ctg_needed'=>$request->ctg_needed,
          'appointment'=>$request->appointment,
-
      ];
  }
  public function update($request,$id){
     $followup= CpnFollowup::find($id);
     $followup->fill($this->fill_data($request))->save();
      return ['success'=>true];
+ }
+ public function delete($id){
+     CpnFollowup::find($id)->delete();
  }
 }
