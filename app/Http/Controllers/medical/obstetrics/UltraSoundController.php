@@ -4,28 +4,39 @@ namespace App\Http\Controllers\medical\obstetrics;
 
 use App\Http\Controllers\Controller;
 use App\Models\Consultation;
-use App\Models\Ultrasound;
+use App\Models\UltrasoundAdmission;
+use App\Service\Medical\obstetrics\UltrasoundService;
 use Illuminate\Http\Request;
 
 class UltraSoundController extends Controller
 {
 
-    private $ultrasound;
+    private $ultrasound_admission;
+    private $ultrasound_service;
     private $consultation;
 
     /**
      * UltraSoundController constructor.
      * @param $ultrasound
      */
-    public function __construct()
+    public function __construct(Request $request)
     {
-        $this->ultrasound = new Ultrasound();
+        $this->ultrasound_admission= new UltrasoundAdmission();
         $this->consultation= new Consultation();
+        $this->ultrasound_service= new UltrasoundService();
     }
 
     public function index()
     {
-        return $this->consultation->where('type_consult_id',5)->whereDate('created_at', '=', date('Y-m-d'))->with(['patient','vitalSigns'])->get();
+        return $this->consultation->where('type_consult_id',5)
+            ->whereDate('created_at', '=', date('Y-m-d'))
+            ->with(['patient'=>function($query){
+                        return $query->with(['ultraSoundAdmissions'=>function($data){
+                            return $data->latest();
+                        }]);
+                        }, 'vitalSigns'
+            ])
+            ->get();
     }
 
     /**
@@ -46,7 +57,8 @@ class UltraSoundController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return $this->ultrasound_service->store($request);
+
     }
 
     /**
@@ -57,7 +69,7 @@ class UltraSoundController extends Controller
      */
     public function show($id)
     {
-        //
+        return $this->ultrasound_service->show($id);
     }
 
     /**
@@ -68,7 +80,7 @@ class UltraSoundController extends Controller
      */
     public function edit($id)
     {
-        //
+
     }
 
     /**

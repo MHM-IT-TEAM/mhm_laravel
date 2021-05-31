@@ -45,4 +45,7 @@ class Patient extends Model
     public function cpnAdmissions(){
         return $this->hasMany(CpnAdmission::class);
     }
+    public function ultraSoundAdmissions(){
+        return $this->hasMany(UltrasoundAdmission::class);
+    }
 }

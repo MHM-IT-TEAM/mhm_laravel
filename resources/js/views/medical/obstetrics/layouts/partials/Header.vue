@@ -24,14 +24,6 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <!-- Left Side Of Navbar -->
           <ul class="navbar-nav ml-4 mr-auto">
-            <!--            <li class="nav-item">-->
-            <!--              <router-link-->
-            <!--                :to="{ name: 'cpn_admission' }"-->
-            <!--                class="nav-link"-->
-            <!--                href=""-->
-            <!--                >CPN Admission</router-link-->
-            <!--              >-->
-            <!--            </li>-->
             <li class="nav-item dropdown" id="navOrder">
               <a
                 href="#"
@@ -50,87 +42,30 @@
                   class="dropdown-item"
                 >
                   <i class="glyphicon glyphicon-plus"></i>
-                  CPN</router-link
+                  CPN
+                </router-link
                 >
                 <router-link
-                  :to="{ name: 'hospital_admission_home' }"
+                  :to="{ name: 'ultrasound_list' }"
                   class="dropdown-item"
                 >
-                  <!--                  <i class="glyphicon glyphicon-plus"></i> Echographie-->
-                  <!--                </router-link>-->
-                  <!--                <router-link-->
-                  <!--                  :to="{ name: 'hospital_admission_home' }"-->
-                  <!--                  class="dropdown-item"-->
-                  <!--                >-->
-                  <!--                  <i class="glyphicon glyphicon-plus"></i> Baby Checkup-->
-                  <!--                </router-link>-->
-                  <!--                <router-link-->
-                  <!--                  :to="{ name: 'hospital_admission_home' }"-->
-                  <!--                  class="dropdown-item"-->
-                  <!--                >-->
-                  <!--                  <i class="glyphicon glyphicon-plus"></i> Milk Program-->
+                    ultrasound
                 </router-link>
-              </ul>
-            </li>
-
-            <!--            <li class="nav-item">-->
-            <!--              <router-link :to="{ name: 'consultation.list' }" class="nav-link"-->
-            <!--                >Queue</router-link-->
-            <!--              >-->
-            <!--            </li>-->
-
-            <li class="nav-item dropdown" id="navOrder">
-              <a
-                href="#"
-                class="nav-link dropdown-toggle"
-                data-toggle="dropdown"
-                role="button"
-                aria-haspopup="true"
-                aria-expanded="false"
-              >
-                <i class="glyphicon glyphicon-plus-sign"></i> Follow up
-                <span class="caret"></span
-              ></a>
-              <ul class="dropdown-menu">
-                <router-link
-                  :to="{ name: 'cpn_followup' }"
-                  class="dropdown-item"
-                >
-                  <i class="glyphicon glyphicon-plus"></i>
-                  CPN</router-link
-                >
-                <!--                <router-link-->
-                <!--                  :to="{ name: 'hospital_admission_home' }"-->
-                <!--                  class="dropdown-item"-->
-                <!--                >-->
-                <!--                  <i class="glyphicon glyphicon-plus"></i> Echographie-->
-                <!--                </router-link>-->
-                <!--                <router-link-->
-                <!--                  :to="{ name: 'hospital_admission_home' }"-->
-                <!--                  class="dropdown-item"-->
-                <!--                >-->
-                <!--                  <i class="glyphicon glyphicon-plus"></i> Baby Checkup-->
-                <!--                </router-link>-->
-                <!--                <router-link-->
-                <!--                  :to="{ name: 'hospital_admission_home' }"-->
-                <!--                  class="dropdown-item"-->
-                <!--                >-->
-                <!--                  <i class="glyphicon glyphicon-plus"></i> Milk Program-->
-                <!--                </router-link>-->
+                  <router-link
+                      :to="{ name: 'baby_checkup_list' }"
+                      class="dropdown-item"
+                  >
+                      Baby Checkup
+                  </router-link>
+                  <router-link
+                      :to="{ name: 'baby_vaccination_list' }"
+                      class="dropdown-item"
+                  >
+                      Vaccin
+                  </router-link>
               </ul>
             </li>
             <li class="nav-item">
-              <!-- <input
-                type="text"
-                id="searchText"
-                placeholder="Type here"
-                @change="search"
-                v-model="search_text"
-                autocomplete="off"
-              />
-              <span v-show="search_text" class="removeInput" @click="reset"
-                >X</span
-              > -->
               <v-text-field
                 dense
                 append-icon="mdi-magnify"
@@ -140,22 +75,6 @@
                 @change="fetch"
               ></v-text-field>
             </li>
-            <!-- <li>
-              <v-autocomplete
-                :loading="loading"
-                :items="results"
-                item-text="firstName"
-                :search-input.sync="search_text"
-                cache-items
-                class="mx-4"
-                flat
-                dense
-                hide-no-data
-                hide-details
-                label="Type your search here"
-                solo-inverted
-              ></v-autocomplete>
-            </li> -->
           </ul>
           <v-icon medium @click="logout"> mdi-exit-to-app</v-icon>
         </div>
@@ -164,16 +83,16 @@
     <v-card id="result" max-height="700px" v-click-outside="onClickOutside">
       <p v-if="noResult">No matching data</p>
       <div v-for="result of results" class="result_content" v-if="gotResult">
-        <p class="text-headline">
+        <p>
           Id: &nbsp{{ result.id }}
           <span class="float-right">
-            {{ result.firstName + " " + result.lastName }}</span
+            {{ result.firstName + " " + toEmpty(result.lastName) }}</span
           >
         </p>
         <table class="table table-sm">
           <thead>
             <th>CPN</th>
-            <th>Echo</th>
+            <th>US</th>
             <th>Birth</th>
             <th>Post Partum</th>
           </thead>
@@ -186,12 +105,26 @@
                       :to="{ name: 'cpn_admission', params: { id: adm.id } }"
                       @click.native="reset"
                     >
+                        <v-icon>mdi-arrow-right</v-icon>
                       {{ adm.id }}
                     </router-link>
                   </li>
                 </ul>
               </td>
-              <td></td>
+              <td>
+                  <ul>
+                      <li v-for="us of result.ultra_sound_admissions">
+                          <router-link
+                              :to="{ name: 'ultrasound_form', params: { id: us.id } }"
+                              @click.native="reset"
+                          >
+                              <v-icon>mdi-arrow-right</v-icon>
+                              {{ us.id }}
+                          </router-link>
+                      </li>
+
+                  </ul>
+              </td>
               <td>{{ result.birth_id }}</td>
               <td>{{ result.post_partum_id }}</td>
             </tr>
@@ -238,10 +171,15 @@ export default {
     reset() {
       this.isResult = false;
       this.search_text = "";
+      this.gotResult=false;
     },
     onClickOutside() {
       this.gotResult = false;
     },
+      toEmpty(firstName){
+          if(firstName===null ) return ''
+          return firstName
+      }
   },
 };
 // let result = document.getElementById("test");
@@ -253,8 +191,12 @@ export default {
 </script>
 
 <style scoped>
+.navbar{
+    height:45px !important;
+    padding:5px !important;
+}
 .search_input {
-  width: 400px;
+  width: 500px;
   margin-left: 100px;
 }
 #result {
@@ -287,5 +229,8 @@ export default {
   right: 0;
   -webkit-transform: rotate(45deg);
   transform: rotate(45deg);
+}
+ul{
+    list-style: none;
 }
 </style>

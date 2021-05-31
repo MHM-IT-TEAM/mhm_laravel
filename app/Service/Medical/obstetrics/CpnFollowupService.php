@@ -46,7 +46,6 @@ class CpnFollowupService
          'us_needed'=>$request->us_needed,
          'ctg_needed'=>$request->ctg_needed,
          'appointment'=>$request->appointment,
-
      ];
  }
  public function update($request,$id){

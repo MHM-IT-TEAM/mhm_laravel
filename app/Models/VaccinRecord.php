@@ -1,0 +1,20 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class vaccinRecord extends Model
+{
+    use HasFactory;
+    protected $guarded=[];
+    protected $connection='patSyst';
+    protected $casts =[
+        'created_at'=>'date:Y-m-d'
+    ];
+    public function patient()
+    {
+        return $this->belongsTo(Patient::class);
+    }
+}

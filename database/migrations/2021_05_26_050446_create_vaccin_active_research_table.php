@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUltrasoundsTable extends Migration
+class CreateVaccinActiveResearchTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,12 @@ class CreateUltrasoundsTable extends Migration
      */
     public function up()
     {
-        Schema::create('ultrasounds', function (Blueprint $table) {
+        Schema::connection('patSyst')->create('vaccin_active_research', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->string('research_date',20)->nullable();
+            $table->integer('code')->nullable();
+            $table->foreignId('patient_id')->constrained();
         });
     }
 
@@ -26,6 +29,6 @@ class CreateUltrasoundsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ultrasounds');
+        Schema::dropIfExists('vaccin_active_research');
     }
 }

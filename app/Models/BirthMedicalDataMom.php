@@ -5,8 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Ultrasound extends Model
+class BirthMedicalDataMom extends Model
 {
     use HasFactory;
-    protected $connection='patSyst';
 }

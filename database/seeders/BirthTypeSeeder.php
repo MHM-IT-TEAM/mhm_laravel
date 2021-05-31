@@ -17,7 +17,9 @@ class BirthTypeSeeder extends Seeder
             ['name'=>'normal'],
             ['name'=>'Kiwi'],
             ['name'=>'forceps'],
-            ['name'=>'C-section']
+            ['name'=>'C-section'],
+            ['name'=>'Curretage'],
+            ['name'=>'Cytotec']
         ]);
     }
 }

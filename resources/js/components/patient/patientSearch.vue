@@ -1,6 +1,6 @@
 <template>
-  <div class="container-fluid mt-4">
-    <form>
+  <div class="container-fluid bg-light" >
+    <form >
       <input
         type="text"
         name="searchBAr"
@@ -50,4 +50,9 @@ export default {
 </script>
 
 <style scoped>
+.container-fluid{
+    margin-top:40px;
+    padding-top: 40px;
+    width:75vw
+}
 </style>

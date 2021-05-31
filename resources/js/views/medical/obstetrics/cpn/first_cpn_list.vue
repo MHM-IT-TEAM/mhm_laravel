@@ -1,39 +1,42 @@
 <template>
-  <div>
-    <v-app>
-      <v-card>
-        <v-card-title>
-          List of patient
-          <v-spacer></v-spacer>
-          <v-text-field
-            v-model="search"
-            append-icon="mdi-magnify"
-            label="Search"
-            single-line
-            hide-details
-          ></v-text-field>
-        </v-card-title>
-        <v-data-table :headers="headers" :items="items" :search="search">
-          <template v-slot:item.actions="{ item }">
-            <v-icon small class="mr-2" @click="editItem(item)">
-              mdi-pencil
-            </v-icon>
-          </template>
-          <template v-slot:item.status="{ item }">
-            <v-chip :color="getColor(item.status)" dark>
-              {{ item.status }}
-            </v-chip>
-          </template>
-        </v-data-table>
-      </v-card>
-    </v-app>
+  <div class="container">
+<!--    <v-app>-->
+<!--      <v-card>-->
+<!--        <v-card-title>-->
+<!--          List of patient-->
+<!--          <v-spacer></v-spacer>-->
+<!--          <v-text-field-->
+<!--            v-model="search"-->
+<!--            append-icon="mdi-magnify"-->
+<!--            label="Search"-->
+<!--            single-line-->
+<!--            hide-details-->
+<!--          ></v-text-field>-->
+<!--        </v-card-title>-->
+<!--        <v-data-table :headers="headers" :items="items" :search="search">-->
+<!--          <template v-slot:item.actions="{ item }">-->
+<!--            <v-icon small class="mr-2" @click="editItem(item)">-->
+<!--              mdi-pencil-->
+<!--            </v-icon>-->
+<!--          </template>-->
+<!--          <template v-slot:item.status="{ item }">-->
+<!--            <v-chip :color="getColor(item.status)" dark>-->
+<!--              {{ item.status }}-->
+<!--            </v-chip>-->
+<!--          </template>-->
+<!--        </v-data-table>-->
+<!--      </v-card>-->
+<!--    </v-app>-->
+      <patient_list :type_consult="4"></patient_list>
   </div>
 </template>
 
 <script>
+import Patient_list from "../../../../components/patient_list";
 export default {
   name: "first_cpn_list",
-  data() {
+    components: {Patient_list},
+    data() {
     return {
       search: "",
       headers: [
@@ -47,7 +50,7 @@ export default {
     };
   },
   created() {
-    this.init();
+    //this.init();
   },
   methods: {
     editItem(item) {

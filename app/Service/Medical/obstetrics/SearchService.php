@@ -9,6 +9,6 @@ class SearchService
 {
     public function search($request){
         $patient= new Patient();
-       if($request !==null) return $patient->search($request)->with(['cpnAdmissions'])->get();
+       if($request !==null) return $patient->search($request)->with(['cpnAdmissions','ultraSoundAdmissions'])->get();
     }
 }

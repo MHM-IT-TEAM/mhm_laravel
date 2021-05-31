@@ -1,5 +1,5 @@
 <template>
-    <div class="container w-50  p-4 bg-light" >
+    <div class="container w-75  p-4 bg-light" >
         <div class="d-flex flex-row justify-content-between">
             <div class="p-2"><h1 id="title">Admission Request  N247570</h1></div>
             <div class="p-2"><img  id="logo" src="/storage/assets/media/images/system/MHMlogo_PRINT.jpg" alt="MHM logo"/></div>

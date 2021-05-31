@@ -15,7 +15,6 @@ class posBabySeeder extends Seeder
     public function run()
     {
         PositionOfBaby::insert([
-            ['name'=>'back'],
             ['name'=>'left'],
             ['name'=>'right'],
             ['name'=>'anterior'],
