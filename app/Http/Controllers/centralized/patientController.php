@@ -52,7 +52,7 @@ class patientController extends Controller
      */
     public function show($id)
     {
-        //
+        return Patient::find($id);
     }
 
     /**

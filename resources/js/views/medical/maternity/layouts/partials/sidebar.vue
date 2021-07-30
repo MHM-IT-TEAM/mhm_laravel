@@ -1,9 +1,8 @@
 <template>
-    <div class="sidebar">
+    <div class="sidebar d-print-none">
         <v-app>
             <v-card height="100vh">
                 <v-navigation-drawer
-                    permanent
                     left
                 >
                     <template v-slot:prepend>
@@ -49,7 +48,7 @@
                                 :key="child.title"
                             >
                                 <v-list-item-content>
-                                    <v-list-item-title><router-link to="hospital_admission" class="link">{{child.title}}</router-link></v-list-item-title>
+                                    <v-list-item-title><router-link :to="child.url" class="link">{{child.title}}</router-link></v-list-item-title>
                                 </v-list-item-content>
                             </v-list-item>
                         </v-list-group>
@@ -67,7 +66,7 @@ export default {
         items: [
             {
                 action: 'mdi-baby-face',
-                items: [{ title: 'Registration' },{title:'Declaration'},{title:'Delivery Book'}],
+                items: [{ title: 'Registration',url:'delivery/registration' },{title:'Declaration',url:''},{title:'Delivery Book',url:''}],
                 title: 'Delivery',
 
 
@@ -76,30 +75,31 @@ export default {
                 action: 'mdi-mother-nurse',
 
                 items: [
-                    { title: 'Planning' },
-                    { title: 'Actions & Treatments' },
-                    { title: 'Overview &report' },
+                    { title: 'List',url:'in_patient_list' },
+                    { title: 'Planning',url:'' },
+                    { title: 'Actions & Treatments',url:'' },
+                    { title: 'Overview &report',url:'' },
                 ],
                 title: 'In-Patient ',
             },
             {
                 action: 'mdi-truck-delivery',
                 items: [
-                    { title: 'Internal referral' },
-                    { title: 'External referral' },
-                    { title: 'Discharge' },
+                    { title: 'Internal referral',url:'' },
+                    { title: 'External referral',url:'' },
+                    { title: 'Discharge',url:'' },
                 ],
                 title: 'Referral & Discharge ',
             },
             {
                 action: 'mdi-chemical-weapon',
-                items: [{ title: 'Request' },{title:'Lab result'},{title:'overview'}],
+                items: [{ title: 'Request',url:'' },{title:'Lab result',url:''},{title:'overview',url:''}],
                 title: 'Lab Works',
 
             },
             {
                 action: 'mdi-warehouse',
-                items: [{ title: 'Order request' },{title:'report'}],
+                items: [{ title: 'Order request',url:'' },{title:'report',url:''}],
                 title: 'Inventory',
 
             },

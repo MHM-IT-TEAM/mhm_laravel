@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\medical\maternity;
 
 use App\Http\Controllers\Controller;
+use App\Models\MaternityAdmission;
 use Illuminate\Http\Request;
 
 class MaternityController extends Controller
@@ -46,7 +47,7 @@ class MaternityController extends Controller
      */
     public function show($id)
     {
-        //
+
     }
 
     /**

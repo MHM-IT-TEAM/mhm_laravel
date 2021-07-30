@@ -17,23 +17,28 @@ class CreateBirthMedicalDataBabiesTable extends Migration
             $table->id();
             $table->timestamps();
             $table->foreignId('birth_id')->constrained();
-            $table->string('gender',5);
-            $table->string('weight',15);
-            $table->string('head',15);
-            $table->string('chest',15);
-            $table->string('arm',15);
-            $table->string('length',15);
-            $table->string('apgar',15);
-            $table->string('vitk',15);
-            $table->string('spo2',15);
+            $table->bigInteger('patient_id');
+            $table->string('gender',5)->nullable();
+            $table->string('weight',15)->nullable();
+            $table->string('modus',40)->nullable();
+            $table->string('head',15)->nullable();
+            $table->string('chest',15)->nullable();
+            $table->string('arm',15)->nullable();
+            $table->string('length',15)->nullable();
+            $table->string('apgar',15)->nullable();
+            $table->string('vit_k',15)->nullable();
+            $table->string('E1',15)->nullable();
+            $table->string('spo2',15)->nullable();
             $table->string('malformation',200)->nullable();
             $table->string('infection',200)->nullable();
-            $table->string('ga_comparing',10);
-            $table->boolean('extra_supervision_needed');
-            $table->boolean('cpa_needed');
-            $table->boolean('swobs_taken');
-
-
+            $table->string('correlation',10)->nullable();
+            $table->string('extra_supervision_needed',10)->nullable();
+            $table->string('cpa_needed',10)->nullable();
+            $table->string('swobs_taken',10)->nullable();
+            $table->string('baby_not_crying',10)->nullable();
+            $table->string('risk_of_cerebral_palsy',10)->nullable();
+            $table->string('alive',10)->nullable();
+            $table->text('death_explanation')->nullable();
         });
     }
 

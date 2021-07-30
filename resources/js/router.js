@@ -29,12 +29,24 @@ import baby_checkup from "./views/medical/obstetrics/baby/baby_checkup";
 import baby_checkup_list from "./views/medical/obstetrics/baby/baby_checkup_list";
 import baby_vaccination_card from "./views/medical/obstetrics/baby/baby_vaccination_card";
 import baby_vaccination_list from "./views/medical/obstetrics/baby/baby_vaccination_list";
+//Overview
+import overview_layout from "./views/medical/overview/layouts/overview_layout";
+import obstetrics_overview from "./views/medical/overview/obstetrics_overview";
 //maternity
 
 import maternity_layout from "./views/medical/maternity/layouts/maternity_layout"
 import maternity_admission from "./views/medical/maternity/maternity_admission";
-
-
+import delivery_registration from "./views/medical/maternity/delivery/delivery_registration";
+import maternity_in_patient_list from "./views/medical/maternity/in_patient/maternity_in_patient_list"
+import delivery_book from "./views/medical/maternity/delivery/delivery_book";
+import birth_certificate from "./views/medical/maternity/delivery/birth_certificate";
+import in_patient_data_entry from "./views/medical/maternity/in_patient/in_patient_data_entry";
+import medical_appreciation_details from "./views/medical/maternity/in_patient/medical_appreciation_details";
+import external_referral from "./views/medical/maternity/referral/external_referral";
+import internal_referral from "./views/medical/maternity/referral/internal_referral";
+import maternity_discharge from "./views/medical/maternity/maternity_discharge";
+import laboratory_request from "./views/medical/laboratory/laboratory_request";
+import maternity_labwork from "./views/medical/maternity/labwork/maternity_labwork";
 Vue.use(VueRouter);
 
 const routes = [
@@ -169,6 +181,7 @@ const routes = [
 
         ]
     },
+
     /**
      |-----------------------------
      | Maternity
@@ -183,9 +196,83 @@ const routes = [
                 path:'admission',
                 name:'maternity_admission',
                 component: maternity_admission
+            },
+            //list of in_patient
+            {
+                path:'in_patient_list',
+                name:'maternity_in_patient_list',
+                component:maternity_in_patient_list
+            },
+            {
+                path:'data_entry',
+                name:'in_patient_data_entry',
+                component:in_patient_data_entry
+            },
+            {
+                path:'medical_appreciation_details',
+                name:'medical_appreciation_details',
+                component:medical_appreciation_details
+            },
+            {
+                path:'delivery/registration',
+                name:'delivery_registration',
+                component:delivery_registration
+            },
+            {
+                path:'delivery/birth_certificate',
+                name:'birth_certificate',
+                component:birth_certificate
+            },
+            {
+                path:'delivery/delivery_book',
+                name:'delivery_book',
+                component:delivery_book
+            },
+            {
+                path:'referral/external',
+                name:'external_referral',
+                component: external_referral
+            },
+            {
+                path:'referral/internal',
+                name:'internal_referral',
+                component: internal_referral
+            },
+            {
+                path:'discharge',
+                name:'maternity_discharge',
+                component: maternity_discharge
+            },
+            {
+                path:'laboratory/request',
+                name:'maternity_labwork',
+                component: maternity_labwork
+            },
+
+        ]
+    },
+    /**
+     |-----------------------------
+     | Overviews
+     |-----------------------------
+     */
+    {
+        path:'/overview',
+        name:'obstetrics_overview',
+        component:overview_layout,
+        children:[
+            {
+                path:'obstetrics',
+                name:'obstetrics_overview',
+                component:obstetrics_overview
             }
         ]
     },
+    {
+        path:'/laboratory/request',
+        name:'laboratory_request',
+        component: laboratory_request
+    }
 
 ];
 

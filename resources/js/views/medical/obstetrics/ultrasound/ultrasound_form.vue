@@ -1,20 +1,22 @@
 <template>
     <div class="container-fluid p-4">
+
         <v-app class="p-2">
             <v-card>
+                <h2>Ultrasound Screening</h2>
                 <v-toolbar
                     dense
                     floating
+                    v-if="!is_overview"
                 >
                     <v-text-field
                         hide-details
                         placeholder="reference"
                         v-model="reference"
-                        class="search ml-4"
+                        class="search ml-4 d-print-none"
                         @change="search"
                         prepend-icon="mdi-magnify"
                         clearable
-
                     ></v-text-field>
                 </v-toolbar>
 
@@ -160,19 +162,20 @@
                                         FHR
                                         <v-btn  right
                                                 x-small
-                                                class="ml-4"
+                                                class="ml-4 d-print-none"
                                                 color="secondary"
                                                 dark
                                                 @click="edit(1)"
+                                                v-if="!is_overview"
 
                                         >
                                             Edit
                                         </v-btn>
                                         <v-btn  right
                                                 small
-                                                class="ml-4"
+                                                class="ml-4 d-print-none"
                                                 color="primary"
-
+                                                v-if="!is_overview"
                                                 @click="row_push(dat.id,1)"
                                                 icon
 
@@ -181,10 +184,11 @@
                                         </v-btn>
                                         <v-btn  right
                                                 small
-                                                class="ml-4"
+                                                class="ml-4 d-print-none"
                                                 color="red"
-                                                v-if="dat.first_screening.length>1  "
+                                                v-if="dat.first_screening.length>1 || !is_overview "
                                                 @click="row_delete(dat.id,1)"
+
                                                 icon
 
                                         >
@@ -295,19 +299,20 @@
                                         FHR
                                         <v-btn  right
                                                 x-small
-                                                class="ml-4"
+                                                class="ml-4 d-print-none"
                                                 color="secondary"
                                                 dark
                                                 @click="edit(2)"
+                                                v-if="!is_overview"
 
                                         >
                                             Edit
                                         </v-btn>
                                         <v-btn  right
                                                 small
-                                                class="ml-4"
+                                                class="ml-4 d-print-none"
                                                 color="primary"
-
+                                                v-if="!is_overview"
                                                 @click="row_push(dat.id,2)"
                                                 icon
 
@@ -316,7 +321,7 @@
                                         </v-btn>
                                         <v-btn  right
                                                 small
-                                                class="ml-4"
+                                                class="ml-4 d-print-none"
                                                 color="red"
                                                 v-if="dat.second_screening.length>1  "
                                                 @click="row_delete(dat.id,2)"
@@ -479,7 +484,8 @@
                                         FHR
                                         <v-btn  right
                                                 x-small
-                                                class="ml-4"
+                                                class="ml-4 d-print-none"
+                                                v-if="!is_overview"
                                                 color="secondary"
                                                 dark
                                                 @click="edit(3)"
@@ -489,9 +495,9 @@
                                         </v-btn>
                                         <v-btn  right
                                                 small
-                                                class="ml-4"
+                                                class="ml-4 d-print-none"
                                                 color="primary"
-
+                                                v-if="!is_overview"
                                                 @click="row_push(dat.id,3)"
                                                 icon
 
@@ -500,9 +506,9 @@
                                         </v-btn>
                                         <v-btn  right
                                                 small
-                                                class="ml-4"
+                                                class="ml-4 d-print-none"
                                                 color="red"
-                                                v-if="dat.third_screening.length>1  "
+                                                v-if="dat.third_screening.length>1 || !is_overview "
                                                 @click="row_delete(dat.id,3)"
                                                 icon
 
@@ -645,7 +651,7 @@
 
                     </v-tab-item>
                 </v-tabs>
-                <v-btn class="float-right" color="secondary" @click.prevent="submit">
+                <v-btn class="float-right d-print-none" color="secondary" @click.prevent="submit" v-if="!is_overview">
                     Submit
                 </v-btn>
             </v-card>
@@ -656,7 +662,7 @@
 <script>
 export default {
     name: "ultrasound_form",
-    props:["is_overView"],
+    props:["is_overview","ultrasound_ref"],
     data:()=>{
         return{
             formData:[
@@ -977,6 +983,10 @@ export default {
             }
             if(this.$route.params.ref !== ""){
                 this.reference=this.$route.params.ref
+                this.search()
+            }
+            if(this.ultrasound_ref !==''|| this.ultrasound_ref!==undefined){
+                this.reference= this.ultrasound_ref
                 this.search()
             }
 
@@ -1338,7 +1348,9 @@ td {
     border-collapse: collapse !important;
 }
 
-
+@media print {
+    container-fluid{size:landscape !important}
+}
 
 </style>
 

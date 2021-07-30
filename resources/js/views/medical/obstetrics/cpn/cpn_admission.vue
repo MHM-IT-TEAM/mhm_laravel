@@ -11,7 +11,7 @@
               <span v-if="accessory.edit">/ Updated at:{{ updated_at }}</span>
             </p>
             <div class="row">
-              <div class="col-4">
+              <div class="col-4 d-print-none" v-if="!is_overview">
                 <v-switch
                   v-model="accessory.edit"
                   label="Quick Search"
@@ -192,7 +192,7 @@
                 </td>
                 <td class="border">
                   <input
-                    type="text"
+                    type="number"
                     style="width: 20px !important"
                     v-model="formData.gravida"
                     :class="{ 'text-danger': formData.gravida > 4 }"
@@ -200,14 +200,14 @@
                 </td>
                 <td class="border">
                   <input
-                    type="text"
+                    type="number"
                     style="width: 20px !important"
                     v-model="formData.parity"
                   />
                 </td>
                 <td class="border">
                   <input
-                    type="text"
+                    type="number"
                     style="width: 20px !important"
                     v-model="formData.abortion"
                     :class="{ 'text-danger': formData.abortion > 0 }"
@@ -215,7 +215,7 @@
                 </td>
                 <td class="border">
                   <input
-                    type="text"
+                    type="number"
                     style="width: 20px !important"
                     v-model="formData.miscarriage"
                     :class="{ 'text-danger': formData.miscarriage > 0 }"
@@ -223,7 +223,7 @@
                 </td>
                 <td class="border">
                   <input
-                    type="text"
+                    type="number"
                     style="width: 20px !important"
                     v-model="formData.ev"
                   />
@@ -310,16 +310,16 @@
             </tr>
             <tr>
               <td class="border">
-                <input type="text" v-model="formData.spin" />
+                <input type="number" v-model="formData.spin" />
               </td>
               <td class="border">
-                <input type="text" v-model="formData.christ" />
+                <input type="number" v-model="formData.christ" />
               </td>
               <td class="border">
-                <input type="text" v-model="formData.troch" />
+                <input type="number" v-model="formData.troch" />
               </td>
               <td class="border">
-                <input type="text" v-model="formData.obst" />
+                <input type="number" v-model="formData.obst" />
               </td>
               <td class="border">
                 [&nbsp
@@ -431,12 +431,13 @@
                 Pregnancy History
 
                 <v-btn
-                  class="mx-2"
+                  class="mx-2 d-print-none"
                   fab
                   dark
                   color="indigo"
                   x-small
                   @click="add_row"
+                  v-if="!is_overview"
                 >
                   <v-icon dark> mdi-plus </v-icon>
                 </v-btn>
@@ -503,9 +504,9 @@
                 />
                 /
                 <input
-                  type="text"
+                  type="number"
                   v-model="row.baby_weight"
-                  style="width: 25px"
+                  style="width: 50px"
                 />
                 / [&nbsp
                 <select v-model="row.baby_condition" style="font-size: 10px">
@@ -733,9 +734,9 @@
               </button>
             <button
               type="submit"
-              class="btn btn-primary float-right"
+              class="btn btn-primary float-right d-print-none"
               id="submit"
-              v-if="accessory.noError"
+              v-if="!is_overview"
             >
               {{ submit_text }}
             </button>
@@ -757,6 +758,7 @@ const {
 } = require("vuelidate/lib/validators");
 export default {
   name: "cpn_admission",
+    props:['is_overview','reference'],
   mixins: [validationMixin],
   data() {
     return {
@@ -835,7 +837,7 @@ export default {
       },
       accessory: {
         edit: false,
-        reference: "",
+        reference: this.reference,
         last_id: "",
         quick_birth_output: [],
         data_populated: false,
@@ -963,6 +965,7 @@ export default {
         this.fetchData();
         this.accessory.edit=true
       }
+      if(this.accessory.reference !=='' && this.accessory.reference !==undefined) this.fetchData()
       return (this.accessory.blood_group = response.data);
     },
       overView(){
@@ -974,7 +977,6 @@ export default {
         })
       }
   },
-
   computed: {
     fullName() {
       return this.patient_details.firstName + " " + this.patient_details.lastName

@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Consultation;
+use App\Models\Patient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -18,11 +19,6 @@ use App\Models\BloodGroup;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
-Route::get('/connected_user',[App\Http\Controllers\TestController::class,'index']);
 // return countries list
 Route::get('/countries',[App\Http\Controllers\centralized\CountryController::class, 'index']);
 // return  type_consultations
@@ -61,6 +57,10 @@ Route::get('/position_of_baby',function(){
 Route::get('/presentation_of_baby',function(){
     return \App\Models\PresentationOfBaby::all();
 });
+// type of birth
+Route::get('/birth_type',function(){
+    return \App\Models\BirthType::all();
+});
 // lp1
 Route::get('/lp1',function(){
         return \App\Models\lpi::get();
@@ -77,9 +77,35 @@ Route::get('/lp3',function(){
 Route::get('/placenta_type',function(){
     return \App\Models\PlacentaType::all();
 });
+//hospital service list
+Route::get('/hospital_service',function(){
+    return cache()->rememberForever('hospital_service',function(){
+        return \App\Models\HospitalService::all();
+    });
+});
+//hospital service division list
+Route::get('/hospital_service_division',function(){
+    return cache()->rememberForever('hospital_service_division',function(){
+       return \App\Models\HospitalServiceDivision::all();
+    });
+});
+//bed list
+Route::get('/bed_list',function(){
+    return cache()->rememberForever('bed_list',function(){
+        return \App\Models\Bed::all();
+    });
+});
+Route::get('/free_bed/{division_id}',[\App\Http\Controllers\medical\beds\BedController::class,'free_in_division']);
+// maternity actions list
+Route::get('/maternity_action_list',function(){
+    return \App\Models\MaternityActionList::all();
+});
 
 //verify credentials
 Route::post('/auth/credentials/',[App\Http\Controllers\Auth\CredentialController::class,'check']);
+Route::get('/paginate',function(){
+    return Patient::paginate(20);
+});
 
 
 
@@ -107,12 +133,21 @@ Route::group(['prefix'=>'cash'],function(){
     route::post('/finalize',[App\Http\Controllers\cash\cashController::class, 'finalize_transaction']);
     route::get('/finance_rezept',[App\Http\Controllers\cash\cashController::class,'finance_rezept']);
 });
-//hospitalisation routes
-Route::group(['prefix'=>'hospitalisation'],function(){
-    //route::get('/service_list',[\App\Http\Controllers\hospitalisation\hospitalAdmissionController::class,'service_list']);
-    //route::get('/division_list/{service_id}',[\App\Http\Controllers\hospitalisation\hospitalAdmissionController::class,'division_list']);
-    //route::get('/bed_list/{division_id}',[\App\Http\Controllers\hospitalisation\hospitalAdmissionController::class,'bed_list']);
+//Maternity routes
+Route::group(['prefix'=>'maternity'],function(){
+    route::get('/fetch_patient_data/{patient_id}',[\App\Http\Controllers\medical\maternity\MaternityAdmissionController::class,'fetch_patient_data']);
+    route::get('/last_code',[\App\Http\Controllers\medical\maternity\MaternityAdmissionController::class,'last_code']);
+    route::get('/last_birth_code',[\App\Http\Controllers\medical\maternity\BirthRegistrationController::class,'last_birth_code']);
+    route::post('/upload_files',[\App\Http\Controllers\medical\maternity\MaternityAdmissionController::class,'upload_files']);
+    route::put('/delivery_registration/birth_certificate/{id}',[\App\Http\Controllers\medical\maternity\BirthRegistrationController::class,'birth_certificate']);
+    route::resource('/delivery_registration',\App\Http\Controllers\medical\maternity\BirthRegistrationController::class);
+    route::resource('/maternity_admission',\App\Http\Controllers\medical\maternity\MaternityAdmissionController::class);
+    route::resource('/actions',\App\Http\Controllers\medical\maternity\MaternityActionController::class);
+    route::resource('/medical_appreciation',\App\Http\Controllers\medical\maternity\MedicalAppreciationController::class);
+    route::resource('/medical_appreciation_comment',\App\Http\Controllers\medical\maternity\MedicalAppreciationCommentController::class);
+
 });
+
 //obstetrics routes
 Route::group(['prefix'=>'obstetrics'],function(){
     route::post('/cpn_admission',[App\Http\Controllers\medical\obstetrics\ObstetricsController::class,'store']);
