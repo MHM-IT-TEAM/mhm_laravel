@@ -95,6 +95,7 @@
             <th>US</th>
             <th>Birth</th>
             <th>Post Partum</th>
+            <th>Overview</th>
           </thead>
           <tbody>
             <tr>
@@ -127,6 +128,20 @@
               </td>
               <td>{{ result.birth_id }}</td>
               <td>{{ result.post_partum_id }}</td>
+              <td>
+                  <ul>
+                      <li v-for="adm of result.cpn_admissions">
+                          <router-link
+                              :to="{ name: 'obstetrics_overview', params: { cpn_ref: adm.id, } }"
+                              @click.native="reset"
+                          >
+                              <v-icon>mdi-arrow-right</v-icon>
+                              {{ adm.id }}
+                          </router-link>
+                      </li>
+
+                  </ul>
+              </td>
             </tr>
           </tbody>
         </table>

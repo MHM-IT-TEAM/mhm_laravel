@@ -19,7 +19,14 @@ class CreateBirthsTable extends Migration
             $table->date('birth_date');
             $table->time('birth_time');
             $table->timestamps();
+            $table->string('GA',10)->nullable();
+            $table->string('external_delivery',10)->nullable();
             $table->foreignId('patient_id');
+            $table->bigInteger('cpn_admission_id')->nullable();
+            $table->string('midwives',200)->nullable();
+            $table->string('surgeons',200)->nullable();
+            $table->string('anesthetists',200)->nullable();
+            $table->string('nurses',200)->nullable();
         });
     }
 

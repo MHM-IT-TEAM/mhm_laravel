@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCpnAdmissionsTable extends Migration
+class yCreateCpnAdmissionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -19,7 +19,7 @@ class CreateCpnAdmissionsTable extends Migration
             $table->foreignId('patient_id')->constrained();
             $table->string('ddr',20)->nullable();
             $table->String('dpa',10)->nullable();
-            $table->integer('weight')->nullable();
+            $table->string('weight',20)->nullable();
             $table->String('dpa_method',10)->nullable();
             $table->String('dpa_corrected',10)->nullable();
             $table->String('dpa_echo',10)->nullable();

@@ -19,6 +19,7 @@ class CreateBedsTable extends Migration
             $table->string('code',20);
             $table->string('description',50);
             $table->foreignId('hospital_service_division_id')->constrained();
+            $table->integer('status')->nullable();
         });
     }
 

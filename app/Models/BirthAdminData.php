@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class BirthAdminData extends Model
 {
     use HasFactory;
+    protected $connection='patSyst';
+    protected $guarded=[];
 }

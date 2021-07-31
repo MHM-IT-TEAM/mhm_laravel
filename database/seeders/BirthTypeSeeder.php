@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\BirthType;
 use Illuminate\Database\Seeder;
 
 class BirthTypeSeeder extends Seeder
@@ -13,8 +14,8 @@ class BirthTypeSeeder extends Seeder
      */
     public function run()
     {
-        BirthTypeSeeder::insert([
-            ['name'=>'normal'],
+        BirthType::insert([
+            ['name'=>'vaginally'],
             ['name'=>'Kiwi'],
             ['name'=>'forceps'],
             ['name'=>'C-section'],

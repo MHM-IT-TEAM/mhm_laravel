@@ -19,14 +19,17 @@ class CreateBirthMedicalDataMomsTable extends Migration
             $table->foreignId('birth_id')->constrained();
             $table->string('injuries',50)->nullable();
             $table->string('blood_loss',10)->nullable();
-            $table->string('suture',10)->nullable();
+            $table->string('stiches',200)->nullable();
             $table->string('placenta_time',10)->nullable();
-            $table->boolean('placenta_complete');
-            $table->boolean('placenta_spontaneous');
-            $table->boolean('placenta_manual_delivery');
-            $table->boolean('placenta_curetage');
-            $table->boolean('supervision_needed');
-
+            $table->string('placenta_complete',10)->nullable();
+            $table->string('placenta_spontaneous',10)->nullable();
+            $table->string('placenta_manual_delivery',10)->nullable();
+            $table->string('placenta_curetage',10)->nullable();
+            $table->string('supervision_needed',10)->nullable();
+            $table->string('ctg',50)->nullable();
+            $table->string('complications',250)->nullable();
+            $table->string('position',50)->nullable();
+            $table->text('remarks')->nullable();
         });
     }
 

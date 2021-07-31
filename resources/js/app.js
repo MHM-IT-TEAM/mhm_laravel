@@ -10,6 +10,7 @@ import store from './store/index';
 import vuetify from "./plugins/vuetify";
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
+import VueHtmlToPaper from 'vue-html-to-paper';
 
 
 window.Vue = require('vue').default;
@@ -17,6 +18,7 @@ window.Vue = require('vue').default;
 import Multiselect from 'vue-multiselect'
 Vue.component('multiselect', Multiselect);
 Vue.component('Loading', Loading)
+Vue.use(VueHtmlToPaper)
 
 
 /**

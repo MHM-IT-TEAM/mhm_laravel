@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container-fluid p-4">
         <v-app>
             <v-data-table
                 :headers="headers"
@@ -20,10 +20,11 @@
                                 class="search ml-4"
                                 @change="search"
                                 prepend-icon="mdi-magnify"
+                                v-if="!is_overview"
                             ></v-text-field>
 
                             <v-spacer></v-spacer>
-                        <v-btn color="primary" @click="redirect">View main page</v-btn>
+                        <v-btn color="primary" @click="redirect" v-if="!is_overview">View main page</v-btn >
                         <v-divider
                             class="mx-4"
                             inset
@@ -41,6 +42,7 @@
                                     class="mb-2"
                                     v-bind="attrs"
                                     v-on="on"
+                                    v-if="!is_overview"
                                 >
                                     New Data
                                 </v-btn>
@@ -501,7 +503,7 @@
                         mdi-delete
                     </v-icon>
                 </template>
-                <template v-slot:no-data>
+                <template v-slot:no-data v-if="!is_overview">
                     <v-btn
                         color="primary"
                         @click="initialize"
@@ -526,6 +528,7 @@ const {
     export default {
         name: "cpn_followup",
         mixins: [validationMixin],
+        props:['is_overview','cpn_ref'],
         data: () => ({
             dialog: false,
             dialogDelete: false,
@@ -538,7 +541,7 @@ const {
                 { text: 'Eyes', value: 'eyes' },
                 {text:'Breast',value:'breast'},
                 {text:'belly size (cm)',value:'belly_size'},
-                {text:'Uterus size (cm)',vlue:'uterus_size'},
+                {text:'Uterus size (cm)',value:'uterus_size'},
                 {text:'LP I Uterus size (cm)',value:'lp1'},
                 {text:'LPII',value:'lp2'},
                 {text:'LPIII',value:'lp3'},
@@ -659,11 +662,16 @@ const {
 
         methods: {
             async initialize () {
-                if(this.$route.params.cpn_admission_id !== undefined){
+                if(this.cpn_ref!=='' ||this.cpn_ref!==undefined){
+                    this.reference= this.cpn_ref
+                    this.search()
+                }
+                if(this.$route.params.cpn_admission_id !== undefined ){
                     let table_data= await axios.get(`/api/obstetrics/cpn_followup/${this.$route.params.cpn_admission_id}`)
                     this.cpn_data= table_data.data
                     this.reference= this.editedItem.cpn_admission_id= this.$route.params.cpn_admission_id
                 }
+                // if(this.reference !=='' || this.reference !==undefined) this.search()
                 let lp1 = await axios.get('/api/lp1')
                 let lp2 = await axios.get('/api/lp2')
                 let lp3 = await axios.get('/api/lp3')
@@ -676,6 +684,7 @@ const {
                 this.cervix_length= cervix_length.data
                 this.cervix_opening= cervix_opening.data
                 this.cervix_position= cervix_position.data
+
             },
 
             editItem (item) {

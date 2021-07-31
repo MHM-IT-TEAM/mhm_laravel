@@ -9,7 +9,10 @@ class Bed extends Model
 {
     use HasFactory;
     protected $connection= 'patSyst';
-    public function whereDivision($id){
-        return $this->where('hospital_service_division_id',$id)->get();
+    public function scopeDivision($data,$id){
+        return $data->where('hospital_service_division_id',$id);
+    }
+    public function scopeFree($data){
+        return $data->where('status',0);
     }
 }
