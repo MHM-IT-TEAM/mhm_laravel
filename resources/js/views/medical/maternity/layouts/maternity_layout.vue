@@ -176,12 +176,13 @@
 .title{
     font-size: 12px !important;
 }
-
+.print-area{
+    border:red solid 2px;
+    padding:5px;
+}
 @media print{
     #drawer{
-        width:0 !important;
         display:none;
-        visibility: hidden;
     }
 }
 </style>

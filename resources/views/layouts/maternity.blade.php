@@ -22,9 +22,11 @@
         @media print{
             body{
                 background-color: white;
+                border:green solid 1px;
             }
-            @page{
-                size: A4;
+            * {
+                box-sizing: border-box;
+                -moz-box-sizing: border-box;
             }
         }
     </style>

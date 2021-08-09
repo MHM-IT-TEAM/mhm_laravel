@@ -1,6 +1,6 @@
 <template>
     <div class="page-container">
-        <letter_head/>
+<!--        <letter_head/>-->
         <h4 class="text-center page-title">Patient Discharge</h4>
         <h6 style="margin-left:5px">Patient Information</h6>
         <div class="table-container">
@@ -165,12 +165,12 @@ export default {
     bottom: 10px;
     right:10px;
 }
+
 @media print{
     .page-container{
-        margin-left:0;
-        margin-top: 60px;
         border:none;
-        transform:scale(1.5)
+        position:absolute;
+        width:21cm;
     }
 
     input,textarea{
