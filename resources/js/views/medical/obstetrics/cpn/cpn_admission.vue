@@ -66,7 +66,7 @@
                     v-model="formData.patient_id"
                     @change="change_patient"
                     :class="{
-                      'border border-danger': $v.formData.patient_id.$error,
+                      'border border-danger': $v.formData.patient_id.$error || accessory.noPatientFound,
                     }"
                     :disabled="accessory.edit"
                   />
@@ -169,13 +169,14 @@
 
                 </td>
                 <td>
+                    <span class="text-white bg-danger" v-if="$v.accessory.wop_week.$error ||$v.accessory.wop_day.$error ">WOP should not be empty</span>
                     <div class="form-check-inline">
-                        <select style="width:40px" required v-model="accessory.wop_week" >
+                        <select style="width:40px"  v-model="accessory.wop_week"  >
                             <option></option>
                             <option v-for="i in 40" :value="i">{{i}}</option>
                         </select>
                         <strong>+</strong>
-                        <select style="width:40px;margin-left:25px" required v-model="accessory.wop_day">
+                        <select style="width:40px;margin-left:25px" v-model="accessory.wop_day">
                             <option v-for="i in 7" :value="i">{{i-1}}</option>
                         </select>
                     </div>
@@ -520,9 +521,9 @@
             </tr>
             <tr v-for="(row, index) in formData.pregnancy_history">
               <td>
-                <input type="number" 
-                  v-model="row.nr_year" 
-                  style="width: 80px" 
+                <input type="number"
+                  v-model="row.nr_year"
+                  style="width: 80px"
                   class="form-control form-control-sm"
                   :class="{ 'text-danger font-weight-bold error': $v.formData.pregnancy_history.$each[index].$error }"
                   min="1980"
@@ -982,7 +983,7 @@ export default {
       });
     },
     async submit() {
-      this.$v.formData.$touch();
+      this.$v.$touch();
       this.formData.wop= this.wop
       if (!this.$v.$invalid) {
         if (this.accessory.edit === false) {
@@ -1186,7 +1187,7 @@ export default {
     formData: {
       patient_id: { required },
       dpa_method: { required },
-      dda: { required, between: between(1980, new Date().getFullYear()) },
+      dda: {between: between(1980, new Date().getFullYear()) },
       pregnancy_history: {
         $each: {
           nr_year: {
@@ -1197,7 +1198,9 @@ export default {
       }
     },
     accessory: {
-      noPatientFound: { patientFound: value => value === false }
+      noPatientFound: { patientFound: value => value === false },
+      wop_week:{required},
+      wop_day:{required}
     }
   },
 };
