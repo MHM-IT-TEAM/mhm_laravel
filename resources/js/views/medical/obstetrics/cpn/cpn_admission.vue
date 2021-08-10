@@ -48,6 +48,9 @@
                   <span class="error" v-if="$v.formData.patient_id.$error"
                     >You must enter the patient Id</span
                   >
+                  <span class="error" v-if="accessory.noPatientFound"
+                    >No patient found</span
+                  >
                 </td>
               </tr>
               <tr>
@@ -282,9 +285,13 @@
                 </td>
                 <td class="border">
                   <input
-                    type="text"
+                    type="number"
                     class="form-control form-control-sm"
                     v-model="formData.dda"
+                    :class="{ 'text-danger font-weight-bold error': $v.formData.dda.$error }"
+                    min="1980"
+                    :max="new Date().getFullYear()"
+                    @blur="validate_dda($event.target.value)"
                   />
                 </td>
                 <td class="border">
@@ -513,7 +520,15 @@
             </tr>
             <tr v-for="(row, index) in formData.pregnancy_history">
               <td>
-                <input type="text" v-model="row.nr_year" style="width: 25px" />
+                <input type="number" 
+                  v-model="row.nr_year" 
+                  style="width: 80px" 
+                  class="form-control form-control-sm"
+                  :class="{ 'text-danger font-weight-bold error': $v.formData.pregnancy_history.$each[index].$error }"
+                  min="1980"
+                  :max="new Date().getFullYear()"
+                  @blur="validate_pregnancy_history_year(row, index)"
+                  />
               </td>
               <td>
                 <select v-model="row.pregnancy">
@@ -807,6 +822,7 @@ const {
   email,
   url,
   maxLength,
+  between
 } = require("vuelidate/lib/validators");
 export default {
   name: "cpn_admission",
@@ -907,6 +923,7 @@ export default {
         birth_problem:"",
         wop_week:'',
         wop_day:'',
+        noPatientFound: false
       },
     };
   },
@@ -928,15 +945,23 @@ export default {
   methods: {
     async change_patient() {
       this.accessory.isLoading = true;
-      let patData = await axios.get(
+      let response = await axios.get(
         `/api/patients/${this.formData.patient_id}/edit`
       );
-        let lastName= patData.data.patient.lastName==null?'':patData.data.patient.lastName
-      this.patient_details.firstName = patData.data.patient.firstName.toUpperCase();
-      this.patient_details.lastName = lastName;
-      this.patient_details.dob = patData.data.patient.birthDate;
-      this.patient_details.adress = patData.data.patient.adress;
-      this.patient_details.height = patData.data.patient.height;
+
+      if (response.data.patient) {
+        this.accessory.noPatientFound = false;
+
+        let lastName= response.data.patient.lastName==null?'':response.data.patient.lastName
+        this.patient_details.firstName = response.data.patient.firstName.toUpperCase();
+        this.patient_details.lastName = lastName;
+        this.patient_details.dob = response.data.patient.birthDate;
+        this.patient_details.adress = response.data.patient.adress;
+        this.patient_details.height = response.data.patient.height;
+      }
+      else {
+        this.accessory.noPatientFound = true;
+      }
       this.accessory.isLoading = false;
     },
     add_row() {
@@ -1043,7 +1068,7 @@ export default {
       if(this.accessory.reference !=='' && this.accessory.reference !==undefined) this.fetchData()
       return (this.accessory.blood_group = response.data);
     },
-      overView(){
+    overView(){
         this.$router.push({
             name:'cpn_followup',
             params:{
@@ -1051,7 +1076,14 @@ export default {
             }
         })
       },
-
+    validate_dda() {
+      if (this.formData.dda < 1980 || this.formData.dda > new Date().getFullYear())
+        this.formData.dda = "";
+    },
+    validate_pregnancy_history_year(row, index) {
+      if (row.nr_year < 1980 || row.nr_year > new Date().getFullYear())
+        row.nr_year = "";
+    }
   },
   computed: {
     fullName() {
@@ -1154,7 +1186,19 @@ export default {
     formData: {
       patient_id: { required },
       dpa_method: { required },
+      dda: { required, between: between(1980, new Date().getFullYear()) },
+      pregnancy_history: {
+        $each: {
+          nr_year: {
+            required,
+            between: between(1980, new Date().getFullYear())
+          }
+        }
+      }
     },
+    accessory: {
+      noPatientFound: { patientFound: value => value === false }
+    }
   },
 };
 function toNull(val) {
