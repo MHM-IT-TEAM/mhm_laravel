@@ -11,6 +11,10 @@ import vuetify from "./plugins/vuetify";
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
 import VueHtmlToPaper from 'vue-html-to-paper';
+import Calendar from 'v-calendar/lib/components/calendar.umd'
+import DatePicker from 'v-calendar/lib/components/date-picker.umd'
+
+
 
 
 window.Vue = require('vue').default;
@@ -18,6 +22,8 @@ window.Vue = require('vue').default;
 import Multiselect from 'vue-multiselect'
 Vue.component('multiselect', Multiselect);
 Vue.component('Loading', Loading)
+Vue.component('calendar', Calendar)
+Vue.component('date-picker', DatePicker)
 Vue.use(VueHtmlToPaper)
 
 
@@ -32,7 +38,7 @@ Vue.use(VueHtmlToPaper)
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-// Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+// Vue.component('datepicker',Datepicker);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
