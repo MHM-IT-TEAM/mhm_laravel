@@ -116,6 +116,7 @@
               </tr>
               <tr>
                 <td>LP <small>(DDR)</small></td>
+                <td>WOP</td>
                 <td colspan="">
                   <span
                     :class="{ 'text-danger': $v.formData.dpa_method.$error }"
@@ -140,7 +141,41 @@
               </tr>
               <tr>
                 <td class="border" style="width: 45px !important">
-                  <input type="date" v-model="formData.ddr" />
+                    <div class="form-check form-check-inline mb-4">
+                        <label class="form-check-label" for="unknown_ddr">unknown LPD</label> &nbsp
+                        <input
+                            class="form-check-input"
+                            type="checkbox"
+                            name="unknown_ddr"
+                            v-model="formData.unknown_lpd"
+                        />
+                    </div>
+                    <date-picker v-model="formData.ddr"
+                                 v-if="!formData.unknown_lpd"
+                                 :input-debounce="500" mode="date"
+                                 :model-config="accessory.dateConfig" :masks="accessory.dateConfig.masks"
+                                 :max-date="new Date()">
+                        <template v-slot="{ inputValue, inputEvents }">
+                            <input
+                                class="bg-white border px-2 py-1 rounded"
+                                :value="inputValue"
+                                v-on="inputEvents"
+                            />
+                        </template>
+                    </date-picker>
+
+                </td>
+                <td>
+                    <div class="form-check-inline">
+                        <select style="width:40px" required v-model="accessory.wop_week" >
+                            <option></option>
+                            <option v-for="i in 40" :value="i">{{i}}</option>
+                        </select>
+                        <strong>+</strong>
+                        <select style="width:40px;margin-left:25px" required v-model="accessory.wop_day">
+                            <option v-for="i in 7" :value="i">{{i-1}}</option>
+                        </select>
+                    </div>
                 </td>
                 <td colspan="" class="border" style="width: 250px !important">
                   <label>To be used</label>
@@ -158,80 +193,97 @@
                   &nbsp]
 
                   <div>
-                    <small>Calc:</small
-                    ><input
-                      type="date"
-                      v-model="formData.dpa_calc"
-                      :class="{
-                        'text-white bg-success': formData.dpa_method === 'calc',
-                      }"
-                    />
+                    <small :class="{'text-white bg-success': formData.dpa_method === 'calc'}" class="mr-4">Calc:</small>
+                      <date-picker v-model="formData.dpa_calc"
+                                   :input-debounce="500" mode="date"
+                                   :model-config="accessory.dateConfig" :masks="accessory.dateConfig.masks"
+                                   :min-date="new Date()">
+                          <template v-slot="{ inputValue, inputEvents }">
+                              <input
+                                  class="bg-white form-control form-control-sm px-2 py-1 rounded"
+                                  :value="inputValue"
+                                  v-on="inputEvents"
+                                  :class="{'text-success': formData.dpa_method === 'calc'}"
+                              />
+                          </template>
+                      </date-picker>
                   </div>
 
                   <div>
-                    <small>US: </small
-                    ><input
-                      type="date"
-                      v-model="formData.dpa_echo"
-                      :class="{
-                        'text-white bg-success': formData.dpa_method === 'echo',
-                      }"
-                    />
+                    <small :class="{'text-white bg-success': formData.dpa_method === 'echo'}" class="mr-6">US: </small>
+                      <date-picker v-model="formData.dpa_echo"
+                                   :input-debounce="500" mode="date"
+                                   :model-config="accessory.dateConfig" :masks="accessory.dateConfig.masks"
+                                   :min-date="new Date()">
+                          <template v-slot="{ inputValue, inputEvents }">
+                              <input
+                                  class="bg-white form-control form-control-sm px-2 py-1 rounded"
+                                  :value="inputValue"
+                                  v-on="inputEvents"
+                                  :class="{'text-success': formData.dpa_method === 'echo'}"
+                              />
+                          </template>
+                      </date-picker>
                   </div>
                   <div>
-                    <small>Corrected: </small
-                    ><input
-                      type="date"
-                      v-model="formData.dpa_corrected"
-                      :class="{
-                        'text-white bg-success':
-                          formData.dpa_method === 'corrected',
-                      }"
-                    />
+                    <small :class="{'text-white bg-success': formData.dpa_method === 'corrected'}">Corrected: </small>
+                      <date-picker v-model="formData.dpa_corrected"
+                                   :input-debounce="500" mode="date"
+                                   :model-config="accessory.dateConfig" :masks="accessory.dateConfig.masks"
+                                   :min-date="new Date()">
+                          <template v-slot="{ inputValue, inputEvents }">
+                              <input
+                                  class="bg-white form-control form-control-sm px-2 py-1 rounded"
+                                  :value="inputValue"
+                                  v-on="inputEvents"
+                                  :class="{'text-success': formData.dpa_method === 'corrected'}"
+                              />
+                          </template>
+                      </date-picker>
                   </div>
                 </td>
                 <td class="border">
                   <input
                     type="number"
-                    style="width: 20px !important"
                     v-model="formData.gravida"
                     :class="{ 'text-danger': formData.gravida > 4 }"
+                    class="form-control form-control-sm"
                   />
                 </td>
                 <td class="border">
                   <input
                     type="number"
-                    style="width: 20px !important"
                     v-model="formData.parity"
+                    class="form-control form-control-sm"
                   />
                 </td>
                 <td class="border">
                   <input
                     type="number"
-                    style="width: 20px !important"
                     v-model="formData.abortion"
                     :class="{ 'text-danger': formData.abortion > 0 }"
+                    class="form-control form-control-sm"
                   />
                 </td>
                 <td class="border">
                   <input
                     type="number"
-                    style="width: 20px !important"
                     v-model="formData.miscarriage"
                     :class="{ 'text-danger': formData.miscarriage > 0 }"
+                    class="form-control form-control-sm"
                   />
                 </td>
                 <td class="border">
                   <input
                     type="number"
-                    style="width: 20px !important"
                     v-model="formData.ev"
+                    class="form-control form-control-sm"
                   />
                 </td>
                 <td class="border">
                   <input
                     type="text"
-                    style="width: 25px !important"
+                    class="form-control form-control-sm"
                     v-model="formData.dda"
                   />
                 </td>
@@ -319,7 +371,7 @@
                 <input type="number" v-model="formData.troch" />
               </td>
               <td class="border">
-                <input type="number" v-model="formData.obst" />
+                <input type="number" v-model="formData.obst" :class="{'text-danger':formData.obst<18}" />
               </td>
               <td class="border">
                 [&nbsp
@@ -768,7 +820,8 @@ export default {
         weight: "",
         hydrodramnion: false,
         oligodramnion: false,
-        ddr: "",
+        ddr:"",
+        unknown_lpd:false,
         dpa_calc: "",
         dpa_echo: "",
         dpa_corrected: "",
@@ -836,6 +889,13 @@ export default {
         height: "",
       },
       accessory: {
+        dateConfig: {
+              type: 'string',
+              mask:'iso',
+              masks: {
+                  input: 'DD/MMM/YYYY',
+              },
+          },
         edit: false,
         reference: this.reference,
         last_id: "",
@@ -844,12 +904,26 @@ export default {
         blood_group: "",
         isLoading: false,
         noError: true,
-          birth_problem:""
+        birth_problem:"",
+        wop_week:'',
+        wop_day:'',
       },
     };
   },
   created() {
     this.init();
+  },
+  watch:{
+      edd_check:function(val){
+          if(this.accessory.wop_week >=9 && this.accessory.wop_week<=13){
+              if(val<=5){
+                  var check = confirm('the wop of pregnancy is between 9 and 13, you should choose the ultrasound for the estimated date of delivery')
+                  if (check){
+                      this.formData.dpa_method='echo'
+                  }
+              }
+          }
+      }
   },
   methods: {
     async change_patient() {
@@ -884,6 +958,7 @@ export default {
     },
     async submit() {
       this.$v.formData.$touch();
+      this.formData.wop= this.wop
       if (!this.$v.$invalid) {
         if (this.accessory.edit === false) {
           let response = await axios.post("/api/obstetrics/cpn_admission", this.formData);
@@ -975,7 +1050,8 @@ export default {
                 cpn_admission_id:this.accessory.reference
             }
         })
-      }
+      },
+
   },
   computed: {
     fullName() {
@@ -1060,7 +1136,19 @@ export default {
       } else {
         return "Submit";
       }
+    },
+    wop(){
+      return this.accessory.wop_week+'+'+this.accessory.wop_day;
+    },
+    edd_check(){
+        if(this.formData.dpa_calc !=='' && this.formData.dpa_echo){
+            let dpa_echo= new Date(this.formData.dpa_echo)
+            let dpa_calc= new Date(this.formData.dpa_calc)
+            let diff_date= Math.floor((Date.UTC(dpa_echo.getFullYear(), dpa_echo.getMonth(), dpa_echo.getDate()) - Date.UTC(dpa_calc.getFullYear(), dpa_calc.getMonth(), dpa_calc.getDate()) ) /(1000 * 60 * 60 * 24))
+            return Math.abs(diff_date)
+        }
     }
+
   },
   validations: {
     formData: {
