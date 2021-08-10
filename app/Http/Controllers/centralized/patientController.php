@@ -64,10 +64,16 @@ class patientController extends Controller
     public function edit($id)
     {
         $patient= Patient::find($id);
-        return [
-            "patient"=>$patient,
-            "dueSum"=>$patient->patient_due()->get("amount")
-        ];
+        if ($patient) {
+            return [
+                "patient"=>$patient,
+                "dueSum"=>$patient->patient_due()->get("amount")
+            ];
+        }
+        else
+        {
+            return response()->json([ "message"=>"No patient found" ]);
+        }
     }
 
     /**
