@@ -19,6 +19,7 @@ class yCreateCpnAdmissionsTable extends Migration
             $table->foreignId('patient_id')->constrained();
             $table->string('ddr',20)->nullable();
             $table->boolean('unknown_lpd')->nullable();
+            $table->string('wop',10)->nullable();
             $table->String('dpa',10)->nullable();
             $table->string('weight',20)->nullable();
             $table->String('dpa_method',10)->nullable();

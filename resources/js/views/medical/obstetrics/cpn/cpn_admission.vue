@@ -116,6 +116,7 @@
               </tr>
               <tr>
                 <td>LP <small>(DDR)</small></td>
+                <td>WOP</td>
                 <td colspan="">
                   <span
                     :class="{ 'text-danger': $v.formData.dpa_method.$error }"
@@ -163,6 +164,18 @@
                         </template>
                     </date-picker>
 
+                </td>
+                <td>
+                    <div class="form-check-inline">
+                        <select style="width:40px" required v-model="accessory.wop_week" >
+                            <option></option>
+                            <option v-for="i in 40" :value="i">{{i}}</option>
+                        </select>
+                        <strong>+</strong>
+                        <select style="width:40px;margin-left:25px" required v-model="accessory.wop_day">
+                            <option v-for="i in 7" :value="i">{{i-1}}</option>
+                        </select>
+                    </div>
                 </td>
                 <td colspan="" class="border" style="width: 250px !important">
                   <label>To be used</label>
@@ -876,7 +889,7 @@ export default {
         height: "",
       },
       accessory: {
-          dateConfig: {
+        dateConfig: {
               type: 'string',
               mask:'iso',
               masks: {
@@ -891,12 +904,26 @@ export default {
         blood_group: "",
         isLoading: false,
         noError: true,
-          birth_problem:""
+        birth_problem:"",
+        wop_week:'',
+        wop_day:'',
       },
     };
   },
   created() {
     this.init();
+  },
+  watch:{
+      edd_check:function(val){
+          if(this.accessory.wop_week >=9 && this.accessory.wop_week<=13){
+              if(val<=5){
+                  var check = confirm('the wop of pregnancy is between 9 and 13, you should choose the ultrasound for the estimated date of delivery')
+                  if (check){
+                      this.formData.dpa_method='echo'
+                  }
+              }
+          }
+      }
   },
   methods: {
     async change_patient() {
@@ -931,6 +958,7 @@ export default {
     },
     async submit() {
       this.$v.formData.$touch();
+      this.formData.wop= this.wop
       if (!this.$v.$invalid) {
         if (this.accessory.edit === false) {
           let response = await axios.post("/api/obstetrics/cpn_admission", this.formData);
@@ -1109,6 +1137,18 @@ export default {
         return "Submit";
       }
     },
+    wop(){
+      return this.accessory.wop_week+'+'+this.accessory.wop_day;
+    },
+    edd_check(){
+        if(this.formData.dpa_calc !=='' && this.formData.dpa_echo){
+            let dpa_echo= new Date(this.formData.dpa_echo)
+            let dpa_calc= new Date(this.formData.dpa_calc)
+            let diff_date= Math.floor((Date.UTC(dpa_echo.getFullYear(), dpa_echo.getMonth(), dpa_echo.getDate()) - Date.UTC(dpa_calc.getFullYear(), dpa_calc.getMonth(), dpa_calc.getDate()) ) /(1000 * 60 * 60 * 24))
+            return Math.abs(diff_date)
+        }
+    }
+
   },
   validations: {
     formData: {

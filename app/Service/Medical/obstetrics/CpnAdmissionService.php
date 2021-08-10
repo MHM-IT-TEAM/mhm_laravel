@@ -58,6 +58,8 @@ class CpnAdmissionService
             'preeclampsia_needed'=>$request->preeclampsia_needed,
             'ogtt_needed'=>$request->ogtt_needed,
             'ddr'=>$request->ddr,
+            'unknown_lpd'=>$request->unknown_lpd,
+            'wop'=>$request->wop,
             'dda'=>$request->dda,
             'dpa_calc'=>$request->dpa_calc,
             'dpa_echo'=>$request->dpa_echo,
