@@ -17,7 +17,6 @@ class MaternityController extends Controller
     {
         return view('medical.maternity.home');
     }
-
     /**
      * Show the form for creating a new resource.
      *
