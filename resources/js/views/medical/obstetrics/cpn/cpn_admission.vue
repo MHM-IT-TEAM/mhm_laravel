@@ -51,6 +51,12 @@
                   <span class="error" v-if="accessory.noPatientFound"
                     >No patient found</span
                   >
+                  <span class="error" v-if="$v.patient_details.$error && !$v.patient_details.gender.isFemale"
+                    >Patient is not female</span
+                  >
+                  <span class="error" v-if="$v.patient_details.$error && !$v.patient_details.gender.required"
+                    >Patient gender has no value</span
+                  >
                 </td>
               </tr>
               <tr>
@@ -74,7 +80,9 @@
                 <td>Full Name:</td>
                 <td style="width: 25%">{{ fullName }}</td>
                 <td style="width: 10% !important">D.O.B</td>
-                <td>{{ patient_details.dob }}</td>
+                <td>{{ patient_details.dob }}
+                  <span class="error" v-if="$v.patient_details.dob.$error">D.O.B is invalid</span>
+                </td>
                 <td>
                   <span :class="{ 'text-danger': parseInt(age) < 18 }"
                     >age: {{ age }}</span
@@ -106,11 +114,11 @@
                   >
                     <small>({{ bmi }})</small></span
                   >
-                    <span v-if="$v.patient_details.weight.$error" class="text-danger">
+                    <span v-if="$v.formData.weight.$error" class="text-danger">
                       weight is required.
                   </span>
                 </td>
-                <td><input type="text" v-model="formData.weight" :class="{'border border-danger':$v.patient_details.weight.$error}" /></td>
+                <td><input type="text" v-model="formData.weight" :class="{'border border-danger':$v.formData.weight.$error}" /></td>
               </tr>
             </tbody>
           </table>
@@ -914,6 +922,7 @@ export default {
         tel: "",
         weight: "",
         height: "",
+        gender: ""
       },
       accessory: {
         dateConfig: {
@@ -969,6 +978,7 @@ export default {
         this.patient_details.dob = response.data.patient.birthDate;
         this.patient_details.adress = response.data.patient.adress;
         this.patient_details.height = response.data.patient.height;
+        this.patient_details.gender = response.data.patient.gender;
       }
       else {
         this.accessory.noPatientFound = true;
@@ -1102,14 +1112,7 @@ export default {
 
     },
     age() {
-      if (this.patient_details.dob !== "") {
-        var difference =
-          Date.now() - new Date(this.patient_details.dob).getTime();
-        var age = new Date(difference);
-        return Math.abs(age.getUTCFullYear() - 1970);
-      } else {
-        return "";
-      }
+      return calculateAge(this.patient_details.dob);
     },
     today() {
       return new Date().toLocaleString();
@@ -1198,6 +1201,7 @@ export default {
       patient_id: { required },
       dpa_method: { required },
       dda: {between: between(1980, new Date().getFullYear()) },
+      weight:{required},
       pregnancy_history: {
         $each: {
           nr_year: {
@@ -1225,9 +1229,36 @@ export default {
     },
     patient_details:{
         height:{required,minValue:minValue(50)},
-        weight:{required}
-    }
+        dob: { required, validateAge: validateAge },
+        gender: {required, isFemale: value => !value || value === 'F' }
+    },
+
   },
+};
+
+function calculateAge(dob) {
+  if (dob !== "") {
+    var difference =
+      Date.now() - new Date(dob).getTime();
+    var age = new Date(difference);
+    return Math.abs(age.getUTCFullYear() - 1970);
+  } else {
+    return "";
+  }
+};
+function validateAge(dob) {
+  if (!dob)
+    return false;
+
+  const age = calculateAge(dob);
+  if (!age)
+    return false;
+
+  if (age >= 12 && age <= 45) {
+    return true;
+  }
+
+  return false;
 };
 function toNull(val) {
   let response;
