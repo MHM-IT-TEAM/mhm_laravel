@@ -970,8 +970,8 @@ export default {
       );
 
       if (response.data.patient) {
+        this.$v.patient_details.$touch();
         this.accessory.noPatientFound = false;
-
         let lastName= response.data.patient.lastName==null?'':response.data.patient.lastName
         this.patient_details.firstName = response.data.patient.firstName.toUpperCase();
         this.patient_details.lastName = lastName;
