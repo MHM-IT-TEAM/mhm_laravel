@@ -81,12 +81,13 @@
                 <td style="width: 25%">{{ fullName }}</td>
                 <td style="width: 10% !important">D.O.B</td>
                 <td>{{ patient_details.dob }}
-                  <span class="error" v-if="$v.patient_details.dob.$error">D.O.B is invalid</span>
+                  <span class="error" v-if="$v.patient_details.$error && !$v.patient_details.dob.required">D.O.B has no value</span>
                 </td>
                 <td>
-                  <span :class="{ 'text-danger': parseInt(age) < 18 }"
-                    >age: {{ age }}</span
-                  >
+                  <span class="text-nowrap" :class="{ 'text-danger': parseInt(age) < 18 }"
+                    >age: {{ age }}
+                    <span v-if="$v.patient_details.$error && !$v.patient_details.dob.validateAge" class="error text-dark">Age should be between 12 and 45</span>
+                  </span>
                 </td>
               </tr>
               <tr>
@@ -1229,7 +1230,7 @@ export default {
     },
     patient_details:{
         height:{required,minValue:minValue(50)},
-        dob: { required, validateAge: validateAge },
+        dob: { required, validateAge: validateAgeRange },
         gender: {required, isFemale: value => !value || value === 'F' }
     },
 
@@ -1246,14 +1247,11 @@ function calculateAge(dob) {
     return "";
   }
 };
-function validateAge(dob) {
+function validateAgeRange(dob) {
   if (!dob)
-    return false;
+    return true;
 
   const age = calculateAge(dob);
-  if (!age)
-    return false;
-
   if (age >= 12 && age <= 45) {
     return true;
   }
