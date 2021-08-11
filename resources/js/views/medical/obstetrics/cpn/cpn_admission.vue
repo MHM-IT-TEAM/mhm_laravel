@@ -92,6 +92,9 @@
                     :class="{ 'text-danger': patient_details.height <= 150 }"
                     >{{ patient_details.height }}</span
                   >
+                  <span v-if="$v.patient_details.height.$error" class="text-danger">
+                      Height is required.
+                  </span>
                 </td>
                 <td>
                   weight:
@@ -103,8 +106,11 @@
                   >
                     <small>({{ bmi }})</small></span
                   >
+                    <span v-if="$v.patient_details.weight.$error" class="text-danger">
+                      weight is required.
+                  </span>
                 </td>
-                <td><input type="text" v-model="formData.weight" /></td>
+                <td><input type="text" v-model="formData.weight" :class="{'border border-danger':$v.patient_details.weight.$error}" /></td>
               </tr>
             </tbody>
           </table>
@@ -118,7 +124,7 @@
                 </td>
               </tr>
               <tr>
-                <td>LP <small>(DDR)</small></td>
+                <td><span :class="{'text-danger':$v.formData.ddr.$error|| $v.formData.unknown_lpd.$error }">LP</span> <small>(DDR)</small></td>
                 <td>WOP</td>
                 <td colspan="">
                   <span
@@ -161,11 +167,13 @@
                         <template v-slot="{ inputValue, inputEvents }">
                             <input
                                 class="bg-white border px-2 py-1 rounded"
+                                placehoder="choose the LP "
                                 :value="inputValue"
                                 v-on="inputEvents"
                             />
                         </template>
                     </date-picker>
+                    <span class="text-danger mt-2" v-if="$v.formData.ddr.$error">You must choose the LP</span>
 
                 </td>
                 <td>
@@ -819,11 +827,13 @@
 import { validationMixin } from "vuelidate";
 const {
   required,
+  minValue,
   minLength,
   email,
   url,
   maxLength,
-  between
+  between,
+  requiredIf
 } = require("vuelidate/lib/validators");
 export default {
   name: "cpn_admission",
@@ -1195,12 +1205,27 @@ export default {
             between: between(1980, new Date().getFullYear())
           }
         }
-      }
+      },
+      ddr:{
+          required:requiredIf((formData)=>{
+              return !formData.unknown_lpd
+          })
+      },
+      unknown_lpd:{
+        required:requiredIf((formData)=>{
+            return formData.ddr===''
+        })
+      },
+
     },
     accessory: {
       noPatientFound: { patientFound: value => value === false },
       wop_week:{required},
       wop_day:{required}
+    },
+    patient_details:{
+        height:{required,minValue:minValue(50)},
+        weight:{required}
     }
   },
 };
@@ -1221,6 +1246,7 @@ function toNull(val) {
 }
 input {
   font-size: 11px;
+   border: lightgrey solid 0.5px;
 }
 input[type="date"]::-webkit-calendar-picker-indicator {
   display: none;
