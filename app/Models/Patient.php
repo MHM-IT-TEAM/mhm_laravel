@@ -10,16 +10,24 @@ class Patient extends Model
     use HasFactory;
     protected $connection= "patSyst";
     protected $guarded=[];
-    public function search($search){
-        return $this->with("emContacts")
-            ->where('id',$search)
-            ->orWhere('firstName','LIKE','%'.$search.'%')
-            ->orWhere('lastName','LIKE','%'.$search.'%')
-            ->orWhere('adress','LIKE','%'.$search.'%')
-            ->orWhere('birthDate','LIKE','%'.$search.'%')
-            ->orWhere('cin_no','LIKE','%'.$search.'%')
-            ->orWhere('email','LIKE','%'.$search.'%')
-            ->orWhere('cin_no','LIKE','%'.$search.'%');
+    public function search($searchWords){
+        $query = $this->with("emContacts");
+
+        foreach ($searchWords as $word) 
+        {
+            $query = $query->where(function ($q) use ($word) {
+                $q
+                ->where('id',$word)
+                ->orWhere('firstName','LIKE','%'.$word.'%')
+                ->orWhere('lastName','LIKE','%'.$word.'%')
+                ->orWhere('birthDate','LIKE','%'.$word.'%')
+                ->orWhere('cin_no','LIKE','%'.$word.'%')
+                ->orWhere('email','LIKE','%'.$word.'%')
+                ->orWhere('tel','LIKE','%'.$word.'%');
+            });
+        }
+
+        return $query;
     }
     public function emContacts(){
         return $this->hasMany(EmContact::class);

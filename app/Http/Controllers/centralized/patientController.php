@@ -104,7 +104,9 @@ class patientController extends Controller
     */
     public function search(Request $request){
         $patient= new Patient();
-        return $patient->search($request->get('query'))->get();
+        $query = $request->get('query');
+        $queryWords = explode(' ', $query, 8);
+        return $patient->search($queryWords)->get();
     }
     public function vitalSign($id){
         return Patient::find($id)->vitalSigns()->latest()->take(1)->get();
