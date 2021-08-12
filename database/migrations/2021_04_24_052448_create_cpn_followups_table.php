@@ -47,6 +47,9 @@ class CreateCpnFollowupsTable extends Migration
             $table->boolean('us_needed')->nullable();
             $table->boolean('ctg_needed')->nullable();
             $table->string('appointment',20)->nullable();
+            $table->string'senior_informed',100)->nullable();
+            $table->string('responsible',50)->nullable();
+            $table->text('remark')->nullable();
 
 
         });

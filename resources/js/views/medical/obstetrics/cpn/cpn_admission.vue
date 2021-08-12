@@ -927,6 +927,7 @@ export default {
         michaelis: "",
         baum_hg: "",
         problem_for_delivery: "",
+        responsible:''
       },
       patient_details: {
         firstName: "",
@@ -1023,6 +1024,7 @@ export default {
     async submit() {
       this.$v.$touch();
       this.formData.wop= this.wop
+      this.formData.responsible= window.auth.user.name
       if (!this.$v.$invalid) {
         if (this.accessory.edit === false) {
           let response = await axios.post("/api/obstetrics/cpn_admission", this.formData);
@@ -1088,6 +1090,9 @@ export default {
           this.formData.pregnancy_history = response.data.preg_history;
           this.change_patient();
           this.accessory.data_populated = true;
+          let wop= response.data.admission.wop.split('+')
+          this.accessory.wop_week=wop[0]
+          this.accessory.wop_day=wop[1]
       }
       else this.accessory.noReferenceFound=true
     },
@@ -1116,7 +1121,8 @@ export default {
         this.$router.push({
             name:'cpn_followup',
             params:{
-                cpn_admission_id:this.accessory.reference
+                cpn_admission_id:this.accessory.reference,
+                patient:this.patient_details
             }
         })
       },

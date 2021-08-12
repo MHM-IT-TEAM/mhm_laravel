@@ -83,6 +83,7 @@ class CpnAdmissionService
             'blood_group'=>$request->blood_group,
             'hiv'=>$request->hiv,
             'syphilis'=>$request->syphilis,
+            'responsible'=>$request->responsible,
         ];
     }
     private function pregHistoData($preg,$patient_id){
@@ -109,7 +110,8 @@ class CpnAdmissionService
             $pregHisto= PregnancyHistory::where('patient_id',$admission->patient_id)->orderBy('nr_year','desc')->get();
             return [
                 "admission"=>$admission,
-                "preg_history"=>$pregHisto
+                "preg_history"=>$pregHisto,
+                "success"=>true
             ];
         }
         else{

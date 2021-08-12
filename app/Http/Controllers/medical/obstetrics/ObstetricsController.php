@@ -8,6 +8,7 @@ use App\Service\Medical\obstetrics\CpnAdmissionService;
 use App\Models\CpnAdmission;
 use App\Service\Medical\obstetrics\SearchService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ObstetricsController extends Controller
 {
