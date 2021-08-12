@@ -962,6 +962,9 @@ export default {
                   }
               }
           }
+      },
+      'formData.unknown_lpd':function(val){
+          if(val) this.formData.ddr=''
       }
   },
   methods: {
