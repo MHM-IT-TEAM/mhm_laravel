@@ -1,6 +1,6 @@
 <template>
   <div class="container-fluid bg-light" >
-    <form >
+    <form onsubmit="return false;">
       <input
         type="text"
         name="searchBAr"
