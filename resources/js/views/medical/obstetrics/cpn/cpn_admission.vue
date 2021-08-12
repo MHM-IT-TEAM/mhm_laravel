@@ -339,14 +339,20 @@
                       type="checkbox"
                       v-model="formData.planned_oc"
                     />
+                      <date-picker v-model="formData.planned_oc_date"
+                                   v-if="formData.planned_oc"
+                                   :input-debounce="500" mode="date"
+                                   :model-config="accessory.dateConfig" :masks="accessory.dateConfig.masks"
+                                   :min-date="new Date()">
+                          <template v-slot="{ inputValue, inputEvents }">
+                              <input
+                                  class="bg-white form-control form-control-sm px-2 py-1 rounded"
+                                  :value="inputValue"
+                                  v-on="inputEvents"
+                              />
+                          </template>
+                      </date-picker>
                   </div>
-
-                  <input
-                    type="date"
-                    v-model="formData.planned_oc_date"
-                    v-if="formData.planned_oc"
-                  />
-
                   <div>
                     <div class="form-check form-check-inline">
                       <label class="form-check-label" for="meal"

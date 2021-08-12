@@ -35,7 +35,7 @@ class CreateCpnAdmissionsTable extends Migration
             $table->boolean('patient_at_risk')->nullable();
             $table->string('risk_description',50)->nullable();
             $table->boolean('planned_oc')->nullable();
-            $table->string('planned_oc_date',15)->nullable();
+            $table->string('planned_oc_date',50)->nullable();
             $table->boolean('preeclampsia_needed')->nullable();
             $table->boolean('ogtt_needed')->nullable();
             $table->integer('spin')->nullable();
