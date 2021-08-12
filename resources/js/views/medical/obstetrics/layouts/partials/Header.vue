@@ -76,6 +76,7 @@
               ></v-text-field>
             </li>
           </ul>
+            <span>{{user.name}}</span>
           <v-icon medium @click="logout"> mdi-exit-to-app</v-icon>
         </div>
       </div>
@@ -160,6 +161,7 @@ export default {
       search_text: "",
       results: [],
       loading: false,
+      user:null
     };
   },
   watch: {
@@ -168,6 +170,9 @@ export default {
     //   this.fetch(val);
     // },
   },
+    created(){
+      this.user=window.auth.user
+    },
   methods: {
     async logout() {
       axios

@@ -46,6 +46,9 @@ class CpnFollowupService
          'us_needed'=>$request->us_needed,
          'ctg_needed'=>$request->ctg_needed,
          'appointment'=>$request->appointment,
+         'responsible'=>$request->responsible,
+         'senior_informed'=>$request->senior_informed,
+         'remark'=>$request->remark
      ];
  }
  public function update($request,$id){

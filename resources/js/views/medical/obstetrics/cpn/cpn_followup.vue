@@ -1,6 +1,9 @@
 <template>
     <div class="container-fluid p-4">
         <v-app>
+            <div class="mt-6 p-2" v-if="patient_details.firstName !==undefined">
+                <h6>{{patient_details.firstName+" "+ patient_details.lastName }}</h6>
+            </div>
             <v-data-table
                 :headers="headers"
                 :items="cpn_data"
@@ -22,6 +25,7 @@
                                 prepend-icon="mdi-magnify"
                                 v-if="!is_overview"
                             ></v-text-field>
+                            <span v-if="noDataFound" class="text-white bg-danger">no data found</span>
 
                             <v-spacer></v-spacer>
                         <v-btn color="primary" @click="redirect" v-if="!is_overview">View main page</v-btn >
@@ -453,6 +457,11 @@
                                                 ></v-select>
                                             </v-col>
                                         </v-row>
+                                        <v-row>
+                                            <v-col cols="12">
+                                                <v-textarea label="Remark" v-model="editedItem.remark"/>
+                                            </v-col>
+                                        </v-row>
                                     </v-container>
                                 </v-card-text>
 
@@ -534,35 +543,37 @@ const {
             dialogDelete: false,
             headers: [
                 { text: 'Date', value: 'created_at' },
-                { text: 'week of preg', value: 'week_of_pregnancy' },
-                { text: 'weight (kg)', value: 'weight' },
+                { text: 'Week of preg', value: 'week_of_pregnancy' },
+                { text: 'Weight (kg)', value: 'weight' },
                 { text: 'BP (left)', value: 'bp_left' },
                 { text: 'BP (right)', value: 'bp_right' },
                 { text: 'Eyes', value: 'eyes' },
                 {text:'Breast',value:'breast'},
-                {text:'belly size (cm)',value:'belly_size'},
+                {text:'Belly size (cm)',value:'belly_size'},
                 {text:'Uterus size (cm)',value:'uterus_size'},
                 {text:'LP I Uterus size (cm)',value:'lp1'},
                 {text:'LPII',value:'lp2'},
                 {text:'LPIII',value:'lp3'},
-                {text:'mov of the baby',value:'mov_baby'},
-                {text:'heartbeat of the baby', value:'heartbeat_baby'},
-                {text:'cervix length',value:'cervix_length'},
-                {text:'cervix posistion',value:'cervix_position'},
-                {text:'cervix opening',value:'cervix_opening'},
-                {text:'liquids',value:'liquids'},
-                {text:'oedema',value:'oedema'},
-                {text:'varicosis',value:'varicosis'},
-                {text:'protein_test',value:'protein_test'},
-                {text:'sugar_test',value:'sugar_test'},
-                {text:'blood_test',value:'blood_test'},
-                {text:'leucocyte_test',value:'leucocyte_test'},
+                {text:'Mov of the baby',value:'mov_baby'},
+                {text:'Heartbeat of the baby', value:'heartbeat_baby'},
+                {text:'Cervix length',value:'cervix_length'},
+                {text:'Cervix posistion',value:'cervix_position'},
+                {text:'Cervix opening',value:'cervix_opening'},
+                {text:'Liquids',value:'liquids'},
+                {text:'Oedema',value:'oedema'},
+                {text:'Varicosis',value:'varicosis'},
+                {text:'Protein_test',value:'protein_test'},
+                {text:'Sugar_test',value:'sugar_test'},
+                {text:'Blood_test',value:'blood_test'},
+                {text:'Leucocyte_test',value:'leucocyte_test'},
                 {text:'OGTT',value:'ogtt'},
                 {text:'CTG needed',value:'ctg_needed'},
                 {text:'US needed',value:'us_needed'},
                 {text:'Senior midwife informed',value:'senior_informed'},
-                {text:'appointment',value:'appointment'},
-                {text:'Actions',value:'actions',sortable:false}
+                {text:'Appointment',value:'appointment'},
+                {text:'Actions',value:'actions',sortable:false},
+                {text:'Remark',value:'remark',sortable:false},
+                {text:'Responsible',value:'responsible'}
 
             ],
             cpn_data: [],
@@ -601,10 +612,49 @@ const {
                 us_plan:"",
                 ctg_needed:false,
                 ctg_plan:"",
-                appointment:''
+                appointment:'',
+                responsible:'',
+                senior_informed:'',
+                remark:''
             },
             defaultItem: {
-
+                cpn_admission_id:'',
+                date:"",
+                week_of_pregnancy:'',
+                weight:'',
+                bp_left:'',
+                bp_right:'',
+                eyes:'',
+                breast:'',
+                belly_size:'',
+                uterus_size:'',
+                lp1:'',
+                lp2:'',
+                lp3:'',
+                mov_baby:'',
+                heartbeat_baby:'',
+                cervix_length:'',
+                cervix_opening:'',
+                cervix_position:'',
+                liquids:'',
+                oedema:'',
+                varicosis:'',
+                protein_test:'',
+                sugar_test:'',
+                blood_test:'',
+                leucocyte_test:'',
+                ogtt:'',
+                membranes:"",
+                leading_part:"",
+                leading_part_attitude: "",
+                us_needed:false,
+                us_plan:"",
+                ctg_needed:false,
+                ctg_plan:"",
+                appointment:'',
+                responsible:'',
+                senior_informed:'',
+                remark:''
             },
             eyes:['white','medium','red'],
             ok:['ok','not ok'],
@@ -627,7 +677,9 @@ const {
             senior_midwife:["Tanja","Tianasoa"],
             is_new_form:true,
             menu:false,
-            reference:''
+            reference:'',
+            patient_details:{},
+            noDataFound:false
 
 
         }),
@@ -662,14 +714,15 @@ const {
 
         methods: {
             async initialize () {
-                if(this.cpn_ref!=='' ||this.cpn_ref!==undefined){
+                if(this.cpn_ref!=='' && this.cpn_ref!==undefined){
                     this.reference= this.cpn_ref
                     this.search()
                 }
-                if(this.$route.params.cpn_admission_id !== undefined ){
+                if(Object.keys(this.$route.params).length>0){
                     let table_data= await axios.get(`/api/obstetrics/cpn_followup/${this.$route.params.cpn_admission_id}`)
                     this.cpn_data= table_data.data
                     this.reference= this.editedItem.cpn_admission_id= this.$route.params.cpn_admission_id
+                    this.patient_details= this.$route.params.patient
                 }
                 // if(this.reference !=='' || this.reference !==undefined) this.search()
                 let lp1 = await axios.get('/api/lp1')
@@ -723,9 +776,9 @@ const {
             },
 
            async save () {
-
                     if (this.editedIndex > -1) {
                         Object.assign(this.cpn_data[this.editedIndex], this.editedItem)
+                        this.cpn_data[this.editedIndex].responsible=window.auth.user.name
                         let update= await axios.put(`/api/obstetrics/cpn_followup/${this.cpn_data[this.editedIndex].id}`,this.editedItem)
                         if(update.data.success===true){
                             this.$toast.open({
@@ -738,6 +791,7 @@ const {
                         //new data
                         this.$v.editedItem.$touch();
                         this.editedItem.cpn_admission_id=this.reference
+                        this.editedItem.responsible=window.auth.user.name
                         this.cpn_data.push(this.editedItem)
                         if (!this.$v.$invalid) {
                             let post= await axios.post('/api/obstetrics/cpn_followup',this.editedItem)
@@ -754,9 +808,12 @@ const {
 
             },
             async search(){
-
+                this.reset()
                 let fetch= await axios.get(`/api/obstetrics/cpn_followup/${this.reference}`)
-                this.cpn_data= fetch.data
+                if(fetch.data.length>0){
+                    this.cpn_data= fetch.data
+                }
+                else this.noDataFound=true
             },
             redirect(){
                 this.$router.push({
@@ -766,6 +823,11 @@ const {
 
                     }
                 })
+            },
+            reset(){
+                this.editedItem= {...this.defaultItem}
+                this.cpn_data=[]
+                this.noDataFound=false
             }
 
         },
