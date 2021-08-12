@@ -58,7 +58,7 @@
                   <span class="error" v-if="$v.patient_details.$error && !$v.patient_details.gender.isFemale"
                     >Patient is not female</span
                   >
-                  <span class="error" v-if="$v.patient_details.$error && !$v.patient_details.gender.required"
+                  <span class="error" v-if="!$v.formData.patient_id.$error && $v.patient_details.$error && !$v.patient_details.gender.required"
                     >Patient gender has no value</span
                   >
                 </td>
@@ -326,11 +326,13 @@
                       v-model="formData.patient_at_risk"
                     />
                   </div>
+                  <span v-if="$v.formData.risk_description.$error" class="error"><br />Risk description is required when patient is at risk<br /></span>
                   <textarea
                     style="width: 100%"
                     v-if="formData.patient_at_risk"
                     v-model="formData.risk_description"
                     placeholder="Write here the reason"
+                    :class="{ 'text-danger font-weight-bold error mt-2': $v.formData.risk_description.$error}"
                   ></textarea>
                 </td>
                 <td>
@@ -398,27 +400,27 @@
             </tr>
             <tr>
               <td class="border">
-                <input type="number" v-model="formData.spin" />
+                <input type="number" v-model="formData.spin" :class="{ 'text-danger error': $v.formData.spin.$error }" />
               </td>
               <td class="border">
-                <input type="number" v-model="formData.christ" />
+                <input type="number" v-model="formData.christ" :class="{ 'text-danger error': $v.formData.christ.$error }"  />
               </td>
               <td class="border">
-                <input type="number" v-model="formData.troch" />
+                <input type="number" v-model="formData.troch" :class="{ 'text-danger error': $v.formData.troch.$error }"  />
               </td>
               <td class="border">
-                <input type="number" v-model="formData.obst" :class="{'text-danger':formData.obst<18}" />
+                <input type="number" v-model="formData.obst" :class="{'text-danger':formData.obst<18, 'text-danger error': $v.formData.obst.$error }" />
               </td>
               <td class="border">
                 [&nbsp
                 <select
                   v-model="formData.michaelis"
-                  :class="{ 'text-danger': formData.michaelis !== 'Equal' }"
+                  :class="{ 'text-danger': formData.michaelis !== 'Equal', 'text-danger error': $v.formData.michaelis.$error }"
                 >
-                  <option value="Equal">Equal</option>
-                  <option value="Narrow">Narrow</option>
-                  <option value="Asymetric">Asymetric</option>
-                  <option value="Flat">Flat</option>
+                  <option class="text-dark bg-light" value="Equal">Equal</option>
+                  <option class="text-dark bg-light" value="Narrow">Narrow</option>
+                  <option class="text-dark bg-light" value="Asymetric">Asymetric</option>
+                  <option class="text-dark bg-light" value="Flat">Flat</option>
                 </select>
                 &nbsp]
               </td>
@@ -426,10 +428,10 @@
                 [&nbsp
                 <select
                   v-model="formData.baum_hg"
-                  :class="{ 'text-danger': formData.baum_hg === 'Negative' }"
+                  :class="{ 'text-danger': formData.baum_hg === 'Negative', 'text-danger error': $v.formData.baum_hg.$error }"
                 >
-                  <option value="Positive">Positive</option>
-                  <option value="Negative">Negative</option>
+                  <option class="text-dark bg-light" value="Positive">Positive</option>
+                  <option class="text-dark bg-light" value="Negative">Negative</option>
                 </select>
                 &nbsp]
               </td>
@@ -645,7 +647,7 @@
                   />
                 </div>
               </td>
-              <td><input type="text" v-model="row.pueperium" /></td>
+              <td><textarea v-model="row.pueperium" /></td>
             </tr>
           </table>
             <table class="table">
@@ -1258,7 +1260,13 @@ export default {
             return formData.ddr===''
         })
       },
-
+      risk_description: { required: requiredIf((formData) => formData.patient_at_risk) },
+      spin: { required },
+      christ: { required },
+      troch: { required },
+      obst: { required },
+      michaelis: { required },
+      baum_hg: { required },
     },
     accessory: {
       noPatientFound: { patientFound: value => value === false },
@@ -1355,6 +1363,9 @@ td {
     rgba(67, 9, 121, 0.989233193277311) 50%,
     rgba(255, 0, 129, 1) 100%
   ) !important;
+}
+span.error {
+  line-height: initial;
 }
 @media screen and (max-width: 1500px) {
   #birth_place {

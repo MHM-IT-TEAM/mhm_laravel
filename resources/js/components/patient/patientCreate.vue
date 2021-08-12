@@ -31,13 +31,13 @@
                     class="error text-white alert-danger"
                     v-if="!$v.patient.firstName.required"
                   >
-                    Name is required
+                    First name is required
                   </div>
                   <div
                     class="error text-white alert-danger"
                     v-if="!$v.patient.firstName.minLength"
                   >
-                    Name must have at least
+                    First name must have at least
                     {{ $v.patient.firstName.$params.minLength.min }} letters.
                   </div>
                 </div>
@@ -59,7 +59,7 @@
                     class="error text-white alert-danger"
                     v-if="!$v.patient.lastName.required"
                   >
-                    lastName is required
+                    Last name is required
                   </div>
                 </div>
               </div>
@@ -83,7 +83,7 @@
                     class="error text-white alert-danger"
                     v-if="!$v.patient.gender.required"
                   >
-                    gender is required
+                    Gender is required
                   </div>
                 </div>
               </div>
@@ -92,27 +92,34 @@
                 <div class="col-sm-6 pt-0">
                     <label for="dob" class="pb-0 col-form-label">DOB</label
                     ><span class="text-danger">*</span>
-                    <input
-                  type="date"
-                  class="form-control"
-                  name="dob"
-                  id="dob"
-                  v-model="patient.birthDate"
-                />
-                <div v-if="$v.patient.birthDate.$error">
-                  <div
-                    class="error text-white alert-danger"
-                    v-if="!$v.patient.birthDate.required"
-                  >
-                    The birthdate is required
+                  <date-picker v-model="patient.birthDate"
+                    name="dob"
+                    id="dob"
+                    :input-debounce="500" mode="date"
+                    :model-config="accessory.dateConfig" :masks="accessory.dateConfig.masks"
+                    :max-date="new Date()">
+                      <template v-slot="{ inputValue, inputEvents }">
+                        <input
+                            class="bg-white form-control form-control-sm px-2 py-1 rounded"
+                            :value="inputValue"
+                            v-on="inputEvents"
+                        />
+                      </template>
+                  </date-picker>
+                  <div v-if="$v.patient.birthDate.$error">
+                    <div
+                      class="error text-white alert-danger"
+                      v-if="!$v.patient.birthDate.required"
+                    >
+                      Date of birth is required
+                    </div>
                   </div>
                 </div>
-              </div>
                 <div class="col-sm-6 pt-0">
                     <label for="dob" class="pb-0 col-form-label ">Height</label
                     >
                     <input
-                        type="text"
+                        type="number"
                         class="form-control"
                         v-model="patient.height"
                     />
@@ -178,10 +185,10 @@
                   v-model="patient.education"
                 >
                   <option value=""></option>
-                  <option value="illiterate">illiterate</option>
-                  <option value="primary">primary</option>
-                  <option value="secondary">secondary</option>
-                  <option value="university">university</option>
+                  <option value="illiterate">Illiterate</option>
+                  <option value="primary">Primary</option>
+                  <option value="secondary">Secondary</option>
+                  <option value="university">University</option>
                 </select>
               </div>
             </div>
@@ -221,13 +228,20 @@
                 <label for="idDate" class="pb-0 col-form-label">ID Date</label>
                 <div class="row">
                   <div class="col-sm-12">
-                    <input
-                      type="date"
-                      class="form-control"
-                      name="idDate"
-                      id="idDate"
-                      v-model="patient.cin_date"
-                    />
+                    <date-picker v-model="patient.cin_date"
+                    name="idDate"
+                    id="idDate"
+                    :input-debounce="500" mode="date"
+                    :model-config="accessory.dateConfig" :masks="accessory.dateConfig.masks"
+                    :max-date="new Date()">
+                      <template v-slot="{ inputValue, inputEvents }">
+                        <input
+                            class="bg-white form-control form-control-sm px-2 py-1 rounded"
+                            :value="inputValue"
+                            v-on="inputEvents"
+                        />
+                      </template>
+                  </date-picker>
                   </div>
                 </div>
                 <label for="idPlace" class="pb-0 col-form-label"
@@ -271,7 +285,7 @@
         <hr />
         <div class="row">
           <div class="col-4">
-            <label for="idDate" class="pb-0 col-form-label">Adress</label
+            <label for="idDate" class="pb-0 col-form-label">Address</label
             ><span class="text-danger">*</span>
             <div class="row">
               <div class="col-sm-12">
@@ -287,7 +301,7 @@
                     class="error text-white alert-danger"
                     v-if="!$v.patient.adress.required"
                   >
-                    The adress is required
+                    Address is required
                   </div>
                 </div>
               </div>
@@ -455,6 +469,15 @@ export default {
       nationality: "",
       em_rows: [{ name: "", tel: "" }],
       default_em_rows: [{ name: "", tel: "" }],
+      accessory: {
+        dateConfig: {
+          type: 'string',
+          mask:'iso',
+          masks: {
+              input: 'DD/MMM/YYYY',
+          },
+        },
+      }
     };
   },
   validations: {
