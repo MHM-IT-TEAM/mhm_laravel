@@ -105,11 +105,16 @@ class CpnAdmissionService
     }
     public function show($reference){
         $admission=  CpnAdmission::find($reference);
-        $pregHisto= PregnancyHistory::where('patient_id',$admission->patient_id)->orderBy('nr_year','desc')->get();
-        return [
-            "admission"=>$admission,
-            "preg_history"=>$pregHisto
-        ];
+        if($admission){
+            $pregHisto= PregnancyHistory::where('patient_id',$admission->patient_id)->orderBy('nr_year','desc')->get();
+            return [
+                "admission"=>$admission,
+                "preg_history"=>$pregHisto
+            ];
+        }
+        else{
+           return response()->json(['message'=>'no data found','success'=>false]);
+        }
     }
     public function update($reference, $request){
         $patient= $this->admission->find($reference);
