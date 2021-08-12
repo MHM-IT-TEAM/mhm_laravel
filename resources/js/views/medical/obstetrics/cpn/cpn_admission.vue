@@ -21,14 +21,18 @@
               </div>
               <div class="col-4 ml-4">
                 <input
-                  type="text"
+                  type="number"
                   class="form-control mt-4"
                   placeholder="enter the reference"
                   v-if="accessory.edit"
                   @change="fetchData"
                   v-model="accessory.reference"
+                  :class="{'border border-danger':accessory.noReferenceFound}"
                 />
               </div>
+                <div class="col">
+                    <p class="text-danger mt-6" v-if="accessory.noReferenceFound">No data found check the reference</p>
+                </div>
             </div>
           </div>
           <div class="p-2">
@@ -68,7 +72,7 @@
                 </td>
                 <td>
                   <input
-                    type="text"
+                    type="number"
                     v-model="formData.patient_id"
                     @change="change_patient"
                     :class="{
@@ -339,14 +343,20 @@
                       type="checkbox"
                       v-model="formData.planned_oc"
                     />
+                      <date-picker v-model="formData.planned_oc_date"
+                                   v-if="formData.planned_oc"
+                                   :input-debounce="500" mode="date"
+                                   :model-config="accessory.dateConfig" :masks="accessory.dateConfig.masks"
+                                   :min-date="new Date()">
+                          <template v-slot="{ inputValue, inputEvents }">
+                              <input
+                                  class="bg-white form-control form-control-sm px-2 py-1 rounded"
+                                  :value="inputValue"
+                                  v-on="inputEvents"
+                              />
+                          </template>
+                      </date-picker>
                   </div>
-
-                  <input
-                    type="date"
-                    v-model="formData.planned_oc_date"
-                    v-if="formData.planned_oc"
-                  />
-
                   <div>
                     <div class="form-check form-check-inline">
                       <label class="form-check-label" for="meal"
@@ -945,7 +955,8 @@ export default {
         birth_problem:"",
         wop_week:'',
         wop_day:'',
-        noPatientFound: false
+        noPatientFound: false,
+        noReferenceFound:false
       },
     };
   },
@@ -1056,6 +1067,8 @@ export default {
       this.accessory.reference = "";
       this.accessory.data_populated = false;
       this.accessory.isLoading = false;
+      this.accessory.noPatientFound=false
+      this.accessory.noReferenceFound=false
     },
     birth_type_change(e, index) {
       var val = this.formData.pregnancy_history[index].birth_type;
@@ -1068,10 +1081,13 @@ export default {
       let response = await axios.get(
         `/api/obstetrics/cpn/${this.accessory.reference}`
       );
-      Object.assign(this.formData, response.data.admission);
-      this.formData.pregnancy_history = response.data.preg_history;
-      this.change_patient();
-      this.accessory.data_populated = true;
+      if(response.data.success){
+          Object.assign(this.formData, response.data.admission);
+          this.formData.pregnancy_history = response.data.preg_history;
+          this.change_patient();
+          this.accessory.data_populated = true;
+      }
+      else this.accessory.noReferenceFound=true
     },
     async init() {
       this.accessory.isLoading = true;
