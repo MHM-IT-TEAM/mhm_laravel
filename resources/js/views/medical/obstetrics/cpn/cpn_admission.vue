@@ -80,13 +80,13 @@
                 <td>Full Name:</td>
                 <td style="width: 25%">{{ fullName }}</td>
                 <td style="width: 10% !important">D.O.B</td>
-                <td>{{ patient_details.dob }}
+                <td>{{ new Date(patient_details.dob).toDateString() }}
                   <span class="error" v-if="$v.patient_details.$error && !$v.patient_details.dob.required">D.O.B has no value</span>
                 </td>
                 <td>
                   <span class="text-nowrap" :class="{ 'text-danger': parseInt(age) < 18 }"
                     >age: {{ age }}
-                    <span v-if="$v.patient_details.$error && !$v.patient_details.dob.validateAge" class="error text-dark">Age should be between 12 and 45</span>
+                    <span v-if="$v.patient_details.$error && !$v.patient_details.dob.validateAge" class="error text-dark">Age should be between 10 and 50</span>
                   </span>
                 </td>
               </tr>
@@ -169,6 +169,7 @@
                         />
                     </div>
                     <date-picker v-model="formData.ddr"
+                                 @input="change_ddr"
                                  v-if="!formData.unknown_lpd"
                                  :input-debounce="500" mode="date"
                                  :model-config="accessory.dateConfig" :masks="accessory.dateConfig.masks"
@@ -176,9 +177,9 @@
                         <template v-slot="{ inputValue, inputEvents }">
                             <input
                                 class="bg-white border px-2 py-1 rounded"
-                                placehoder="choose the LP "
                                 :value="inputValue"
                                 v-on="inputEvents"
+
                             />
                         </template>
                     </date-picker>
@@ -194,7 +195,7 @@
                         </select>
                         <strong>+</strong>
                         <select style="width:40px;margin-left:25px" v-model="accessory.wop_day">
-                            <option v-for="i in 7" :value="i">{{i-1}}</option>
+                            <option v-for="i in 7" :value="i-1">{{i-1}}</option>
                         </select>
                     </div>
                 </td>
@@ -961,6 +962,9 @@ export default {
                   }
               }
           }
+      },
+      'formData.unknown_lpd':function(val){
+          if(val) this.formData.ddr=''
       }
   },
   methods: {
@@ -1105,7 +1109,24 @@ export default {
     validate_pregnancy_history_year(row, index) {
       if (row.nr_year < 1980 || row.nr_year > new Date().getFullYear())
         row.nr_year = "";
-    }
+    },
+      change_ddr(){
+          let ddr = this.formData.ddr
+          let today= new Date()
+          let diff = today- new Date(ddr)
+          let result=diff/(1000 * 60 * 60 * 24*7)
+          let int = Math.floor(result)
+          let dec= result - int
+          let strDec= Math.round(dec*6)
+          console.log(strDec)
+          if(strDec>6){
+              int++
+              strDec=0
+          }
+          // console.log(int+ '+'+ strDec)
+          this.accessory.wop_week= int
+          this.accessory.wop_day= strDec
+      }
   },
   computed: {
     fullName() {
@@ -1252,7 +1273,7 @@ function validateAgeRange(dob) {
     return true;
 
   const age = calculateAge(dob);
-  if (age >= 12 && age <= 45) {
+  if (age >= 10 && age <= 50) {
     return true;
   }
 
