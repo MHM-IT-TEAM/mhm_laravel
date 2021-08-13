@@ -199,7 +199,23 @@
                                 <tbody v-for="row in dat.first_screening">
                                 <tr >
                                     <td>
-                                        <input type="date" v-model="row.created_at" :readonly=" !formEdit.first_screening"/>
+                                        <!-- TODO: :readonly doesn't affect date-picker -->
+                                        <date-picker v-model="row.created_at"
+                                            @input="change_ddr"
+                                            v-if="!formData.unknown_lpd"
+                                            :input-debounce="500" mode="date"
+                                            :model-config="accessory.dateConfig" :masks="accessory.dateConfig.masks"
+                                            :max-date="new Date()"
+                                            :readonly=" !formEdit.first_screening">
+                                            <template v-slot="{ inputValue, inputEvents }">
+                                                <input
+                                                    class="bg-white border px-2 py-1 rounded"
+                                                    :value="inputValue"
+                                                    v-on="inputEvents"
+
+                                                />
+                                            </template>
+                                        </date-picker>
                                     </td>
                                     <td>
                                         <input type="text" v-model="row.wop_calculated" :readonly=" !formEdit.first_screening" />
@@ -334,7 +350,24 @@
                                 </tr>
                                 <tbody v-for="row_1 in dat.second_screening">
                                 <tr>
-                                    <td><input type="date" v-model="row_1.created_at" :readonly=" !formEdit.second_screening"/></td>
+                                    <td>
+                                        <date-picker v-model="row_1.created_at"
+                                            @input="change_ddr"
+                                            v-if="!formData.unknown_lpd"
+                                            :input-debounce="500" mode="date"
+                                            :model-config="accessory.dateConfig" :masks="accessory.dateConfig.masks"
+                                            :max-date="new Date()"
+                                            :readonly=" !formEdit.second_screening">
+                                            <template v-slot="{ inputValue, inputEvents }">
+                                                <input
+                                                    class="bg-white border px-2 py-1 rounded"
+                                                    :value="inputValue"
+                                                    v-on="inputEvents"
+
+                                                />
+                                            </template>
+                                        </date-picker>
+                                    </td>
                                     <td><input type="text"  v-model="row_1.wop_calculated" :readonly=" !formEdit.second_screening"/></td>
                                     <td><input type="text"  v-model="row_1.wop_ultrasound" :readonly=" !formEdit.second_screening"/></td>
                                     <td><input type="text"  v-model="row_1.wop_corrected" :readonly=" !formEdit.second_screening"/></td>
@@ -519,7 +552,24 @@
                                 </tr>
                                 <tbody v-for="row_2 in dat.third_screening">
                                 <tr>
-                                    <td><input type="date" v-model="row_2.created_at"  :readonly=" !formEdit.third_screening"/></td>
+                                    <td>
+                                        <date-picker v-model="row_2.created_at"
+                                            @input="change_ddr"
+                                            v-if="!formData.unknown_lpd"
+                                            :input-debounce="500" mode="date"
+                                            :model-config="accessory.dateConfig" :masks="accessory.dateConfig.masks"
+                                            :max-date="new Date()"
+                                            :readonly=" !formEdit.third_screening">
+                                            <template v-slot="{ inputValue, inputEvents }">
+                                                <input
+                                                    class="bg-white border px-2 py-1 rounded"
+                                                    :value="inputValue"
+                                                    v-on="inputEvents"
+
+                                                />
+                                            </template>
+                                        </date-picker>
+                                    </td>
                                     <td><input type="text" v-model="row_2.wop_calculated" :readonly=" !formEdit.third_screening"/></td>
                                     <td><input type="text" v-model="row_2.wop_ultrasound" :readonly=" !formEdit.third_screening"/></td>
                                     <td><input type="text" v-model="row_2.wop_corrected" :readonly=" !formEdit.third_screening"/></td>
@@ -671,6 +721,7 @@ export default {
                     patient_id:'',
                     first_screening:[
                         {
+                            id: null,
                             created_at:'',
                             wop_calculated:'',
                             wop_corrected:'',
@@ -696,6 +747,7 @@ export default {
 
                     ],
                     second_screening:[{
+                        id: null,
                         created_at:'',
                         wop_calculated:'',
                         wop_corrected:'',
@@ -724,6 +776,7 @@ export default {
                         fetus:0
                     }],
                     third_screening:[{
+                        id: null,
                         created_at:'',
                         wop_calculated:'',
                         wop_corrected:'',
@@ -757,6 +810,7 @@ export default {
                     patient_id:'',
                     first_screening:[
                         {
+                            id: null,
                             created_at:'',
                             wop_calculated:'',
                             wop_corrected:'',
@@ -782,6 +836,7 @@ export default {
 
                     ],
                     second_screening:[{
+                        id:null,
                         created_at:'',
                         wop_calculated:'',
                         wop_corrected:'',
@@ -810,6 +865,7 @@ export default {
                         fetus:0
                     }],
                     third_screening:[{
+                        id: null,
                         created_at:'',
                         wop_calculated:'',
                         wop_corrected:'',
@@ -838,6 +894,7 @@ export default {
                 },
             ],
             first_screening_data:{
+                id:null,
                 created_at:'',
                 wop_calculated:'',
                 wop_corrected:'',
@@ -862,6 +919,7 @@ export default {
 
             },
             second_screening_data:{
+                id: null,
                 created_at:'',
                 wop_calculated:'',
                 wop_corrected:'',
@@ -890,6 +948,7 @@ export default {
                 fetus:''
             },
             third_screening_data:{
+                id: null,
                 created_at:'',
                 wop_calculated:'',
                 wop_corrected:'',
@@ -939,7 +998,16 @@ export default {
                 fullName:''
             },
             authorized_user:false,
-            edited_screening:''
+            edited_screening:'',
+            accessory: {
+                dateConfig: {
+                      type: 'string',
+                      mask:'iso',
+                      masks: {
+                          input: 'DD/MMM/YYYY',
+                    },
+                },
+            }
         }
     },
     created(){
@@ -950,7 +1018,7 @@ export default {
             handler(val){
                 val.forEach(row=>{
                     row.first_screening.forEach(data=>{
-                        if(data.created_at !=='' && data.midwives !=='' && data.wop_calculated !=='' && data.midwives.length>0) data.valid=true
+                        if(data.created_at !=='' && data.wop_calculated !=='' && data.midwives.length>0) data.valid=true
                     })
                     row.second_screening.forEach(data=>{
                         if(data.created_at !=='' && data.presentation_of_baby !=='' && data.wop_calculated !=='' && data.position_of_baby !== '' && data.midwives.length>0) data.valid=true
@@ -1001,6 +1069,7 @@ export default {
             this.formData.push({
                 id:i+1,
                 first_screening:[{
+                    id: null,
                     created_at:this.formData[0].first_screening.created_at,
                     wop_calculated:this.formData[0].first_screening.wop_calculated,
                     wop_ultrasound:this.formData[0].first_screening.wop_ultrasound,
@@ -1023,6 +1092,7 @@ export default {
                     fetus:i+1
                 }],
                 second_screening:[{
+                    id: null,
                     created_at:"",
                     wop_calculated:"",
                     wop_ultrasound:"",
@@ -1049,6 +1119,7 @@ export default {
                     fetus:i+1
                 }],
                 third_screening:[{
+                    id: null,
                     created_at:"",
                     wop_calculated:"",
                     wop_ultrasound: "",
@@ -1093,6 +1164,11 @@ export default {
                 )
         },
         async search(){
+            if(!this.reference) {
+                this.reset();
+                return;
+            }
+
             //this.reset()
             this.is_updating=true
             let response= await axios.get(`/api/obstetrics/ultrasound/${this.reference}`)
