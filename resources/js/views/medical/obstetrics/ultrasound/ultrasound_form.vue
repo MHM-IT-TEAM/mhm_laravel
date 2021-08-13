@@ -64,7 +64,6 @@
                             color="secondary"
                             dark
                             @click="dialog=true"
-                            :disabled="is_updating"
                             hide-details
                         >
                             Twin pregnancy
@@ -77,7 +76,7 @@
                 >
                     <v-card>
                         <v-card-text>
-                            <!--                      <v-text-field label="count of fetus" v-model="count_of_baby"></v-text-field>-->
+<!--                            <v-text-field label="count of fetus" v-model="count_of_baby"></v-text-field>-->
                             <v-select
                                 :items="possible_fetus_count"
                                 v-model="count_of_fetus"
@@ -950,7 +949,7 @@ export default {
             handler(val){
                 val.forEach(row=>{
                     row.first_screening.forEach(data=>{
-                        if(data.created_at !=='' && data.midwives !=='' && data.wop_calculated !=='' && data.midwives.length>0) data.valid=true
+                        if(data.created_at !=='' && data.wop_calculated !=='' && data.midwives.length>0) data.valid=true
                     })
                     row.second_screening.forEach(data=>{
                         if(data.created_at !=='' && data.presentation_of_baby !=='' && data.wop_calculated !=='' && data.position_of_baby !== '' && data.midwives.length>0) data.valid=true

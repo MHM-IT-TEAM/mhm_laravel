@@ -57,6 +57,7 @@ class UltraSoundController extends Controller
      */
     public function store(Request $request)
     {
+        dd($request);
         return $this->ultrasound_service->store($request);
 
     }

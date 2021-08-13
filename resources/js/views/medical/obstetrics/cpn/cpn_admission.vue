@@ -138,7 +138,7 @@
               </tr>
               <tr>
                 <td><span :class="{'text-danger':$v.formData.ddr.$error|| $v.formData.unknown_lpd.$error }">LP</span> <small>(DDR)</small></td>
-                <td>WOP</td>
+                <td>GA</td>
                 <td colspan="">
                   <span
                     :class="{ 'text-danger': $v.formData.dpa_method.$error }"
@@ -191,7 +191,7 @@
 
                 </td>
                 <td>
-                    <span class="text-white bg-danger" v-if="$v.accessory.wop_week.$error ||$v.accessory.wop_day.$error ">WOP should not be empty</span>
+                    <span class="text-white bg-danger" v-if="$v.accessory.wop_week.$error ||$v.accessory.wop_day.$error ">Gestational age is required</span>
                     <div class="form-check-inline">
                         <select style="width:40px"  v-model="accessory.wop_week"  >
                             <option></option>
