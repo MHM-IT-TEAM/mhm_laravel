@@ -127,10 +127,10 @@
             dialogDelete: false,
             headers: [
                 { text: 'Patient Id', value: 'patient.id' },
-                { text: 'firstName', value: 'patient.firstName' },
-                { text: 'lastName', value: 'patient.lastName' },
+                { text: 'First Name', value: 'patient.firstName' },
+                { text: 'Last Name', value: 'patient.lastName' },
                 { text: 'Service', value: 'careDetails.type_consult_name' },
-                { text: 'status',value:'careDetails.status'},
+                { text: 'Status',value:'careDetails.status'},
                 { text: 'Actions', value: 'actions', sortable: false },
             ],
             list: [],
