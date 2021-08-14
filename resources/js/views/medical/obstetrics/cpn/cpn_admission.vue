@@ -191,8 +191,6 @@
 
                 </td>
                 <td>
-                    <span class="text-white bg-danger" v-if="$v.accessory.wop_week.$error ||$v.accessory.wop_day.$error ">WOP should not be empty</span>
-                    <gestational-age :day.sync="accessory.wop_day" :week.sync="accessory.wop_week" :value.sync="formData.wop"></gestational-age> 
                 </td>
                 <td colspan="" class="border" style="width: 250px !important">
                   <label>To be used</label>

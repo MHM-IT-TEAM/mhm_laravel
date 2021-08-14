@@ -67,7 +67,7 @@
                                             >
                                                 <v-text-field
                                                     v-model="editedItem.week_of_pregnancy"
-                                                    label="week of pregnancy"
+                                                    label="Gestational age"
                                                     required
                                                     :error-messages="wopError"
                                                 ></v-text-field>
@@ -543,7 +543,7 @@ const {
             dialogDelete: false,
             headers: [
                 { text: 'Date', value: 'created_at' },
-                { text: 'Week of preg', value: 'week_of_pregnancy' },
+                { text: 'GA', value: 'week_of_pregnancy' },
                 { text: 'Weight (kg)', value: 'weight' },
                 { text: 'BP (left)', value: 'bp_left' },
                 { text: 'BP (right)', value: 'bp_right' },
@@ -792,8 +792,8 @@ const {
                         this.$v.editedItem.$touch();
                         this.editedItem.cpn_admission_id=this.reference
                         this.editedItem.responsible=window.auth.user.name
-                        this.cpn_data.push(this.editedItem)
                         if (!this.$v.$invalid) {
+                            this.cpn_data.push(this.editedItem)
                             let post= await axios.post('/api/obstetrics/cpn_followup',this.editedItem)
                             if(post.data.success===true){
                                 this.$toast.open({

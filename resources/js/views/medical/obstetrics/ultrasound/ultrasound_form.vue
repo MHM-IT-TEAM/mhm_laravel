@@ -64,7 +64,6 @@
                             color="secondary"
                             dark
                             @click="dialog=true"
-                            :disabled="is_updating"
                             hide-details
                         >
                             Twin pregnancy
@@ -77,7 +76,7 @@
                 >
                     <v-card>
                         <v-card-text>
-                            <!--                      <v-text-field label="count of fetus" v-model="count_of_baby"></v-text-field>-->
+<!--                            <v-text-field label="count of fetus" v-model="count_of_baby"></v-text-field>-->
                             <v-select
                                 :items="possible_fetus_count"
                                 v-model="count_of_fetus"

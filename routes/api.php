@@ -108,21 +108,6 @@ Route::get('/paginate',function(){
 });
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //patient routes
 Route::get('/patients/search/',[App\Http\Controllers\centralized\patientController::class, 'search']);
 Route::get('/patients/vitalSign/{id}',[App\Http\Controllers\centralized\patientController::class, 'vitalSign']);
