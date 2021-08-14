@@ -191,17 +191,6 @@
 
                 </td>
                 <td>
-                    <span class="text-white bg-danger" v-if="$v.accessory.wop_week.$error ||$v.accessory.wop_day.$error ">Gestational age is required</span>
-                    <div class="form-check-inline">
-                        <select style="width:40px"  v-model="accessory.wop_week"  >
-                            <option></option>
-                            <option v-for="i in 40" :value="i">{{i}}</option>
-                        </select>
-                        <strong>+</strong>
-                        <select style="width:40px;margin-left:25px" v-model="accessory.wop_day">
-                            <option v-for="i in 7" :value="i-1">{{i-1}}</option>
-                        </select>
-                    </div>
                 </td>
                 <td colspan="" class="border" style="width: 250px !important">
                   <label>To be used</label>
@@ -847,6 +836,7 @@
 
 <script>
 import { validationMixin } from "vuelidate";
+import gestationalAge from "../../../../components/gestational_age_control";
 const {
   required,
   minValue,
@@ -859,6 +849,7 @@ const {
 } = require("vuelidate/lib/validators");
 export default {
   name: "cpn_admission",
+  components: { gestationalAge },
     props:['is_overview','reference'],
   mixins: [validationMixin],
   data() {
