@@ -22,7 +22,7 @@ class patientController extends Controller
     public function store(patientRequest $request)
     {
 
-//        $patService=new PatientService($request);
+//     $patService=new PatientService($request);
 //        return $patService ->store();
 //        dd($request->all());
         $patient= new Patient();
@@ -43,12 +43,13 @@ class patientController extends Controller
         if ($patient) {
             return [
                 "patient"=>$patient,
-                "dueSum"=>$patient->patient_due()->get("amount")
+                "dueSum"=>$patient->patient_due()->get("amount"),
+                "success"=>true
             ];
         }
         else
         {
-            return response()->json([ "message"=>"No patient found" ]);
+            return response()->json([ "message"=>"No patient found","success"=>false ]);
         }
     }
     public function update(Request $request, $id)
@@ -70,5 +71,9 @@ class patientController extends Controller
     public function vitalSign($id){
         return Patient::find($id)->vitalSigns()->latest()->take(1)->get();
 
+    }
+    public function filter(Request $request){
+        $patient= new Patient();
+        return $patient->filter($request);
     }
 }

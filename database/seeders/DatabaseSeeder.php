@@ -32,7 +32,8 @@ class DatabaseSeeder extends Seeder
             PresentationOfBabySeeder::class,
             HospitalServiceSeeder::class,
             HospitalServiceDivisionSeeder::class,
-            BirthTypeSeeder::class
+            BirthTypeSeeder::class,
+            FokontanySeeder::class
 
         ]);
     }

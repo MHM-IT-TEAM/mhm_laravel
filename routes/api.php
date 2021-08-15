@@ -111,6 +111,7 @@ Route::get('/paginate',function(){
 //patient routes
 Route::get('/patients/search/',[App\Http\Controllers\centralized\patientController::class, 'search']);
 Route::get('/patients/vitalSign/{id}',[App\Http\Controllers\centralized\patientController::class, 'vitalSign']);
+Route::post('/patients/filter',[App\Http\Controllers\centralized\patientController::class, 'filter']);
 Route::resource('/patients',patientController::class);
 //cash routes
 Route::group(['prefix'=>'cash'],function(){
