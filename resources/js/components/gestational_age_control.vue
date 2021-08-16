@@ -1,10 +1,10 @@
 <template>
   <div class="form-check-inline">
-    <select style="width: 40px" v-model="gestationalAge.week">
+    <select style="width: 40px" v-model="gestationalAge.week" :disabled="readonly">
       <option v-for="i in 40" :value="i">{{ i }}</option>
     </select>
     <strong>+</strong>
-    <select style="width: 40px; margin-left: 25px" v-model="gestationalAge.day">
+    <select style="width: 40px; margin-left: 25px" v-model="gestationalAge.day" :disabled="readonly">
       <option v-for="i in 7" :value="i - 1">{{ i - 1 }}</option>
     </select>
   </div>
@@ -41,6 +41,7 @@ export default {
   },
   props: {
     value: String,
+    readonly: Boolean
   },
 };
 </script>

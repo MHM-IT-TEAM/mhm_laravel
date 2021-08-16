@@ -217,13 +217,13 @@
                                         </date-picker>
                                     </td>
                                     <td>
-                                        <input type="text" v-model="row.wop_calculated" :readonly=" !formEdit.first_screening" />
+                                        <gestational-age v-model="row.wop_calculated" :readonly="!formEdit.first_screening" />
                                     </td>
                                     <td>
-                                        <input type="text" v-model="row.wop_ultrasound" :readonly=" !formEdit.first_screening"/>
+                                        <gestational-age v-model="row.wop_ultrasound" :readonly="!formEdit.first_screening"/>
                                     </td>
                                     <td>
-                                        <input type="text" v-model="row.wop_corrected" :readonly=" !formEdit.first_screening"/>
+                                        <gestational-age v-model="row.wop_corrected" :readonly="!formEdit.first_screening"/>
                                     </td>
                                     <td colspan="3"  class="border">
                                         <table class="table table-borderless">
@@ -367,9 +367,9 @@
                                             </template>
                                         </date-picker>
                                     </td>
-                                    <td><input type="text"  v-model="row_1.wop_calculated" :readonly=" !formEdit.second_screening"/></td>
-                                    <td><input type="text"  v-model="row_1.wop_ultrasound" :readonly=" !formEdit.second_screening"/></td>
-                                    <td><input type="text"  v-model="row_1.wop_corrected" :readonly=" !formEdit.second_screening"/></td>
+                                    <td><gestational-age  v-model="row_1.wop_calculated" :readonly="!formEdit.second_screening"/></td>
+                                    <td><gestational-age  v-model="row_1.wop_ultrasound" :readonly="!formEdit.second_screening"/></td>
+                                    <td><gestational-age  v-model="row_1.wop_corrected" :readonly="!formEdit.second_screening"/></td>
 
                                     <td colspan="3" rowspan="2" class="border screening" >
                                         <table class="table">
@@ -569,9 +569,9 @@
                                             </template>
                                         </date-picker>
                                     </td>
-                                    <td><input type="text" v-model="row_2.wop_calculated" :readonly=" !formEdit.third_screening"/></td>
-                                    <td><input type="text" v-model="row_2.wop_ultrasound" :readonly=" !formEdit.third_screening"/></td>
-                                    <td><input type="text" v-model="row_2.wop_corrected" :readonly=" !formEdit.third_screening"/></td>
+                                    <td><gestational-age v-model="row_2.wop_calculated" :readonly=" !formEdit.third_screening"/></td>
+                                    <td><gestational-age v-model="row_2.wop_ultrasound" :readonly=" !formEdit.third_screening"/></td>
+                                    <td><gestational-age v-model="row_2.wop_corrected" :readonly=" !formEdit.third_screening"/></td>
                                     <td colspan="3" rowspan="3" class="border">
                                         <table class="table">
                                             <tr class="table table-borderless">
@@ -709,9 +709,12 @@
 </template>
 
 <script>
+import gestationalAge from "../../../../components/gestational_age_control";
+
 export default {
     name: "ultrasound_form",
     props:["is_overview","ultrasound_ref"],
+    components: { gestationalAge },
     data:()=>{
         return{
             formData:[
