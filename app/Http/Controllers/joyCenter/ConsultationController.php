@@ -59,7 +59,10 @@ class ConsultationController extends Controller
      */
     public function show($id)
     {
-        //
+        $consultation= Consultation::with(['patientCareDetails'=>function($data){
+            return $data->with('servicePrices')->get();
+        },'patient'])->find($id);
+        return $consultation;
     }
 
     /**

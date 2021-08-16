@@ -2,6 +2,7 @@
     <div class="container w-75">
         <v-app>
             <h1 class="text-center form-title">CONSULTATION FORM</h1>
+            <div class="inline mb-4">Quick search <input type="number" class="required" style="width:80px" @change="fetch_reference" v-model="formData.id"/></div>
             <table class="table table-sm">
                 <tr>
                     <th class="table-title" colspan="3"><v-icon>mdi-account-circle</v-icon> Personal information <span :class="{'text-primary':formData.priority==='BLUE'}" v-if="formData.priority==='BLUE'">Blue priority</span></th>
@@ -102,25 +103,25 @@
                     <table class="table table-sm" v-if="formData.type_consult_id!==''">
                         <tr>
                             <td>
-                                <select class="required" v-model="accessory.temp_care_line.care">
+                                <select class="required" v-model="accessory.temp_care_line">
                                     <option v-for="item in accessory.servicePrice" :value="item">{{item.name}}</option>
                                 </select>
                             </td>
                             <td>
-                                {{accessory.temp_care_line.care.price}}
+                                {{accessory.temp_care_line.price}}
                             </td>
                             <td>
                                 <input type="number" class="required" @keypress.enter.prevent="add_care_line" v-model="accessory.temp_care_line.qty"/>
                             </td>
                             <td>
-                                {{accessory.temp_care_line.qty * accessory.temp_care_line.care.price }}
+                                {{accessory.temp_care_line.qty * accessory.temp_care_line.price }}
                             </td>
                         </tr>
-                        <tr v-for="(line,i ) in formData.careDetails.care_line">
-                            <td>{{line.care.name}}</td>
-                            <td>{{line.care.price}}</td>
+                        <tr v-for="(line,i ) in formData.patient_care_details">
+                            <td>{{line.name}}</td>
+                            <td>{{line.price}}</td>
                             <td>{{line.qty}}</td>
-                            <td>{{line.qty * line.care.price}}</td>
+                            <td>{{line.qty * line.price}}</td>
                             <td>
                                 <v-btn
                                     x-small
@@ -210,7 +211,7 @@ const {
         data() {
             return {
                 formData: {
-                    consult_id: "",
+                    id: "",
                     type_consult_id:'',
                     priority: "",
                     status: "RUNNING",
@@ -232,54 +233,14 @@ const {
                         last_due: 0,
                     },
                     remark:'',
-                    careDetails: {
-                        care_line: [
-                            // {id: 0, quantity: "", price: "", totLine: ""}
-                        ],
-                        itemSubTotal: 0,
-                        itemTotal: 0,
-                    },
-                },
-                defaultData:{
-                    consult_id: "",
-                    type_consult_id:'',
-                    priority: "",
-                    status: "RUNNING",
-                    temp: "",
-                    pulse: "",
-                    taSysto: "",
-                    taDia: "",
-                    weight: "",
-                    spo2:"",
-                    blue_priority_reason:'',
-                    patient: {
-                        id: "",
-                        firstName: "",
-                        lastName: "",
-                        birthDate:"",
-                        adress: "",
-                        tel:"",
-                        sector: false,
-                        last_due: 0,
-                    },
-                    remark:'',
-                    careDetails: {
-                        care_line: [
-                            // {id: 0, quantity: "", price: "", totLine: ""}
-                        ],
-                        itemSubTotal: 0,
-                        itemTotal: 0,
-                    },
+                    patient_care_details: []
                 },
                 accessory: {
                     servicePrice: [],
                     type_consultation: [],
                     fokontany: [],
                     noPatientFound: false,
-                    temp_care_line:{
-                        care:{id:'',name:'',price:''},
-                        qty:''
-                    },
+                    temp_care_line:{id:'',name:'',price:'', qty:''},
                     blue_priority_modal:false,
                     elderly_patient:false,
                     form_is_submitting:false
@@ -321,8 +282,7 @@ const {
                         if (response.data.success) {
                             this.formData.patient = response.data.patient
                             this.formData.patient.last_due =response.data.dueSum
-                            let adress = this.formData.patient.adress.toLowerCase()
-                            adress = adress.split(' ')
+                            let adress = this.formData.patient.adress.toLowerCase().split(' ')
                             let check = false
                             adress.forEach(ad => {
                                 if (this.accessory.fokontany.indexOf(ad) !== -1) {
@@ -353,15 +313,11 @@ const {
             },
             add_care_line(){
                 let line= this.accessory.temp_care_line
-                line.amount= line.care.price * line.qty
-                this.formData.careDetails.care_line.push(line)
-                this.accessory.temp_care_line={
-                    care:{id:'',name:'',price:''},
-                    qty:''
-                }
+                line.amount= line.price * line.qty
+                this.formData.patient_care_details.push(line)
             },
             delete_care_line(rowId) {
-                return this.formData.careDetails.care_line.splice(rowId, 1)
+                return  this.formData.patient_care_details.splice(rowId, 1)
             },
             async submit() {
                 this.$v.$touch()
@@ -381,8 +337,31 @@ const {
                 })
             },
             resetForm() {
-                this.formData = {}
-                this.formData = Object.assign({}, {...this.defaultData})
+                this.formData = {
+                    id: "",
+                    type_consult_id:'',
+                    priority: "",
+                    status: "RUNNING",
+                    temp: "",
+                    pulse: "",
+                    taSysto: "",
+                    taDia: "",
+                    weight: "",
+                    spo2:"",
+                    blue_priority_reason:'',
+                    patient: {
+                        id: "",
+                        firstName: "",
+                        lastName: "",
+                        birthDate:"",
+                        adress: "",
+                        tel:"",
+                        sector: false,
+                        last_due: 0,
+                    },
+                    remark:'',
+                    patient_care_details: []
+                }
             },
             validate_priority_reason(){
                 if(this.formData.blue_priority_reason !==""){
@@ -423,13 +402,16 @@ const {
                         this.formData.type_consult_id=""
                     }
                 })
+            },
+            async fetch_reference(){
+                await axios.get(`/api/consultation/${this.formData.id}`).then(response=>this.formData=response.data)
             }
 
         },
         computed: {
             subTotal(){
                 let subTot=0;
-                this.formData.careDetails.care_line.forEach((line)=>subTot+=parseInt(line.amount))
+                if(this.formData.patient_care_details.length>0)this.formData.patient_care_details.forEach((line)=>subTot+=parseInt(line.amount))
                 return subTot
             },
             check_age(){
