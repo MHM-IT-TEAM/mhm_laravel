@@ -982,7 +982,7 @@ export default {
             placenta_type:'',
             position_of_baby:[],
             presentation_of_baby:[],
-            possible_fetus_count:[2,3],
+            possible_fetus_count:[1,2,3],
             reference:'',
             is_updating:false,
             midwives:['Tanja','Tianasoa','Manitra','Finaritra'],
@@ -1062,14 +1062,22 @@ export default {
 
         },
         count_of_twin(){
-            for(let i=0; i<this.count_of_fetus-1;i++){
-                this.push_form_data(i);
+            const currentCount = this.formData.length;
+
+            if (currentCount < this.count_of_fetus) {
+                for(let i=currentCount; i<this.count_of_fetus;i++){
+                    this.push_form_data(i);
+                }
             }
+            else if (currentCount > this.count_of_fetus) {
+                this.formData.splice(this.count_of_fetus);
+            }
+
             this.dialog=false
         },
         push_form_data(i){
             this.formData.push({
-                id:i+1,
+                id:i,
                 first_screening:[{
                     id: null,
                     created_at:this.formData[0].first_screening.created_at,
