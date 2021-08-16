@@ -627,36 +627,6 @@
                                                     </div>
                                                 </td>
                                             </tr>
-                                            <tr class="table-borderless">
-                                                <td colspan="2">
-                                                    <div class="form-check form-inline">
-                                                        <label>Caculated GA</label>
-                                                        <v-chip-group
-                                                            class="ml-4"
-                                                            active-class="deep-purple accent-4 white--text"
-                                                            column
-                                                            v-model="row_2.wop_equality"
-                                                            :readonly=" !formEdit.third_screening"
-                                                        >
-                                                            <v-chip
-                                                                x-small
-                                                            >>
-                                                            </v-chip>
-                                                            <v-chip
-                                                                x-small
-                                                            >
-                                                                =
-                                                            </v-chip>
-                                                            <v-chip
-                                                                x-small
-                                                            >
-                                                                <
-                                                            </v-chip>
-                                                        </v-chip-group>
-                                                        <label>US result</label>
-                                                    </div>
-                                                </td>
-                                            </tr>
                                         </table>
                                     </td>
                                     <td><input type="text" v-model="row_2.hc"  :readonly=" !formEdit.third_screening"/></td>
@@ -1026,7 +996,22 @@ export default {
                         if(data.created_at !=='' && data.presentation_of_baby !=='' && data.wop_calculated !=='' && data.position_of_baby !== '' && data.midwives.length>0) data.valid=true
                     })
                     row.third_screening.forEach(data=>{
-                        if(data.created_at !==''  && data.wop_calculated !=='' && data.placenta_type !== '' && data.midwives.length>0) data.valid=true
+                        if(data.created_at !==''  && data.wop_calculated !=='' && data.placenta_type !== '' && data.midwives.length>0) data.valid=true;
+
+                        const calculatedDays = this.get_gestational_age_in_days(data.wop_calculated);
+                        const ultrasoundDays = this.get_gestational_age_in_days(data.wop_ultrasound);
+
+                        if (!calculatedDays || !ultrasoundDays)
+                            data.wop_equality = null;
+                        else
+                        {
+                            if (calculatedDays > ultrasoundDays)
+                                data.wop_equality = 0;
+                            else if (calculatedDays < ultrasoundDays)
+                                data.wop_equality = 2;
+                            else
+                                data.wop_equality = 1;
+                        }
                     })
                 })
             },
@@ -1155,6 +1140,13 @@ export default {
                 }]
 
             },)
+        },
+        get_gestational_age_in_days(ga) {
+            const parts = ga.split('+');
+            if (parts.length !== 2)
+                return null;
+
+            return (Number(parts[0]) * 7) + Number(parts[1]);
         },
         async submit(e){
             e.preventDefault()
