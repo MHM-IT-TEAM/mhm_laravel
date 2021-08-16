@@ -47,7 +47,8 @@ class ConsultationController extends Controller
     public function store(Request $request)
     {
         $consult= new consultationService($request);
-        return $consult->store();
+        $consult->store();
+        return response()->json(['success'=>true,'msg'=>'consultation submitted successfully']);
     }
 
     /**
@@ -100,7 +101,7 @@ class ConsultationController extends Controller
         //delete consultations
         Consultation::find($id)->delete();
     }
-    public function first_cpn_list(){
-
+    public function check_today_consultation(Request $request){
+        return Consultation::where('type_consult_id',$request->type_consult_id)->where('patient_id',$request->patient_id)->get();
     }
 }

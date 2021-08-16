@@ -25,8 +25,6 @@ Route::get('/countries',[App\Http\Controllers\centralized\CountryController::cla
 Route::resource('/typeConsult',\App\Http\Controllers\joyCenter\TypeConsultController::class);
 //service Price controller
 Route::resource('/servicePrice',\App\Http\Controllers\joyCenter\servicePriceController::class);
-//Consultation resource controller
-Route::resource('/consultation', \App\Http\Controllers\joyCenter\ConsultationController::class);
 // return fokontany list
 Route::get('/fokontany',[App\Http\Controllers\centralized\fktController::class, 'index']);
 //Return bloodgroup list
@@ -101,13 +99,16 @@ Route::get('/maternity_action_list',function(){
     return \App\Models\MaternityActionList::all();
 });
 
+
 //verify credentials
 Route::post('/auth/credentials/',[App\Http\Controllers\Auth\CredentialController::class,'check']);
 Route::get('/paginate',function(){
     return Patient::paginate(20);
 });
 
-
+//Consultation resource controller
+Route::post('/consultation/today',[\App\Http\Controllers\joyCenter\ConsultationController::class,'check_today_consultation']);
+Route::resource('/consultation', \App\Http\Controllers\joyCenter\ConsultationController::class);
 //patient routes
 Route::get('/patients/search/',[App\Http\Controllers\centralized\patientController::class, 'search']);
 Route::get('/patients/vitalSign/{id}',[App\Http\Controllers\centralized\patientController::class, 'vitalSign']);

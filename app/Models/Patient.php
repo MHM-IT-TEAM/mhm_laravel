@@ -10,9 +10,9 @@ class Patient extends Model
     use HasFactory;
     protected $connection= "patSyst";
     protected $guarded=[];
-    protected $casts = [
-        'birthDate' => 'datetime:d/m/Y',
-    ];
+//    protected $casts = [
+//        'birthDate' => 'datetime:d/m/Y',
+//    ];
     public function search($searchWords){
         $query = $this->with("emContacts");
 
