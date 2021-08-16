@@ -1276,7 +1276,7 @@ export default {
                 })
         },
         reset(){
-            this.formData= Object.assign({},this.defaultData)
+            this.formData= Object.assign([],this.defaultData)
             this.formEdit=Object.assign({},{
                 first_screening:true,
                 second_screening:true,
