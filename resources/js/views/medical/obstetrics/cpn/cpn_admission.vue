@@ -191,7 +191,7 @@
 
                 </td>
                 <td>
-                  <gestational-age :class="{ 'error': $v.formData.gestationalAge.$error }" v-model="formData.gestationalAge"></gestational-age>
+                  <gestational-age :class="{ 'error': $v.formData.gestational_age.$error }" v-model="formData.gestational_age"></gestational-age>
                 </td>
                 <td colspan="" class="border" style="width: 250px !important">
                   <label>To be used</label>
@@ -920,7 +920,7 @@ export default {
         baum_hg: "",
         problem_for_delivery: "",
         responsible:'',
-        gestationalAge: '1+0',
+        gestational_age: '1+0',
       },
       patient_details: {
         firstName: "",
@@ -959,7 +959,7 @@ export default {
   },
   watch:{
       edd_check:function(val){
-          if(this.gestationalAge_week >=9 && this.gestationalAge_week<=13){
+          if(this.gestational_age_week >=9 && this.gestational_age_week<=13){
               if(val<=5){
                   var check = confirm('the gestational age is between 9 and 13 weeks, you should choose the ultrasound for the estimated date of delivery')
                   if (check){
@@ -1014,7 +1014,7 @@ export default {
     },
     async submit() {
       this.$v.$touch();
-      this.formData.wop = this.formData.gestationalAge;
+      
       this.formData.responsible= window.auth.user.name
       if (!this.$v.$invalid) {
         if (this.accessory.edit === false) {
@@ -1081,7 +1081,7 @@ export default {
           this.formData.pregnancy_history = response.data.preg_history;
           this.change_patient();
           this.accessory.data_populated = true;
-          this.formData.gestationalAge = response.data.admission.wop;
+          this.formData.gestational_age = response.data.admission.wop;
       }
       else this.accessory.noReferenceFound=true
     },
@@ -1136,7 +1136,7 @@ export default {
               int++
               strDec=0
           }
-          this.formData.gestationalAge = int + '+' + strDec;
+          this.formData.gestational_age = int + '+' + strDec;
       }
   },
   computed: {
@@ -1224,8 +1224,8 @@ export default {
             return Math.abs(diff_date)
         }
     },
-    gestationalAge_week() {
-      return this.formData.gestationalAge.split('+')[0];
+    gestational_age_week() {
+      return this.formData.gestational_age.split('+')[0];
     }
 
   },
@@ -1260,7 +1260,7 @@ export default {
       obst: { required },
       michaelis: { required },
       baum_hg: { required },
-      gestationalAge: { required }
+      gestational_age: { required }
     },
     accessory: {
       noPatientFound: { patientFound: value => value === false }
@@ -1325,6 +1325,7 @@ input:hover {
 }
 select {
   line-height: 110%;
+  border: 1px solid rgb(211,211,211);
 }
 select:hover {
   cursor: pointer;

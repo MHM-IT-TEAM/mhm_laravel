@@ -59,7 +59,7 @@ class CpnAdmissionService
             'ogtt_needed'=>$request->ogtt_needed,
             'ddr'=>$request->ddr,
             'unknown_lpd'=>$request->unknown_lpd,
-            'wop'=>$request->wop,
+            'wop'=>$request->gestational_age,
             'dda'=>$request->dda,
             'dpa_calc'=>$request->dpa_calc,
             'dpa_echo'=>$request->dpa_echo,

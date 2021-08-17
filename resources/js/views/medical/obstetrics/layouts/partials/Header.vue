@@ -24,6 +24,9 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <!-- Left Side Of Navbar -->
           <ul class="navbar-nav ml-4 mr-auto">
+            <li class="nav-item section-title">
+              <span>{{ $route.meta.title }}</span>
+            </li>
             <li class="nav-item dropdown" id="navOrder">
               <a
                 href="#"
@@ -38,18 +41,24 @@
               ></a>
               <ul class="dropdown-menu">
                 <router-link
-                  :to="{ name: 'first_cpn_list' }"
+                  :to="{ name: 'first_cpn_list'}"
                   class="dropdown-item"
                 >
                   <i class="glyphicon glyphicon-plus"></i>
                   CPN
-                </router-link
+                </router-link>
+                <router-link
+                  :to="{ name: 'cpn_followup'}"
+                  class="dropdown-item"
                 >
+                  <i class="glyphicon glyphicon-plus"></i>
+                  CPN Followup
+                </router-link>
                 <router-link
                   :to="{ name: 'ultrasound_list' }"
                   class="dropdown-item"
                 >
-                    ultrasound
+                    Ultrasound
                 </router-link>
                   <router-link
                       :to="{ name: 'baby_checkup_list' }"
@@ -252,5 +261,11 @@ export default {
 }
 ul{
     list-style: none;
+}
+.section-title {
+  text-align: center;
+  margin: auto;
+  margin-right: 20px;
+  width: 60px;
 }
 </style>
