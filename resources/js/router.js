@@ -124,8 +124,8 @@ const routes = [
             {
                 path: 'first_cpn_list',
                 name: 'first_cpn_list',
-                component: first_cpn_list
-
+                component: first_cpn_list,
+                meta: { title : 'CPN' }
             },
             {
                 path: 'admission',
@@ -135,7 +135,8 @@ const routes = [
             {
                 path: 'followup',
                 name: 'cpn_followup',
-                component: cpn_followup
+                component: cpn_followup,
+                meta : { title: 'CPN Followup' }
             },
             {
                 path: 'pregnancy_test',
@@ -150,7 +151,8 @@ const routes = [
             {
                 path: 'ultrasound_list',
                 name: 'ultrasound_list',
-                component: ultrasound_list
+                component: ultrasound_list,
+                meta: { title : 'Ultrasound' }
             },
             {
                 path: 'baby_weight_overview',
@@ -160,7 +162,8 @@ const routes = [
             {
                 path: 'baby_checkup_list',
                 name: 'baby_checkup_list',
-                component:baby_checkup_list
+                component:baby_checkup_list,
+                meta: { title : 'Baby checkup' }
             },
             {
                 path: 'baby_checkup',
@@ -170,7 +173,8 @@ const routes = [
             {
                 path: 'baby_vaccination_list',
                 name: 'baby_vaccination_list',
-                component:baby_vaccination_list
+                component:baby_vaccination_list,
+                meta: { title : 'Baby vaccination' }
             },
             {
                 path: 'baby_vaccination_card',
