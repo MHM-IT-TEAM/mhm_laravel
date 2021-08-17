@@ -22,10 +22,8 @@ class ConsultationController extends Controller
     public function index()
     {
         $consult= new Consultation();
-        $result= $consult->todayConsultation()->with(['patient','typeConsult','patientCareDetails'])->get();
-        return response()->json([
-            'main_data'=>$result,
-        ]);
+        return $consult->todayConsultation()->with(['patient','typeConsult','patientCareDetails'])->get();
+
     }
 
     /**
@@ -61,7 +59,9 @@ class ConsultationController extends Controller
     {
         $consultation= Consultation::with(['patientCareDetails'=>function($data){
             return $data->with('servicePrices')->get();
-        },'patient'])->find($id);
+        },'patient'=>function($patient){
+            return $patient->with('patient_due');
+        }])->find($id);
         return $consultation;
     }
 
@@ -86,7 +86,8 @@ class ConsultationController extends Controller
     public function update(Request $request, $id)
     {
         $cons=new ConsultationService($request);
-        return $cons->update($id);
+        $cons->update($id);
+        return response()->json(['success'=>true,'msg'=>'consultation updated successfully']);
     }
 
     /**
@@ -99,12 +100,10 @@ class ConsultationController extends Controller
     {
         //delete care_details
         PatientCareDetail::where('consultation_id',$id)->delete();
-        //delete vitalSigns
-        VitalSign::where('consultation_id',$id)->delete();
         //delete consultations
         Consultation::find($id)->delete();
     }
     public function check_today_consultation(Request $request){
-        return Consultation::where('type_consult_id',$request->type_consult_id)->where('patient_id',$request->patient_id)->get();
+        return Consultation::where('type_consult_id',$request->type_consult_id)->where('patient_id',$request->patient_id)->where('created_at',\Illuminate\Support\Carbon::today())->get();
     }
 }

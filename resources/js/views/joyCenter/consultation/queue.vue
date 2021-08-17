@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="container w-75">
         <v-app>
             <v-data-table
                 :headers="headers"
@@ -48,16 +48,12 @@
                             max-width="100vw"
                         >
                             <v-card>
-                                <v-card-title>
-                                    <span class="headline">{{ formTitle }}</span>
-
-                                </v-card-title>
-
                                 <v-card-text>
                                     <v-container>
                                         <consultation
-                                            :editData="childEditData"
+                                            :reference="childRef"
                                             :edit="childEdit"
+                                            @updated="close"
                                         ></consultation>
                                     </v-container>
                                 </v-card-text>
@@ -129,8 +125,8 @@
                 { text: 'Patient Id', value: 'patient.id' },
                 { text: 'First Name', value: 'patient.firstName' },
                 { text: 'Last Name', value: 'patient.lastName' },
-                { text: 'Service', value: 'careDetails.type_consult_name' },
-                { text: 'Status',value:'careDetails.status'},
+                { text: 'Service', value: 'type_consult.name' },
+                { text: 'Status',value:'status'},
                 { text: 'Actions', value: 'actions', sortable: false },
             ],
             list: [],
@@ -138,17 +134,9 @@
             editedItem:"",
             defaultItem: {
             },
-            childEditData:"",
-            childEdit:false
+            childRef:"",
+            childEdit:false,
         }),
-
-        computed: {
-            ...mapGetters('consultation',['consultations']),
-
-            formTitle () {
-                return this.editedIndex === -1 ? 'New Consultation' : 'Edit Consultation'
-            },
-        },
 
         watch: {
             dialog (val) {
@@ -168,29 +156,29 @@
         },
 
         methods:{
-            ...mapActions('consultation',['fetchTodayConsultations']),
             async initialize () {
-                await this.fetchTodayConsultations()
-                this.list=[...this.consultations]
+                await axios.get('/api/consultation').then(response=>{
+                    this.list=response.data
+                })
             },
 
             async editItem (item) {
-                this.editedIndex =this.consultations.indexOf(item)
-               this.childEditData= Object.assign({}, item)
+                this.editedIndex =this.list.indexOf(item)
+               this.childRef=item.id
                 this.childEdit=true
                 this.dialog = true
             },
 
             deleteItem (item) {
-                this.editedIndex = this.consultations.indexOf(item)
+                this.editedIndex = this.list.indexOf(item)
                 this.editedItem = Object.assign({}, item)
                 this.dialogDelete = true
             },
 
             deleteItemConfirm () {
-                this.consultations.splice(this.editedIndex, 1)
+                this.list.splice(this.editedIndex, 1)
                 this.closeDelete()
-                axios.delete(`/api/consultation/${this.editedItem.consult_id}`, this.editedItem)
+                axios.delete(`/api/consultation/${this.editedItem.id}`)
             },
 
             close () {

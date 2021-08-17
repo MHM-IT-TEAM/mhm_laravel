@@ -33,35 +33,15 @@
                 >Queue</router-link
               >
             </li>
-
-            <li class="nav-item dropdown" id="navOrder">
-              <a
-                href="#"
-                class="nav-link dropdown-toggle"
-                data-toggle="dropdown"
-                role="button"
-                aria-haspopup="true"
-                aria-expanded="false"
-              >
-                <i class="glyphicon glyphicon-plus-sign"></i> Consultation
-                <span class="caret"></span
-              ></a>
-              <ul class="dropdown-menu">
-                <router-link
-                  :to="{ name: 'consultation.new' }"
-                  class="dropdown-item"
-                >
-                  <i class="glyphicon glyphicon-plus"></i>
-                  Consultation</router-link
-                >
-                <router-link
-                  :to="{ name: 'hospital_admission_home' }"
-                  class="dropdown-item"
-                >
-                  <i class="glyphicon glyphicon-plus"></i> Hospital Admission
-                </router-link>
-              </ul>
-            </li>
+              <li class="nav-item">
+                  <router-link
+                      :to="{ name: 'consultation.new' }"
+                      class="nav-link"
+                  >
+                      <i class="glyphicon glyphicon-plus"></i>
+                      Consultation</router-link
+                  >
+              </li>
           </ul>
           <v-icon medium @click="logout"> mdi-exit-to-app</v-icon>
         </div>

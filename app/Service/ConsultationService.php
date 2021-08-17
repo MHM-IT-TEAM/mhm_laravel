@@ -17,7 +17,7 @@ class ConsultationService
     private $vitalSigns;
     public function __construct($formData)
     {
-        $this->invoices=$formData->careDetails['care_line'];
+        $this->invoices=$formData->patient_care_details;
         $this->consult_data=[
             'patient_id'=>$formData->patient['id'],
             'type_consult_id'=>$formData->type_consult_id,
@@ -56,37 +56,15 @@ class ConsultationService
         PatientCareDetail::where('consultation_id',$id)->delete();
         if(count($this->invoices)>0){
             foreach ($this->invoices as $item){
-                PatientCareDetail::insert([
-                    'consultation_id'=>$id,
-                    'service_prices_id'=>$item['id'],
-                    'qty'=>$item['quantity'],
-                    'total'=>$item['totLine']
-                ]);
-
+                $this->_fill_invoice($item,$id);
             }
         }
-        //update the vitalSigns
-        $vitalSign= VitalSign::where('patient_id',$this->consult_data["patient_id"])->where('consultation_id',$id);
-        if(isset($this->vitalSigns)){
-            $vitalSign->update([
-                'temp'=>$this->vitalSigns["temp"],
-                'weight'=>$this->vitalSigns["weight"],
-                'taSysto'=>$this->vitalSigns["taSysto"],
-                'taDia'=>$this->vitalSigns["taDia"],
-                'pulse'=>$this->vitalSigns["pulse"],
-                'patient_id'=>$this->consult_data["patient_id"],
-                'consultation_id'=>$id
-            ]);
-
-        }
-
-
     }
     private function _fill_invoice($src,$consultation_id){
         $patCare= new PatientCareDetail();
         $patCare->create([
             'consultation_id'=>$consultation_id,
-            'service_prices_id'=>$src['care']['id'],
+            'service_prices_id'=>$src['id'],
             'qty'=>$src['qty'],
             'total'=>$src['amount']
         ]);

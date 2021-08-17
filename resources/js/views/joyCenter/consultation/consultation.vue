@@ -50,6 +50,7 @@
                     <td>
                         <button class="btn btn-primary btn-sm" @click="accessory.blue_priority_modal=true" v-if="!accessory.elderly_patient">Manual blue priority</button>
                     </td>
+                    <td class="text-primary">{{formData.blue_priority_reason}}</td>
                 </tr>
                 <tr>
                     <td>Temp</td>
@@ -201,13 +202,7 @@ const {
     export default {
         name: "consultation",
         mixins: [validationMixin],
-        props: {
-            editData: {
-                type: Object,
-                default: null
-            },
-            edit: false
-        },
+        props: ['edit','reference'],
         data() {
             return {
                 formData: {
@@ -243,8 +238,10 @@ const {
                     temp_care_line:{id:'',name:'',price:'', qty:''},
                     blue_priority_modal:false,
                     elderly_patient:false,
-                    form_is_submitting:false
+                    form_is_submitting:false,
+                    form_update:false
                 },
+
             }
         },
         created() {
@@ -260,7 +257,7 @@ const {
                     }
                 },
                 deep:true
-            }
+            },
         },
         validations:{
             formData:{
@@ -274,6 +271,10 @@ const {
             async init() {
                 axios.get('/api/typeConsult').then(response=>this.accessory.type_consultation=response.data)
                 axios.get("/api/fokontany").then(response => response.data.forEach(fkt => this.accessory.fokontany.push(fkt.name.toLowerCase())))
+                if(this.reference !=='' && this.reference !==undefined){
+                    this.formData.id=this.reference
+                    this.fetch_reference()
+                }
             },
             async changePat() {
                 await axios.get(`/api/patients/${this.formData.patient.id}/edit`)
@@ -324,17 +325,28 @@ const {
                 if (this.$v.$invalid) {
                     return true;
                 }
-                this.accessory.form_is_submitting=true
+                // this.accessory.form_is_submitting=true
                 this.formData.responsible= window.auth.user.name
-                await axios.post('/api/consultation',this.formData).then(response=>{
-                    if(response.data.success){
-                        this.accessory.form_is_submitting=false
-                        this.$toast.open({message:response.data.msg,position:'top-right',type:'success'})
-                        this.resetForm()
-                        this.$v.$reset()
-                    }
-
-                })
+                if(!this.accessory.form_update){
+                    await axios.post('/api/consultation',this.formData).then(response=>{
+                        if(response.data.success){
+                            this.accessory.form_is_submitting=false
+                            this.$toast.open({message:response.data.msg,position:'top-right',type:'success'})
+                            this.resetForm()
+                            this.$v.$reset()
+                        }
+                    })
+                }else{
+                    await axios.put(`/api/consultation/${this.formData.id}`,this.formData).then(response=>{
+                        if(response.data.success){
+                            if(this.edit){
+                                this.$emit('updated')
+                            }else{
+                                this.$toast.open({message:response.data.msg,position:'top-right',type:'success'})
+                            }
+                        }
+                    })
+                }
             },
             resetForm() {
                 this.formData = {
@@ -379,6 +391,7 @@ const {
                     8,//baby checkup
                     10
                 ]
+                let checkup_weight=[1,2,4,5,6]
                 if(this.formData.patient.gender==='M' && restricted_by_gender.indexOf(this.formData.type_consult_id)!== -1){
                     this.$toast.open({message:'the patient is not female',position:'top-right',type:'error'})
                     this.formData.type_consult_id=""
@@ -404,9 +417,26 @@ const {
                 })
             },
             async fetch_reference(){
-                await axios.get(`/api/consultation/${this.formData.id}`).then(response=>this.formData=response.data)
+                await axios.get(`/api/consultation/${this.formData.id}`).then(
+                    response=>{
+                        this.accessory.form_update=true
+                        let care_details=[]
+                        this.formData=response.data
+                        this.formData.patient.last_due=response.data.patient.patient_due !== null? parseInt(response.data.patient.patient_due.amount):0
+                        response.data.patient_care_details.forEach((line)=>{
+                             let output={
+                                 id:line.service_prices.id,
+                                 name:line.service_prices.name,
+                                 price:line.service_prices.price,
+                                 qty:line.qty,
+                                 amount:line.qty*line.service_prices.price
+                             }
+                             care_details.push(output)
+                        })
+                        this.formData.patient_care_details= response.data.patient_care_details.length>0?[...care_details]:[]
+                        this.changeConsult()
+                })
             }
-
         },
         computed: {
             subTotal(){
