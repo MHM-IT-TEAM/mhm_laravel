@@ -198,9 +198,7 @@
                                 <tbody v-for="row in dat.first_screening">
                                 <tr >
                                     <td>
-                                        <!-- TODO: :readonly doesn't affect date-picker -->
                                         <date-picker v-model="row.created_at"
-                                            @input="change_ddr"
                                             v-if="!formData.unknown_lpd"
                                             :input-debounce="500" mode="date"
                                             :model-config="accessory.dateConfig" :masks="accessory.dateConfig.masks"
@@ -351,7 +349,6 @@
                                 <tr>
                                     <td>
                                         <date-picker v-model="row_1.created_at"
-                                            @input="change_ddr"
                                             v-if="!formData.unknown_lpd"
                                             :input-debounce="500" mode="date"
                                             :model-config="accessory.dateConfig" :masks="accessory.dateConfig.masks"
@@ -553,7 +550,6 @@
                                 <tr>
                                     <td>
                                         <date-picker v-model="row_2.created_at"
-                                            @input="change_ddr"
                                             v-if="!formData.unknown_lpd"
                                             :input-debounce="500" mode="date"
                                             :model-config="accessory.dateConfig" :masks="accessory.dateConfig.masks"

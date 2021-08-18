@@ -34,13 +34,12 @@ export default {
       return name;
     },
     editItem(item) {
-      console.log(item.patient_id);
       this.$router.push({
         name: "pregnancy_test",
         params: {
           patient_id: item.patient_id, 
           fullName: this.getFullName(item.patient.firstName, item.patient.lastName),
-          weight: item.vital_signs.weight,
+          weight: item.weight,
           consultation_id: item.id,
         },
       });
