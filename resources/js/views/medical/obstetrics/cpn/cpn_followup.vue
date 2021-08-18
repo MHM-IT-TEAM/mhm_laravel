@@ -8,6 +8,7 @@
                 :headers="headers"
                 :items="cpn_data"
                 sort-by="created_at"
+                sort-desc="true"
                 class="elevation-1"
             >
                 <template v-slot:top>
@@ -793,7 +794,6 @@ const {
                         this.editedItem.cpn_admission_id=this.reference
                         this.editedItem.responsible=window.auth.user.name
                         if (!this.$v.$invalid) {
-                            this.cpn_data.push(this.editedItem)
                             let post= await axios.post('/api/obstetrics/cpn_followup',this.editedItem)
                             if(post.data.success===true){
                                 this.$toast.open({
@@ -802,6 +802,8 @@ const {
                                 });
                                 this.close()
                             }
+
+                            await this.search();
                         }
                     }
 
