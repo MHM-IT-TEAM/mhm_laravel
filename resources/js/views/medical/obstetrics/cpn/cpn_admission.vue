@@ -1016,7 +1016,7 @@ export default {
     },
     async submit() {
       this.$v.$touch();
-      
+
       this.formData.responsible= window.auth.user.name
       if (!this.$v.$invalid) {
         if (this.accessory.edit === false) {
@@ -1133,7 +1133,7 @@ export default {
           let int = Math.floor(result)
           let dec= result - int
           let strDec= Math.round(dec*6)
-          
+
           if(strDec>6){
               int++
               strDec=0
@@ -1152,7 +1152,7 @@ export default {
     today() {
       return new Date().toLocaleString();
     },
-    eightMonthsAgo() { 
+    eightMonthsAgo() {
       let date = new Date();
       date.setMonth(date.getMonth() - 8);
 
