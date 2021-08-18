@@ -3,102 +3,104 @@
         <v-app>
             <h1 class="text-center form-title">CONSULTATION FORM</h1>
             <div class="inline mb-4">Quick search <input type="number" class="required" style="width:80px" @change="fetch_reference" v-model="formData.id"/></div>
-            <table class="table table-sm">
-                <tr>
-                    <th class="table-title" colspan="3"><v-icon>mdi-account-circle</v-icon> Personal information <span :class="{'text-primary':formData.priority==='BLUE'}" v-if="formData.priority==='BLUE'">Blue priority</span></th>
-                </tr>
-                <tr>
-                    <td style="width:20%"><span class="text-danger">*</span>Id</td>
-                    <td style="width:40%">First name</td>
-                    <td style="width:40%">Last name</td>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="number" class="border required" v-model="formData.patient.id" @change="changePat" :class="{'border border-danger':$v.formData.patient.id.$error}"/>
-                        <p class="text-white bg-danger" v-if="$v.formData.patient.id.$error">The patient id is required</p>
-                    </td>
-                    <td class="required">
-                        {{formData.patient.firstName}}
-                    </td>
-                    <td class="required">
-                        {{formData.patient.lastName}}
-                    </td>
-                </tr>
-                <tr>
-                    <td>Date of birth</td>
-                    <td>Address</td>
-                    <td>Tel</td>
-                </tr>
-                <tr>
-                    <td class="required">{{formData.patient.birthDate}}</td>
-                    <td class="required" :class="{'text-white bg-success':formData.patient.sector===true}">{{formData.patient.adress}}</td>
-                    <td class="required">{{formData.patient.tel}}</td>
-                </tr>
-            </table>
-            <table class="table table-sm">
-                <tr>
-                    <th class="table-title" colspan="5"> <v-icon>mdi-stethoscope</v-icon>Medical data</th>
-                </tr>
-                <tr>
-                    <td>
-                        <select class="required" v-model="formData.type_consult_id" @change="changeConsult">
-                            <option value=""><span class="text-danger">*</span>Type of consultation</option>
-                            <option v-for="item in accessory.type_consultation" :value="item.id">{{item.name}}</option>
-                        </select>
-                        <p class="text-white bg-danger" v-if="$v.formData.type_consult_id.$error">The type of consultation is required</p>
-                    </td>
-                    <td>
-                        <button class="btn btn-primary btn-sm" @click="accessory.blue_priority_modal=true" v-if="!accessory.elderly_patient">Manual blue priority</button>
-                    </td>
-                    <td class="text-primary">{{formData.blue_priority_reason}}</td>
-                </tr>
-                <tr>
-                    <td>Temp</td>
-                    <td>Weight</td>
-                    <td>Blood Pressure</td>
-                    <td>Pulse</td>
-                    <td>Spo2</td>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="number" class="required"  v-model="formData.temp" :class="{'text-danger': formData.temp>=38}"/>
-                    </td>
-                    <td>
-                        <input type="number" class="required"  v-model="formData.weight"/>
-                    </td>
-                    <td>
-                        <input type="number" class="required"  v-model="formData.taSysto" :class="{'text-danger': formData.taSysto>=14}"/> /
-                        <input type="number" class="required"  v-model="formData.taDia"/>
-                    </td>
-                    <td>
-                        <input type="number" class="required" v-model="formData.pulse" />
-                    </td>
-                    <td>
-                        <input type="number" class="required" v-model="formData.spo2" :class="{'text-danger': formData.taSysto>=75}"/>
-                    </td>
-                </tr>
-            </table>
-            <table class="table table-sm">
-                <tr>
-                    <th class="table-title">
-                        <v-icon>mdi-calendar-check</v-icon>
-                        Remarks:
-                    </th>
-                </tr>
-                <tr>
-                    <td>
-                        <textarea class="form-control form-control-sm" v-model="formData.remark"></textarea>
-                    </td>
-                </tr>
-            </table>
-            <table class="table table-sm">
-                <tr>
-                    <th class="table-title">
-                        <v-icon>mdi-cash</v-icon>
-                        Payment
-                    </th>
-                </tr>
-            </table>
+            <div class="table-responsive">
+                <table class="table table-sm">
+                    <tr>
+                        <th class="table-title" colspan="3"><v-icon>mdi-account-circle</v-icon> Personal information <span :class="{'text-primary':formData.priority==='BLUE'}" v-if="formData.priority==='BLUE'">Blue priority</span></th>
+                    </tr>
+                    <tr>
+                        <td style="width:20%"><span class="text-danger">*</span>Id</td>
+                        <td style="width:40%">First name</td>
+                        <td style="width:40%">Last name</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="number" class="border required" v-model="formData.patient.id" @change="changePat" :class="{'border border-danger':$v.formData.patient.id.$error}"/>
+                            <p class="text-white bg-danger" v-if="$v.formData.patient.id.$error">The patient id is required</p>
+                        </td>
+                        <td class="required">
+                            {{formData.patient.firstName}}
+                        </td>
+                        <td class="required">
+                            {{formData.patient.lastName}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Date of birth</td>
+                        <td>Address</td>
+                        <td>Tel</td>
+                    </tr>
+                    <tr>
+                        <td class="required">{{formData.patient.birthDate}}</td>
+                        <td class="required" :class="{'text-white bg-success':formData.patient.sector===true}">{{formData.patient.adress}}</td>
+                        <td class="required">{{formData.patient.tel}}</td>
+                    </tr>
+                </table>
+                <table class="table table-sm">
+                    <tr>
+                        <th class="table-title" colspan="5"> <v-icon>mdi-stethoscope</v-icon>Medical data</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <select class="required" v-model="formData.type_consult_id" @change="changeConsult">
+                                <option value=""><span class="text-danger">*</span>Type of consultation</option>
+                                <option v-for="item in accessory.type_consultation" :value="item.id">{{item.name}}</option>
+                            </select>
+                            <p class="text-white bg-danger" v-if="$v.formData.type_consult_id.$error">The type of consultation is required</p>
+                        </td>
+                        <td>
+                            <button class="btn btn-primary btn-sm" @click="accessory.blue_priority_modal=true" v-if="!accessory.elderly_patient">Manual blue priority</button>
+                        </td>
+                        <td class="text-primary">{{formData.blue_priority_reason}}</td>
+                    </tr>
+                    <tr>
+                        <td>Temp</td>
+                        <td>Weight</td>
+                        <td>Blood Pressure</td>
+                        <td>Pulse</td>
+                        <td>Spo2</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="number" class="required"  v-model="formData.temp" :class="{'text-danger': formData.temp>=38}"/>
+                        </td>
+                        <td>
+                            <input type="number" class="required"  v-model="formData.weight"/>
+                        </td>
+                        <td>
+                            <input type="number" class="required"  v-model="formData.taSysto" :class="{'text-danger': formData.taSysto>=14}"/> /
+                            <input type="number" class="required"  v-model="formData.taDia"/>
+                        </td>
+                        <td>
+                            <input type="number" class="required" v-model="formData.pulse" />
+                        </td>
+                        <td>
+                            <input type="number" class="required" v-model="formData.spo2" :class="{'text-danger': formData.taSysto>=75}"/>
+                        </td>
+                    </tr>
+                </table>
+                <table class="table table-sm">
+                    <tr>
+                        <th class="table-title">
+                            <v-icon>mdi-calendar-check</v-icon>
+                            Remarks:
+                        </th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <textarea class="form-control form-control-sm" v-model="formData.remark"></textarea>
+                        </td>
+                    </tr>
+                </table>
+                <table class="table table-sm">
+                    <tr>
+                        <th class="table-title">
+                            <v-icon>mdi-cash</v-icon>
+                            Payment
+                        </th>
+                    </tr>
+                </table>
+            </div>
             <div class="row">
                 <div class="col-6">
                     <table class="table table-sm" v-if="formData.type_consult_id!==''">

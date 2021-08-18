@@ -164,7 +164,7 @@
               <tr>
                 <td class="border" style="width: 45px !important">
                     <div class="form-check form-check-inline mb-4">
-                        <label class="form-check-label" for="unknown_ddr">unknown LPD</label> &nbsp
+                        <label class="form-check-label" for="unknown_ddr">unknown LP</label> &nbsp
                         <input
                             class="form-check-input"
                             type="checkbox"
@@ -173,12 +173,12 @@
                         />
                     </div>
                     <date-picker v-model="formData.ddr"
-                                 @input="change_ddr"
-                                 v-if="!formData.unknown_lpd"
-                                 :input-debounce="500" mode="date"
-                                 :model-config="accessory.dateConfig" :masks="accessory.dateConfig.masks"
-                                 :max-date="new Date()">
-
+                      @input="change_ddr"
+                      v-if="!formData.unknown_lpd"
+                      :input-debounce="500" mode="date"
+                      :model-config="accessory.dateConfig" :masks="accessory.dateConfig.masks"
+                      :max-date="new Date()"
+                      :min-date="eightMonthsAgo" >
                         <template v-slot="{ inputValue, inputEvents }">
                             <input
                                 class="bg-white border px-2 py-1 rounded"
@@ -990,6 +990,7 @@ export default {
         this.patient_details.adress = response.data.patient.adress;
         this.patient_details.height = response.data.patient.height;
         this.patient_details.gender = response.data.patient.gender;
+        this.patient_details.tel = response.data.patient.tel;
       }
       else {
         this.accessory.noPatientFound = true;
@@ -1150,6 +1151,12 @@ export default {
     },
     today() {
       return new Date().toLocaleString();
+    },
+    eightMonthsAgo() {
+      let date = new Date();
+      date.setMonth(date.getMonth() - 8);
+
+      return date;
     },
     updated_at() {
       if (this.formData.updated_at !== "")
