@@ -14,11 +14,7 @@ use Illuminate\Support\Facades\DB;
 
 class ConsultationController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
+
     public function index()
     {
         $consult= new Consultation();
@@ -26,22 +22,11 @@ class ConsultationController extends Controller
 
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $consult= new consultationService($request);
@@ -49,12 +34,6 @@ class ConsultationController extends Controller
         return response()->json(['success'=>true,'msg'=>'consultation submitted successfully']);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         $consultation= Consultation::with(['patientCareDetails'=>function($data){
@@ -65,24 +44,11 @@ class ConsultationController extends Controller
         return $consultation;
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         $cons=new ConsultationService($request);
@@ -90,12 +56,7 @@ class ConsultationController extends Controller
         return response()->json(['success'=>true,'msg'=>'consultation updated successfully']);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy(Request $request, $id)
     {
         //delete care_details
@@ -105,5 +66,8 @@ class ConsultationController extends Controller
     }
     public function check_today_consultation(Request $request){
         return Consultation::where('type_consult_id',$request->type_consult_id)->where('patient_id',$request->patient_id)->where('created_at',\Illuminate\Support\Carbon::today())->get();
+    }
+    public function filter_by_date_and_type($date,$type){
+        return Consultation::whereDate('created_at',date($date))->where('type_consult_id',$type);
     }
 }

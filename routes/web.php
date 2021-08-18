@@ -41,6 +41,10 @@ Route::group(['prefix'=>'obstetrics','middleware'=>'auth'],function(){
 Route::group(['prefix'=>'maternity','middleware'=>'auth'],function(){
     Route::get('/{any}',[App\Http\Controllers\medical\maternity\MaternityController::class, 'index'])->where('any','.*');
 });
+// Generalist
+Route::group(['prefix'=>'generalist','middleware'=>'auth'],function(){
+    Route::get('/{any}',[App\Http\Controllers\medical\generalist\GeneralistController::class, 'index'])->where('any','.*');
+});
 //Overviews
 Route::group(['prefix'=>'overview','middleware'=>'auth'],function(){
 

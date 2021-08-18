@@ -47,6 +47,12 @@ import internal_referral from "./views/medical/maternity/referral/internal_refer
 import maternity_discharge from "./views/medical/maternity/maternity_discharge";
 import laboratory_request from "./views/medical/laboratory/laboratory_request";
 import maternity_labwork from "./views/medical/maternity/labwork/maternity_labwork";
+//generalist
+import generalist_layout from "./views/medical/generalist/layouts/generalist_layout";
+import generalist_list from "./views/medical/generalist/generalist_list";
+import generalist_consultation from "./views/medical/generalist/generalist_consultation";
+
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -255,6 +261,28 @@ const routes = [
 
         ]
     },
+    /**
+     |-----------------------------
+     | Generalist
+     |-----------------------------
+     */
+    {
+        path:'/generalist',
+        component:generalist_layout,
+        children: [
+            {
+                path:'patient_list',
+                name:'generalist_patient_list',
+                component:generalist_list
+            },
+            {
+                path:'generalist_consultation',
+                name:'generalist_consultation',
+                component:generalist_consultation
+            }
+        ]
+    },
+
     /**
      |-----------------------------
      | Overviews
