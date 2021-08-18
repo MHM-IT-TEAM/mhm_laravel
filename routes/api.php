@@ -107,8 +107,11 @@ Route::get('/paginate',function(){
 });
 
 //Consultation resource controller
-Route::post('/consultation/today',[\App\Http\Controllers\joyCenter\ConsultationController::class,'check_today_consultation']);
-Route::resource('/consultation', \App\Http\Controllers\joyCenter\ConsultationController::class);
+//Route::post('/consultation/today',[\App\Http\Controllers\joyCenter\ConsultationController::class,'check_today_consultation']);
+//Route::resource('/consultation', \App\Http\Controllers\joyCenter\ConsultationController::class);
+    //consultation beta
+        // get today consultation base on the type of consultation
+        Route::get('/consultation/today/{type}',[\App\Http\Controllers\V1\consultation\ConsultationController::class,'today_consultation_by_type']);
 //patient routes
 Route::get('/patients/search/',[App\Http\Controllers\centralized\patientController::class, 'search']);
 Route::get('/patients/vitalSign/{id}',[App\Http\Controllers\centralized\patientController::class, 'vitalSign']);

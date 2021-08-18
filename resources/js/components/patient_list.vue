@@ -56,16 +56,17 @@ export default {
             let data;
             switch (this.type_consult){
                 case 1:
+                    data=await axios.get('/api/consultation/today/1')
                     break;
                 case 2:
                     break;
                 case 3:
                     break;
                 case 4:
-                    data=await axios.get('/api/obstetrics/first_cpn_list')
+                    data=await axios.get('/api/consultation/today/4')
                     break;
                 case 5:
-                    data=await axios.get('/api/obstetrics/ultrasound');
+                    data=await axios.get('/api/consultation/today/5');
                     break;
                 case 6:
                     break;
@@ -86,9 +87,6 @@ export default {
 
             this.consultation_id=data.id
             this.items=data.data
-        },
-        editItem(item) {
-            this.$router.push(this.getEditRoute(item));
         },
         getColor(status) {
             if (status === "RUNNING") return "blue";
