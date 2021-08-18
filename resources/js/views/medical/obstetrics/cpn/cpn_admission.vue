@@ -178,7 +178,7 @@
                                  :input-debounce="500" mode="date"
                                  :model-config="accessory.dateConfig" :masks="accessory.dateConfig.masks"
                                  :max-date="new Date()">
-                                 :min-date="new Date().getMonth()-8"
+
                         <template v-slot="{ inputValue, inputEvents }">
                             <input
                                 class="bg-white border px-2 py-1 rounded"
