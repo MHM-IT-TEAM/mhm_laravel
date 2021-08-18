@@ -191,6 +191,7 @@
 
                 </td>
                 <td>
+                  <gestational-age :class="{ 'error': $v.formData.gestational_age.$error }" v-model="formData.gestational_age"></gestational-age>
                 </td>
                 <td colspan="" class="border" style="width: 250px !important">
                   <label>To be used</label>
@@ -918,7 +919,8 @@ export default {
         michaelis: "",
         baum_hg: "",
         problem_for_delivery: "",
-        responsible:''
+        responsible:'',
+        gestational_age: '1+0',
       },
       patient_details: {
         firstName: "",
@@ -947,8 +949,6 @@ export default {
         isLoading: false,
         noError: true,
         birth_problem:"",
-        wop_week:'',
-        wop_day:'',
         noPatientFound: false,
         noReferenceFound:false
       },
@@ -959,9 +959,9 @@ export default {
   },
   watch:{
       edd_check:function(val){
-          if(this.accessory.wop_week >=9 && this.accessory.wop_week<=13){
+          if(this.gestational_age_week >=9 && this.gestational_age_week<=13){
               if(val<=5){
-                  var check = confirm('the wop of pregnancy is between 9 and 13, you should choose the ultrasound for the estimated date of delivery')
+                  var check = confirm('the gestational age is between 9 and 13 weeks, you should choose the ultrasound for the estimated date of delivery')
                   if (check){
                       this.formData.dpa_method='echo'
                   }
@@ -1014,7 +1014,7 @@ export default {
     },
     async submit() {
       this.$v.$touch();
-      this.formData.wop= this.wop
+      
       this.formData.responsible= window.auth.user.name
       if (!this.$v.$invalid) {
         if (this.accessory.edit === false) {
@@ -1081,9 +1081,7 @@ export default {
           this.formData.pregnancy_history = response.data.preg_history;
           this.change_patient();
           this.accessory.data_populated = true;
-          let wop= response.data.admission.wop.split('+')
-          this.accessory.wop_week=wop[0]
-          this.accessory.wop_day=wop[1]
+          this.formData.gestational_age = response.data.admission.wop;
       }
       else this.accessory.noReferenceFound=true
     },
@@ -1127,20 +1125,18 @@ export default {
     },
       change_ddr(){
           let ddr = this.formData.ddr
-          let today= new Date()
+          let today = new Date()
           let diff = today- new Date(ddr)
           let result=diff/(1000 * 60 * 60 * 24*7)
           let int = Math.floor(result)
           let dec= result - int
           let strDec= Math.round(dec*6)
-          console.log(strDec)
+          
           if(strDec>6){
               int++
               strDec=0
           }
-          // console.log(int+ '+'+ strDec)
-          this.accessory.wop_week= int
-          this.accessory.wop_day= strDec
+          this.formData.gestational_age = int + '+' + strDec;
       }
   },
   computed: {
@@ -1220,9 +1216,6 @@ export default {
         return "Submit";
       }
     },
-    wop(){
-      return this.accessory.wop_week+'+'+this.accessory.wop_day;
-    },
     edd_check(){
         if(this.formData.dpa_calc !=='' && this.formData.dpa_echo){
             let dpa_echo= new Date(this.formData.dpa_echo)
@@ -1230,6 +1223,9 @@ export default {
             let diff_date= Math.floor((Date.UTC(dpa_echo.getFullYear(), dpa_echo.getMonth(), dpa_echo.getDate()) - Date.UTC(dpa_calc.getFullYear(), dpa_calc.getMonth(), dpa_calc.getDate()) ) /(1000 * 60 * 60 * 24))
             return Math.abs(diff_date)
         }
+    },
+    gestational_age_week() {
+      return this.formData.gestational_age.split('+')[0];
     }
 
   },
@@ -1264,11 +1260,10 @@ export default {
       obst: { required },
       michaelis: { required },
       baum_hg: { required },
+      gestational_age: { required }
     },
     accessory: {
-      noPatientFound: { patientFound: value => value === false },
-      wop_week:{required},
-      wop_day:{required}
+      noPatientFound: { patientFound: value => value === false }
     },
     patient_details:{
         height:{required,minValue:minValue(50)},
@@ -1330,6 +1325,7 @@ input:hover {
 }
 select {
   line-height: 110%;
+  border: 1px solid rgb(211,211,211);
 }
 select:hover {
   cursor: pointer;

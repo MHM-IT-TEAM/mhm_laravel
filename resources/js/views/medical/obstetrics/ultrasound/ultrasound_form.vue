@@ -217,13 +217,13 @@
                                         </date-picker>
                                     </td>
                                     <td>
-                                        <input type="text" v-model="row.wop_calculated" :readonly=" !formEdit.first_screening" />
+                                        <gestational-age v-model="row.wop_calculated" :readonly="!formEdit.first_screening" />
                                     </td>
                                     <td>
-                                        <input type="text" v-model="row.wop_ultrasound" :readonly=" !formEdit.first_screening"/>
+                                        <gestational-age v-model="row.wop_ultrasound" :readonly="!formEdit.first_screening"/>
                                     </td>
                                     <td>
-                                        <input type="text" v-model="row.wop_corrected" :readonly=" !formEdit.first_screening"/>
+                                        <gestational-age v-model="row.wop_corrected" :readonly="!formEdit.first_screening"/>
                                     </td>
                                     <td colspan="3"  class="border">
                                         <table class="table table-borderless">
@@ -367,9 +367,9 @@
                                             </template>
                                         </date-picker>
                                     </td>
-                                    <td><input type="text"  v-model="row_1.wop_calculated" :readonly=" !formEdit.second_screening"/></td>
-                                    <td><input type="text"  v-model="row_1.wop_ultrasound" :readonly=" !formEdit.second_screening"/></td>
-                                    <td><input type="text"  v-model="row_1.wop_corrected" :readonly=" !formEdit.second_screening"/></td>
+                                    <td><gestational-age  v-model="row_1.wop_calculated" :readonly="!formEdit.second_screening"/></td>
+                                    <td><gestational-age  v-model="row_1.wop_ultrasound" :readonly="!formEdit.second_screening"/></td>
+                                    <td><gestational-age  v-model="row_1.wop_corrected" :readonly="!formEdit.second_screening"/></td>
 
                                     <td colspan="3" rowspan="2" class="border screening" >
                                         <table class="table">
@@ -569,9 +569,9 @@
                                             </template>
                                         </date-picker>
                                     </td>
-                                    <td><input type="text" v-model="row_2.wop_calculated" :readonly=" !formEdit.third_screening"/></td>
-                                    <td><input type="text" v-model="row_2.wop_ultrasound" :readonly=" !formEdit.third_screening"/></td>
-                                    <td><input type="text" v-model="row_2.wop_corrected" :readonly=" !formEdit.third_screening"/></td>
+                                    <td><gestational-age v-model="row_2.wop_calculated" :readonly=" !formEdit.third_screening"/></td>
+                                    <td><gestational-age v-model="row_2.wop_ultrasound" :readonly=" !formEdit.third_screening"/></td>
+                                    <td><gestational-age v-model="row_2.wop_corrected" :readonly=" !formEdit.third_screening"/></td>
                                     <td colspan="3" rowspan="3" class="border">
                                         <table class="table">
                                             <tr class="table table-borderless">
@@ -627,36 +627,6 @@
                                                     </div>
                                                 </td>
                                             </tr>
-                                            <tr class="table-borderless">
-                                                <td colspan="2">
-                                                    <div class="form-check form-inline">
-                                                        <label>Caculated GA</label>
-                                                        <v-chip-group
-                                                            class="ml-4"
-                                                            active-class="deep-purple accent-4 white--text"
-                                                            column
-                                                            v-model="row_2.wop_equality"
-                                                            :readonly=" !formEdit.third_screening"
-                                                        >
-                                                            <v-chip
-                                                                x-small
-                                                            >>
-                                                            </v-chip>
-                                                            <v-chip
-                                                                x-small
-                                                            >
-                                                                =
-                                                            </v-chip>
-                                                            <v-chip
-                                                                x-small
-                                                            >
-                                                                <
-                                                            </v-chip>
-                                                        </v-chip-group>
-                                                        <label>US result</label>
-                                                    </div>
-                                                </td>
-                                            </tr>
                                         </table>
                                     </td>
                                     <td><input type="text" v-model="row_2.hc"  :readonly=" !formEdit.third_screening"/></td>
@@ -709,9 +679,12 @@
 </template>
 
 <script>
+import gestationalAge from "../../../../components/gestational_age_control";
+
 export default {
     name: "ultrasound_form",
     props:["is_overview","ultrasound_ref"],
+    components: { gestationalAge },
     data:()=>{
         return{
             formData:[
@@ -979,7 +952,7 @@ export default {
             placenta_type:'',
             position_of_baby:[],
             presentation_of_baby:[],
-            possible_fetus_count:[2,3],
+            possible_fetus_count:[1,2,3],
             reference:'',
             is_updating:false,
             midwives:['Tanja','Tianasoa','Manitra','Finaritra'],
@@ -1023,7 +996,22 @@ export default {
                         if(data.created_at !=='' && data.presentation_of_baby !=='' && data.wop_calculated !=='' && data.position_of_baby !== '' && data.midwives.length>0) data.valid=true
                     })
                     row.third_screening.forEach(data=>{
-                        if(data.created_at !==''  && data.wop_calculated !=='' && data.placenta_type !== '' && data.midwives.length>0) data.valid=true
+                        if(data.created_at !==''  && data.wop_calculated !=='' && data.placenta_type !== '' && data.midwives.length>0) data.valid=true;
+
+                        const calculatedDays = this.get_gestational_age_in_days(data.wop_calculated);
+                        const ultrasoundDays = this.get_gestational_age_in_days(data.wop_ultrasound);
+
+                        if (!calculatedDays || !ultrasoundDays)
+                            data.wop_equality = null;
+                        else
+                        {
+                            if (calculatedDays > ultrasoundDays)
+                                data.wop_equality = 0;
+                            else if (calculatedDays < ultrasoundDays)
+                                data.wop_equality = 2;
+                            else
+                                data.wop_equality = 1;
+                        }
                     })
                 })
             },
@@ -1059,14 +1047,22 @@ export default {
 
         },
         count_of_twin(){
-            for(let i=0; i<this.count_of_fetus-1;i++){
-                this.push_form_data(i);
+            const currentCount = this.formData.length;
+
+            if (currentCount < this.count_of_fetus) {
+                for(let i=currentCount; i<this.count_of_fetus;i++){
+                    this.push_form_data(i);
+                }
             }
+            else if (currentCount > this.count_of_fetus) {
+                this.formData.splice(this.count_of_fetus);
+            }
+
             this.dialog=false
         },
         push_form_data(i){
             this.formData.push({
-                id:i+1,
+                id:i,
                 first_screening:[{
                     id: null,
                     created_at:this.formData[0].first_screening.created_at,
@@ -1144,6 +1140,13 @@ export default {
                 }]
 
             },)
+        },
+        get_gestational_age_in_days(ga) {
+            const parts = ga.split('+');
+            if (parts.length !== 2)
+                return null;
+
+            return (Number(parts[0]) * 7) + Number(parts[1]);
         },
         async submit(e){
             e.preventDefault()
@@ -1265,7 +1268,7 @@ export default {
                 })
         },
         reset(){
-            this.formData= Object.assign({},this.defaultData)
+            this.formData= Object.assign([],this.defaultData)
             this.formEdit=Object.assign({},{
                 first_screening:true,
                 second_screening:true,
