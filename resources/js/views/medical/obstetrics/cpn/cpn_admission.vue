@@ -310,16 +310,13 @@
                 </td>
                 <td class="border">
                   <div class="form-check form-check-inline mb-4">
-                    <label class="form-check-label" for="meal">Yes</label> &nbsp
-                    <input
-                      class="form-check-input"
-                      type="checkbox"
+                    <yes-or-no
                       v-model="formData.patient_at_risk"
                     />
                   </div>
                   <span v-if="$v.formData.risk_description.$error" class="error"><br />Risk description is required when patient is at risk<br /></span>
                   <textarea
-                    style="width: 100%"
+                    style="width: 100%; margin-top:50px;"
                     v-if="formData.patient_at_risk"
                     v-model="formData.risk_description"
                     placeholder="Write here the reason"
@@ -327,16 +324,19 @@
                   ></textarea>
                 </td>
                 <td>
-                  <div class="form-check form-check-inline">
-                    <label class="form-check-label" for="meal"
+                  <div class="form-check pl-0 mb-5">
+                    <div class="d-flex">
+                    <label class="form-check-label"
                       ><small>Planned C-section</small></label
                     >
-                    <input
-                      class="form-check-input"
-                      type="checkbox"
+                    <yes-or-no
+                      row
+                      style="min-width:100%"
                       v-model="formData.planned_oc"
                     />
+                    </div>
                       <date-picker v-model="formData.planned_oc_date"
+                                  class="d-block"
                                    v-if="formData.planned_oc"
                                    :input-debounce="500" mode="date"
                                    :model-config="accessory.dateConfig" :masks="accessory.dateConfig.masks"
@@ -350,28 +350,24 @@
                           </template>
                       </date-picker>
                   </div>
-                  <div>
-                    <div class="form-check form-check-inline">
-                      <label class="form-check-label" for="meal"
-                        ><small>Preeclmapsia prevention Needed</small></label
-                      >
-                      &nbsp
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        v-model="formData.preeclampsia_needed"
-                      />
-                    </div>
+                  <div class="form-check d-flex pl-0 mb-5">
+                    <label class="form-check-label"
+                      ><small>Preeclmapsia<br/>prevention needed</small></label
+                    >
+                    <br/>
+                    <yes-or-no
+                      row
+                      style="min-width:100%"
+                      v-model="formData.preeclampsia_needed"
+                    />
                   </div>
-
-                  <div class="form-check form-check-inline">
-                    <label class="form-check-label" for="meal"
+                  <div class="form-check d-flex pl-0 mb-5">
+                    <label class="form-check-label"
                       ><small>OGTT Needed</small></label
                     >
-                    &nbsp
-                    <input
-                      class="form-check-input"
-                      type="checkbox"
+                    <yes-or-no
+                      row
+                      style="min-width:100%"
                       v-model="formData.ogtt_needed"
                     />
                   </div>
@@ -427,32 +423,10 @@
                 &nbsp]
               </td>
               <td>
-                <div class="custom-control custom-radio custom-control-inline">
-                  <input
-                    type="radio"
-                    id="prob_for_del1"
-                    name="problem_for_delivery"
-                    value="1"
-                    v-model="formData.problem_for_delivery"
-                    class="custom-control-input"
-                  />
-                  <label class="custom-control-label" for="prob_for_del1"
-                    >Yes</label
-                  >
-                </div>
-                <div class="custom-control custom-radio custom-control-inline">
-                  <input
-                    type="radio"
-                    id="prob_for_del2"
-                    name="problem_for_delivery"
-                    value="0"
-                    v-model="formData.problem_for_delivery"
-                    class="custom-control-input"
-                  />
-                  <label class="custom-control-label" for="prob_for_del2"
-                    >No</label
-                  >
-                </div>
+                <yes-or-no
+                  row
+                  v-model="formData.problem_for_delivery"
+                />
               </td>
             </tr>
           </table>
@@ -536,7 +510,7 @@
               <td>SA/Weight of the baby/Condition</td>
               <td>
                 Newborn &nbsp
-                <small>[Gender/ malformation/infection]</small>
+                <small>[Gender / malformation / infection]</small>
               </td>
               <td>Problems in Pueperium</td>
             </tr>
@@ -582,15 +556,13 @@
                   <input type="text" v-model="row.birth_problems" />
 
                   /
-                <input type="checkbox" v-model="row.ourPatient" />
+                <yes-or-no
+                  row
+                  v-model="row.ourPatient"
+                />
               </td>
               <td>
-                <input
-                  type="text"
-                  v-model="row.sa"
-                  :class="{ 'text-danger font-weight-bold': row.sa <= 37 }"
-                  style="width: 25px"
-                />
+                <gestational-age v-model="row.sa" :class="{ 'error': gestational_age_week(row.sa) <= 37 }" />
                 /
                 <input
                   type="number"
@@ -617,26 +589,17 @@
                   <option value="M">M</option>
                   <option value="F">F</option>
                 </select>
-                &nbsp] /
-                <div class="form-check form-check-inline">
-                  <label class="form-check-label" for="meal">Yes</label>
-                  &nbsp
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    v-model="row.malformation"
-                  />
-                </div>
-                &nbsp /
-                <div class="form-check form-check-inline">
-                  <label class="form-check-label" for="meal">Yes</label>
-                  &nbsp
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    v-model="row.infection"
-                  />
-                </div>
+                &nbsp] 
+                <br/>/
+                <yes-or-no
+                  row
+                  v-model="row.malformation"
+                />
+                <br/>/
+                <yes-or-no
+                  row
+                   v-model="row.infection"
+                />
               </td>
               <td><textarea v-model="row.pueperium" /></td>
             </tr>
@@ -705,22 +668,20 @@
                 </tr>
                 <tr>
                     <td>
-                        <div class="form-check form-check-inline">
+                        <div class="form-check mb-4">
                             <label class="form-check-label" for="meal">Bleeding</label>
                             &nbsp
-                            <input
-                                class="form-check-input"
-                                type="checkbox"
-                                v-model="formData.preg_wom_bleeding"
+                            <yes-or-no
+                              row
+                              v-model="formData.preg_wom_bleeding"
                             />
                         </div>
-                        <div class="form-check form-check-inline">
+                        <div class="form-check">
                             <label class="form-check-label" for="meal">Haematoma</label>
                             &nbsp
-                            <input
-                                class="form-check-input"
-                                type="checkbox"
-                                v-model="formData.preg_wom_haematoma"
+                            <yes-or-no
+                              row
+                              v-model="formData.preg_wom_haematoma"
                             />
                         </div>
                     </td>
@@ -775,24 +736,22 @@
                     style="width: 50%"
                     v-model="formData.close_family_malformation"
                   />
-                  <div class="form-check form-check-inline">
+                  <div class="form-check">
                     <label class="form-check-label" for="meal">Dead Baby</label>
                     &nbsp
-                    <input
-                      class="form-check-input"
-                      type="checkbox"
+                    <yes-or-no
+                      row
                       v-model="formData.close_family_dead_baby"
                     />
                   </div>
                 </td>
                   <td>
-                      <div class="form-check form-check-inline">
+                      <div class="form-check">
                           <label class="form-check-label" for="meal">Miscarriage</label>
                           &nbsp
-                          <input
-                              class="form-check-input"
-                              type="checkbox"
-                              v-model="formData.close_family_miscarriage"
+                          <yes-or-no
+                            row
+                            v-model="formData.close_family_miscarriage"
                           />
                       </div>
                   </td>
@@ -874,7 +833,7 @@ export default {
         miscarriage: "",
         ev: "",
         dda: "",
-        patient_at_risk: "",
+        patient_at_risk: null,
         risk_description: "",
         planned_oc: false,
         planned_oc_date: "",
@@ -893,7 +852,7 @@ export default {
         close_family_malformation: "",
         close_family_dead_baby: false,
         close_family_prob_in_preg: "",
-          close_family_miscarriage:"",
+        close_family_miscarriage: false,
         preg_wom_bleeding: false,
         preg_wom_haematoma: false,
         preg_wom_medication: "",
@@ -919,7 +878,7 @@ export default {
         obst: "",
         michaelis: "",
         baum_hg: "",
-        problem_for_delivery: "",
+        problem_for_delivery: null,
         responsible:'',
         gestational_age: '1+0',
       },
@@ -960,7 +919,8 @@ export default {
   },
   watch:{
       edd_check:function(val){
-          if(this.gestational_age_week >=9 && this.gestational_age_week<=13){
+          const week = gestational_age(this.formData.gestational_age);
+          if(week >=9 && week<=13){
               if(val<=5){
                   var check = confirm('the gestational age is between 9 and 13 weeks, you should choose the ultrasound for the estimated date of delivery')
                   if (check){
@@ -1139,7 +1099,10 @@ export default {
               strDec=0
           }
           this.formData.gestational_age = int + '+' + strDec;
-      }
+      },
+    gestational_age_week(gestational_age) {
+      return gestational_age.split('+')[0];
+    }
   },
   computed: {
     fullName() {
@@ -1231,11 +1194,7 @@ export default {
             let diff_date= Math.floor((Date.UTC(dpa_echo.getFullYear(), dpa_echo.getMonth(), dpa_echo.getDate()) - Date.UTC(dpa_calc.getFullYear(), dpa_calc.getMonth(), dpa_calc.getDate()) ) /(1000 * 60 * 60 * 24))
             return Math.abs(diff_date)
         }
-    },
-    gestational_age_week() {
-      return this.formData.gestational_age.split('+')[0];
     }
-
   },
   validations: {
     formData: {
