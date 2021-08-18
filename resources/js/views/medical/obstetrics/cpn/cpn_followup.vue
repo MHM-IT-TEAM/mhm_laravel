@@ -65,12 +65,11 @@
                                                 sm="6"
                                                 md="2"
                                             >
-                                                <v-text-field
+                                                <gestational-age
                                                     v-model="editedItem.week_of_pregnancy"
                                                     label="Gestational age"
-                                                    required
-                                                    :error-messages="wopError"
-                                                ></v-text-field>
+                                                    :error-messages="gestationalAgeError"
+                                                ></gestational-age>
                                             </v-col>
                                             <v-col
                                                 cols="12"
@@ -421,29 +420,20 @@
                                                 sm="6"
                                                 md="2"
                                             >
-                                                <v-menu
-                                                    v-model="menu"
-                                                    :close-on-content-click="false"
-                                                    :nudge-right="40"
-                                                    transition="scale-transition"
-                                                    offset-y
-                                                    min-width="auto"
-                                                >
-                                                    <template v-slot:activator="{ on, attrs }">
-                                                        <v-text-field
-                                                            v-model="editedItem.appointment"
-                                                            label="Appointment"
-                                                            prepend-icon="mdi-calendar"
-                                                            readonly
-                                                            v-bind="attrs"
-                                                            v-on="on"
-                                                        ></v-text-field>
-                                                    </template>
-                                                    <v-date-picker
-                                                        v-model="editedItem.appointment"
+                                                    <date-picker v-model="editedItem.appointment"
                                                         @input="menu = false"
-                                                    ></v-date-picker>
-                                                </v-menu>
+                                                        :input-debounce="500" mode="date"
+                                                        :model-config="accessory.dateConfig" :masks="accessory.dateConfig.masks"
+                                                        :min-date="new Date()">
+                                                            <template v-slot="{ inputValue, inputEvents }">
+                                                                <input
+                                                                    class="bg-white border px-2 py-1 rounded"
+                                                                    :value="inputValue"
+                                                                    v-on="inputEvents"
+
+                                                                />
+                                                            </template>
+                                                    </date-picker>
                                             </v-col>
                                             <v-col
                                                 cols="12"
@@ -527,6 +517,7 @@
 
 <script>
 import { validationMixin } from "vuelidate";
+import gestationalAge from "../../../../components/gestational_age_control.vue"
 const {
     required,
     minLength,
@@ -537,6 +528,7 @@ const {
     export default {
         name: "cpn_followup",
         mixins: [validationMixin],
+        components: { gestationalAge },
         props:['is_overview','cpn_ref'],
         data: () => ({
             dialog: false,
@@ -679,8 +671,16 @@ const {
             menu:false,
             reference:'',
             patient_details:{},
-            noDataFound:false
-
+            noDataFound:false,
+            accessory: {
+                dateConfig: {
+                    type: 'string',
+                    mask:'iso',
+                    masks: {
+                        input: 'DD/MMM/YYYY',
+                    },
+                }
+            }
 
         }),
 
@@ -688,10 +688,10 @@ const {
             formTitle () {
                 return this.editedIndex === -1 ? 'New Data' : 'Edit Data'
             },
-            wopError(){
+            gestationalAgeError(){
                 const errors = []
                 if (!this.$v.editedItem.week_of_pregnancy.$dirty) return errors
-                !this.$v.editedItem.week_of_pregnancy.required && errors.push('the week of pregnancy is required!')
+                !this.$v.editedItem.week_of_pregnancy.required && errors.push('The gestational age is required!')
                 return errors
             },
             today(){

@@ -287,17 +287,20 @@
                       <hr />
                       <div class="row">
                           <div class="col-4">
-                              <label for="idDate" class="pb-0 col-form-label">Address</label
-                              ><span class="text-danger">*</span>
                               <div class="row">
                                   <div class="col-sm-12">
-                                      <input
-                                          type="text"
-                                          class="form-control"
-                                          name="adress"
-                                          id="adress"
+<!--                                      <input-->
+<!--                                          type="text"-->
+<!--                                          class="form-control"-->
+<!--                                          name="adress"-->
+<!--                                          id="adress"-->
+<!--                                          v-model="patient.adress"-->
+<!--                                      />-->
+                                      <v-combobox
                                           v-model="patient.adress"
-                                      />
+                                          :items="fokontany"
+                                          label="Address"
+                                      ></v-combobox>
                                       <div v-if="$v.patient.adress.$error">
                                           <div
                                               class="error text-white alert-danger"
@@ -453,10 +456,13 @@
                       <tbody>
                       <tr
                           v-for="item in suggestions"
-                          :key="item.name"
+                          :key="item.id"
                       >
-                          <td>{{ item.name }}</td>
-                          <td>{{ item.calories }}</td>
+                          <td>{{item.id}}</td>
+                          <td>{{ item.firstName }}</td>
+                          <td>{{ item.lastName }}</td>
+                          <td>{{ item.birthDate }}</td>
+                          <td>{{ item.adress }}</td>
                       </tr>
                       </tbody>
                   </template>
@@ -470,6 +476,7 @@
 <script>
 import { validationMixin } from "vuelidate";
 import { mapActions, mapGetters } from "vuex";
+import _ from 'lodash';
 const {
   required,
   minLength,
@@ -505,6 +512,7 @@ export default {
         avatar: null,
       },
       countries: [],
+      fokontany:[],
       nationality: "",
       em_rows: [{ name: "", tel: "" }],
       default_em_rows: [{ name: "", tel: "" }],
@@ -545,6 +553,7 @@ export default {
   },
   created() {
     this.getCountries();
+    this.getFokontany()
   },
 
   mounted() {
@@ -560,6 +569,12 @@ export default {
         this.edit();
       }
     },
+    patient:{
+       async handler(val){
+           this.check_data(val)
+        },
+        deep:true
+    }
   },
   methods: {
     ...mapActions("patient", ["addPatient", "updatePatient"]),
@@ -567,6 +582,10 @@ export default {
       axios.get("/api/countries").then((response) => {
         this.countries = response.data;
       });
+    },
+    getFokontany(){
+        this.fokontany=[]
+        axios.get("/api/fokontany").then(response=> response.data.forEach(fkt=>this.fokontany.push(fkt.name)))
     },
     avatar_change(e) {
       let files = document.getElementById("avatar");
@@ -624,9 +643,13 @@ export default {
       }
       // this.resetForm();
     },
-    async check_data(){
-
-    },
+    check_data:_.debounce(async function(val){
+        let text= val.firstName +' '+ val.lastName
+        if(text.length>4){
+            let response= await axios.get('/api/patients/search/',{params:{query:text}})
+            this.suggestions=response.data
+        }
+    },1000),
     resetForm() {
       for (let [key, value] of Object.entries(this.patient)) {
         this.patient[key] = "";

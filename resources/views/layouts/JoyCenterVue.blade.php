@@ -28,6 +28,20 @@
             }
         }
     </style>
+    @if (Auth::check())
+        <script>
+            window.auth = {!!json_encode([
+               'isLoggedin' => true,
+               'user' => Auth::user()
+           ])!!}
+        </script>
+    @else
+        <script>
+            window.auth = {!!json_encode([
+                'isLoggedin' => false
+            ])!!}
+        </script>
+    @endif
 </head>
 <body>
 <div id="app">

@@ -1,362 +1,475 @@
 <template>
-    <div class="p-4">
-        <div class="card card-body">
-            <v-row>
-                <v-col cols="12" sm="9">
-                    <section class="mb-2" id="patInfo">
-                        <v-row>
-                            <v-col cols="12" sm="6">
-                                <v-card class="rounded-xl p-2">
-                                    <h4 class="mt-2">Consultation info</h4>
-                                    <div class="form-row">
-                                        <div class="col-sm-3 form-group ">
-                                            <label class="mb-0" >Patient Id</label>
-                                            <input type="text"
-                                                   class="form-control form-control-sm"
-                                                   @change="changePat"
-                                                   v-model="formData.patient.id"
-                                            />
-
-                                        </div>
-                                        <div class="col-sm-6 form-group ">
-                                            <label class="mb-0">Type of consultation</label>
-                                            <select
-                                                class="form-control form-control-sm"
-                                                v-model="formData.careDetails.type_consult"
-                                                @change="changeConsult"
-                                            >
-                                                <option>Choose</option>
-                                                <option v-for="option in accessories.typeConsult_list" :value="option.id">{{option.name}}</option>
-                                            </select>
-
-                                        </div>
-                                        <div class="col-sm-3 form-group">
-                                            <label class="mb-0">payment history</label>
-                                            <div>
-                                                <center><a href="#" class="nav-link"
-                                                           data-toggle="modal" data-target="#view_paymentModal"
-                                                ><i class="fas fa-eye"></i></a></center>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-row">
-                                            <div class="col-sm-3 form-group mt-0">
-                                                <label for="patAdress" class="mb-0"> Adress</label>
-                                                <input type="text" name="patAdress" disabled id="patAdress" v-model="formData.patient.adress" class="form-control form-control-sm"
-                                                       :class="{'text-white bg-success':formData.patient.sector}"
-                                                />
-                                                <input type="hidden" name="age" id="age"/>
-                                            </div>
-                                            <div class="col-sm-9 form-group mt-0">
-                                                <label for="patName" class="mb-0"> Fullname</label>
-                                                <input type="text" name="patName" disabled id="patName" v-model="formData.patient.firstName +' '+ formData.patient.lastName " class="form-control form-control-sm"/>
-                                            </div>
-                                    </div>
-                                </v-card>
-                            </v-col>
-                            <v-col cols="12" sm="6">
-                                <v-card class="rounded-xl p-2">
-                                    <h4 class="mt-2">Vital sign</h4>
-                                    <vital-sign
-                                        :formData.sync="formData.careDetails.vitalSign"
-                                    >
-                                    </vital-sign>
-                                </v-card>
-                            </v-col>
-                            <v-col cols="12" sm="6">
-                                <v-card class="rounded-xl p-2">
-                                    <table id="invoiceTable" class="table table-bordered">
-                                        <thead>
-                                        <th>Item</th>
-                                        <th>Price</th>
-                                        <th>Quantity</th>
-                                        <th>Total</th>
-                                        <th>
-                                            <v-btn
-                                                class="mx-2 float-right"
-                                                fab
-                                                dark
-                                                x-small
-                                                color="indigo"
-                                                @click="addRow"
-                                            >
-                                                <v-icon dark> mdi-plus </v-icon>
-                                            </v-btn>
-                                        </th>
-                                        </thead>
-                                        <tbody>
-                                        <tr v-if="accessories.servicePrice.length>0" v-for="(row,index) in formData.careDetails.care_line">
-                                            <td>
-                                                <select v-model="row.id" @change="changeItem($event,index)" class="form-control" >
-                                                    <option v-for="option in accessories.servicePrice" :key="option.id" :value="option.id" :data-price="option.price"  >{{option.name}}</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <input type="text" class="form-control" disabled v-model="row.price" />
-                                            </td>
-                                            <td>
-                                                <input type="number" @change="changeQty(index)" class="form-control" v-model="row.quantity"/>
-                                            </td>
-                                            <td>
-                                                <input type="text" class="form-control" disabled :value="row.totLine" />
-                                            </td>
-                                            <td>
-                                                <button type="button" class="btn btn-sm " @click="removeRow(index)"><i class="fas fa-trash"></i></button>
-                                            </td>
-
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </v-card>
-                            </v-col>
-                            <v-col cols="12" sm="6">
-                                <v-card class="rounded-xl p-2">
-                                        <div class="row">
-                                            <div class="col-4">
-                                                <div class="form-group">
-                                                    <label for="subTotal" class="label">Subtotal</label>
-                                                    <input type="text" name="subTotal" id="subTotal" disabled class="form-control form-control-sm" :value="formData.careDetails.itemSubTotal"/>
-
-                                                </div>
-                                            </div>
-                                            <div class="col-4">
-                                                <div class="form-group">
-                                                    <label for="lastDue" class="label">Last Due</label>
-                                                    <input type="text" name="lastDue" id="lastDue"
-                                                           :value="formData.patient.last_due"
-                                                           :class="checkLastDue"
-                                                           disabled class="form-control form-control-sm"
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div class="col-4">
-                                                <div class="form-group">
-                                                    <label for="total" class="label">Total</label>
-                                                    <input type="text" name="total" id="total" :value="formData.careDetails.itemTotal" disabled class="form-control form-control-sm"/>
-                                                </div>
-                                            </div>
-                                        </div><!--row-->
-                                </v-card>
-                            </v-col>
-                        </v-row>
-                        <v-row>
-                            <v-col>
+    <div class="container w-75">
+        <v-app>
+            <h1 class="text-center form-title">CONSULTATION FORM</h1>
+            <div class="inline mb-4">Quick search <input type="number" class="required" style="width:80px" @change="fetch_reference" v-model="formData.id"/></div>
+            <table class="table table-sm">
+                <tr>
+                    <th class="table-title" colspan="3"><v-icon>mdi-account-circle</v-icon> Personal information <span :class="{'text-primary':formData.priority==='BLUE'}" v-if="formData.priority==='BLUE'">Blue priority</span></th>
+                </tr>
+                <tr>
+                    <td style="width:20%"><span class="text-danger">*</span>Id</td>
+                    <td style="width:40%">First name</td>
+                    <td style="width:40%">Last name</td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="number" class="border required" v-model="formData.patient.id" @change="changePat" :class="{'border border-danger':$v.formData.patient.id.$error}"/>
+                        <p class="text-white bg-danger" v-if="$v.formData.patient.id.$error">The patient id is required</p>
+                    </td>
+                    <td class="required">
+                        {{formData.patient.firstName}}
+                    </td>
+                    <td class="required">
+                        {{formData.patient.lastName}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>Date of birth</td>
+                    <td>Address</td>
+                    <td>Tel</td>
+                </tr>
+                <tr>
+                    <td class="required">{{formData.patient.birthDate}}</td>
+                    <td class="required" :class="{'text-white bg-success':formData.patient.sector===true}">{{formData.patient.adress}}</td>
+                    <td class="required">{{formData.patient.tel}}</td>
+                </tr>
+            </table>
+            <table class="table table-sm">
+                <tr>
+                    <th class="table-title" colspan="5"> <v-icon>mdi-stethoscope</v-icon>Medical data</th>
+                </tr>
+                <tr>
+                    <td>
+                        <select class="required" v-model="formData.type_consult_id" @change="changeConsult">
+                            <option value=""><span class="text-danger">*</span>Type of consultation</option>
+                            <option v-for="item in accessory.type_consultation" :value="item.id">{{item.name}}</option>
+                        </select>
+                        <p class="text-white bg-danger" v-if="$v.formData.type_consult_id.$error">The type of consultation is required</p>
+                    </td>
+                    <td>
+                        <button class="btn btn-primary btn-sm" @click="accessory.blue_priority_modal=true" v-if="!accessory.elderly_patient">Manual blue priority</button>
+                    </td>
+                    <td class="text-primary">{{formData.blue_priority_reason}}</td>
+                </tr>
+                <tr>
+                    <td>Temp</td>
+                    <td>Weight</td>
+                    <td>Blood Pressure</td>
+                    <td>Pulse</td>
+                    <td>Spo2</td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="number" class="required"  v-model="formData.temp" :class="{'text-danger': formData.temp>=38}"/>
+                    </td>
+                    <td>
+                        <input type="number" class="required"  v-model="formData.weight"/>
+                    </td>
+                    <td>
+                        <input type="number" class="required"  v-model="formData.taSysto" :class="{'text-danger': formData.taSysto>=14}"/> /
+                        <input type="number" class="required"  v-model="formData.taDia"/>
+                    </td>
+                    <td>
+                        <input type="number" class="required" v-model="formData.pulse" />
+                    </td>
+                    <td>
+                        <input type="number" class="required" v-model="formData.spo2" :class="{'text-danger': formData.taSysto>=75}"/>
+                    </td>
+                </tr>
+            </table>
+            <table class="table table-sm">
+                <tr>
+                    <th class="table-title">
+                        <v-icon>mdi-calendar-check</v-icon>
+                        Remarks:
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        <textarea class="form-control form-control-sm" v-model="formData.remark"></textarea>
+                    </td>
+                </tr>
+            </table>
+            <table class="table table-sm">
+                <tr>
+                    <th class="table-title">
+                        <v-icon>mdi-cash</v-icon>
+                        Payment
+                    </th>
+                </tr>
+            </table>
+            <div class="row">
+                <div class="col-6">
+                    <table class="table table-sm" v-if="formData.type_consult_id!==''">
+                        <tr>
+                            <td>
+                                <select class="required" v-model="accessory.temp_care_line">
+                                    <option v-for="item in accessory.servicePrice" :value="item">{{item.name}}</option>
+                                </select>
+                            </td>
+                            <td>
+                                {{accessory.temp_care_line.price}}
+                            </td>
+                            <td>
+                                <input type="number" class="required" @keypress.enter.prevent="add_care_line" v-model="accessory.temp_care_line.qty"/>
+                            </td>
+                            <td>
+                                {{accessory.temp_care_line.qty * accessory.temp_care_line.price }}
+                            </td>
+                        </tr>
+                        <tr v-for="(line,i ) in formData.patient_care_details">
+                            <td>{{line.name}}</td>
+                            <td>{{line.price}}</td>
+                            <td>{{line.qty}}</td>
+                            <td>{{line.qty * line.price}}</td>
+                            <td>
                                 <v-btn
-                                    color="blue-grey"
-                                    class="ma-2 mt-2 white--text"
-                                    @click="submit"
+                                    x-small
+                                    icon
+                                    @click="delete_care_line(i)"
                                 >
-                                    Submit
-                                    <v-icon
-                                        right
-                                        dark
-                                    >
-                                        mdi-cloud-upload
-                                    </v-icon>
+                                    <v-icon> mdi-delete</v-icon>
                                 </v-btn>
-                            </v-col>
-                        </v-row>
-                    </section>
-                </v-col>
-                <v-col cols="12" sm="3">
-<!--                    <v-card class="rounded-xl p-2">-->
-<!--                        <queue-side-bar></queue-side-bar>-->
-<!--                    </v-card>-->
-                </v-col>
-            </v-row>
-        </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-6">
+                    <table class="table table-sm">
+                        <tr>
+                            <td>In debt</td>
+                            <td :class="{'text-danger':formData.patient.last_due>0}">{{formData.patient.last_due}}</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td> Subtotal</td>
+                            <td>{{subTotal}}</td>
+                        </tr>
+                        <tr>
+                            <td>Total</td>
+                            <td class="font-weight-bold text-decoration-underline">{{subTotal + formData.patient.last_due}}</td>
+                        </tr>
+                    </table>
+                    <div class="text-right mt-6">
+                        <v-btn color="info" :loading="accessory.form_is_submitting" @click="submit">submit</v-btn>
+                    </div>
+                </div>
+            </div>
+
+            <v-dialog
+                v-model="accessory.blue_priority_modal"
+                width="500"
+                :persistent="true"
+            >
+                <v-card>
+                    <v-card-title class="text-h5 grey lighten-2">
+                        Blue Priority
+                    </v-card-title>
+
+                    <v-card-text >
+                        <v-textarea v-model="formData.blue_priority_reason" label="write here the reason">
+                        </v-textarea>
+                    </v-card-text>
+
+
+                    <v-divider></v-divider>
+
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn
+                            color="primary"
+                            text
+                            @click="validate_priority_reason"
+                        >
+                            I accept
+                        </v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-dialog>
+        </v-app>
     </div>
 </template>
 <script>
-    import vitalSign from "../../medical/nurseStation/vitalSign";
-    //import queueSideBar from "./queueSideBar";
-    import {mapActions, mapGetters} from 'vuex';
-
-
+import { validationMixin } from "vuelidate";
+const {
+    required,
+    minLength,
+    email,
+    url,
+    maxLength,
+} = require("vuelidate/lib/validators");
     export default {
         name: "consultation",
-        props:{
-            editData:{
-                type:Object,
-                default:null
-            },
-            edit:false
-        },
-        components:{vitalSign},
-        data(){
-          return{
-              formData:{
-                  consult_id:"",
-                  patient:  {
-                      id:"",
-                      firstName:"",
-                      lastName:"",
-                      adress:"",
-                      sector:false,
-                      last_due:0,
-                  },
-                  careDetails:{
-                      type_consult:"",
-                      priority:"",
-                      status:"RUNNING",
-                      care_line:[
-                          {id:0,quantity:"",price:"",totLine:""}
-                      ],
-                      itemSubTotal:0,
-                      itemTotal:0,
-                      vitalSign:{
-                          temp:"",
-                          pulse:"",
-                          taSysto:"",
-                          taDia:"",
-                          weight:"",
-                          remark:""
-                      },
-                  },
-              },
-              accessories:{
-                  servicePrice:[],
-                  typeConsult_list:[]
-              }
+        mixins: [validationMixin],
+        props: ['edit','reference'],
+        data() {
+            return {
+                formData: {
+                    id: "",
+                    type_consult_id:'',
+                    priority: "",
+                    status: "RUNNING",
+                    temp: "",
+                    pulse: "",
+                    taSysto: "",
+                    taDia: "",
+                    weight: "",
+                    spo2:"",
+                    blue_priority_reason:'',
+                    patient: {
+                        id: "",
+                        firstName: "",
+                        lastName: "",
+                        birthDate:"",
+                        adress: "",
+                        tel:"",
+                        sector: false,
+                        last_due: 0,
+                    },
+                    remark:'',
+                    patient_care_details: []
+                },
+                accessory: {
+                    servicePrice: [],
+                    type_consultation: [],
+                    fokontany: [],
+                    noPatientFound: false,
+                    temp_care_line:{id:'',name:'',price:'', qty:''},
+                    blue_priority_modal:false,
+                    elderly_patient:false,
+                    form_is_submitting:false,
+                    form_update:false
+                },
 
-          }
+            }
         },
-        created(){
+        created() {
             this.init()
         },
-        mounted() {
-           this.data
+        watch: {
+            formData:{
+                handler(val){
+                    if(val.priority !=='BLUE'){
+                        if(val.temp >= 38 ||val.taSysto >= 14) val.priority='GREEN'
+                        else if(val.sop2 >0 && val.sop2 <=75 ) val.priority='GREEN'
+                        else val.priority=''
+                    }
+                },
+                deep:true
+            },
         },
-        methods:{
-          ...mapActions('consultation',['fetch_type_consult','newConsultation']),
-          async init(){
-              await this.fetch_type_consult()
-             this.accessories.typeConsult_list=  [...this.getTypeConsult]
-              //this.update
-          },
-            async changePat(){
-                let patData= await axios.get(`/api/patients/${this.formData.patient.id}/edit`)
-                this.formData.patient.firstName=patData.data.patient.firstName
-                this.formData.patient.lastName= patData.data.patient.lastName
-                this.formData.patient.adress= patData.data.patient.adress
-                this.formData.patient.last_due= (patData.data.dueSum.length>0)?patData.data.dueSum[0].amount:0
-                let adress= this.formData.patient.adress.toLowerCase()
-                adress= adress.split(' ')
-                let arg=['ambovo','atsimomparihy','amboasary','tanjondroa',
-                    'iarinarivo','ambodisaha','ambohinanjakana',
-                    'atanantanana','andriantany','iarinarivo','manonilahy',
-                    'maroloha','tsarazaza','ambohidehilahy','ambohitsiroa','ampanataovana'
-                ]
-                let check=false
-                adress.forEach(ad=>{
-                     if(arg.indexOf(ad) !== -1){
-                        check=true
-                     }
-                })
-                this.formData.patient.sector=check
+        validations:{
+            formData:{
+                type_consult_id:{required},
+                patient:{
+                    id:{required}
+                }
+            }
+        },
+        methods: {
+            async init() {
+                axios.get('/api/typeConsult').then(response=>this.accessory.type_consultation=response.data)
+                axios.get("/api/fokontany").then(response => response.data.forEach(fkt => this.accessory.fokontany.push(fkt.name.toLowerCase())))
+                if(this.reference !=='' && this.reference !==undefined){
+                    this.formData.id=this.reference
+                    this.fetch_reference()
+                }
             },
-            checkPriority(priority){
-              this.formData.careDetails.priority=priority
+            async changePat() {
+                await axios.get(`/api/patients/${this.formData.patient.id}/edit`)
+                    .then(response => {
+                        this.resetForm()
+                        if (response.data.success) {
+                            this.formData.patient = response.data.patient
+                            this.formData.patient.last_due =response.data.dueSum
+                            let adress = this.formData.patient.adress.toLowerCase().split(' ')
+                            let check = false
+                            adress.forEach(ad => {
+                                if (this.accessory.fokontany.indexOf(ad) !== -1) {
+                                    check = true
+                                }
+                            })
+                            this.formData.patient.sector = check
+                            if(this.check_age>=80){
+                                this.$toast.open({message:'elderly patient, manual blue priority',position:'top-right',type:'info'})
+                                this.formData.priority='BLUE'
+                                this.accessory.elderly_patient=true
+                            }
+                        } else {
+                            this.accessory.noPatientFound = true
+                        }
+                    })
+
             },
-            changeConsult(){
-                this.fetch_service_price()
-            },
-            async fetch_service_price(){
-                let servicePrice= await axios.get('/api/servicePrice',{
-                    params:{
-                        type_consult:this.formData.careDetails.type_consult,
-                        sector:this.formData.patient.sector
+            async changeConsult() {
+                let servicePrice = await axios.get('/api/servicePrice', {
+                    params: {
+                        type_consult: this.formData.type_consult_id,
+                        sector: this.formData.patient.sector
                     }
                 })
-                return this.accessories.servicePrice=servicePrice.data
+                this.validate_consult_type()
+                this.accessory.servicePrice = servicePrice.data
             },
-            changeItem(e,rowId){
-                //var table=document.getElementById('invoiceTable');
-                let rowPrice=  e.target.options[e.target.options.selectedIndex].dataset.price
-                this.formData.careDetails.care_line[rowId].price= rowPrice
+            add_care_line(){
+                let line= this.accessory.temp_care_line
+                line.amount= line.price * line.qty
+                this.formData.patient_care_details.push(line)
             },
-            changeQty(index){
-              return this.formData.careDetails.care_line[index].totLine=  this.formData.careDetails.care_line[index].price * this.formData.careDetails.care_line[index].quantity
+            delete_care_line(rowId) {
+                return  this.formData.patient_care_details.splice(rowId, 1)
             },
-            addRow(){
-              var count= this.formData.careDetails.care_line.length;
-              count++
-              this.formData.careDetails.care_line.push({id:count,quantity:"",price:"",totLine:""})
-            },
-            removeRow(rowId){
-              return this.formData.careDetails.care_line.splice(rowId,1)
-            },
-            async submit(e){
-                e.preventDefault()
-                if(this.edit===true){
-                    await axios.put(`/api/consultation/${this.formData.consult_id}`,this.formData)
-                }else{
-                    await this.newConsultation(this.formData)
+            async submit() {
+                this.$v.$touch()
+                if (this.$v.$invalid) {
+                    return true;
                 }
-                this.resetForm()
-                this.$toast.open({
-                    message: "Data submited",
-                    position: "top-right",
-                });
-                this.accessories.typeConsult_list=  [...this.getTypeConsult]
+                // this.accessory.form_is_submitting=true
+                this.formData.responsible= window.auth.user.name
+                if(!this.accessory.form_update){
+                    await axios.post('/api/consultation',this.formData).then(response=>{
+                        if(response.data.success){
+                            this.accessory.form_is_submitting=false
+                            this.$toast.open({message:response.data.msg,position:'top-right',type:'success'})
+                            this.resetForm()
+                            this.$v.$reset()
+                        }
+                    })
+                }else{
+                    await axios.put(`/api/consultation/${this.formData.id}`,this.formData).then(response=>{
+                        if(response.data.success){
+                            if(this.edit){
+                                this.$emit('updated')
+                            }else{
+                                this.$toast.open({message:response.data.msg,position:'top-right',type:'success'})
+                            }
+                        }
+                    })
+                }
             },
-            resetForm(){
-                Object.assign(this.$data, this.$options.data.call(this));
+            resetForm() {
+                this.formData = {
+                    id: "",
+                    type_consult_id:'',
+                    priority: "",
+                    status: "RUNNING",
+                    temp: "",
+                    pulse: "",
+                    taSysto: "",
+                    taDia: "",
+                    weight: "",
+                    spo2:"",
+                    blue_priority_reason:'',
+                    patient: {
+                        id: "",
+                        firstName: "",
+                        lastName: "",
+                        birthDate:"",
+                        adress: "",
+                        tel:"",
+                        sector: false,
+                        last_due: 0,
+                    },
+                    remark:'',
+                    patient_care_details: []
+                }
             },
-
-        },
-        watch:{
-          subTotal(val){
-              return val
-          },
-          total(val){
-              return val
-          },
-          editData:{
-              handler(newVal,oldVal){
-                  this.formData=Object.assign({},newVal)
-                  this.update
-              },
-              deep:true
-          },
-          'formData.careDetails.type_consult':function(val){
-             this.changeConsult()
-          },
-          'formData.patient.id':function(val){
-              this.changePat()
-          },
-        },
-
-        computed:{
-          ...mapGetters('consultation',['getTypeConsult']),
-            subTotal(){
-              var result=0
-                this.formData.careDetails.care_line.forEach(val=>result+= val.totLine)
-                return this.formData.careDetails.itemSubTotal= result
+            validate_priority_reason(){
+                if(this.formData.blue_priority_reason !==""){
+                    this.accessory.blue_priority_modal=false
+                }
             },
-            total(){
-              return this.formData.careDetails.itemTotal= parseInt(this.formData.careDetails.itemSubTotal) + parseInt(this.formData.patient.last_due)
+            async validate_consult_type(){
+                let restricted_by_gender=[
+                    4,//cpn
+                    5,//ultrasound
+                    6//postpartum
+                ]
+                let restricted_by_age=[
+                    7,//vacccination
+                    8,//baby checkup
+                    10
+                ]
+                let checkup_weight=[1,2,4,5,6]
+                if(this.formData.patient.gender==='M' && restricted_by_gender.indexOf(this.formData.type_consult_id)!== -1){
+                    this.$toast.open({message:'the patient is not female',position:'top-right',type:'error'})
+                    this.formData.type_consult_id=""
+                }
+                if(this.check_age >50 && restricted_by_gender.indexOf(this.formData.type_consult_id)!== -1 ){
+                    this.$toast.open({message:'the patient is too old for obstetrics service',position:'top-right',type:'error'})
+                    this.formData.type_consult_id=""
+                }
+                if(this.formData.patient.height <=50 && restricted_by_gender.indexOf(this.formData.type_consult_id)!== -1 ){
+                    this.$toast.open({message:'The height of the patient is required for obstetrics service, no height found in database',position:'top-right',type:'error'})
+                    this.formData.type_consult_id=""
+                }
+                if(this.check_age>=2 && restricted_by_age.indexOf(this.formData.type_consult_id)!== -1 ){
+                    this.$toast.open({message:'only baby equal or under two years old are admissible for this service',position:'top-right',type:'error'})
+                    this.formData.type_consult_id=""
+                }
+                //check if the patient is today already in the system
+                await axios.post('/api/consultation/today',{type_consult_id:this.formData.type_consult_id,patient_id:this.formData.patient.id}).then(response=>{
+                    if(response.data.length>0){
+                        this.$toast.open({message:'A patient cannot in on day consult the same service more than once',position:'top-right',type:'error'})
+                        this.formData.type_consult_id=""
+                    }
+                })
             },
-            data(){
-              if(this.editData !== null){
-                  return this.formData= {...this.editData}
-              }
-            },
-            checkLastDue(){
-              return this.formData.patient.last_due>0?'text-white bg-danger':''
-            },
-            async update(){
-                let vitalSign= await axios.get(`/api/patients/vitalSign/${this.formData.patient.id}`)
-                this.formData.careDetails.vitalSign.pulse= vitalSign.data[0].pulse
-                this.formData.careDetails.vitalSign.temp= vitalSign.data[0].temp
-                this.formData.careDetails.vitalSign.taSysto= vitalSign.data[0].TaSysto
-                this.formData.careDetails.vitalSign.taDia= vitalSign.data[0].taDia
-                this.formData.careDetails.vitalSign.weight= vitalSign.data[0].weight
+            async fetch_reference(){
+                await axios.get(`/api/consultation/${this.formData.id}`).then(
+                    response=>{
+                        this.accessory.form_update=true
+                        let care_details=[]
+                        this.formData=response.data
+                        this.formData.patient.last_due=response.data.patient.patient_due !== null? parseInt(response.data.patient.patient_due.amount):0
+                        response.data.patient_care_details.forEach((line)=>{
+                             let output={
+                                 id:line.service_prices.id,
+                                 name:line.service_prices.name,
+                                 price:line.service_prices.price,
+                                 qty:line.qty,
+                                 amount:line.qty*line.service_prices.price
+                             }
+                             care_details.push(output)
+                        })
+                        this.formData.patient_care_details= response.data.patient_care_details.length>0?[...care_details]:[]
+                        this.changeConsult()
+                })
             }
-
+        },
+        computed: {
+            subTotal(){
+                let subTot=0;
+                if(this.formData.patient_care_details.length>0)this.formData.patient_care_details.forEach((line)=>subTot+=parseInt(line.amount))
+                return subTot
+            },
+            check_age(){
+                let now= new Date().getFullYear()
+                let birthDate= new Date(this.formData.patient.birthDate)
+                return now-birthDate.getFullYear()
+            },
         }
     }
 </script>
 <style scoped>
-
+.container{
+    margin-top: 40px;
+    background-color: white;
+    min-height:90vh;
+    padding:40px;
+}
+.table-title{
+    background-color: #cceff0;
+}
+.required{
+    background-color: rgba(233, 242, 238, 0.7);
+}
+.form-title{
+    font-family: 'Enriqueta', arial, serif;
+    line-height: 1.25;
+    margin: 0 0 10px; font-size: 40px;
+    font-weight: bold;
+    color: #7c795d;
+}
 </style>

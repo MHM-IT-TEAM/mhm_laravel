@@ -37,6 +37,9 @@ class CreatePatientsTable extends Migration
             $table->string('education',20)->nullable();
             $table->string('email',20)->nullable();
             $table->string('datereg',20)->nullable();
+            $table->string('pat_photos',20)->nullable();
+            $table->string('von_birth',20)->nullable();
+            $table->string('reg_date',20)->nullable();
 
         });
     }

@@ -10,10 +10,13 @@ class Patient extends Model
     use HasFactory;
     protected $connection= "patSyst";
     protected $guarded=[];
+//    protected $casts = [
+//        'birthDate' => 'datetime:d/m/Y',
+//    ];
     public function search($searchWords){
         $query = $this->with("emContacts");
 
-        foreach ($searchWords as $word) 
+        foreach ($searchWords as $word)
         {
             $query = $query->where(function ($q) use ($word) {
                 $q
@@ -48,12 +51,22 @@ class Patient extends Model
         return $this->belongsTo(Birth::class);
     }
     public function birth_medical_data(){
-        return $this->hasManyThrough(BirthMedicalData::class,Birth::class);
+        return $this->hasMany(BirthMedicalDataBaby::class);
     }
     public function cpnAdmissions(){
         return $this->hasMany(CpnAdmission::class);
     }
     public function ultraSoundAdmissions(){
         return $this->hasMany(UltrasoundAdmission::class);
+    }
+    public function filter($data){
+        if(strlen($data->firstName)>4){
+            $patient= $this->where('firstName','lIKE','%'.$data->firstName.'%');
+            if($data->lastName !== null){
+                $patient= $patient->where('lastName','LIKE','%'.$data->lastName.'%')->orWhere('firstName','LIKE','%'.$data->lastName.'%');
+            }
+            return $patient->get();
+        }
+
     }
 }

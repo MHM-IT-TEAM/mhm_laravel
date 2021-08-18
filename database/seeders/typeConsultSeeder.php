@@ -28,7 +28,7 @@ class typeConsultSeeder extends Seeder
                 'name'=>'CPN Admission'
             ],
             [
-                'name'=>'Echo'
+                'name'=>'Ultrasound'
             ],
             [
                 'name'=>'Post Partum'
