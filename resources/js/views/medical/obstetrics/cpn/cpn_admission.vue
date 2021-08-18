@@ -178,6 +178,7 @@
                                  :input-debounce="500" mode="date"
                                  :model-config="accessory.dateConfig" :masks="accessory.dateConfig.masks"
                                  :max-date="new Date()">
+                                 :min-date="new Date().getMonth()-8"
                         <template v-slot="{ inputValue, inputEvents }">
                             <input
                                 class="bg-white border px-2 py-1 rounded"
@@ -1014,7 +1015,7 @@ export default {
     },
     async submit() {
       this.$v.$touch();
-      
+
       this.formData.responsible= window.auth.user.name
       if (!this.$v.$invalid) {
         if (this.accessory.edit === false) {
@@ -1131,7 +1132,7 @@ export default {
           let int = Math.floor(result)
           let dec= result - int
           let strDec= Math.round(dec*6)
-          
+
           if(strDec>6){
               int++
               strDec=0
