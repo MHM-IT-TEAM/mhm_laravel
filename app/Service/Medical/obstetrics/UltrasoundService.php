@@ -19,6 +19,7 @@ class UltrasoundService
     private $third_screening;
     private $patient_id;
     private $twin;
+    private $cpn_admission_id;
     private $response=['msg'=>''];
 
 
@@ -26,6 +27,7 @@ class UltrasoundService
     {
         $this->patient_id = $request->patient_id;
         $this->twin = $request->count_of_fetus;
+        $this->cpn_admission_id = $request->cpn_admission_id;
         foreach ($request->formData as $data) {
 
             $this->first_screening[] = $data['first_screening'];
@@ -43,6 +45,7 @@ class UltrasoundService
             $admission = new UltrasoundAdmission();
             $admission->patient_id = $this->patient_id;
             $admission->twin_pregnancy = $this->twin;
+            $admission->cpn_admission_id = $this->cpn_admission_id;
             $admission->save();
             $ref = $admission->id;
             $this->response=['msg'=>'Reference:'.$ref];
@@ -100,7 +103,8 @@ class UltrasoundService
             'first'=>$first,
             'second'=>$second,
             'third'=>$third,
-            'patient_id'=>$patient_id
+            'patient_id'=>$patient_id,
+            'cpn_admission_id'=>$search->cpn_admission_id
         ];
 
 

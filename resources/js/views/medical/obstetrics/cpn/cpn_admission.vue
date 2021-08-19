@@ -18,20 +18,28 @@
                   @change="reset_form"
                 ></v-switch>
               </div>
-              <div class="col-4 ml-4">
+              <div class="col-4 ml-4" v-if="accessory.edit">
                 <input
                   type="number"
                   class="form-control mt-4"
                   placeholder="enter the reference"
-                  v-if="accessory.edit"
                   @change="fetchData"
                   v-model="accessory.reference"
                   :class="{'border border-danger':accessory.noReferenceFound}"
                 />
               </div>
-                <div class="col">
-                    <p class="text-danger mt-6" v-if="accessory.noReferenceFound">No data found check the reference</p>
+                <div class="col" v-if="accessory.noReferenceFound">
+                    <p class="text-danger mt-6">No data found check the reference</p>
                 </div>
+            </div>
+            <div class="mb-4 ml-4">
+              <div class="row">
+                <span class="error">{{ accessory.ultrasound_link_error_message }}</span>
+              </div>
+              <div class="row d-flex" style="max-width:400px; align-items:center;">
+                <label class="mt-auto" >Linked ultrasound: </label>
+                <input class="ml-1 col-3 form-control" type="number" v-model="formData.ultrasound_admission_id" @input="linked_ultrasound_input" />
+              </div>
             </div>
           </div>
           <div class="p-2">
@@ -816,6 +824,7 @@ export default {
       formData: {
         patient_id: "",
         consultation_id: "",
+        ultrasound_admission_id: null,
         weight: "",
         hydrodramnion: false,
         oligodramnion: false,
@@ -878,7 +887,7 @@ export default {
         baum_hg: "",
         problem_for_delivery: null,
         responsible:'',
-        gestational_age: '1+0',
+        gestational_age: null
       },
       patient_details: {
         firstName: "",
@@ -908,7 +917,8 @@ export default {
         noError: true,
         birth_problem:"",
         noPatientFound: false,
-        noReferenceFound:false
+        noReferenceFound:false,
+        ultrasound_link_error_message: ""
       },
     };
   },
@@ -967,7 +977,7 @@ export default {
         malformation: "",
         baby_condition: "",
         pueperium: "",
-        sa: "",
+        sa: null,
         baby_weight: "",
         ourPatient: false,
       });
@@ -1100,6 +1110,24 @@ export default {
       },
     gestational_age_week(gestational_age) {
       return gestational_age.split('+')[0];
+    },
+    linked_ultrasound_input(e) {
+      if (!e.target.value)
+        return;
+
+      axios.get('/api/obstetrics/ultrasound/' + this.formData.ultrasound_admission_id)
+        .then(response =>
+        {
+          if (response.data.patient_id != this.formData.patient_id) {
+            this.accessory.ultrasound_link_error_message = "Patient Id does not match referenced ultrasound patient Id";
+          }
+          else
+            this.accessory.ultrasound_link_error_message = null;
+        })
+        .catch(error => 
+        {
+          this.accessory.ultrasound_link_error_message = "Could not retrieve the ultrasound data";
+        });
     }
   },
   computed: {
@@ -1228,7 +1256,8 @@ export default {
       gestational_age: { required }
     },
     accessory: {
-      noPatientFound: { patientFound: value => value === false }
+      noPatientFound: { patientFound: value => value === false },
+      ultrasound_link_error_message : { should_not_have_value: maxLength(0) }
     },
     patient_details:{
         height:{required,minValue:minValue(50)},

@@ -70,6 +70,17 @@
                         </v-btn>
                     </v-col>
                 </v-row>
+                <v-row>
+                    <div class="ml-4 mb-4">
+                        <div>
+                          <span class="error">{{ accessory.cpn_link_error_message }}</span>
+                        </div>
+                        <div class="d-flex" style="max-width:400px; align-items:center;">
+                          <label class="mt-auto" >Linked CPN: </label>
+                          <input class="ml-1 col-3 form-control" type="number" v-model="cpn_admission_id" @input="linked_cpn_input" />
+                        </div>
+                    </div>
+                </v-row>
                 <v-dialog
                     v-model="dialog"
                     max-width="175px"
@@ -950,6 +961,7 @@ export default {
             presentation_of_baby:[],
             possible_fetus_count:[1,2,3],
             reference:'',
+            cpn_admission_id: null,
             is_updating:false,
             midwives:['Tanja','Tianasoa','Manitra','Finaritra'],
             formEdit:{
@@ -975,6 +987,7 @@ export default {
                           input: 'DD/MMM/YYYY',
                     },
                 },
+                cpn_link_error_message: null
             }
         }
     },
@@ -1146,7 +1159,7 @@ export default {
         },
         async submit(e){
             e.preventDefault()
-            await axios.post('/api/obstetrics/ultrasound',{formData:this.formData,patient_id:this.patient.id, count_of_fetus:this.count_of_fetus,ref:this.reference})
+            await axios.post('/api/obstetrics/ultrasound',{formData:this.formData,patient_id:this.patient.id, count_of_fetus:this.count_of_fetus,ref:this.reference,cpn_admission_id:this.cpn_admission_id})
                 .then(
                     resp=>{
                         this.$toast.open({
@@ -1236,6 +1249,7 @@ export default {
 
                 })
             })
+            this.cpn_admission_id = response.cpn_admission_id;
             this.patient.id=response.data.patient_id
             this.changePatient()
         },
@@ -1270,6 +1284,7 @@ export default {
                 second_screening:true,
                 third_screening:true,
             })
+            this.cpn_admission_id = null;
         },
         async changePatient(){
             let patData = await axios.get(
@@ -1384,6 +1399,32 @@ export default {
             let d=String(src.getDate()).padStart(2,'0')
             let month= String(src.getMonth()+1).padStart(2,'0')
             return `${year}-${month}-${d}`
+        },
+        linked_cpn_input(e) {
+          if (!e.target.value)
+            return;
+
+          axios.get('/api/obstetrics/cpn/' + this.cpn_admission_id)
+            .then(response =>
+            {
+                if (response.data.success) {
+                    if (response.data.admission.patient_id != this.patient.id) {
+                      this.accessory.cpn_link_error_message = "Patient Id does not match referenced CPN patient Id";
+                    }
+                    else if (response.data.admission.ultrasound_admission_id) {
+                      this.accessory.cpn_link_error_message = "Referenced CPN already has an ultrasound linked";
+                    }
+                    else
+                      this.accessory.cpn_link_error_message = null;
+                }
+                else {
+                    this.accessory.cpn_link_error_message = "Could not retrieve the CPN data";
+                }
+            })
+            .catch(error => 
+            {
+              this.accessory.cpn_link_error_message = "Could not retrieve the CPN data";
+            });
         }
     },
 };

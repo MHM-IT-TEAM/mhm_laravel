@@ -84,6 +84,7 @@ class CpnAdmissionService
             'hiv'=>$request->hiv,
             'syphilis'=>$request->syphilis,
             'responsible'=>$request->responsible,
+            'ultrasound_admission_id'=>$request->ultrasound_admission_id
         ];
     }
     private function pregHistoData($preg,$patient_id){
