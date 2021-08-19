@@ -2,7 +2,6 @@
   <div class="container-fluid p-4">
     <Loading :active.sync="accessory.isLoading"></Loading>
     <v-app class="p-4">
-      <form @submit.prevent="submit">
         <div class="d-flex flex-row justify-content-between">
           <div>
             <h1 id="title">OBSTETRICS FIRST CHECKUP</h1>
@@ -781,7 +780,7 @@
                   Followup Data
               </button>
             <button
-              type="submit"
+              @click="submit"
               class="btn btn-primary float-right d-print-none"
               id="submit"
               v-if="!is_overview"
@@ -790,7 +789,6 @@
             </button>
           </div>
         </div>
-      </form>
     </v-app>
   </div>
 </template>
