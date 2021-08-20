@@ -75,6 +75,10 @@ Route::get('/lp3',function(){
 Route::get('/placenta_type',function(){
     return \App\Models\PlacentaType::all();
 });
+// diag_code
+Route::get('/diag_code',function(){
+    return \App\Models\DiagCode::all();
+});
 //hospital service list
 Route::get('/hospital_service',function(){
     return cache()->rememberForever('hospital_service',function(){
@@ -153,4 +157,8 @@ Route::group(['prefix'=>'obstetrics'],function(){
     route::get('/baby_vaccination/todayList',[App\Http\Controllers\medical\obstetrics\BabyVaccinationController::class,'todayList']);
     route::resource('/baby_checkup',\App\Http\Controllers\medical\obstetrics\BabyCheckupController::class);
     route::resource('/baby_vaccination',\App\Http\Controllers\medical\obstetrics\BabyVaccinationController::class);
+});
+//generalist
+Route::group(['prefix'=>'generalist'],function(){
+    route::resource('/consultation',\App\Http\Controllers\V1\medical\generalist\GeneralistController::class);
 });
