@@ -176,6 +176,7 @@
                             class="form-check-input"
                             type="checkbox"
                             name="unknown_ddr"
+                            @input="calculate_ga_from_edd"
                             v-model="formData.unknown_lpd"
                         />
                     </div>
@@ -206,6 +207,7 @@
                   [&nbsp
                   <select
                     v-model="formData.dpa_method"
+                    @change="calculate_ga_from_edd"
                     :class="{
                       'border border-danger': $v.formData.dpa_method.$error,
                     }"
@@ -219,6 +221,7 @@
                   <div>
                     <small :class="{'text-white bg-success': formData.dpa_method === 'calc'}" class="mr-4">Calc:</small>
                       <date-picker v-model="formData.dpa_calc"
+                                  @input="calculate_ga_from_edd"
                                    :input-debounce="500" mode="date"
                                    :model-config="accessory.dateConfig" :masks="accessory.dateConfig.masks"
                                    :min-date="new Date()">
@@ -236,6 +239,7 @@
                   <div>
                     <small :class="{'text-white bg-success': formData.dpa_method === 'echo'}" class="mr-6">US: </small>
                       <date-picker v-model="formData.dpa_echo"
+                                  @input="calculate_ga_from_edd"
                                    :input-debounce="500" mode="date"
                                    :model-config="accessory.dateConfig" :masks="accessory.dateConfig.masks"
                                    :min-date="new Date()">
@@ -252,6 +256,7 @@
                   <div>
                     <small :class="{'text-white bg-success': formData.dpa_method === 'corrected'}">Corrected: </small>
                       <date-picker v-model="formData.dpa_corrected"
+                                  @input="calculate_ga_from_edd"
                                    :input-debounce="500" mode="date"
                                    :model-config="accessory.dateConfig" :masks="accessory.dateConfig.masks"
                                    :min-date="new Date()">
@@ -574,7 +579,7 @@
                 />
               </td>
               <td>
-                <gestational-age v-model="row.sa" :class="{ 'error': gestational_age_week(row.sa) <= 37 }" />
+                <gestational-age v-model="row.sa" :class="{ 'error': this.gestational_age_week(row.sa) <= 37 }" />
                 /
                 <input
                   type="number"
@@ -936,7 +941,7 @@ export default {
   },
   watch:{
       edd_check:function(val){
-          const week = gestational_age(this.formData.gestational_age);
+          const week = this.gestational_age_week(this.formData.gestational_age);
           if(week >=9 && week<=13){
               if(val<=5){
                   var check = confirm('the gestational age is between 9 and 13 weeks, you should choose the ultrasound for the estimated date of delivery')
@@ -1140,6 +1145,36 @@ export default {
         {
           this.accessory.ultrasound_link_error_message = "Could not retrieve the ultrasound data";
         });
+    },
+    calculate_ga_from_edd() {
+      if (this.formData.dpa_method) {
+        let selectedDate;
+        switch (this.formData.dpa_method) {
+          case 'calc':
+            selectedDate = this.formData.dpa_calc;
+            break;
+          case 'echo':
+            selectedDate = this.formData.dpa_echo;
+            break;
+          case 'corrected':
+            selectedDate = this.formData.dpa_corrected;
+            break;
+        }
+
+        if (selectedDate) {
+          selectedDate = new Date(selectedDate);
+
+          const diff = selectedDate - new Date();
+          const diff_in_days = Math.round(diff / 1000 / 60 / 60 / 24);
+          
+          const ga_in_days = (40*7) - diff_in_days;
+
+          const ga_weeks = Math.floor(ga_in_days / 7);
+          const ga_days = ga_in_days % 7;
+
+          this.formData.gestational_age = ga_weeks + "+" + ga_days;
+        }
+      }
     }
   },
   computed: {
