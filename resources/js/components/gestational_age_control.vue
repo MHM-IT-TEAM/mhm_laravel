@@ -7,7 +7,7 @@
     <strong class="m-auto">+</strong>
     <select v-model="gestationalAge.day" :disabled="readonly">
       <option v-if="isNull" value="" selected></option>
-      <option v-for="i in 7" :value="i - 1" :key="i">{{ i - 1 }}</option>
+      <option v-for="i in 7" :value="i - 1" :key="i-1">{{ i - 1 }}</option>
     </select>
   </div>
 </template>
@@ -26,37 +26,23 @@ export default {
   watch: {
     gestationalAge: {
       handler: function () {
-        if (this.gestationalAge.week && this.gestationalAge.day)
+        if (this.gestationalAge.week !== "" && this.gestationalAge.day !== "")
           this.isNull = false;
-
+        
         this.$emit("input", this.computedValue);
       },
       deep: true,
     },
     value() {
-      if (!this.value) {
-        this.isNull = true;
-
-        this.gestationalAge.week = "";
-        this.gestationalAge.day = "";
-      }
-      else {
-        this.isNull = false;
-
-        const parts = this.value.split('+');
-        this.gestationalAge = {
-          week: parts[0],
-          day: parts[1]
-        };
-      }
+      this.onValueChanged();
     }
   },
   data: function () {
     return {
-      isNull: this.value ? false : true,
+      isNull: true,
       gestationalAge: {
-        week: this.value ? this.value.split('+')[0] : "",
-        day: this.value ? this.value.split('+')[1] : ""
+        week: "",
+        day: ""
       },
     };
   },
@@ -64,6 +50,33 @@ export default {
     value: String,
     readonly: Boolean
   },
+  methods: {
+    onValueChanged() {
+      if (!this.value || !this.value.includes('+')) {
+        this.isNull = true;
+
+        this.gestationalAge.week = "";
+        this.gestationalAge.day = "";
+      }
+      else {
+        const parts = this.value.split('+');
+        if (parts.length <= 1) {
+          this.isNull = true;
+          return;
+        }
+
+        this.isNull = false;
+
+        this.gestationalAge = {
+          week: parts[0],
+          day: parts[1]
+        };
+      }
+    }
+  },
+  created() {
+    this.onValueChanged();
+  }
 };
 </script>
 <style scoped>

@@ -3,7 +3,7 @@
 
 namespace App\Service\Medical\obstetrics;
 
-
+use App\Models\CpnAdmission;
 use App\Models\UltrasoundAdmission;
 use App\Models\UltrasoundFirstScreening;
 use App\Models\UltrasoundSecondScreening;
@@ -48,6 +48,15 @@ class UltrasoundService
             $admission->cpn_admission_id = $this->cpn_admission_id;
             $admission->save();
             $ref = $admission->id;
+
+            if ($this->cpn_admission_id) {
+                $cpn_admission = CpnAdmission::find($this->cpn_admission_id);
+                if ($cpn_admission && !$cpn_admission->ultrasound_admission_id) {
+                    $cpn_admission->ultrasound_admission_id = $admission->id;
+                    $cpn_admission->save();
+                }                
+            }
+
             $this->response=['msg'=>'Reference:'.$ref];
         }else{
             $ref=$request->ref;

@@ -77,7 +77,7 @@
                         </div>
                         <div class="d-flex" style="max-width:400px; align-items:center;">
                           <label class="mt-auto" >Linked CPN: </label>
-                          <input class="ml-1 col-3 form-control" type="number" v-model="cpn_admission_id" @input="linked_cpn_input" />
+                          <input class="ml-1 col-3 form-control" type="number" :disabled="is_updating" v-model="cpn_admission_id" @input="linked_cpn_input" />
                         </div>
                     </div>
                 </v-row>
@@ -702,9 +702,9 @@ export default {
                         {
                             id: null,
                             created_at:'',
-                            wop_calculated:'',
-                            wop_corrected:'',
-                            wop_ultrasound:'',
+                            wop_calculated: null,
+                            wop_corrected: null,
+                            wop_ultrasound: null,
                             hc:"",
                             ac:"",
                             fl:"",
@@ -728,9 +728,9 @@ export default {
                     second_screening:[{
                         id: null,
                         created_at:'',
-                        wop_calculated:'',
-                        wop_corrected:'',
-                        wop_ultrasound:'',
+                        wop_calculated: null,
+                        wop_corrected: null,
+                        wop_ultrasound: null,
                         hc:"",
                         ac:"",
                         fl:"",
@@ -757,9 +757,9 @@ export default {
                     third_screening:[{
                         id: null,
                         created_at:'',
-                        wop_calculated:'',
-                        wop_corrected:'',
-                        wop_ultrasound:'',
+                        wop_calculated: null,
+                        wop_corrected: null,
+                        wop_ultrasound: null,
                         hc:"",
                         ac:"",
                         fl:"",
@@ -791,9 +791,9 @@ export default {
                         {
                             id: null,
                             created_at:'',
-                            wop_calculated:'',
-                            wop_corrected:'',
-                            wop_ultrasound:'',
+                            wop_calculated: null,
+                            wop_corrected: null,
+                            wop_ultrasound: null,
                             hc:"",
                             ac:"",
                             fl:"",
@@ -817,9 +817,9 @@ export default {
                     second_screening:[{
                         id:null,
                         created_at:'',
-                        wop_calculated:'',
-                        wop_corrected:'',
-                        wop_ultrasound:'',
+                        wop_calculated: null,
+                        wop_corrected: null,
+                        wop_ultrasound: null,
                         hc:"",
                         ac:"",
                         fl:"",
@@ -846,9 +846,9 @@ export default {
                     third_screening:[{
                         id: null,
                         created_at:'',
-                        wop_calculated:'',
-                        wop_corrected:'',
-                        wop_ultrasound:'',
+                        wop_calculated: null,
+                        wop_corrected: null,
+                        wop_ultrasound: null,
                         hc:"",
                         ac:"",
                         fl:"",
@@ -875,9 +875,9 @@ export default {
             first_screening_data:{
                 id:null,
                 created_at:'',
-                wop_calculated:'',
-                wop_corrected:'',
-                wop_ultrasound:'',
+                wop_calculated: null,
+                wop_corrected: null,
+                wop_ultrasound: null,
                 hc:"",
                 ac:"",
                 fl:"",
@@ -900,9 +900,9 @@ export default {
             second_screening_data:{
                 id: null,
                 created_at:'',
-                wop_calculated:'',
-                wop_corrected:'',
-                wop_ultrasound:'',
+                wop_calculated: null,
+                wop_corrected: null,
+                wop_ultrasound: null,
                 hc:"",
                 ac:"",
                 fl:"",
@@ -929,9 +929,9 @@ export default {
             third_screening_data:{
                 id: null,
                 created_at:'',
-                wop_calculated:'',
-                wop_corrected:'',
-                wop_ultrasound:'',
+                wop_calculated: null,
+                wop_corrected: null,
+                wop_ultrasound: null,
                 hc:"",
                 ac:"",
                 fl:"",
@@ -999,13 +999,13 @@ export default {
             handler(val){
                 val.forEach(row=>{
                     row.first_screening.forEach(data=>{
-                        if(data.created_at !=='' && data.wop_calculated !=='' && data.midwives.length>0) data.valid=true
+                        if(data.created_at !=='' && data.wop_calculated && data.midwives.length>0) data.valid=true
                     })
                     row.second_screening.forEach(data=>{
-                        if(data.created_at !=='' && data.presentation_of_baby !=='' && data.wop_calculated !=='' && data.position_of_baby !== '' && data.midwives.length>0) data.valid=true
+                        if(data.created_at !=='' && data.presentation_of_baby !=='' && data.wop_calculated && data.position_of_baby !== '' && data.midwives.length>0) data.valid=true
                     })
                     row.third_screening.forEach(data=>{
-                        if(data.created_at !==''  && data.wop_calculated !=='' && data.placenta_type !== '' && data.midwives.length>0) data.valid=true;
+                        if(data.created_at !==''  && data.wop_calculated && data.placenta_type !== '' && data.midwives.length>0) data.valid=true;
 
                         const calculatedDays = this.get_gestational_age_in_days(data.wop_calculated);
                         const ultrasoundDays = this.get_gestational_age_in_days(data.wop_ultrasound);
@@ -1098,9 +1098,9 @@ export default {
                 second_screening:[{
                     id: null,
                     created_at:"",
-                    wop_calculated:"",
-                    wop_ultrasound:"",
-                    wop_corrected:"",
+                    wop_calculated: null,
+                    wop_ultrasound: null,
+                    wop_corrected: null,
                     hc:"",
                     ac:"",
                     fl:"",
@@ -1151,6 +1151,8 @@ export default {
             },)
         },
         get_gestational_age_in_days(ga) {
+            if (!ga)
+                return null;
             const parts = ga.split('+');
             if (parts.length !== 2)
                 return null;
@@ -1249,7 +1251,7 @@ export default {
 
                 })
             })
-            this.cpn_admission_id = response.cpn_admission_id;
+            this.cpn_admission_id = response.data.cpn_admission_id;
             this.patient.id=response.data.patient_id
             this.changePatient()
         },
@@ -1298,9 +1300,9 @@ export default {
                 case 1:
                     this.formData[fetus].first_screening.push({
                         created_at:'',
-                        wop_calculated:'',
-                        wop_corrected:'',
-                        wop_ultrasound:'',
+                        wop_calculated: null,
+                        wop_corrected: null,
+                        wop_ultrasound: null,
                         hc:"",
                         ac:"",
                         fl:"",
@@ -1322,9 +1324,9 @@ export default {
                 case 2:
                     this.formData[fetus].second_screening.push({
                         created_at:'',
-                        wop_calculated:'',
-                        wop_corrected:'',
-                        wop_ultrasound:'',
+                        wop_calculated: null,
+                        wop_corrected: null,
+                        wop_ultrasound: null,
                         hc:"",
                         ac:"",
                         fl:"",
@@ -1352,9 +1354,9 @@ export default {
                 case 3:
                 this.formData[fetus].third_screening.push({
                     created_at:'',
-                    wop_calculated:'',
-                    wop_corrected:'',
-                    wop_ultrasound:'',
+                    wop_calculated: null,
+                    wop_corrected: null,
+                    wop_ultrasound: null,
                     hc:"",
                     ac:"",
                     fl:"",

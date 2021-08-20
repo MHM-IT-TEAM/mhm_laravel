@@ -38,7 +38,7 @@
               </div>
               <div class="row d-flex" style="max-width:400px; align-items:center;">
                 <label class="mt-auto" >Linked ultrasound: </label>
-                <input class="ml-1 col-3 form-control" type="number" v-model="formData.ultrasound_admission_id" @input="linked_ultrasound_input" />
+                <input class="ml-1 col-3 form-control" :disabled="accessory.edit" type="number" v-model="formData.ultrasound_admission_id" @input="linked_ultrasound_input" />
               </div>
             </div>
           </div>
@@ -1109,6 +1109,9 @@ export default {
           this.formData.gestational_age = int + '+' + strDec;
       },
     gestational_age_week(gestational_age) {
+      if (!gestational_age || !gestational_age.includes('+'))
+        return undefined;
+
       return gestational_age.split('+')[0];
     },
     linked_ultrasound_input(e) {
