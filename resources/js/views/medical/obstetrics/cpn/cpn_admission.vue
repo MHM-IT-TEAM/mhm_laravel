@@ -579,7 +579,7 @@
                 />
               </td>
               <td>
-                <gestational-age v-model="row.sa" :class="{ 'error': this.gestational_age_week(row.sa) <= 37 }" />
+                <gestational-age v-model="row.sa" :class="{ 'error': gestational_age_week(row.sa) <= 37 }" />
                 /
                 <input
                   type="number"
