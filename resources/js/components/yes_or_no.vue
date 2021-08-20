@@ -19,6 +19,14 @@ export default {
   },
 };
 </script>
+<style>
+  .v-input--selection-controls__ripple {
+    transform: scale(0.65);
+  }
+  .v-input--radio-group .v-input__control .v-messages {
+    display: none;
+  }
+</style>
 <style scoped>
 .group-container {
     display: inline-block;
@@ -27,7 +35,7 @@ export default {
     max-height: 10px;
 }
 .small >>> i{
-    font-size:17px;
+    font-size: 12px;
 
 }
 .radio{

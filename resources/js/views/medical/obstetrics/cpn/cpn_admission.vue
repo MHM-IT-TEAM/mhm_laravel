@@ -330,7 +330,7 @@
                     :class="{ 'text-danger font-weight-bold error mt-2': $v.formData.risk_description.$error}"
                   ></textarea>
                 </td>
-                <td>
+                <td class="w-100">
                   <div class="form-check pl-0 mb-5">
                     <div class="d-flex">
                     <label class="form-check-label"
@@ -489,7 +489,7 @@
           </table>
           <table class="table table-bordered" id="preg_history">
             <tr>
-              <td class="table_title" colspan="6">
+              <td class="table_title" colspan="7">
                 Pregnancy History
 
                 <v-btn
@@ -512,7 +512,10 @@
               <td>Year</td>
               <td>Problems in the pregnancy</td>
               <td style="text-align: center !important">
-                Birth type/Place/indications/our patient?
+                Birth type/indications/our patient?
+              </td>
+              <td class="text-center">
+                Birth place
               </td>
               <td>SA/Weight of the baby/Condition</td>
               <td>
@@ -555,17 +558,19 @@
                   <option value="Cytotec">Cytotec</option>
                 </select>
                 &nbsp] /
-                <input
-                  type="text"
-                  v-model="row.birth_place"
-                  id="birth_place"
-                />/
                   <input type="text" v-model="row.birth_problems" />
 
                   /
                 <yes-or-no
                   row
                   v-model="row.ourPatient"
+                />
+              </td>
+              <td>
+                <textarea
+                  rows="4"
+                  v-model="row.birth_place"
+                  id="birth_place"
                 />
               </td>
               <td>
@@ -576,7 +581,7 @@
                   v-model="row.baby_weight"
                   style="width: 50px"
                 />
-                / [&nbsp
+                / [&nbsp;
                 <select v-model="row.baby_condition" style="font-size: 10px">
                   <option value="Alive">Alive</option>
                   <option value="premature">premature</option>
@@ -588,9 +593,9 @@
                   <option value="malformation">malformation</option>
                   <option value="infection">infection</option>
                 </select>
-                &nbsp]
+                &nbsp;]
               </td>
-              <td>
+              <td class="w-100">
                 [&nbsp
                 <select v-model="row.baby_gender">
                   <option value="M">M</option>
@@ -608,7 +613,7 @@
                    v-model="row.infection"
                 />
               </td>
-              <td><textarea v-model="row.pueperium" /></td>
+              <td><textarea rows="4" v-model="row.pueperium" /></td>
             </tr>
           </table>
             <table class="table">
@@ -743,25 +748,29 @@
                     style="width: 50%"
                     v-model="formData.close_family_malformation"
                   />
-                  <div class="form-check">
-                    <label class="form-check-label" for="meal">Dead Baby</label>
-                    &nbsp
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label class="form-check-label">Dead Baby</label>
+                </td>
+                <td>
+                  <yes-or-no
+                    row
+                    v-model="formData.close_family_dead_baby"
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label class="form-check-label">Miscarriage</label>
+                </td>
+                <td>
                     <yes-or-no
                       row
-                      v-model="formData.close_family_dead_baby"
+                      v-model="formData.close_family_miscarriage"
                     />
-                  </div>
                 </td>
-                  <td>
-                      <div class="form-check">
-                          <label class="form-check-label" for="meal">Miscarriage</label>
-                          &nbsp
-                          <yes-or-no
-                            row
-                            v-model="formData.close_family_miscarriage"
-                          />
-                      </div>
-                  </td>
               </tr>
               <tr>
                 <td>Problems in the pregnancy</td>
@@ -777,7 +786,7 @@
           </table>
 
         </div>
-        <div class="row">
+        <div class="row mt-3">
           <div class="col-12">
               <button
                   type="button "
@@ -1309,6 +1318,11 @@ function toNull(val) {
 }
 input {
   font-size: 11px;
+  border: lightgrey solid 0.5px;
+  min-width: 45px;
+}
+textarea {
+  font-size: 11px;
    border: lightgrey solid 0.5px;
 }
 input[type="date"]::-webkit-calendar-picker-indicator {
@@ -1357,9 +1371,7 @@ td {
 span.error {
   line-height: initial;
 }
-@media screen and (max-width: 1500px) {
-  #birth_place {
-    width: 50px;
-  }
+.table td {
+  padding: 0.5rem !important;
 }
 </style>
