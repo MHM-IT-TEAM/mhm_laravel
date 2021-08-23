@@ -38,7 +38,10 @@
               </div>
               <div class="row d-flex" style="max-width:400px; align-items:center;">
                 <label class="mt-auto" >Linked ultrasound: </label>
-                <input class="ml-1 col-3 form-control" :disabled="accessory.edit" type="number" v-model="formData.ultrasound_admission_id" @input="linked_ultrasound_input" />
+                <input min="0" class="ml-1 col-3 form-control" :disabled="accessory.edit" type="number" v-model="formData.ultrasound_admission_id" @input="linked_ultrasound_input" />
+                <div v-if="formData.ultrasound_admission_id && !accessory.ultrasound_link_error_message">
+                  <router-link target="_blank" :to="{ name: 'ultrasound_form', params: { ref: formData.ultrasound_admission_id } }"><button class="btn btn-secondary">View Ultrasound</button></router-link>
+                </div>
               </div>
             </div>
           </div>
@@ -335,7 +338,7 @@
                     :class="{ 'text-danger font-weight-bold error mt-2': $v.formData.risk_description.$error}"
                   ></textarea>
                 </td>
-                <td class="w-100">
+                <td>
                   <div class="form-check pl-0 mb-5">
                     <div class="d-flex">
                     <label class="form-check-label"
@@ -600,7 +603,7 @@
                 </select>
                 &nbsp;]
               </td>
-              <td class="w-100">
+              <td>
                 [&nbsp
                 <select v-model="row.baby_gender">
                   <option value="M">M</option>
@@ -1056,10 +1059,19 @@ export default {
       }
     },
     async fetchData() {
+      // copy the reference because it is reset by reset_form
+      const reference = this.accessory.reference;
+
+      if (!reference)
+        return;
+
       if (this.accessory.data_populated === true) this.reset_form();
       let response = await axios.get(
-        `/api/obstetrics/cpn/${this.accessory.reference}`
+          `/api/obstetrics/cpn/${reference}`
       );
+
+      this.accessory.reference = reference;
+
       if(response.data.success){
           Object.assign(this.formData, response.data.admission);
           this.formData.pregnancy_history = response.data.preg_history;
@@ -1084,10 +1096,12 @@ export default {
       this.accessory.isLoading = false;
       if (this.$route.params.id !== undefined) {
         this.accessory.reference = this.$route.params.id;
-        this.fetchData();
         this.accessory.edit=true
+
+        history.replaceState(null, null, this.$router.resolve({ name: 'cpn_admission' }).href);
       }
-      if(this.accessory.reference !=='' && this.accessory.reference !==undefined) this.fetchData()
+
+      if(this.accessory.reference !=='' && this.accessory.reference) await this.fetchData()
       return (this.accessory.blood_group = response.data);
     },
     overView(){

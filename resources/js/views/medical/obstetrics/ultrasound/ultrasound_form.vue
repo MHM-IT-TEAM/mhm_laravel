@@ -75,9 +75,12 @@
                         <div>
                           <span class="error">{{ accessory.cpn_link_error_message }}</span>
                         </div>
-                        <div class="d-flex" style="max-width:400px; align-items:center;">
+                        <div class="d-flex" style="max-width:600px; align-items:center;">
                           <label class="mt-auto" >Linked CPN: </label>
                           <input class="ml-1 col-3 form-control" type="number" :disabled="is_updating" v-model="cpn_admission_id" @input="linked_cpn_input" />
+                          <div v-if="cpn_admission_id && !accessory.cpn_link_error_message">
+                            <router-link target="_blank" :to="{ name: 'cpn_admission', params: { id: cpn_admission_id } }"><button class="btn btn-secondary">View CPN</button></router-link>
+                          </div>
                         </div>
                     </div>
                 </v-row>
@@ -1046,7 +1049,9 @@ export default {
                 this.changePatient();
             }
             if(this.$route.params.ref !== ""){
-                this.reference=this.$route.params.ref
+                this.reference= this.$route.params.ref
+                history.replaceState(null, null, this.$router.resolve({ name: 'ultrasound_form' }).href);
+
                 this.search()
             }
             if(this.ultrasound_ref !==''|| this.ultrasound_ref!==undefined){
@@ -1177,16 +1182,17 @@ export default {
                 )
         },
         async search(){
-            if(!this.reference) {
+            const reference = this.reference;
+            if(!reference) {
                 this.reset();
                 return;
             }
 
             //this.reset()
             this.is_updating=true
-            let response= await axios.get(`/api/obstetrics/ultrasound/${this.reference}`)
+            let response= await axios.get(`/api/obstetrics/ultrasound/${reference}`)
             this.count_of_fetus=response.data.count
-
+            
             let first_data=[]
             let second_data=[]
             let third_data=[]
@@ -1253,6 +1259,7 @@ export default {
             })
             this.cpn_admission_id = response.data.cpn_admission_id;
             this.patient.id=response.data.patient_id
+            this.reference = reference;
             this.changePatient()
         },
         async edit(id){
