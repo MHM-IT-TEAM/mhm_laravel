@@ -346,7 +346,6 @@
                     >
                     <yes-or-no
                       row
-                      style="min-width:100%"
                       v-model="formData.planned_oc"
                     />
                     </div>
@@ -372,7 +371,6 @@
                     <br/>
                     <yes-or-no
                       row
-                      style="min-width:100%"
                       v-model="formData.preeclampsia_needed"
                     />
                   </div>
@@ -382,7 +380,6 @@
                     >
                     <yes-or-no
                       row
-                      style="min-width:100%"
                       v-model="formData.ogtt_needed"
                     />
                   </div>
