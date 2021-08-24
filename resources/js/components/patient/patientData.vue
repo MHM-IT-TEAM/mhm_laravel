@@ -62,9 +62,9 @@
           </v-icon>
           <v-icon small @click="deleteItem(item)"> mdi-delete </v-icon>
         </template>
-        <template v-slot:no-data>
-          <v-btn color="primary" @click="initialize"> Reset </v-btn>
-        </template>
+<!--        <template v-slot:no-data>-->
+<!--          <v-btn color="primary" @click="initialize"> Reset </v-btn>-->
+<!--        </template>-->
       </v-data-table>
     </v-app>
   </div>

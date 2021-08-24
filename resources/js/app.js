@@ -13,6 +13,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
 import VueHtmlToPaper from 'vue-html-to-paper';
 import Calendar from 'v-calendar/lib/components/calendar.umd'
 import DatePicker from 'v-calendar/lib/components/date-picker.umd'
+import YesOrNo from './components/yes_or_no.vue'
 
 
 
@@ -24,6 +25,7 @@ Vue.component('multiselect', Multiselect);
 Vue.component('Loading', Loading)
 Vue.component('calendar', Calendar)
 Vue.component('date-picker', DatePicker)
+Vue.component('yes-or-no', YesOrNo)
 Vue.use(VueHtmlToPaper)
 
 

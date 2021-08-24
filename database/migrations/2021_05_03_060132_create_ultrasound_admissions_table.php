@@ -18,6 +18,7 @@ class CreateUltrasoundAdmissionsTable extends Migration
             $table->timestamps();
             $table->foreignId('patient_id')->constrained();
             $table->boolean('twin_pregnancy')->nullable();
+            $table->foreignId('cpn_admission_id')->nullable();
         });
     }
 

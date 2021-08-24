@@ -47,6 +47,12 @@ import internal_referral from "./views/medical/maternity/referral/internal_refer
 import maternity_discharge from "./views/medical/maternity/maternity_discharge";
 import laboratory_request from "./views/medical/laboratory/laboratory_request";
 import maternity_labwork from "./views/medical/maternity/labwork/maternity_labwork";
+//generalist
+import generalist_layout from "./views/medical/generalist/layouts/generalist_layout";
+import generalist_list from "./views/medical/generalist/generalist_list";
+import generalist_consultation from "./views/medical/generalist/generalist_consultation";
+
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -108,6 +114,12 @@ const routes = [
                 name: "consultation.list",
                 component: queue
             },
+            //
+            {
+                path: 'maternity_admission',
+                name: "joycenter.maternity_admission",
+                component: maternity_admission
+            },
         ]
     },
 
@@ -124,18 +136,19 @@ const routes = [
             {
                 path: 'first_cpn_list',
                 name: 'first_cpn_list',
-                component: first_cpn_list
-
+                component: first_cpn_list,
+                meta: { title : 'CPN' }
             },
             {
-                path: 'admission',
+                path: 'admission/:id?',
                 name: 'cpn_admission',
                 component: cpn_admission
             },
             {
                 path: 'followup',
                 name: 'cpn_followup',
-                component: cpn_followup
+                component: cpn_followup,
+                meta : { title: 'CPN Followup' }
             },
             {
                 path: 'pregnancy_test',
@@ -143,14 +156,15 @@ const routes = [
                 component: pregnancy_test
             },
             {
-                path: 'ultrasound_form',
+                path: 'ultrasound_form/:ref?',
                 name: 'ultrasound_form',
                 component: ultrasound_form
             },
             {
                 path: 'ultrasound_list',
                 name: 'ultrasound_list',
-                component: ultrasound_list
+                component: ultrasound_list,
+                meta: { title : 'Ultrasound' }
             },
             {
                 path: 'baby_weight_overview',
@@ -160,7 +174,8 @@ const routes = [
             {
                 path: 'baby_checkup_list',
                 name: 'baby_checkup_list',
-                component:baby_checkup_list
+                component:baby_checkup_list,
+                meta: { title : 'Baby checkup' }
             },
             {
                 path: 'baby_checkup',
@@ -170,7 +185,8 @@ const routes = [
             {
                 path: 'baby_vaccination_list',
                 name: 'baby_vaccination_list',
-                component:baby_vaccination_list
+                component:baby_vaccination_list,
+                meta: { title : 'Baby vaccination' }
             },
             {
                 path: 'baby_vaccination_card',
@@ -251,6 +267,28 @@ const routes = [
 
         ]
     },
+    /**
+     |-----------------------------
+     | Generalist
+     |-----------------------------
+     */
+    {
+        path:'/generalist',
+        component:generalist_layout,
+        children: [
+            {
+                path:'patient_list',
+                name:'generalist_patient_list',
+                component:generalist_list
+            },
+            {
+                path:'generalist_consultation',
+                name:'generalist_consultation',
+                component:generalist_consultation
+            }
+        ]
+    },
+
     /**
      |-----------------------------
      | Overviews

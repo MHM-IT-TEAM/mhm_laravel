@@ -28,6 +28,9 @@ class typeConsultSeeder extends Seeder
                 'name'=>'CPN Admission'
             ],
             [
+                'name'=>'CPN Followup'
+            ],
+            [
                 'name'=>'Ultrasound'
             ],
             [
@@ -46,9 +49,11 @@ class typeConsultSeeder extends Seeder
                 'name'=>'Milk Program'
             ],
             [
-                'name'=>'CPN Followup'
+                'name'=>'Post partum meeting'
+            ],
+            [
+                'name'=>'Wound care'
             ]
-
 
         ]);
     }

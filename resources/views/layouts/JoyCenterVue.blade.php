@@ -19,9 +19,6 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <style>
-        body{
-            background-color: #34568B;
-        }
         @media print{
             body{
                 background-color: white;

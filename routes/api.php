@@ -75,6 +75,18 @@ Route::get('/lp3',function(){
 Route::get('/placenta_type',function(){
     return \App\Models\PlacentaType::all();
 });
+//patient category
+Route::get('/patient_category',function(){
+    return \App\Models\PatientCategory::all();
+});
+//mhm partners
+Route::get('/mhm_partner',function(){
+    return \App\Models\MhmPartner::all();
+});
+// diag_code
+Route::get('/diag_code',function(){
+    return \App\Models\DiagCode::all();
+});
 //hospital service list
 Route::get('/hospital_service',function(){
     return cache()->rememberForever('hospital_service',function(){
@@ -107,8 +119,13 @@ Route::get('/paginate',function(){
 });
 
 //Consultation resource controller
-Route::post('/consultation/today',[\App\Http\Controllers\joyCenter\ConsultationController::class,'check_today_consultation']);
-Route::resource('/consultation', \App\Http\Controllers\joyCenter\ConsultationController::class);
+//Route::post('/consultation/today',[\App\Http\Controllers\joyCenter\ConsultationController::class,'check_today_consultation']);
+//Route::resource('/consultation', \App\Http\Controllers\joyCenter\ConsultationController::class);
+    //consultation beta
+        // get today consultation base on the type of consultation
+        Route::get('/consultation/today/{type}',[\App\Http\Controllers\V1\consultation\ConsultationController::class,'today_consultation_by_type']);
+        Route::post('/consultation/check_patient_today',[\App\Http\Controllers\V1\consultation\ConsultationController::class,'check_patient_today_consultation']);
+        Route::resource('/consultation', \App\Http\Controllers\V1\consultation\ConsultationController::class);
 //patient routes
 Route::get('/patients/search/',[App\Http\Controllers\centralized\patientController::class, 'search']);
 Route::get('/patients/vitalSign/{id}',[App\Http\Controllers\centralized\patientController::class, 'vitalSign']);
@@ -150,4 +167,8 @@ Route::group(['prefix'=>'obstetrics'],function(){
     route::get('/baby_vaccination/todayList',[App\Http\Controllers\medical\obstetrics\BabyVaccinationController::class,'todayList']);
     route::resource('/baby_checkup',\App\Http\Controllers\medical\obstetrics\BabyCheckupController::class);
     route::resource('/baby_vaccination',\App\Http\Controllers\medical\obstetrics\BabyVaccinationController::class);
+});
+//generalist
+Route::group(['prefix'=>'generalist'],function(){
+    route::resource('/consultation',\App\Http\Controllers\V1\medical\generalist\GeneralistController::class);
 });
