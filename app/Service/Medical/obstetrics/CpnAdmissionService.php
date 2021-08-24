@@ -7,6 +7,7 @@ namespace App\Service\Medical\obstetrics;
 use App\Models\Consultation;
 use App\Models\CpnAdmission;
 use App\Models\PregnancyHistory;
+use App\Models\UltrasoundAdmission;
 
 class CpnAdmissionService
 {
@@ -29,7 +30,17 @@ class CpnAdmissionService
             $consultation->save();
         }
 
-        $this->admission->fill($this->fill_data($request))->save();
+        $admission = $this->admission->fill($this->fill_data($request));
+        $admission->save();
+
+        if ($request->ultrasound_admission_id) {
+            $ultrasound_admission = UltrasoundAdmission::find($request->ultrasound_admission_id);
+            if ($ultrasound_admission && !$ultrasound_admission->cpn_admission_id) {
+                $ultrasound_admission->cpn_admission_id = $admission->id;
+                $ultrasound_admission->save();
+            }                
+        }
+
         return ["success"=>true,"id"=>$this->admission->id];
     }
     private function fill_data($request){
@@ -84,6 +95,7 @@ class CpnAdmissionService
             'hiv'=>$request->hiv,
             'syphilis'=>$request->syphilis,
             'responsible'=>$request->responsible,
+            'ultrasound_admission_id'=>$request->ultrasound_admission_id
         ];
     }
     private function pregHistoData($preg,$patient_id){

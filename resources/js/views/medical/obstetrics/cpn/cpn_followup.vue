@@ -8,7 +8,7 @@
                 :headers="headers"
                 :items="cpn_data"
                 sort-by="created_at"
-                sort-desc="true"
+                :sort-desc="true"
                 class="elevation-1"
             >
                 <template v-slot:top>
@@ -29,7 +29,7 @@
                             <span v-if="noDataFound" class="text-white bg-danger">no data found</span>
 
                             <v-spacer></v-spacer>
-                        <v-btn color="primary" @click="redirect" v-if="!is_overview">View main page</v-btn >
+                        <v-btn color="primary" @click="redirect" :disabled="!canShowData">View first checkup</v-btn >
                         <v-divider
                             class="mx-4"
                             inset
@@ -47,14 +47,15 @@
                                     class="mb-2"
                                     v-bind="attrs"
                                     v-on="on"
-                                    v-if="!is_overview"
+                                    :disabled="!canShowData"
                                 >
                                     New Data
                                 </v-btn>
                             </template>
                             <v-card>
-                                <v-card-title>
+                                <v-card-title class="align-items-baseline">
                                     <span class="headline">{{ formTitle }}</span>
+                                    <span class="pl-2" v-if="patient_details.firstName != null">- {{ patient_details.firstName + " " + patient_details.lastName }}</span>
                                 </v-card-title>
 
                                 <v-card-text>
@@ -66,11 +67,13 @@
                                                 sm="6"
                                                 md="2"
                                             >
+                                            <div style="padding: 30px 0px 0px 30px">
                                                 <gestational-age
                                                     v-model="editedItem.week_of_pregnancy"
                                                     label="Gestational age"
                                                     :error-messages="gestationalAgeError"
                                                 ></gestational-age>
+                                            </div>
                                             </v-col>
                                             <v-col
                                                 cols="12"
@@ -421,7 +424,10 @@
                                                 sm="6"
                                                 md="2"
                                             >
+                                                <div>
+                                                    <label for="appointment">Appointment date</label>
                                                     <date-picker v-model="editedItem.appointment"
+                                                        id="appointment"
                                                         @input="menu = false"
                                                         :input-debounce="500" mode="date"
                                                         :model-config="accessory.dateConfig" :masks="accessory.dateConfig.masks"
@@ -435,6 +441,7 @@
                                                                 />
                                                             </template>
                                                     </date-picker>
+                                                </div>
                                             </v-col>
                                             <v-col
                                                 cols="12"
@@ -443,6 +450,7 @@
                                             >
                                                 <v-select
                                                     label="Senior midwife informed"
+                                                    class="ml-2"
                                                     :items="senior_midwife"
                                                     v-model="editedItem.senior_informed"
                                                 ></v-select>
@@ -505,11 +513,24 @@
                 </template>
                 <template v-slot:no-data v-if="!is_overview">
                     <v-btn
+                        class="float-left"
                         color="primary"
                         @click="initialize"
                     >
                         Reset
                     </v-btn>
+                </template>
+                <template v-slot:item.created_at="{ item }">
+                    <span class="text-nowrap">{{ item.created_at }}</span>
+                </template>
+                <template v-slot:item.ctg_needed="{ item }">
+                    <span>{{ yesNoString(item.ctg_needed) }}</span>
+                </template>
+                <template v-slot:item.us_needed="{ item }">
+                    <span>{{ yesNoString(item.us_needed) }}</span>
+                </template>
+                <template v-slot:item.appointment="{ item }">
+                    <span>{{ item.appointment ? new Date(item.appointment).toLocaleDateString() : '' }}</span>
                 </template>
             </v-data-table>
         </v-app>
@@ -555,17 +576,17 @@ const {
                 {text:'Liquids',value:'liquids'},
                 {text:'Oedema',value:'oedema'},
                 {text:'Varicosis',value:'varicosis'},
-                {text:'Protein_test',value:'protein_test'},
-                {text:'Sugar_test',value:'sugar_test'},
-                {text:'Blood_test',value:'blood_test'},
-                {text:'Leucocyte_test',value:'leucocyte_test'},
+                {text:'Protein test',value:'protein_test'},
+                {text:'Sugar test',value:'sugar_test'},
+                {text:'Blood test',value:'blood_test'},
+                {text:'Leucocyte test',value:'leucocyte_test'},
                 {text:'OGTT',value:'ogtt'},
                 {text:'CTG needed',value:'ctg_needed'},
                 {text:'US needed',value:'us_needed'},
                 {text:'Senior midwife informed',value:'senior_informed'},
                 {text:'Appointment',value:'appointment'},
                 {text:'Actions',value:'actions',sortable:false},
-                {text:'Remark',value:'remark',sortable:false},
+                {text:'Remark',value:'remark',sortable:false, width: '300px'},
                 {text:'Responsible',value:'responsible'}
 
             ],
@@ -574,7 +595,7 @@ const {
             editedItem: {
                 cpn_admission_id:'',
                 date:"",
-                week_of_pregnancy:'',
+                week_of_pregnancy:null,
                 weight:'',
                 bp_left:'',
                 bp_right:'',
@@ -613,7 +634,7 @@ const {
             defaultItem: {
                 cpn_admission_id:'',
                 date:"",
-                week_of_pregnancy:'',
+                week_of_pregnancy:null,
                 weight:'',
                 bp_left:'',
                 bp_right:'',
@@ -667,7 +688,7 @@ const {
             urine_test:["Negative","trace","+","++","+++","invalid"],
             varicosis:["Negative","left leg","right leg","vulva"],
             regular_unplanned:["regular","unplanned"],
-            senior_midwife:["Tanja","Tianasoa"],
+            senior_midwife:["Tanja","Tianasoa", "Marlys"],
             is_new_form:true,
             menu:false,
             reference:'',
@@ -697,6 +718,9 @@ const {
             },
             today(){
                 return new Date().toLocaleString();
+            },
+            canShowData() {
+                return this.reference != null && this.reference != '' && !this.noDataFound && (this.is_overview !== true);
             }
         },
 
@@ -720,10 +744,10 @@ const {
                     this.search()
                 }
                 if(Object.keys(this.$route.params).length>0){
-                    let table_data= await axios.get(`/api/obstetrics/cpn_followup/${this.$route.params.cpn_admission_id}`)
-                    this.cpn_data= table_data.data
+                    let response = await axios.get(`/api/obstetrics/cpn_followup/${this.$route.params.cpn_admission_id}`)
+                    this.cpn_data= response.data.followups;
                     this.reference= this.editedItem.cpn_admission_id= this.$route.params.cpn_admission_id
-                    this.patient_details= this.$route.params.patient
+                    this.patient_details= response.data.patient;
                 }
                 // if(this.reference !=='' || this.reference !==undefined) this.search()
                 let lp1 = await axios.get('/api/lp1')
@@ -806,14 +830,13 @@ const {
                             await this.search();
                         }
                     }
-
-
             },
             async search(){
                 this.reset()
                 let fetch= await axios.get(`/api/obstetrics/cpn_followup/${this.reference}`)
-                if(fetch.data.length>0){
-                    this.cpn_data= fetch.data
+                if(fetch.data && fetch.data.followups.length>0){
+                    this.cpn_data= fetch.data.followups;
+                    this.patient_details = fetch.data.patient;
                 }
                 else this.noDataFound=true
             },
@@ -830,8 +853,13 @@ const {
                 this.editedItem= {...this.defaultItem}
                 this.cpn_data=[]
                 this.noDataFound=false
-            }
+            },
+            yesNoString(x) {
+                if (x == null)
+                    return null;
 
+                return x ? 'Yes' : 'No'
+            }
         },
         validations:{
             editedItem:{
@@ -840,8 +868,6 @@ const {
                 }
             }
         }
-
-
     }
 </script>
 

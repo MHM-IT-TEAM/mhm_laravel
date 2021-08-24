@@ -134,7 +134,7 @@ const routes = [
                 meta: { title : 'CPN' }
             },
             {
-                path: 'admission',
+                path: 'admission/:id?',
                 name: 'cpn_admission',
                 component: cpn_admission
             },
@@ -150,7 +150,7 @@ const routes = [
                 component: pregnancy_test
             },
             {
-                path: 'ultrasound_form',
+                path: 'ultrasound_form/:ref?',
                 name: 'ultrasound_form',
                 component: ultrasound_form
             },

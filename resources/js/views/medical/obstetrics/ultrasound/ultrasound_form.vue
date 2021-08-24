@@ -70,6 +70,20 @@
                         </v-btn>
                     </v-col>
                 </v-row>
+                <v-row>
+                    <div class="ml-4 mb-4">
+                        <div>
+                          <span class="error">{{ accessory.cpn_link_error_message }}</span>
+                        </div>
+                        <div class="d-flex" style="max-width:600px; align-items:center;">
+                          <label class="mt-auto" >Linked CPN: </label>
+                          <input class="ml-1 col-3 form-control" type="number" :disabled="is_updating" v-model="cpn_admission_id" @change="linked_cpn_change" />
+                          <div v-if="accessory.linked_cpn_exists">
+                            <router-link target="_blank" :to="{ name: 'cpn_admission', params: { id: cpn_admission_id } }"><button class="btn btn-secondary">View CPN</button></router-link>
+                          </div>
+                        </div>
+                    </div>
+                </v-row>
                 <v-dialog
                     v-model="dialog"
                     max-width="175px"
@@ -691,9 +705,9 @@ export default {
                         {
                             id: null,
                             created_at:'',
-                            wop_calculated:'',
-                            wop_corrected:'',
-                            wop_ultrasound:'',
+                            wop_calculated: null,
+                            wop_corrected: null,
+                            wop_ultrasound: null,
                             hc:"",
                             ac:"",
                             fl:"",
@@ -717,9 +731,9 @@ export default {
                     second_screening:[{
                         id: null,
                         created_at:'',
-                        wop_calculated:'',
-                        wop_corrected:'',
-                        wop_ultrasound:'',
+                        wop_calculated: null,
+                        wop_corrected: null,
+                        wop_ultrasound: null,
                         hc:"",
                         ac:"",
                         fl:"",
@@ -746,9 +760,9 @@ export default {
                     third_screening:[{
                         id: null,
                         created_at:'',
-                        wop_calculated:'',
-                        wop_corrected:'',
-                        wop_ultrasound:'',
+                        wop_calculated: null,
+                        wop_corrected: null,
+                        wop_ultrasound: null,
                         hc:"",
                         ac:"",
                         fl:"",
@@ -780,9 +794,9 @@ export default {
                         {
                             id: null,
                             created_at:'',
-                            wop_calculated:'',
-                            wop_corrected:'',
-                            wop_ultrasound:'',
+                            wop_calculated: null,
+                            wop_corrected: null,
+                            wop_ultrasound: null,
                             hc:"",
                             ac:"",
                             fl:"",
@@ -806,9 +820,9 @@ export default {
                     second_screening:[{
                         id:null,
                         created_at:'',
-                        wop_calculated:'',
-                        wop_corrected:'',
-                        wop_ultrasound:'',
+                        wop_calculated: null,
+                        wop_corrected: null,
+                        wop_ultrasound: null,
                         hc:"",
                         ac:"",
                         fl:"",
@@ -835,9 +849,9 @@ export default {
                     third_screening:[{
                         id: null,
                         created_at:'',
-                        wop_calculated:'',
-                        wop_corrected:'',
-                        wop_ultrasound:'',
+                        wop_calculated: null,
+                        wop_corrected: null,
+                        wop_ultrasound: null,
                         hc:"",
                         ac:"",
                         fl:"",
@@ -864,9 +878,9 @@ export default {
             first_screening_data:{
                 id:null,
                 created_at:'',
-                wop_calculated:'',
-                wop_corrected:'',
-                wop_ultrasound:'',
+                wop_calculated: null,
+                wop_corrected: null,
+                wop_ultrasound: null,
                 hc:"",
                 ac:"",
                 fl:"",
@@ -889,9 +903,9 @@ export default {
             second_screening_data:{
                 id: null,
                 created_at:'',
-                wop_calculated:'',
-                wop_corrected:'',
-                wop_ultrasound:'',
+                wop_calculated: null,
+                wop_corrected: null,
+                wop_ultrasound: null,
                 hc:"",
                 ac:"",
                 fl:"",
@@ -918,9 +932,9 @@ export default {
             third_screening_data:{
                 id: null,
                 created_at:'',
-                wop_calculated:'',
-                wop_corrected:'',
-                wop_ultrasound:'',
+                wop_calculated: null,
+                wop_corrected: null,
+                wop_ultrasound: null,
                 hc:"",
                 ac:"",
                 fl:"",
@@ -950,6 +964,7 @@ export default {
             presentation_of_baby:[],
             possible_fetus_count:[1,2,3],
             reference:'',
+            cpn_admission_id: null,
             is_updating:false,
             midwives:['Tanja','Tianasoa','Manitra','Finaritra'],
             formEdit:{
@@ -975,6 +990,8 @@ export default {
                           input: 'DD/MMM/YYYY',
                     },
                 },
+                cpn_link_error_message: null,
+                linked_cpn_exists: false
             }
         }
     },
@@ -986,13 +1003,13 @@ export default {
             handler(val){
                 val.forEach(row=>{
                     row.first_screening.forEach(data=>{
-                        if(data.created_at !=='' && data.wop_calculated !=='' && data.midwives.length>0) data.valid=true
+                        if(data.created_at !=='' && data.wop_calculated && data.midwives.length>0) data.valid=true
                     })
                     row.second_screening.forEach(data=>{
-                        if(data.created_at !=='' && data.presentation_of_baby !=='' && data.wop_calculated !=='' && data.position_of_baby !== '' && data.midwives.length>0) data.valid=true
+                        if(data.created_at !=='' && data.presentation_of_baby !=='' && data.wop_calculated && data.position_of_baby !== '' && data.midwives.length>0) data.valid=true
                     })
                     row.third_screening.forEach(data=>{
-                        if(data.created_at !==''  && data.wop_calculated !=='' && data.placenta_type !== '' && data.midwives.length>0) data.valid=true;
+                        if(data.created_at !==''  && data.wop_calculated && data.placenta_type !== '' && data.midwives.length>0) data.valid=true;
 
                         const calculatedDays = this.get_gestational_age_in_days(data.wop_calculated);
                         const ultrasoundDays = this.get_gestational_age_in_days(data.wop_ultrasound);
@@ -1033,7 +1050,9 @@ export default {
                 this.changePatient();
             }
             if(this.$route.params.ref !== ""){
-                this.reference=this.$route.params.ref
+                this.reference= this.$route.params.ref
+                history.replaceState(null, null, this.$router.resolve({ name: 'ultrasound_form' }).href);
+
                 this.search()
             }
             if(this.ultrasound_ref !==''|| this.ultrasound_ref!==undefined){
@@ -1085,9 +1104,9 @@ export default {
                 second_screening:[{
                     id: null,
                     created_at:"",
-                    wop_calculated:"",
-                    wop_ultrasound:"",
-                    wop_corrected:"",
+                    wop_calculated: null,
+                    wop_ultrasound: null,
+                    wop_corrected: null,
                     hc:"",
                     ac:"",
                     fl:"",
@@ -1138,6 +1157,8 @@ export default {
             },)
         },
         get_gestational_age_in_days(ga) {
+            if (!ga)
+                return null;
             const parts = ga.split('+');
             if (parts.length !== 2)
                 return null;
@@ -1146,7 +1167,7 @@ export default {
         },
         async submit(e){
             e.preventDefault()
-            await axios.post('/api/obstetrics/ultrasound',{formData:this.formData,patient_id:this.patient.id, count_of_fetus:this.count_of_fetus,ref:this.reference})
+            await axios.post('/api/obstetrics/ultrasound',{formData:this.formData,patient_id:this.patient.id, count_of_fetus:this.count_of_fetus,ref:this.reference,cpn_admission_id:this.cpn_admission_id})
                 .then(
                     resp=>{
                         this.$toast.open({
@@ -1162,16 +1183,17 @@ export default {
                 )
         },
         async search(){
-            if(!this.reference) {
+            const reference = this.reference;
+            if(!reference) {
                 this.reset();
                 return;
             }
 
             //this.reset()
             this.is_updating=true
-            let response= await axios.get(`/api/obstetrics/ultrasound/${this.reference}`)
+            let response= await axios.get(`/api/obstetrics/ultrasound/${reference}`)
             this.count_of_fetus=response.data.count
-
+            
             let first_data=[]
             let second_data=[]
             let third_data=[]
@@ -1236,7 +1258,9 @@ export default {
 
                 })
             })
+            this.cpn_admission_id = response.data.cpn_admission_id;
             this.patient.id=response.data.patient_id
+            this.reference = reference;
             this.changePatient()
         },
         async edit(id){
@@ -1270,6 +1294,7 @@ export default {
                 second_screening:true,
                 third_screening:true,
             })
+            this.cpn_admission_id = null;
         },
         async changePatient(){
             let patData = await axios.get(
@@ -1283,9 +1308,9 @@ export default {
                 case 1:
                     this.formData[fetus].first_screening.push({
                         created_at:'',
-                        wop_calculated:'',
-                        wop_corrected:'',
-                        wop_ultrasound:'',
+                        wop_calculated: null,
+                        wop_corrected: null,
+                        wop_ultrasound: null,
                         hc:"",
                         ac:"",
                         fl:"",
@@ -1307,9 +1332,9 @@ export default {
                 case 2:
                     this.formData[fetus].second_screening.push({
                         created_at:'',
-                        wop_calculated:'',
-                        wop_corrected:'',
-                        wop_ultrasound:'',
+                        wop_calculated: null,
+                        wop_corrected: null,
+                        wop_ultrasound: null,
                         hc:"",
                         ac:"",
                         fl:"",
@@ -1337,9 +1362,9 @@ export default {
                 case 3:
                 this.formData[fetus].third_screening.push({
                     created_at:'',
-                    wop_calculated:'',
-                    wop_corrected:'',
-                    wop_ultrasound:'',
+                    wop_calculated: null,
+                    wop_corrected: null,
+                    wop_ultrasound: null,
                     hc:"",
                     ac:"",
                     fl:"",
@@ -1384,6 +1409,41 @@ export default {
             let d=String(src.getDate()).padStart(2,'0')
             let month= String(src.getMonth()+1).padStart(2,'0')
             return `${year}-${month}-${d}`
+        },
+        linked_cpn_change(e) {
+            if (!e.target.value) {
+                this.accessory.linked_cpn_exists = false;
+                this.accessory.cpn_link_error_message = null;
+                return;
+            }
+
+          this.accessory.linked_cpn_exists = false;
+
+          axios.get('/api/obstetrics/cpn/' + this.cpn_admission_id)
+            .then(response =>
+            {
+                if (response.data.success) {
+                    this.accessory.linked_cpn_exists = true;
+
+                    if (response.data.admission.ultrasound_admission_id) {
+                      this.accessory.cpn_link_error_message = "CPN already has a linked ultrasound";
+                    }
+                    else if (response.data.admission.patient_id != this.patient.id) {
+                      this.accessory.cpn_link_error_message = "Patient Id does not match referenced CPN patient Id";
+                    }
+                    else
+                      this.accessory.cpn_link_error_message = null;
+                }
+                else {
+                    this.accessory.linked_cpn_exists = false;
+                    this.accessory.cpn_link_error_message = "Could not retrieve the CPN data";
+                }
+            })
+            .catch(error => 
+            {
+              this.accessory.linked_cpn_exists = false;
+              this.accessory.cpn_link_error_message = "Could not retrieve the CPN data";
+            });
         }
     },
 };

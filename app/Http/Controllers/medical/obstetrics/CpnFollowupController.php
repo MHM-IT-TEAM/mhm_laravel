@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\medical\obstetrics;
 
 use App\Http\Controllers\Controller;
+use App\Models\Patient;
 use App\Models\CpnFollowup;
 use App\Service\Medical\obstetrics\CpnFollowupService;
 use Illuminate\Http\Request;
@@ -55,7 +56,15 @@ class CpnFollowupController extends Controller
      */
     public function show($id)
     {
-        return CpnFollowup::where('cpn_admission_id',$id)->get();
+        $followups = CpnFollowup::where('cpn_admission_id',$id)->get();
+        $patient = Patient::whereHas('cpnAdmissions', function ($query) use($id) {
+            $query->where('id', $id);
+        })->first();
+
+        return [
+            'followups'=> $followups,
+            'patient' => $patient
+        ];
     }
 
     /**
