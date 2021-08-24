@@ -77,8 +77,8 @@
                         </div>
                         <div class="d-flex" style="max-width:600px; align-items:center;">
                           <label class="mt-auto" >Linked CPN: </label>
-                          <input class="ml-1 col-3 form-control" type="number" :disabled="is_updating" v-model="cpn_admission_id" @input="linked_cpn_input" />
-                          <div v-if="cpn_admission_id && !accessory.cpn_link_error_message">
+                          <input class="ml-1 col-3 form-control" type="number" :disabled="is_updating" v-model="cpn_admission_id" @change="linked_cpn_change" />
+                          <div v-if="accessory.linked_cpn_exists">
                             <router-link target="_blank" :to="{ name: 'cpn_admission', params: { id: cpn_admission_id } }"><button class="btn btn-secondary">View CPN</button></router-link>
                           </div>
                         </div>
@@ -990,7 +990,8 @@ export default {
                           input: 'DD/MMM/YYYY',
                     },
                 },
-                cpn_link_error_message: null
+                cpn_link_error_message: null,
+                linked_cpn_exists: false
             }
         }
     },
@@ -1409,29 +1410,38 @@ export default {
             let month= String(src.getMonth()+1).padStart(2,'0')
             return `${year}-${month}-${d}`
         },
-        linked_cpn_input(e) {
-          if (!e.target.value)
-            return;
+        linked_cpn_change(e) {
+            if (!e.target.value) {
+                this.accessory.linked_cpn_exists = false;
+                this.accessory.cpn_link_error_message = null;
+                return;
+            }
+
+          this.accessory.linked_cpn_exists = false;
 
           axios.get('/api/obstetrics/cpn/' + this.cpn_admission_id)
             .then(response =>
             {
                 if (response.data.success) {
-                    if (response.data.admission.patient_id != this.patient.id) {
-                      this.accessory.cpn_link_error_message = "Patient Id does not match referenced CPN patient Id";
+                    this.accessory.linked_cpn_exists = true;
+
+                    if (response.data.admission.ultrasound_admission_id) {
+                      this.accessory.cpn_link_error_message = "CPN already has a linked ultrasound";
                     }
-                    else if (response.data.admission.ultrasound_admission_id) {
-                      this.accessory.cpn_link_error_message = "Referenced CPN already has an ultrasound linked";
+                    else if (response.data.admission.patient_id != this.patient.id) {
+                      this.accessory.cpn_link_error_message = "Patient Id does not match referenced CPN patient Id";
                     }
                     else
                       this.accessory.cpn_link_error_message = null;
                 }
                 else {
+                    this.accessory.linked_cpn_exists = false;
                     this.accessory.cpn_link_error_message = "Could not retrieve the CPN data";
                 }
             })
             .catch(error => 
             {
+              this.accessory.linked_cpn_exists = false;
               this.accessory.cpn_link_error_message = "Could not retrieve the CPN data";
             });
         }

@@ -38,8 +38,8 @@
               </div>
               <div class="row d-flex" style="max-width:400px; align-items:center;">
                 <label class="mt-auto" >Linked ultrasound: </label>
-                <input min="0" class="ml-1 col-3 form-control" :disabled="accessory.edit" type="number" v-model="formData.ultrasound_admission_id" @input="linked_ultrasound_input" />
-                <div v-if="formData.ultrasound_admission_id && !accessory.ultrasound_link_error_message">
+                <input min="0" class="ml-1 col-3 form-control" :disabled="accessory.edit" type="number" v-model="formData.ultrasound_admission_id" @change="linked_ultrasound_change" />
+                <div v-if="accessory.linked_ultrasound_exists">
                   <router-link target="_blank" :to="{ name: 'ultrasound_form', params: { ref: formData.ultrasound_admission_id } }"><button class="btn btn-secondary">View Ultrasound</button></router-link>
                 </div>
               </div>
@@ -932,7 +932,8 @@ export default {
         birth_problem:"",
         noPatientFound: false,
         noReferenceFound:false,
-        ultrasound_link_error_message: ""
+        ultrasound_link_error_message: "",
+        linked_ultrasound_exists: false
       },
     };
   },
@@ -1139,14 +1140,23 @@ export default {
 
       return gestational_age.split('+')[0];
     },
-    linked_ultrasound_input(e) {
-      if (!e.target.value)
+    linked_ultrasound_change(e) {
+      if (!e.target.value) {
+        this.accessory.linked_ultrasound_exists = false;
+        this.accessory.ultrasound_link_error_message = null;
         return;
+      }
+
+      this.accessory.linked_ultrasound_exists = false;
 
       axios.get('/api/obstetrics/ultrasound/' + this.formData.ultrasound_admission_id)
         .then(response =>
         {
-          if (response.data.patient_id != this.formData.patient_id) {
+          this.accessory.linked_ultrasound_exists = true;
+          if (response.data.cpn_admission_id) {
+            this.accessory.ultrasound_link_error_message = "Ultrasound already has a linked CPN";
+          }
+          else if (response.data.patient_id != this.formData.patient_id) {
             this.accessory.ultrasound_link_error_message = "Patient Id does not match referenced ultrasound patient Id";
           }
           else
@@ -1154,6 +1164,7 @@ export default {
         })
         .catch(error => 
         {
+          this.accessory.linked_ultrasound_exists = false;
           this.accessory.ultrasound_link_error_message = "Could not retrieve the ultrasound data";
         });
     },
