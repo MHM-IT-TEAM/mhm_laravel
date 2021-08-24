@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateGraceCsbTransactionsTable extends Migration
+class CreatePatientCategoriesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class CreateGraceCsbTransactionsTable extends Migration
      */
     public function up()
     {
-        Schema::connection('inventSyst')->create('grace_csb_transactions', function (Blueprint $table) {
+        Schema::connection('patSyst')->create('patient_categories', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->bigInteger('consultation_id');
-            $table->boolean('done')->default(0);
-            $table->string('responsible')->nullable();
+            $table->string('name');
         });
     }
 
@@ -29,6 +27,6 @@ class CreateGraceCsbTransactionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('grace_csb_transactions');
+        Schema::dropIfExists('patient_categories');
     }
 }

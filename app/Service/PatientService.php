@@ -43,7 +43,9 @@ class PatientService
             'email'=>$request->email,
             'mom_name'=>$request->mom_name,
             'dad_name'=>$request->dad_name,
-            'avatar'=>$this->avatar
+            'avatar'=>$this->avatar,
+            'patient_category_id'=>$request->patient_category_id,
+            'mhm_partner_id'=>$request->mhm_partner_id
         ];
     }
     /**

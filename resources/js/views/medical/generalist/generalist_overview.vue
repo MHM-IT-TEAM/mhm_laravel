@@ -18,7 +18,16 @@
 
 <script>
 export default {
-    name: "generalist_overview"
+    name: "generalist_overview",
+    props:['patient_id'],
+    data(){
+        return{
+
+        }
+    },
+    mounted(){
+        console.log(this.patient_id)
+    }
 }
 </script>
 

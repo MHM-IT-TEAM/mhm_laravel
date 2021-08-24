@@ -258,7 +258,7 @@
                         </table>
                     </div>
                     <div v-if="accessory.selectedItem===1">
-                        <generalist_overview/>
+                        <generalist_overview :patient_id="formData.consultation.patient_id"/>
                     </div>
                     <div v-if="accessory.selectedItem===2">
                         <lab-work/>
@@ -391,8 +391,40 @@ export default {
                 return true;
             }
             this.formData.responsible= window.auth.user.name
-            await axios.post('/api/generalist/consultation',this.formData)
-
+            await axios.post('/api/generalist/consultation',this.formData).then(response=>{
+                if(response.data.success){
+                    this.$toast.open({position:'top-right',type:'success',message:response.data.msg})
+                    this.reset_form()
+                    this.$v.$reset()
+                }
+            })
+        },
+        reset_form(){
+          this.formData={
+              id:'',
+              new_case:'',
+              consultation:{
+                  patient:{
+                      firstName:'',
+                      lastName:'',
+                      tel:'',
+                      birthDate:'',
+                      adress:''
+                  }
+              },
+              consultation_id:'',
+              complaint:'',
+              finding:'',
+              malaria:'',
+              syphilis:'',
+              hiv:'',
+              medical_care_needed:'',
+              diagnose:'',
+              diag_code:'',
+              details:'',
+              appointment:'',
+              medication:[]
+          }
         }
     }
 }

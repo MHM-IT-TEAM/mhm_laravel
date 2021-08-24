@@ -21,13 +21,13 @@ class Generalist extends Model
 
 
     public function store($request){
-//            dd($request->get('medication'));
         $this->fill($this->_fill_main_data($request))->save();
-        $generalist_id= $this->id;
         if(count($request->get('medication'))>0){
-
+            $this->_medicines_transaction($request->get('medication'),$this->id);
         }
-
+        $consultation= Consultation::find($request->consultation['id']);
+        $consultation->status='DONE';
+        $consultation->save();
     }
 
     private function _fill_main_data($request){
@@ -53,6 +53,9 @@ class Generalist extends Model
             'consultation_id'=>$consultation_id,
             'done'=>0
             ]);
-        $details='';
+        foreach($request as $line){
+            $line['grace_csb_transaction_id']=$consultation_id;
+            GraceCsbTransactionDetail::create_detail($line,);
+        }
     }
 }

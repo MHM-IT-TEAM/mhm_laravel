@@ -42,7 +42,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <select class="required" v-model="formData.type_consult_id" @change="changeConsult">
+                            <select class="required" v-model="formData.type_consult_id" @change="changeConsult" :disabled="formData.patient.id===''">
                                 <option value=""><span class="text-danger">*</span>Type of consultation</option>
                                 <option v-for="item in accessory.type_consultation" :value="item.id">{{item.name}}</option>
                             </select>
@@ -58,24 +58,24 @@
                         <td>Weight</td>
                         <td>Blood Pressure</td>
                         <td>Pulse</td>
-                        <td>Spo2</td>
+                        <td>SpO<small>2</small></td>
                     </tr>
                     <tr>
                         <td>
-                            <input type="number" class="required"  v-model="formData.temp" :class="{'text-danger': formData.temp>=38}"/>
+                            <input type="number" class="required"  v-model="formData.temp" :class="{'text-danger': formData.temp>=38}" :disabled="formData.patient.id===''"/>
                         </td>
                         <td>
-                            <input type="number" class="required"  v-model="formData.weight"/>
+                            <input type="number" class="required"  v-model="formData.weight" :disabled="formData.patient.id===''"/>
                         </td>
                         <td>
-                            <input type="number" class="required"  v-model="formData.taSysto" :class="{'text-danger': formData.taSysto>=14}"/> /
-                            <input type="number" class="required"  v-model="formData.taDia"/>
+                            <input type="number" class="required"  v-model="formData.taSysto" :class="{'text-danger': formData.taSysto>=14}" :disabled="formData.patient.id===''"/> /
+                            <input type="number" class="required"  v-model="formData.taDia" :disabled="formData.patient.id===''"/>
                         </td>
                         <td>
-                            <input type="number" class="required" v-model="formData.pulse" />
+                            <input type="number" class="required" v-model="formData.pulse"  :disabled="formData.patient.id===''"/>
                         </td>
                         <td>
-                            <input type="number" class="required" v-model="formData.spo2" :class="{'text-danger': formData.taSysto>=75}"/>
+                            <input type="number" class="required" v-model="formData.spo2" :class="{'text-danger': formData.taSysto>=75}" :disabled="formData.patient.id===''"/>
                         </td>
                     </tr>
                 </table>
@@ -88,7 +88,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <textarea class="form-control form-control-sm" v-model="formData.remark"></textarea>
+                            <textarea class="form-control form-control-sm" v-model="formData.remark" :disabled="formData.patient.id===''"></textarea>
                         </td>
                     </tr>
                 </table>
@@ -96,10 +96,13 @@
                     <tr>
                         <th class="table-title">
                             <v-icon>mdi-cash</v-icon>
-                            Payment
+                            Pricing
                         </th>
                     </tr>
                 </table>
+                <p v-if="formData.patient.patient_category_id===3" class="bg-info">The patient is registered as Mhm's employee</p>
+                <p v-if="formData.patient.patient_category_id===4" class="bg-info">The patient is registered as a staff family of Mhm's employee </p>
+                <p v-if="formData.patient.patient_category_id===5" class="bg-info">The patient is registered as member of Mhm's partnership </p>
             </div>
             <div class="row">
                 <div class="col-6">
@@ -228,6 +231,8 @@ const {
                         tel:"",
                         sector: false,
                         last_due: 0,
+                        patient_category_id:'',
+                        mhm_partner_id:''
                     },
                     remark:'',
                     patient_care_details: []
@@ -312,7 +317,12 @@ const {
                     }
                 })
                 this.validate_consult_type()
-                this.accessory.servicePrice = servicePrice.data
+                if([3,4,5].includes(this.formData.patient.patient_category_id)){
+                    this.accessory.servicePrice=[]
+                }else{
+                    this.accessory.servicePrice = servicePrice.data
+                }
+
             },
             add_care_line(){
                 let line= this.accessory.temp_care_line
@@ -372,6 +382,8 @@ const {
                         tel:"",
                         sector: false,
                         last_due: 0,
+                        patient_category_id:'',
+                        mhm_partner_id:''
                     },
                     remark:'',
                     patient_care_details: []
@@ -411,7 +423,7 @@ const {
                     this.formData.type_consult_id=""
                 }
                 //check if the patient is today already in the system
-                await axios.post('/api/consultation/today',{type_consult_id:this.formData.type_consult_id,patient_id:this.formData.patient.id}).then(response=>{
+                await axios.post('/api/consultation/check_patient_today',{type_consult_id:this.formData.type_consult_id,patient_id:this.formData.patient.id}).then(response=>{
                     if(response.data.length>0){
                         this.$toast.open({message:'A patient cannot in on day consult the same service more than once',position:'top-right',type:'error'})
                         this.formData.type_consult_id=""

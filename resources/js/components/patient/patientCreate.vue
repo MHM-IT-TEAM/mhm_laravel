@@ -281,6 +281,25 @@
                           </div>
                           <!--Avatar and Nationality-->
                       </div>
+                      <div class="row">
+                          <div class="col-6">
+                              <div class="form-group">
+                                  <label>Patient category</label>
+                                  <select class="form-control" v-model="patient.patient_category_id">
+                                      <option v-for="item in patient_category" :value="item.id">{{item.name}}</option>
+                                  </select>
+                                  <span class="text-white bg-danger" v-if="$v.patient.patient_category_id.$error">You must choose a category</span>
+                              </div>
+                          </div>
+                          <div class="col-6"  v-if="this.patient.patient_category_id===5">
+                              <div class="form-group">
+                                  <label>write the name of the organization</label>
+                                  <select class="form-control" v-model="patient.mhm_partner_id">
+                                      <option v-for="item in mhm_partner" :value="item.id">{{item.name}}</option>
+                                  </select>
+                              </div>
+                          </div>
+                      </div>
                       <!--personal detail-->
                       <br />
                       <h4>Communication Details</h4>
@@ -510,9 +529,14 @@ export default {
         mom_name: "",
         dad_name: "",
         avatar: null,
+        patient_category_id:'',
+        mhm_partner_id:'',
+
       },
       countries: [],
       fokontany:[],
+      patient_category:[],
+      mhm_partner:[],
       nationality: "",
       em_rows: [{ name: "", tel: "" }],
       default_em_rows: [{ name: "", tel: "" }],
@@ -546,6 +570,9 @@ export default {
       adress: {
         required,
       },
+      patient_category_id: {
+          required
+      }
     },
   },
   computed: {
@@ -554,6 +581,8 @@ export default {
   created() {
     this.getCountries();
     this.getFokontany()
+    this.getPatientCategory()
+    this.getPartner()
   },
 
   mounted() {
@@ -586,6 +615,14 @@ export default {
     getFokontany(){
         this.fokontany=[]
         axios.get("/api/fokontany").then(response=> response.data.forEach(fkt=>this.fokontany.push(fkt.name)))
+    },
+    getPatientCategory(){
+        this.patientCategory=[]
+        axios.get("/api/patient_category").then(response=>this.patient_category=response.data)
+    },
+    getPartner(){
+      this.mhm_partner=[]
+      axios.get("/api/mhm_partner").then(response=>this.mhm_partner=response.data)
     },
     avatar_change(e) {
       let files = document.getElementById("avatar");
@@ -621,8 +658,11 @@ export default {
         return true;
       }
       let formData = new FormData();
-      Object.entries(this.patient).forEach(([key, value]) =>
-        formData.append(key, value)
+      Object.entries(this.patient).forEach(([key, value]) =>{
+              if(value!==null){
+                  formData.append(key, value)
+              }
+          }
       );
       formData.append("em_rows", JSON.stringify(this.em_rows));
       formData.append("nationality", this.nationality.country_name);

@@ -13,11 +13,11 @@ class CreateGraceCsbTransactionDetailsTable extends Migration
      */
     public function up()
     {
-        Schema::create('grace_csb_transaction_details', function (Blueprint $table) {
+        Schema::connection('inventSyst')->create('grace_csb_transaction_details', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->foreignId('grace_csb_transaction_id')->constrained();
-            $table->string('medicine',200);
+            $table->foreignId('grace_csb_transaction_id');
+            $table->foreignId('item_id');
             $table->string('breakfast',50)->nullable();
             $table->string('lunch',50)->nullable();
             $table->string('dinner',50)->nullable();
