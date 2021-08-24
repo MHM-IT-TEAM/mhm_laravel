@@ -24,7 +24,6 @@ class patientController extends Controller
 
      $patService=new PatientService($request);
         return $patService ->store();
-        dd($request->all());
     }
 
     public function show($id)

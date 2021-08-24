@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid bg-light" >
+  <div class="container-fluid bg-white" >
     <form onsubmit="return false;">
       <input
         type="text"

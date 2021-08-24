@@ -27,6 +27,9 @@ class Consultation extends Model
         public function patientCareDetails(){
             return $this->hasMany(PatientCareDetail::class);
         }
+        public function graceCsbTransaction(){
+            return $this->hasMany(GraceCsbTransaction::class);
+        }
     //scopes
         public function scopeTodayConsultation($query){
             return $query->whereDate('created_at',Carbon::today());

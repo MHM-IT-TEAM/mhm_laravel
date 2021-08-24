@@ -114,6 +114,12 @@ const routes = [
                 name: "consultation.list",
                 component: queue
             },
+            //
+            {
+                path: 'maternity_admission',
+                name: "joycenter.maternity_admission",
+                component: maternity_admission
+            },
         ]
     },
 

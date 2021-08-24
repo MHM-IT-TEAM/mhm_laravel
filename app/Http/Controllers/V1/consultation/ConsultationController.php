@@ -4,6 +4,7 @@ namespace App\Http\Controllers\V1\consultation;
 
 use App\Http\Controllers\Controller;
 use App\Models\Consultation;
+use App\Service\ConsultationService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
@@ -21,7 +22,9 @@ class ConsultationController extends Controller
 
     public function store(Request $request)
     {
-        //
+        $consult= new consultationService($request);
+        $consult->store();
+        return response()->json(['success'=>true,'msg'=>'consultation submitted successfully']);
     }
 
     public function show($id)
@@ -59,5 +62,9 @@ class ConsultationController extends Controller
     }
     public function filter_by_month_and_type($month,$type){
         return Consultation::whereDate('created_at',$month)->where('type_consult_id',$type);
+    }
+    public function check_patient_today_consultation(Request $request){
+
+        return Consultation::where('type_consult_id',$request->type_consult_id)->where('patient_id',$request->patient_id)->whereDate('created_at',\Illuminate\Support\Carbon::today())->get();
     }
 }
