@@ -53,8 +53,9 @@
                                 </v-btn>
                             </template>
                             <v-card>
-                                <v-card-title>
+                                <v-card-title class="align-items-baseline">
                                     <span class="headline">{{ formTitle }}</span>
+                                    <span class="pl-2" v-if="patient_details.firstName != null">- {{ patient_details.firstName + " " + patient_details.lastName }}</span>
                                 </v-card-title>
 
                                 <v-card-text>
@@ -529,7 +530,7 @@
                     <span>{{ yesNoString(item.us_needed) }}</span>
                 </template>
                 <template v-slot:item.appointment="{ item }">
-                    <span>{{ new Date(item.appointment).toLocaleDateString() }}</span>
+                    <span>{{ item.appointment ? new Date(item.appointment).toLocaleDateString() : '' }}</span>
                 </template>
             </v-data-table>
         </v-app>
@@ -743,10 +744,10 @@ const {
                     this.search()
                 }
                 if(Object.keys(this.$route.params).length>0){
-                    let table_data= await axios.get(`/api/obstetrics/cpn_followup/${this.$route.params.cpn_admission_id}`)
-                    this.cpn_data= table_data.data
+                    let response = await axios.get(`/api/obstetrics/cpn_followup/${this.$route.params.cpn_admission_id}`)
+                    this.cpn_data= response.data.followups;
                     this.reference= this.editedItem.cpn_admission_id= this.$route.params.cpn_admission_id
-                    this.patient_details= this.$route.params.patient
+                    this.patient_details= response.data.patient;
                 }
                 // if(this.reference !=='' || this.reference !==undefined) this.search()
                 let lp1 = await axios.get('/api/lp1')
@@ -829,14 +830,13 @@ const {
                             await this.search();
                         }
                     }
-
-
             },
             async search(){
                 this.reset()
                 let fetch= await axios.get(`/api/obstetrics/cpn_followup/${this.reference}`)
-                if(fetch.data.length>0){
-                    this.cpn_data= fetch.data;
+                if(fetch.data && fetch.data.followups.length>0){
+                    this.cpn_data= fetch.data.followups;
+                    this.patient_details = fetch.data.patient;
                 }
                 else this.noDataFound=true
             },
@@ -868,8 +868,6 @@ const {
                 }
             }
         }
-
-
     }
 </script>
 
