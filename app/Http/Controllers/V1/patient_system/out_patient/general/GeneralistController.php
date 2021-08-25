@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\V1\medical\generalist;
+namespace App\Http\Controllers\V1\medical\out_patient;
 
 use App\Http\Controllers\Controller;
 use App\Models\Generalist;

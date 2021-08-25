@@ -13,10 +13,10 @@ class BedController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function free_in_division($division_id)
+    public function free_in_service($service_id)
     {
         $bed = new Bed();
-        return $bed->free()->division($division_id)->get();
+        return $bed->free()->service($service_id)->get();
     }
 
     /**

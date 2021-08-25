@@ -2,7 +2,7 @@ import * as types from './mutation_types'
 
 export const fetchPatients = ({ commit, dispatch, state }, params) => {
     return new Promise((resolve, reject) => {
-        window.axios.get(`/api/patients/search`, { params: { query: params } }).then((response) => {
+        window.axios.get(`/api/v1/patient_system/patient/search`, { params: { query: params } }).then((response) => {
             commit(types.BOOTSTRAP_PATIENTS, response.data)
             //commit(types.SET_TOTAL_PATIENTS, response.data.patients.total)
             //resolve(response)
@@ -14,7 +14,7 @@ export const fetchPatients = ({ commit, dispatch, state }, params) => {
 
 export const fetchPatient = ({ commit, dispatch }, id) => {
     return new Promise((resolve, reject) => {
-        window.axios.get(`/api/patients/${id}/edit`).then((response) => {
+        window.axios.get(`/api/v1/patient_system/patient/patient/${id}/edit`).then((response) => {
             commit(types.BOOTSTRAP_PATIENTS,response.data)
             resolve(response.data)
         }).catch((err) => {
@@ -25,7 +25,7 @@ export const fetchPatient = ({ commit, dispatch }, id) => {
 
 export const addPatient = ({ commit, dispatch, state }, data) => {
     return new Promise((resolve, reject) => {
-        window.axios.post('/api/patients', data).then((response) => {
+        window.axios.post('/api/v1/patient_system/patient/patient', data).then((response) => {
             commit(types.ADD_PATIENT, response.data)
             resolve(response.data)
         }).catch((err) => {
@@ -36,7 +36,7 @@ export const addPatient = ({ commit, dispatch, state }, data) => {
 
 export const updatePatient = ({ commit, dispatch, state }, data) => {
     return new Promise((resolve, reject) => {
-        window.axios.post(`/api/patients/${data.get("id")}`, data).then((response) => {
+        window.axios.post(`/api/v1/patient_system/patient/patient/${data.get("id")}`, data).then((response) => {
             if (response.data.success) {
                 //commit(types.UPDATE_PATIENT, response.data)
             }
@@ -49,7 +49,7 @@ export const updatePatient = ({ commit, dispatch, state }, data) => {
 
 export const deletePatient = ({ commit, dispatch, state }, id) => {
     return new Promise((resolve, reject) => {
-        window.axios.delete(`/api/patients/${id}`).then((response) => {
+        window.axios.delete(`/api/v1/patient_system/patient/patient/${id}`).then((response) => {
             commit(types.DELETE_PATIENT, id)
             resolve(response)
         }).catch((err) => {

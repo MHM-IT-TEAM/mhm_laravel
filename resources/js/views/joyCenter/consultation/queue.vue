@@ -122,11 +122,12 @@
             search:'',
             dialogDelete: false,
             headers: [
-                { text: 'Patient Id', value: 'patient.id' },
+                { text: 'Patient Id', value: 'patient_id' },
                 { text: 'First Name', value: 'patient.firstName' },
                 { text: 'Last Name', value: 'patient.lastName' },
                 { text: 'Service', value: 'type_consult.name' },
                 { text: 'Status',value:'status'},
+                {text:'Remark',value:'remark'},
                 { text: 'Actions', value: 'actions', sortable: false },
             ],
             list: [],
@@ -157,7 +158,7 @@
 
         methods:{
             async initialize () {
-                await axios.get('/api/consultation').then(response=>{
+                await axios.get('/api/consultation/today/0').then(response=>{
                     this.list=response.data
                 })
             },

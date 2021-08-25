@@ -608,21 +608,21 @@ export default {
   methods: {
     ...mapActions("patient", ["addPatient", "updatePatient"]),
     getCountries() {
-      axios.get("/api/countries").then((response) => {
+      axios.get("/api/v1/extra/countries").then((response) => {
         this.countries = response.data;
       });
     },
     getFokontany(){
         this.fokontany=[]
-        axios.get("/api/fokontany").then(response=> response.data.forEach(fkt=>this.fokontany.push(fkt.name)))
+        axios.get("/api/v1/extra/fokontany").then(response=> response.data.forEach(fkt=>this.fokontany.push(fkt.name)))
     },
     getPatientCategory(){
         this.patientCategory=[]
-        axios.get("/api/patient_category").then(response=>this.patient_category=response.data)
+        axios.get("/api/v1/patient_system/patient/category").then(response=>this.patient_category=response.data)
     },
     getPartner(){
       this.mhm_partner=[]
-      axios.get("/api/mhm_partner").then(response=>this.mhm_partner=response.data)
+      axios.get("/api/v1/extra/mhm_partner").then(response=>this.mhm_partner=response.data)
     },
     avatar_change(e) {
       let files = document.getElementById("avatar");
@@ -676,17 +676,17 @@ export default {
       } else {
         await this.addPatient(formData);
         // e.target.reset();
-        // this.$toast.open({
-        //   message: "Patient created",
-        //   position: "top-right",
-        // });
+        this.$toast.open({
+          message: "Patient created",
+          position: "top-right",
+        });
       }
-      // this.resetForm();
+      this.resetForm();
     },
     check_data:_.debounce(async function(val){
         let text= val.firstName +' '+ val.lastName
         if(text.length>4){
-            let response= await axios.get('/api/patients/search/',{params:{query:text}})
+            let response= await axios.get('/api/v1/patient_system/patient/search/',{params:{query:text}})
             this.suggestions=response.data
         }
     },1000),

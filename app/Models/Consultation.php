@@ -18,9 +18,6 @@ class Consultation extends Model
         public function typeConsult(){
             return $this->belongsTo(TypeConsult::class);
         }
-        public function scopeUnpaid ($query){
-            return $query->where('payment_status','UNPAID');
-        }
         public function vitalSigns(){
             return $this->hasOne(VitalSign::class);
         }
@@ -33,6 +30,9 @@ class Consultation extends Model
     //scopes
         public function scopeTodayConsultation($query){
             return $query->whereDate('created_at',Carbon::today());
+        }
+        public function scopeUnpaid ($query){
+            return $query->where('payment_status','UNPAID');
         }
         public function scopeBetweenDate($query,$start,$end){
             return $query->whereBetween(

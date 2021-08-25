@@ -26,12 +26,12 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>Date of birth</td>
+                        <td>Date of birth (age)</td>
                         <td>Address</td>
                         <td>Tel</td>
                     </tr>
                     <tr>
-                        <td class="required">{{formData.patient.birthDate}}</td>
+                        <td class="required"> {{moment(formData.patient.birthDate).format("DD-MMM-YYYY")}} &nbsp ({{check_age}})</td>
                         <td class="required" :class="{'text-white bg-success':formData.patient.sector===true}">{{formData.patient.adress}}</td>
                         <td class="required">{{formData.patient.tel}}</td>
                     </tr>
@@ -199,6 +199,7 @@
 import { validationMixin } from "vuelidate";
 const {
     required,
+    requiredIf,
     minLength,
     email,
     url,
@@ -271,7 +272,7 @@ const {
                 type_consult_id:{required},
                 patient:{
                     id:{required}
-                }
+                },
             }
         },
         methods: {
@@ -284,12 +285,12 @@ const {
                 }
             },
             async changePat() {
-                await axios.get(`/api/patients/${this.formData.patient.id}/edit`)
+                await axios.get(`/api/v1/patient_system/patient/with_due_sum/${this.formData.patient.id}`)
                     .then(response => {
                         this.resetForm()
-                        if (response.data.success) {
-                            this.formData.patient = response.data.patient
-                            this.formData.patient.last_due =response.data.dueSum
+                        if (response.data) {
+                            this.formData.patient = response.data
+                            this.formData.patient.last_due =parseInt(response.data.patient_due.amount)
                             let adress = this.formData.patient.adress.toLowerCase().split(' ')
                             let check = false
                             adress.forEach(ad => {
@@ -310,12 +311,7 @@ const {
 
             },
             async changeConsult() {
-                let servicePrice = await axios.get('/api/servicePrice', {
-                    params: {
-                        type_consult: this.formData.type_consult_id,
-                        sector: this.formData.patient.sector
-                    }
-                })
+                let servicePrice = await axios.get(`/api/v1/patient_system/consultation/service_price/${this.formData.type_consult_id}/${this.formData.patient.sector}`)
                 this.validate_consult_type()
                 if([3,4,5].includes(this.formData.patient.patient_category_id)){
                     this.accessory.servicePrice=[]
@@ -425,8 +421,10 @@ const {
                 //check if the patient is today already in the system
                 await axios.post('/api/consultation/check_patient_today',{type_consult_id:this.formData.type_consult_id,patient_id:this.formData.patient.id}).then(response=>{
                     if(response.data.length>0){
-                        this.$toast.open({message:'A patient cannot in on day consult the same service more than once',position:'top-right',type:'error'})
-                        this.formData.type_consult_id=""
+                        if(!this.edit){
+                            this.$toast.open({message:'A patient cannot in on day consult the same service more than once',position:'top-right',type:'error'})
+                            this.formData.type_consult_id=""
+                        }
                     }
                 })
             },

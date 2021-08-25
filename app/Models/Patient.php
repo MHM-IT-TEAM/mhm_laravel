@@ -10,28 +10,8 @@ class Patient extends Model
     use HasFactory;
     protected $connection= "patSyst";
     protected $guarded=[];
-//    protected $casts = [
-//        'birthDate' => 'datetime:d/m/Y',
-//    ];
-    public function search($searchWords){
-        $query = $this->with("emContacts");
 
-        foreach ($searchWords as $word)
-        {
-            $query = $query->where(function ($q) use ($word) {
-                $q
-                ->where('id',$word)
-                ->orWhere('firstName','LIKE','%'.$word.'%')
-                ->orWhere('lastName','LIKE','%'.$word.'%')
-                ->orWhere('birthDate','LIKE','%'.$word.'%')
-                ->orWhere('cin_no','LIKE','%'.$word.'%')
-                ->orWhere('email','LIKE','%'.$word.'%')
-                ->orWhere('tel','LIKE','%'.$word.'%');
-            });
-        }
 
-        return $query;
-    }
     public function emContacts(){
         return $this->hasMany(EmContact::class);
     }
@@ -58,6 +38,26 @@ class Patient extends Model
     }
     public function ultraSoundAdmissions(){
         return $this->hasMany(UltrasoundAdmission::class);
+    }
+
+    public function search($searchWords){
+        $query = $this->with("emContacts");
+
+        foreach ($searchWords as $word)
+        {
+            $query = $query->where(function ($q) use ($word) {
+                $q
+                    ->where('id',$word)
+                    ->orWhere('firstName','LIKE','%'.$word.'%')
+                    ->orWhere('lastName','LIKE','%'.$word.'%')
+                    ->orWhere('birthDate','LIKE','%'.$word.'%')
+                    ->orWhere('cin_no','LIKE','%'.$word.'%')
+                    ->orWhere('email','LIKE','%'.$word.'%')
+                    ->orWhere('tel','LIKE','%'.$word.'%');
+            });
+        }
+
+        return $query;
     }
     public function filter($data){
         if(strlen($data->firstName)>4){
