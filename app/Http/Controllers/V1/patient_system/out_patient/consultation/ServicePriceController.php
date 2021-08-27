@@ -47,6 +47,6 @@ class ServicePriceController extends Controller
         //
     }
     public function filter_per_type_sector($type_consultation,$sector){
-        return ServicePrice::where('type_consult_id',$type_consultation)->where('sector',$sector);
+        return ServicePrice::where('type_consult_id',$type_consultation)->where('sector',$sector)->get();
     }
 }

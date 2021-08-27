@@ -22,9 +22,10 @@ Route::prefix('/v1')->group(function(){
         Route::group(['prefix'=>'out_patient'],function(){
             //consultation
             Route::group(['prefix'=>'consultation'],function(){
+                Route::get('types',function(){return \App\Models\TypeConsult::all();});
                 Route::get('today/{type}',[\App\Http\Controllers\V1\patient_system\out_patient\consultation\ConsultationController::class,'today_consultation_by_type']);
                 Route::post('check_patient_today',[\App\Http\Controllers\V1\patient_system\out_patient\consultation\ConsultationController::class,'check_patient_today_consultation']);
-                Route::get('/service_price/{type_consult}/{sector}',[\App\Http\Controllers\v1\patient_system\out_patient\consultation\ServicePriceController::class,'filter_per_type_sector']);
+                Route::get('service_price/{type_consult}/{sector}',[\App\Http\Controllers\v1\patient_system\out_patient\consultation\ServicePriceController::class,'filter_per_type_sector']);
                 Route::resource('service_price',\App\Http\Controllers\v1\patient_system\out_patient\consultation\ServicePriceController::class);
                 Route::resource('consultation',\App\Http\Controllers\V1\patient_system\out_patient\consultation\ConsultationController::class);
             });

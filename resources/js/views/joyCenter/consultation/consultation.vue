@@ -277,8 +277,8 @@ const {
         },
         methods: {
             async init() {
-                axios.get('/api/typeConsult').then(response=>this.accessory.type_consultation=response.data)
-                axios.get("/api/fokontany").then(response => response.data.forEach(fkt => this.accessory.fokontany.push(fkt.name.toLowerCase())))
+                axios.get('/api/v1/patient_system/out_patient/consultation/types').then(response=>this.accessory.type_consultation=response.data)
+                axios.get("/api/v1/extra/fokontany").then(response => response.data.forEach(fkt => this.accessory.fokontany.push(fkt.name.toLowerCase())))
                 if(this.reference !=='' && this.reference !==undefined){
                     this.formData.id=this.reference
                     this.fetch_reference()
@@ -290,7 +290,7 @@ const {
                         this.resetForm()
                         if (response.data) {
                             this.formData.patient = response.data
-                            this.formData.patient.last_due =parseInt(response.data.patient_due.amount)
+                            this.formData.patient.last_due =response.data.patient_due!==null?parseInt(response.data.patient_due.amount):0
                             let adress = this.formData.patient.adress.toLowerCase().split(' ')
                             let check = false
                             adress.forEach(ad => {
@@ -311,7 +311,8 @@ const {
 
             },
             async changeConsult() {
-                let servicePrice = await axios.get(`/api/v1/patient_system/consultation/service_price/${this.formData.type_consult_id}/${this.formData.patient.sector}`)
+                let sector=this.formData.patient.sector===true?1:0
+                let servicePrice = await axios.get(`/api/v1/patient_system/out_patient/consultation/service_price/${this.formData.type_consult_id}/${sector}`)
                 this.validate_consult_type()
                 if([3,4,5].includes(this.formData.patient.patient_category_id)){
                     this.accessory.servicePrice=[]
@@ -336,7 +337,7 @@ const {
                 // this.accessory.form_is_submitting=true
                 this.formData.responsible= window.auth.user.name
                 if(!this.accessory.form_update){
-                    await axios.post('/api/consultation',this.formData).then(response=>{
+                    await axios.post('/api/v1/patient_system/out_patient/consultation/consultation',this.formData).then(response=>{
                         if(response.data.success){
                             this.accessory.form_is_submitting=false
                             this.$toast.open({message:response.data.msg,position:'top-right',type:'success'})
@@ -345,7 +346,7 @@ const {
                         }
                     })
                 }else{
-                    await axios.put(`/api/consultation/${this.formData.id}`,this.formData).then(response=>{
+                    await axios.put(`/api/v1/patient_system/out_patient/consultation/consultation/${this.formData.id}`,this.formData).then(response=>{
                         if(response.data.success){
                             if(this.edit){
                                 this.$emit('updated')
@@ -419,7 +420,7 @@ const {
                     this.formData.type_consult_id=""
                 }
                 //check if the patient is today already in the system
-                await axios.post('/api/consultation/check_patient_today',{type_consult_id:this.formData.type_consult_id,patient_id:this.formData.patient.id}).then(response=>{
+                await axios.post('/api/v1/patient_system/out_patient/consultation/check_patient_today',{type_consult_id:this.formData.type_consult_id,patient_id:this.formData.patient.id}).then(response=>{
                     if(response.data.length>0){
                         if(!this.edit){
                             this.$toast.open({message:'A patient cannot in on day consult the same service more than once',position:'top-right',type:'error'})
@@ -429,7 +430,7 @@ const {
                 })
             },
             async fetch_reference(){
-                await axios.get(`/api/consultation/${this.formData.id}`).then(
+                await axios.get(`/api/v1/patient_system/out_patient/consultation/${this.formData.id}`).then(
                     response=>{
                         this.accessory.form_update=true
                         let care_details=[]

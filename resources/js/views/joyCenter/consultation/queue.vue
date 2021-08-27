@@ -114,6 +114,7 @@
 </template>
 <script>
     import consultation from "./consultation";
+    import * as routes from "../../../api_routes"
     import {mapGetters,mapActions} from 'vuex';
     export default {
         components: {consultation},
@@ -158,7 +159,7 @@
 
         methods:{
             async initialize () {
-                await axios.get('/api/consultation/today/0').then(response=>{
+                await axios.get(routes.CONSULTATION+'/today/0').then(response=>{
                     this.list=response.data
                 })
             },

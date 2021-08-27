@@ -12,6 +12,7 @@ import welcome from "./views/home/welcome";
 import joyLayout from "./views/joyCenter/layouts/joyLayout";
 import joyWelcome from "./views/joyCenter/consultation/joyWelcome";
 import patientSearch from "./components/patient/patientSearch";
+import patient_crud from "./views/patient/patient_crud";
 import consultation from "./views/joyCenter/consultation/consultation";
 import queue from "./views/joyCenter/consultation/queue";
 
@@ -100,7 +101,7 @@ const routes = [
             {
                 path: 'patients/crud',
                 name: "patients.crud",
-                component: patientSearch
+                component: patient_crud
             },
             //consultation
             {

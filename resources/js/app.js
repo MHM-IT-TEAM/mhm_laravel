@@ -4,6 +4,8 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
+import Vue from "vue";
+
 require('./bootstrap');
 import router from './router';
 import store from './store/index';
@@ -30,7 +32,8 @@ Vue.component('date-picker', DatePicker)
 Vue.component('yes-or-no', YesOrNo)
 Vue.use(VueHtmlToPaper)
 Vue.prototype.moment = moment
-
+//api routes shortening
+Vue.prototype.CONSULTATION ='/api/v1/patient_system/out_patient/consultation'
 
 
 /**

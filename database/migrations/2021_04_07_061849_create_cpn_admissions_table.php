@@ -67,7 +67,7 @@ class CreateCpnAdmissionsTable extends Migration
             $table->string('preg_wom_allergie',50)->nullable();
             $table->string('preg_wom_former_illness',50)->nullable();
             $table->string('responsible',50)->nullable();
-            $table->foreignId('ultrasound_admission_id')->constrained();
+            $table->bigInteger('ultrasound_admission_id')->nullable();
         });
     }
 
