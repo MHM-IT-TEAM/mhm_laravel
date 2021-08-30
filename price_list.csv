@@ -1,0 +1,27 @@
+id;created_at;updated_at;name;consultation_type_id;sector;out_sector;vip;mhm_staff;mhm_staff_family;mhm_partners;active
+1;;;General Doctor;1; 500,00 ; 3.000,00 ;;;;;
+2;;;Dermatology;13; 500,00 ; 3.000,00 ;;;;;
+3;;;Injury / Woundcare;14; 500,00 ; 3.000,00 ;;;;;
+4;;;Consultation;2; 1.000,00 ; 1.000,00 ;;;;;
+5;;;Extraction adult;2;; 5.000,00 ;;;;;
+6;;;Extraction milk tooth;2;; 2.000,00 ;;;;;
+7;;;Cleaning;2;; 8.000,00 ;;;;;
+8;;;Care;2;; 10.000,00 ;;;;;
+9;;;Follow-up care;2;;;;;;;
+10;;;Ultrasound;6; 500,00 ; 15.000,00 ;;;;;
+11;;;First CPN <12 weeks;4; 500,00 ; 120.000,00 ;;;;;
+12;;;First CPN >12 weeks;4; 120.000,00 ; 250.000,00 ;;;;;
+13;;;First CPN >20 weeks;4; 250.000,00 ; 500.000,00 ;;;;;
+14;;;Follow-up CPN;5;;;;;;;
+15;;;Postpartum baby;8;;;;;;;
+16;;;Postpartum mom;7;;;;;;;
+17;;;Postpartum meeting;9;;;;;;;
+18;;;Vaccination;10;;;;;;;
+20;;;Milk program;12; 5.000,00 ; 5.000,00 ;;;;;
+;;;;;;;;;;;
+;;;;;;;;;;;
+;;;;;;;;;;;
+;;;;;;;;;;;
+;;;;;;;;;;;
+;;;;;;;;;;;
+;;;;;;;;;;;

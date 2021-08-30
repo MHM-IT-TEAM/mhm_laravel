@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\joyCenter;
 
 use App\Http\Controllers\Controller;
-use App\Models\TypeConsult;
+use App\Models\ConsultationType;
 use Illuminate\Http\Request;
 
 class TypeConsultController extends Controller
@@ -15,7 +15,7 @@ class TypeConsultController extends Controller
      */
     public function index()
     {
-        return TypeConsult::all();
+        return ConsultationType::all();
     }
 
     /**

@@ -16,20 +16,17 @@ class CreateServicePricesTable extends Migration
         Schema::connection('patSyst')->create('service_prices', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('name',30);
-            $table->string('price',20);
-            $table->unsignedBigInteger('type_consult_id');
-            $table->foreign('type_consult_id')->references('id')->on('type_consults');
-            $table->boolean('sector')->default(0);
-            $table->boolean('active')->default(0);
+            $table->string('name');
+            $table->foreignId('consultation_type_id');
+            $table->bigInteger('sector')->default(0)->nullable();
+            $table->bigInteger('out_sector')->default(0)->nullable();
+            $table->bigInteger('vip')->default(0)->nullable();
+            $table->bigInteger('mhm_staff')->default(0)->nullable();
+            $table->bigInteger('mhm_staff_family')->default(0)->nullable();
+            $table->bigInteger('mhm_partners')->default(0)->nullable();
+            $table->bigInteger('active')->default(0)->nullable();
         });
     }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('service_prices');

@@ -18,8 +18,7 @@ class CreateConsultationsTable extends Migration
             $table->timestamps();
             $table->unsignedBigInteger('patient_id');
             $table->foreign('patient_id')->references('id')->on('patients');
-            $table->unsignedBigInteger('type_consult_id');
-            $table->foreign('type_consult_id')->references('id')->on('type_consults');
+            $table->foreignId('consultation_type_id');
             $table->string('status',20)->nullable();
             $table->string('pharma_status',20)->nullable();
             $table->string('payment_status',20)->nullable();

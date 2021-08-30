@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class typeConsultSeeder extends Seeder
+class consultationTypeSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,7 +14,7 @@ class typeConsultSeeder extends Seeder
      */
     public function run()
     {
-        DB::connection('patSyst')->table('type_consults')->insert([
+        DB::connection('patSyst')->table('consultation_types')->insert([
             [
                 'name'=>'Generalist'
             ],
@@ -34,7 +34,13 @@ class typeConsultSeeder extends Seeder
                 'name'=>'Ultrasound'
             ],
             [
-                'name'=>'Post Partum'
+                'name'=>'Post Partum mom'
+            ],
+            [
+                'name'=>'Post partum baby'
+            ],
+            [
+                'name'=>'Post partum meeting'
             ],
             [
                 'name'=>'Vaccination'
@@ -43,16 +49,14 @@ class typeConsultSeeder extends Seeder
                 'name'=>'Baby Checkup'
             ],
             [
-                'name'=>'Dermato'
-            ],
-            [
                 'name'=>'Milk Program'
             ],
             [
-                'name'=>'Post partum meeting'
+                'name'=>'Dermatology'
             ],
+
             [
-                'name'=>'Wound care'
+                'name'=>'Injury/ wound care'
             ]
 
         ]);

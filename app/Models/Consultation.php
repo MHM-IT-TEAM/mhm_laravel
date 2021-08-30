@@ -16,7 +16,7 @@ class Consultation extends Model
             return $this->belongsTo(Patient::class);
         }
         public function typeConsult(){
-            return $this->belongsTo(TypeConsult::class);
+            return $this->belongsTo(ConsultationType::class);
         }
         public function vitalSigns(){
             return $this->hasOne(VitalSign::class);
