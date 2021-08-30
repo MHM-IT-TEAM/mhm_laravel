@@ -34,7 +34,13 @@ class typeConsultSeeder extends Seeder
                 'name'=>'Ultrasound'
             ],
             [
-                'name'=>'Post Partum'
+                'name'=>'Post Partum mom'
+            ],
+            [
+                'name'=>'Post partum baby'
+            ],
+            [
+                'name'=>'Post partum meeting'
             ],
             [
                 'name'=>'Vaccination'
@@ -43,16 +49,17 @@ class typeConsultSeeder extends Seeder
                 'name'=>'Baby Checkup'
             ],
             [
-                'name'=>'Dermato'
+                'name'=>'Dermatology'
             ],
             [
                 'name'=>'Milk Program'
             ],
+
             [
-                'name'=>'Post partum meeting'
+                'name'=>'Injury/Wound care'
             ],
             [
-                'name'=>'Wound care'
+                'name'=>'Ophthalmology'
             ]
 
         ]);
