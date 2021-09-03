@@ -9,14 +9,13 @@ use Illuminate\Database\Eloquent\Model;
 class Consultation extends Model
 {
     use HasFactory;
-    protected $connection='patSyst';
     protected $guarded=[];
     //relationships
         public function patient(){
             return $this->belongsTo(Patient::class);
         }
         public function typeConsult(){
-            return $this->belongsTo(TypeConsult::class);
+            return $this->belongsTo(ConsultationType::class);
         }
         public function vitalSigns(){
             return $this->hasOne(VitalSign::class);

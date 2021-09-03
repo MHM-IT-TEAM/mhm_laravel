@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class MaternityAction extends Model
 {
     use HasFactory;
-    protected $connection='patSyst';
+
     protected $guarded=[];
     public function maternityActionList(){
         return $this->belongsTo(MaternityActionList::class);

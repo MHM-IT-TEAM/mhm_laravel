@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Generalist extends Model
 {
     use HasFactory;
-    protected $connection='patSyst';
+
     protected $guarded=[];
 
     //relationships

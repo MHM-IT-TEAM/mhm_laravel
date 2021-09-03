@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\joyCenter;
 
 use App\Http\Controllers\Controller;
-use App\Models\ServicePrice;
+use App\Models\ActivityPrice;
 use Illuminate\Http\Request;
 
 class servicePriceController extends Controller
@@ -16,7 +16,7 @@ class servicePriceController extends Controller
     public function index(Request $request)
     {
         $sector= $request->input('sector')=='true'?1:0;
-        return ServicePrice::where('type_consult_id',$request->type_consult)
+        return ActivityPrice::where('type_consult_id',$request->type_consult)
             ->where('sector',$sector)->get();
     }
 

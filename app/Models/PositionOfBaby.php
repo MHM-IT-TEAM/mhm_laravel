@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class PositionOfBaby extends Model
 {
     use HasFactory;
-    protected $connection='patSyst';
+
 }

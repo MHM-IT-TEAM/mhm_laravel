@@ -8,6 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class Fokontany extends Model
 {
     use HasFactory;
-    protected $connection='patSyst';
     protected $guarded=[];
 }

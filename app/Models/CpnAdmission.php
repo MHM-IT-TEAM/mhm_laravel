@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class CpnAdmission extends Model
 {
     use HasFactory;
-    protected $connection='patSyst';
+
     protected $guarded=[];
 
 

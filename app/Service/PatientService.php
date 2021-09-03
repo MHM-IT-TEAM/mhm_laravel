@@ -71,8 +71,13 @@ class PatientService
      if(count($validate)>0){
         DB::connection("patSyst")->table('em_contacts')->where('patient_id', $id)->delete();
      }
-     $this->storeEmData();
+     if(isset($this->em_data)){
+         $this->storeEmData();
+     }
      $patient->fill($this->patientData)->save();
+     return response()->json(
+         ['success'=>true,'msg'=>'Patient successfully updated']
+     );
 
     }
     /**

@@ -13,11 +13,11 @@ class CreatePatientCashFlowsTable extends Migration
      */
     public function up()
     {
-        Schema::connection('patSyst')->create('patient_cash_flows', function (Blueprint $table) {
+        Schema::create('patient_cash_flows', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
             $table->foreignId('patient_id');
-            $table->foreignId('consultation_id');
+            $table->foreignId('admission_id');
             $table->string('last_due',20)->nullable();
             $table->string('value',20)->nullable();
             $table->string('paid',20)->nullable();

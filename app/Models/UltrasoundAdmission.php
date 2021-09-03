@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class UltrasoundAdmission extends Model
 {
     use HasFactory;
-    protected $connection='patSyst';
+
     protected $guarded=[];
 
     public function ultrasound_first_screenings(){

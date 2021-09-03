@@ -9,7 +9,6 @@ class BirthMedicalDataMom extends Model
 {
     use HasFactory;
     protected $guarded=[];
-    protected $connection='patSyst';
 
     public static function fill_data($request,$birth_id){
         $complications='';

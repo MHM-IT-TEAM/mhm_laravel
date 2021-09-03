@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\typeConsult;
+use App\Models\ConsultationType;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class typeConsultFactory extends Factory
@@ -12,7 +12,7 @@ class typeConsultFactory extends Factory
      *
      * @var string
      */
-    protected $model = typeConsult::class;
+    protected $model = ConsultationType::class;
 
     /**
      * Define the model's default state.
@@ -22,7 +22,7 @@ class typeConsultFactory extends Factory
     public function definition()
     {
         return [
-           
+
         ];
     }
 }

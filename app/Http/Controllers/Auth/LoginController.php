@@ -27,32 +27,36 @@ class LoginController extends Controller
      *
      * @var string
      */
-//    protected $redirectTo = RouteServiceProvider::HOME;
-    public function redirectTo(){
-        $depart= Auth::user()->department_id;
-
-        switch ($depart){
-            case 1:
-                return "/joyCenter/welcome";
-                break;
-            case 2:
-                return "/graceCenter/home";
-                break;
-            case 3:
-                return "/generalist";
-                break;
-            case 4:
-                return "/dentist";
-                break;
-            case 5:
-                return"/obstetrics/admission";
-                break;
-            case 6:
-                return "/cash/home";
-                break;
-
-        }
-    }
+    protected $redirectTo = RouteServiceProvider::HOME;
+//    public function redirectTo(){
+//        $user= Auth::user();
+//        return $user->user_pages();
+//    }
+//    public function redirectTo(){
+//        $depart= Auth::user()->department_id;
+//
+//        switch ($depart){
+//            case 1:
+//                return "/joyCenter/welcome";
+//                break;
+//            case 2:
+//                return "/graceCenter/home";
+//                break;
+//            case 3:
+//                return "/generalist";
+//                break;
+//            case 4:
+//                return "/dentist";
+//                break;
+//            case 5:
+//                return"/obstetrics/admission";
+//                break;
+//            case 6:
+//                return "/cash/home";
+//                break;
+//
+//        }
+//    }
 
     /**
      * Create a new controller instance.

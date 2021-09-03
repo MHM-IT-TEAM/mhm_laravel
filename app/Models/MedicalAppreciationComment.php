@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class MedicalAppreciationComment extends Model
 {
     use HasFactory;
-    protected $connection='patSyst';
+
     protected $guarded=[];
     public function user(){
         return $this->belongsTo(User::class);

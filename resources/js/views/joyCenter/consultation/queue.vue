@@ -50,11 +50,11 @@
                             <v-card>
                                 <v-card-text>
                                     <v-container>
-                                        <consultation
+                                        <admission
                                             :reference="childRef"
                                             :edit="childEdit"
                                             @updated="close"
-                                        ></consultation>
+                                        ></admission>
                                     </v-container>
                                 </v-card-text>
 
@@ -113,11 +113,11 @@
 
 </template>
 <script>
-    import consultation from "./consultation";
+    import admission from "./admission";
     import * as routes from "../../../api_routes"
     import {mapGetters,mapActions} from 'vuex';
     export default {
-        components: {consultation},
+        components: {admission},
         data: () => ({
             dialog: false,
             search:'',

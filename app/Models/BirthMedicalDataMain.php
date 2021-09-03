@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class BirthMedicalDataMain extends Model
 {
     use HasFactory;
-    protected $connection='patSyst';
     public function birth(){
         return $this->belongsTo(Birth::class);
     }

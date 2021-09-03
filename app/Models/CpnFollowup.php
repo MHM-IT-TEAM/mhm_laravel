@@ -10,7 +10,7 @@ class CpnFollowup extends Model
 {
     use HasFactory;
     use softDeletes;
-    protected $connection='patSyst';
+
     protected $guarded=[];
     protected $casts =[
       'created_at'=>'date:Y-m-d'

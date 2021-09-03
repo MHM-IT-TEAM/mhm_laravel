@@ -9,5 +9,5 @@ class PatientCategory extends Model
 {
     use HasFactory;
     protected $guarded=[];
-    protected $connection='patSyst';
+
 }

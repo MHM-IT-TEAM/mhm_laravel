@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class HospitalService extends Model
 {
     use HasFactory;
-    protected $connection= 'patSyst';
+
 }

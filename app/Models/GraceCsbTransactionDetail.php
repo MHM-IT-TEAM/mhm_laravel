@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class GraceCsbTransactionDetail extends Model
 {
     use HasFactory;
-    protected $connection='inventSyst';
+
     protected $guarded=[];
 
 

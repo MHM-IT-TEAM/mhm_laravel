@@ -18,17 +18,27 @@ Route::prefix('/v1')->group(function(){
             Route::get('/with_due_sum/{id}',[\App\Http\Controllers\v1\patient_system\patient\PatientController::class,'with_due_sum']);
             Route::resource('patient',\App\Http\Controllers\v1\patient_system\patient\PatientController::class);
         });
+        //Admission
+        Route::group(['prefix'=>'admission'],function(){
+            Route::resource('priority',\App\Http\Controllers\V1\patient_system\consultation\AdmissionPriorityController::class);
+            Route::get('today/{type}',[\App\Http\Controllers\V1\patient_system\consultation\ConsultationController::class,'today_consultation_by_type']);
+            Route::post('check_patient_today',[\App\Http\Controllers\V1\patient_system\consultation\ConsultationController::class,'check_patient_today_consultation']);
+            Route::get('activity_price/{service_activity}/{patient_category}',[\App\Http\Controllers\v1\patient_system\consultation\ServicePriceController::class,'filter_per_service']);
+            Route::resource('service_price',\App\Http\Controllers\v1\patient_system\consultation\ServicePriceController::class);
+            Route::resource('',\App\Http\Controllers\V1\patient_system\admission\AdmissionController::class);
+        });
         //out patient
         Route::group(['prefix'=>'out_patient'],function(){
-            //consultation
-            Route::group(['prefix'=>'consultation'],function(){
-                Route::get('types',function(){return \App\Models\TypeConsult::all();});
-                Route::get('today/{type}',[\App\Http\Controllers\V1\patient_system\out_patient\consultation\ConsultationController::class,'today_consultation_by_type']);
-                Route::post('check_patient_today',[\App\Http\Controllers\V1\patient_system\out_patient\consultation\ConsultationController::class,'check_patient_today_consultation']);
-                Route::get('service_price/{type_consult}/{sector}',[\App\Http\Controllers\v1\patient_system\out_patient\consultation\ServicePriceController::class,'filter_per_type_sector']);
-                Route::resource('service_price',\App\Http\Controllers\v1\patient_system\out_patient\consultation\ServicePriceController::class);
-                Route::resource('consultation',\App\Http\Controllers\V1\patient_system\out_patient\consultation\ConsultationController::class);
-            });
+
+        });
+        //System
+        Route::group(['prefix'=>'system'],function(){
+            Route::get('seniors',function(){return \App\Models\Senior::all();});
+            Route::resource('category',\App\Http\Controllers\V1\System\CategoryController::class);
+            Route::get('service/category/{category}',[\App\Http\Controllers\V1\System\ServiceController::class,'where_category']);
+            Route::get('serviceActivity/service/{service_id}',[\App\Http\Controllers\V1\System\ServiceActivityController::class,'whereService']);
+            Route::resource('serviceActivity',\App\Http\Controllers\V1\System\ServiceActivityController::class);
+            Route::resource('service',\App\Http\Controllers\V1\System\ServiceController::class);
         });
     });
     Route::group(['prefix'=>'extra'],function(){

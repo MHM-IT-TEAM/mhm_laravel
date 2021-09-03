@@ -9,12 +9,11 @@ class PatientCareDetail extends Model
 {
     use HasFactory;
     protected $guarded=[];
-    protected $connection='patSyst';
     public function consultation(){
         return $this->belongsTo(Consultation::class);
     }
     public function servicePrices(){
-        return $this->belongsTo(ServicePrice::class);
+        return $this->belongsTo(ActivityPrice::class);
     }
     public static function consult($id){
         return self::where('consultation_id',$id);

@@ -8,6 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class UltrasoundThirdScreening extends Model
 {
     use HasFactory;
-    protected $connection='patSyst';
+
     protected $guarded=[];
 }

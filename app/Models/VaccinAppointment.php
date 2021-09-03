@@ -9,7 +9,6 @@ class VaccinAppointment extends Model
 {
     use HasFactory;
     protected $guarded=[];
-    protected $connection='patSyst';
     public function patient(){
         return $this->belongsTo(Patient::class);
     }

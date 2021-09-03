@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class BirthMedicalDataBaby extends Model
 {
     use HasFactory;
-    protected $connection='maternity';
     protected $guarded=[];
 
 

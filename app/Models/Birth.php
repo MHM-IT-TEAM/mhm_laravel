@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\DB;
 class Birth extends Model
 {
     use HasFactory;
-    protected $connection='patSyst';
     protected $guarded=[];
     public function birthAdminData(){
         return $this->hasMany(BirthAdminData::class);

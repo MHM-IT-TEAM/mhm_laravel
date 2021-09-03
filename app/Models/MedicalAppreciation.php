@@ -9,7 +9,7 @@ class MedicalAppreciation extends Model
 {
     use HasFactory;
     protected $guarded=[];
-    protected $connection='patSyst';
+
     protected $casts=[
         'created_at' => 'datetime:Y-m-d',
     ];

@@ -1,23 +1,21 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Dashboard') }}</div>
-
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    {{ __('You are logged in!') }}
-                </div>
-            </div>
-        </div>
+<div class="container w-75">
+    <h4 class="text-center">Welcome {{\Illuminate\Support\Facades\Auth::user()->name}}</h4>
+    <div class="table-responsive">
+        <table class="table">
+            <tr>
+                <th>Page name</th>
+                <th>link</th>
+            </tr>
+        @foreach($pages as $page)
+            <tr>
+                <td>{{$page->description}}</td>
+                <td><a href="{{$page->link}}">continue</a></td>
+            </tr>
+        @endforeach
+        </table>
     </div>
 </div>
 @endsection

@@ -10,7 +10,6 @@ class MaternityAdmission extends Model
     use HasFactory;
     protected $guarded=[];
 
-    protected $connection='patSyst';
 
     public function maternityAdmissionDocuments(){
         return $this->hasMany(MaternityAdmissionDocument::class);

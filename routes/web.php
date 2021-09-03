@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,13 +18,19 @@ use Illuminate\Support\Facades\Route;
 
 //auth
 Auth::routes();
+// home
+Route::get('/home',function(){
+    $user= Auth::user();
+    $pages=$user->pages()->get();
+    return view('/home')->with('pages',$pages);
+});
 Route::get('/auth/login',[App\Http\Controllers\authController::class,'index']);
 //landing page
 Route::get('/', function () {
     return view('welcome');
 });
 //joyCenter
-Route::group(['prefix'=>'joyCenter','middleware'=>['auth','joyCenter']],function(){
+Route::group(['prefix'=>'joyCenter'],function(){
     Route::get('/{any}',[App\Http\Controllers\joyCenter\JoyCenterController::class, 'index'])->name('joyHome')->where('any','.*');
 });
 //cash

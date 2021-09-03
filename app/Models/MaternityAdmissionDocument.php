@@ -9,7 +9,7 @@ class MaternityAdmissionDocument extends Model
 {
     use HasFactory;
     protected $guarded=[];
-    protected $connection='patSyst';
+
     public function maternityAdmission(){
         return $this->belongsTo(MaternityAdmission::class);
     }

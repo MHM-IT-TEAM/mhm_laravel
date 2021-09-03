@@ -13,7 +13,7 @@ import joyLayout from "./views/joyCenter/layouts/joyLayout";
 import joyWelcome from "./views/joyCenter/consultation/joyWelcome";
 import patientSearch from "./components/patient/patientSearch";
 import patient_crud from "./views/patient/patient_crud";
-import consultation from "./views/joyCenter/consultation/consultation";
+import admission from "./views/joyCenter/consultation/admission";
 import queue from "./views/joyCenter/consultation/queue";
 
 
@@ -105,9 +105,9 @@ const routes = [
             },
             //consultation
             {
-                path: 'consultation',
-                name: "consultation.new",
-                component: consultation
+                path: 'admission',
+                name: "admission.new",
+                component: admission
             },
             //queue list
             {

@@ -28,59 +28,23 @@
                 >PATIENTS</router-link
               >
             </li>
-<!--            <li class="nav-item">-->
-<!--              <router-link :to="{ name: 'consultation.list' }" class="nav-link"-->
-<!--                >List of consultations</router-link-->
-<!--              >-->
-<!--            </li>-->
-<!--              <li class="nav-item">-->
-<!--                  <router-link-->
-<!--                      :to="{ name: 'consultation.new' }"-->
-<!--                      class="nav-link"-->
-<!--                  >-->
-<!--                      <i class="glyphicon glyphicon-plus"></i>-->
-<!--                      Consultation</router-link-->
-<!--                  >-->
-<!--              </li>-->
               <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      OUT PATIENT
+                      ADMISSION
                   </a>
                   <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                       <router-link
-                          :to="{ name: 'consultation.new' }"
+                          :to="{ name: 'admission.new' }"
                           class="dropdown-item">
                           <i class="glyphicon glyphicon-plus"></i>
-                          Consultation
+                          New
                       </router-link>
                       <router-link
                           :to="{ name: 'consultation.list' }"
                           class="dropdown-item">
                           <i class="glyphicon glyphicon-plus"></i>
-                          List of consultation
+                          List
                       </router-link>
-                  </div>
-              </li>
-              <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" href="#"  role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      IN PATIENT
-                  </a>
-                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                      <a class="dropdown-item" href="#">General</a>
-                      <router-link
-                          :to="{ name: 'joycenter.maternity_admission' }"
-                          class="dropdown-item">
-                          <i class="glyphicon glyphicon-plus"></i>
-                          Obstetrics
-                      </router-link>
-                  </div>
-              </li>
-              <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" href="#"  role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      PEDIATRIC
-                  </a>
-                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                      <a class="dropdown-item" href="#">Admission</a>
                   </div>
               </li>
               <li class="nav-item">

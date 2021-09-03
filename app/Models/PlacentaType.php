@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class PlacentaType extends Model
 {
     use HasFactory;
-    protected $connection='patSyst';
+
 }

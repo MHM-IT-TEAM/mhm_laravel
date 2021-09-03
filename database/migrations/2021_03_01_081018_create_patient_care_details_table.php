@@ -13,11 +13,11 @@ class CreatePatientCareDetailsTable extends Migration
      */
     public function up()
     {
-        Schema::connection('patSyst')->create('patient_care_details', function (Blueprint $table) {
+        Schema::create('patient_care_details', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->foreignId('consultation_id')->constrained();
-            $table->foreignId('service_prices_id')->constrained();
+            $table->foreignId('admission_id')->constrained();
+            $table->foreignId('activity_price_id')->constrained();
             $table->integer('qty');
             $table->string('total',20);
         });

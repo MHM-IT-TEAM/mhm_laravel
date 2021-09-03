@@ -9,7 +9,7 @@ class vaccinRecord extends Model
 {
     use HasFactory;
     protected $guarded=[];
-    protected $connection='patSyst';
+
     protected $casts =[
         'created_at'=>'date:Y-m-d'
     ];

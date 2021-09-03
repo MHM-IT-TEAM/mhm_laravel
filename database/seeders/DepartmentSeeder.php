@@ -18,27 +18,39 @@ class DepartmentSeeder extends Seeder
         //Department::truncate();
         DB::table('departments')->insert([
             [
-                "name"=>"JoyCenter",
+                "name"=>"Administration",
                 "medical"=>0
             ],
             [
-                "name"=>"Grace Center",
+                "name"=>"Medical",
+                "medical"=>1
+            ],
+            [
+                "name"=>"Warehouse",
                 "medical"=>0
             ],
             [
-                "name"=>"Generalist",
-                "medical"=>1
+                "name"=>"Technical",
+                "medical"=>0
             ],
             [
-                "name"=>"Dentist",
-                "medical"=>1
+                "name"=>"Operations",
+                "medical"=>0
             ],
             [
-                "name"=>"Pink",
-                "medical"=>1
+                "name"=>"Ministry",
+                "medical"=>0
             ],
             [
-                "name"=>"Cashier",
+                "name"=>"Transport",
+                "medical"=>0
+            ],
+            [
+                "name"=>"MBS",
+                "medical"=>0
+            ],
+            [
+                "name"=>"Communication",
                 "medical"=>0
             ]
         ]);

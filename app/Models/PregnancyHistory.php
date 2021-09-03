@@ -8,6 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class PregnancyHistory extends Model
 {
     use HasFactory;
-    protected $connection='patSyst';
+
     protected $guarded=[];
 }

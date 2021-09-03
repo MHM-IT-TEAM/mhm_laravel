@@ -16,7 +16,7 @@ class PatientCategorySeeder extends Seeder
     {
         return PatientCategory::insert([
             ['name'=>'Sector'],
-            ['name'=>'Other sector'],
+            ['name'=>'Out sector'],
             ['name'=>'Staff'],
             ['name'=>'Staff family'],
             ['name'=>'Partners'],

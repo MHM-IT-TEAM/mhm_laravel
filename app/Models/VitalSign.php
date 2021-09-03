@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class VitalSign extends Model
 {
     use HasFactory;
-    protected $connection='patSyst';
     protected $guarded=[];
     protected function patient(){
         return $this->belongsTo(Patient::class);

@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\ServicePrice;
+use App\Models\ActivityPrice;
 use Illuminate\Database\Seeder;
 
 class ServicePriceSeeder extends Seeder
@@ -14,224 +14,199 @@ class ServicePriceSeeder extends Seeder
      */
     public function run()
     {
-        ServicePrice::insert([
+        ActivityPrice::insert([
             [
-                "name"=>'GL Sector',
-                "price"=>500,
-                "type_consult_id"=>1,
-                "sector"=>1,
-                "active"=>1,
-                "created_at"=>now()
+                'name'=>'General',
+                'section_id'=>1,
+                'sector'=>500,
+                'out_sector'=>3000,
             ],
             [
-                "name"=>'GL Other Sector',
-                "price"=>3000,
-                "type_consult_id"=>1,
-                "sector"=>0,
-                "active"=>1,
-                "created_at"=>now()
+                'name'=>'Dermatology',
+                'section_id'=>2,
+                'sector'=>500,
+                'out_sector'=>3000,
             ],
             [
-                "name"=>'Wound care Sector',
-                "price"=>500,
-                "type_consult_id"=>1,
-                "sector"=>1,
-                "active"=>1,
-                "created_at"=>now()
+                'name'=>'Injury/Wound care',
+                'section_id'=>3,
+                'sector'=>500,
+                'out_sector'=>3000,
             ],
             [
-                "name"=>'Wound care other Sector',
-                "price"=>3000,
-                "type_consult_id"=>1,
-                "sector"=>0,
-                "active"=>1,
-                "created_at"=>now()
+                'name'=>'Vaccination',
+                'section_id'=>4,
+                'sector'=>0,
+                'out_sector'=>0,
             ],
             [
-                "name"=>'Dentist Sector',
-                "price"=>500,
-                "type_consult_id"=>2,
-                "sector"=>1,
-                "active"=>1,
-                "created_at"=>now()
+                'name'=>'Dental consultation',
+                'section_id'=>5,
+                'sector'=>1000,
+                'out_sector'=>1000,
             ],
             [
-                "name"=>'Dentist extraction ',
-                "price"=>5000,
-                "type_consult_id"=>2,
-                "sector"=>0,
-                "active"=>1,
-                "created_at"=>now()
+                'name'=>'Dental extraction adult',
+                'section_id'=>5,
+                'sector'=>0,
+                'out_sector'=>5000,
             ],
             [
-                "name"=>'Dentist Care ',
-                "price"=>10000,
-                "type_consult_id"=>2,
-                "sector"=>0,
-                "active"=>1,
-                "created_at"=>now()
+                'name'=>'Dental extraction milk-tooth',
+                'section_id'=>5,
+                'sector'=>0,
+                'out_sector'=>2000,
             ],
             [
-                "name"=>'Dentist Cleaning ',
-                "price"=>8000,
-                "type_consult_id"=>2,
-                "sector"=>0,
-                "active"=>1,
-                "created_at"=>now()
+                'name'=>'Dental cleaning',
+                'section_id'=>5,
+                'sector'=>0,
+                'out_sector'=>8000,
             ],
             [
-                "name"=>'CPN<12 Week Sector ',
-                "price"=>500,
-                "type_consult_id"=>4,
-                "sector"=>1,
-                "active"=>1,
-                "created_at"=>now()
+                'name'=>'Dental first treatment',
+                'section_id'=>5,
+                'sector'=>0,
+                'out_sector'=>10000,
             ],
             [
-                "name"=>'CPN >12 Week Sector ',
-                "price"=>120000,
-                "type_consult_id"=>4,
-                "sector"=>1,
-                "active"=>1,
-                "created_at"=>now()
+                'name'=>'Dental treatment followup',
+                'section_id'=>5,
+                'sector'=>0,
+                'out_sector'=>0,
             ],
             [
-                "name"=>'CPN<12 Week Other Sector',
-                "price"=>120000,
-                "type_consult_id"=>4,
-                "sector"=>0,
-                "active"=>1,
-                "created_at"=>now()
+                'name'=>'Ophthalmology',
+                'section_id'=>6,
+                'sector'=>500,
+                'out_sector'=>5000,
             ],
             [
-                "name"=>'CPN>12 Week Other Sector',
-                "price"=>250000,
-                "type_consult_id"=>4,
-                "sector"=>0,
-                "active"=>1,
-                "created_at"=>now()
+                'name'=>'Obstetrical first cpn < 12 weeks',
+                'section_id'=>8,
+                'sector'=>500,
+                'out_sector'=>120000,
             ],
             [
-                "name"=>'CPN >20 Week Other Sector',
-                "price"=>350000,
-                "type_consult_id"=>4,
-                "sector"=>0,
-                "active"=>1,
-                "created_at"=>now()
+                'name'=>'Obstetrical first cpn > 12 weeks',
+                'section_id'=>8,
+                'sector'=>120000,
+                'out_sector'=>250000,
             ],
             [
-                "name"=>'OC Other Sector',
-                "price"=>700000,
-                "type_consult_id"=>4,
-                "sector"=>0,
-                "active"=>1,
-                "created_at"=>now()
+                'name'=>'Obstetrical first cpn >20 weeks',
+                'section_id'=>8,
+                'sector'=>250000,
+                'out_sector'=>500000,
             ],
             [
-                "name"=>'Echo Other Sector',
-                "price"=>500,
-                "type_consult_id"=>4,
-                "sector"=>0,
-                "active"=>1,
-                "created_at"=>now()
+                'name'=>'Obstetrical cpn followup',
+                'section_id'=>9,
+                'sector'=>null,
+                'out_sector'=>null,
             ],
             [
-                "name"=>'Dermato Sector',
-                "price"=>500,
-                "type_consult_id"=>9,
-                "sector"=>1,
-                "active"=>1,
-                "created_at"=>now()
+                'name'=>'Obstetrical postpartum baby',
+                'section_id'=>10,
+                'sector'=>null,
+                'out_sector'=>null,
             ],
             [
-                "name"=>'Dermato Other Sector',
-                "price"=>3000,
-                "type_consult_id"=>9,
-                "sector"=>0,
-                "active"=>1,
-                "created_at"=>now()
+                'name'=>'Obstetrical postpartum mom',
+                'section_id'=>11,
+                'sector'=>null,
+                'out_sector'=>null,
             ],
             [
-                "name"=>'Baby Checkup Sector',
-                "price"=>0,
-                "type_consult_id"=>8,
-                "sector"=>1,
-                "active"=>1,
-                "created_at"=>now()
+                'name'=>'Obstetrical postpartum meeting',
+                'section_id'=>12,
+                'sector'=>null,
+                'out_sector'=>null,
             ],
             [
-                "name"=>'Baby Vaccination Sector',
-                "price"=>0,
-                "type_consult_id"=>8,
-                "sector"=>1,
-                "active"=>1,
-                "created_at"=>now()
+                'name'=>'Obstetrical family planning',
+                'section_id'=>13,
+                'sector'=>null,
+                'out_sector'=>null,
             ],
             [
-                "name"=>'Baby Checkup Other Sector',
-                "price"=>5000,
-                "type_consult_id"=>8,
-                "sector"=>0,
-                "active"=>1,
-                "created_at"=>now()
+                'name'=>'General',
+                'section_id'=>14,
+                'sector'=>null,
+                'out_sector'=>null,
             ],
             [
-                "name"=>'Baby Vaccination Other Sector',
-                "price"=>5000,
-                "type_consult_id"=>8,
-                "sector"=>0,
-                "active"=>1,
-                "created_at"=>now()
+                'name'=>'Dental',
+                'section_id'=>15,
+                'sector'=>null,
+                'out_sector'=>null,
             ],
             [
-                "name"=>'CPN Followup Sector',
-                "price"=>1,
-                "type_consult_id"=>11,
-                "sector"=>1,
-                "active"=>1,
-                "created_at"=>now()
+                'name'=>'Obstetrical',
+                'section_id'=>16,
+                'sector'=>null,
+                'out_sector'=>null,
             ],
             [
-                "name"=>'CPN Followup Other Sector',
-                "price"=>1,
-                "type_consult_id"=>11,
-                "sector"=>0,
-                "active"=>1,
-                "created_at"=>now()
+                'name'=>'Pediatric',
+                'section_id'=>17,
+                'sector'=>null,
+                'out_sector'=>null,
             ],
             [
-                "name"=>'Pregnancy Test',
-                "price"=>500,
-                "type_consult_id"=>4,
-                "sector"=>1,
-                "active"=>1,
-                "created_at"=>now()
+                'name'=>'Other',
+                'section_id'=>14,
+                'sector'=>null,
+                'out_sector'=>null,
             ],
             [
-                "name"=>'Pregnancy Test',
-                "price"=>500,
-                "type_consult_id"=>4,
-                "sector"=>0,
-                "active"=>1,
-                "created_at"=>now()
+                'name'=>'Deliveries',
+                'section_id'=>19,
+                'sector'=>null,
+                'out_sector'=>null,
             ],
             [
-                "name"=>'Ultrasound',
-                "price"=>500,
-                "type_consult_id"=>5,
-                "sector"=>1,
-                "active"=>1,
-                "created_at"=>now()
+                'name'=>'Surgeries C-section',
+                'section_id'=>20,
+                'sector'=>350000,
+                'out_sector'=>700000,
             ],
             [
-                "name"=>'Ultrasound',
-                "price"=>3000,
-                "type_consult_id"=>5,
-                "sector"=>0,
-                "active"=>1,
-                "created_at"=>now()
+                'name'=>'Surgeries EUG Other',
+                'section_id'=>21,
+                'sector'=>500000,
+                'out_sector'=>1000000,
             ],
-
+            [
+                'name'=>'Pediatric vaccination',
+                'section_id'=>22,
+                'sector'=>0,
+                'out_sector'=>0,
+            ],
+            [
+                'name'=>'Pediatric routine checkup',
+                'section_id'=>23,
+                'sector'=>0,
+                'out_sector'=>0,
+            ],
+            [
+                'name'=>'Pediatric sickness',
+                'section_id'=>24,
+                'sector'=>0,
+                'out_sector'=>0,
+            ],
+            [
+                'name'=>'Pediatric injury/Wound care',
+                'section_id'=>25,
+                'sector'=>0,
+                'out_sector'=>0,
+            ],
+            [
+                'name'=>'Pediatric milk program',
+                'section_id'=>26,
+                'sector'=>5000,
+                'out_sector'=>5000,
+            ],
 
         ]);
     }
