@@ -21,11 +21,11 @@ Route::prefix('/v1')->group(function(){
         //Admission
         Route::group(['prefix'=>'admission'],function(){
             Route::resource('priority',\App\Http\Controllers\V1\patient_system\consultation\AdmissionPriorityController::class);
-            Route::get('today/{type}',[\App\Http\Controllers\V1\patient_system\consultation\ConsultationController::class,'today_consultation_by_type']);
+            Route::get('list_today',[\App\Http\Controllers\V1\patient_system\admission\AdmissionController::class,'list_today']);
             Route::post('check_patient_today',[\App\Http\Controllers\V1\patient_system\consultation\ConsultationController::class,'check_patient_today_consultation']);
             Route::get('activity_price/{service_activity}/{patient_category}',[\App\Http\Controllers\v1\patient_system\consultation\ServicePriceController::class,'filter_per_service']);
             Route::resource('service_price',\App\Http\Controllers\v1\patient_system\consultation\ServicePriceController::class);
-            Route::resource('',\App\Http\Controllers\V1\patient_system\admission\AdmissionController::class);
+            Route::resource('admission',\App\Http\Controllers\V1\patient_system\admission\AdmissionController::class);
         });
         //out patient
         Route::group(['prefix'=>'out_patient'],function(){

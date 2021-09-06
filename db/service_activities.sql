@@ -4,7 +4,7 @@ INSERT INTO service_activities(id,created_at,updated_at,name,joyCenter,service_i
 INSERT INTO service_activities(id,created_at,updated_at,name,joyCenter,service_id) VALUES (4,NULL,NULL,'Ambulance car',0,4);
 INSERT INTO service_activities(id,created_at,updated_at,name,joyCenter,service_id) VALUES (5,NULL,NULL,'Outreaches with partners',0,5);
 INSERT INTO service_activities(id,created_at,updated_at,name,joyCenter,service_id) VALUES (6,NULL,NULL,'Generalist Consultation',1,6);
-INSERT INTO service_activities(id,created_at,updated_at,name,joyCenter,service_id) VALUES (7,NULL,NULL,'Generalist Vaccination',1,6);
+INSERT INTO service_activities(id,created_at,updated_at,name,joyCenter,service_id) VALUES (7,NULL,NULL,'Generalist Other vaccination',1,6);
 INSERT INTO service_activities(id,created_at,updated_at,name,joyCenter,service_id) VALUES (8,NULL,NULL,'Generalist Injury/Wound care',1,6);
 INSERT INTO service_activities(id,created_at,updated_at,name,joyCenter,service_id) VALUES (9,NULL,NULL,'Dentist Consultation',1,7);
 INSERT INTO service_activities(id,created_at,updated_at,name,joyCenter,service_id) VALUES (10,NULL,NULL,'Dentist Treatment',1,7);

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nav class="navbar navbar-expand-md shadow-sm navbar-light" style="background-color:#92dff7">
+    <nav class="navbar navbar-expand-md shadow-sm navbar-dark fixed-top" style="background-color: #0093D7">
       <div class="container-fluid">
         <router-link :to="{ name: 'joyHome' }" class="navbar-brand" href="#">
           JoyCenter
@@ -40,7 +40,7 @@
                           New
                       </router-link>
                       <router-link
-                          :to="{ name: 'consultation.list' }"
+                          :to="{ name: 'admission.list' }"
                           class="dropdown-item">
                           <i class="glyphicon glyphicon-plus"></i>
                           List
@@ -53,8 +53,8 @@
               </li>
 
           </ul>
-            {{user.name}}
-          <v-icon medium @click="logout"> mdi-exit-to-app</v-icon>
+            <span class="text-white mr-2 text-uppercase">{{user.name}}</span>
+          <v-icon medium @click="logout" class="text-white"> mdi-exit-to-app</v-icon>
         </div>
       </div>
     </nav>

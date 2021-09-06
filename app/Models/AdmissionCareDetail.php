@@ -5,14 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PatientCareDetail extends Model
+class AdmissionCareDetail extends Model
 {
     use HasFactory;
     protected $guarded=[];
-    public function consultation(){
-        return $this->belongsTo(Consultation::class);
+    public function admission(){
+        return $this->belongsTo(Admission::class);
     }
-    public function servicePrices(){
+    public function activity_prices(){
         return $this->belongsTo(ActivityPrice::class);
     }
     public static function consult($id){

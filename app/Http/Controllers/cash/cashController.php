@@ -3,7 +3,7 @@ namespace App\Http\Controllers\cash;
 use App\Http\Controllers\Controller;
 use App\Models\Consultation;
 use App\Models\Patient;
-use App\Models\PatientCareDetail;
+use App\Models\AdmissionCareDetail;
 use App\Models\PatientCashFlow;
 use App\Models\PatientDue;
 use Illuminate\Http\Request;
@@ -23,7 +23,7 @@ class cashController extends Controller
 
         $cashFlows= PatientCashFlow::where('patient_id',$patId)->get();
         $patient_due= Patient::find($patId)->patient_due()->latest()->get('amount');
-        $todayOperations= PatientCareDetail::where('consultation_id',$consult_id)->with('ServicePrices')->get();
+        $todayOperations= AdmissionCareDetail::where('consultation_id',$consult_id)->with('ServicePrices')->get();
         // check if the patient has due amount
         $due= count($patient_due)>0?$patient_due[0]->amount:0;
         $total=0;
@@ -82,7 +82,7 @@ class cashController extends Controller
     }
 
     public function details_per_consult($id){
-        return PatientCareDetail::consult($id)->with('servicePrices')->get();
+        return AdmissionCareDetail::consult($id)->with('servicePrices')->get();
     }
     public function finance_rezept(){
         $results= DB::connection('patSyst')->table('consultations')

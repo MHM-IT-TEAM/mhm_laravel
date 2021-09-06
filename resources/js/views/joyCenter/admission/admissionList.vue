@@ -8,27 +8,27 @@
                 sort-by="calories"
                 class="elevation-1"
             >
-                <template v-slot:item.name="{ item }">
+                <template v-slot:item.service_activity="{ item }">
                     <v-chip
-                        :color="serviceColor(item.name)"
+                        :color="serviceColor(item.id)"
                         dark
                     >
-                        {{ item.type_consult.name }}
+                        {{ item.name }}
                     </v-chip>
                 </template>
-                <template v-slot:item.careDetails.status="{ item }">
+                <template v-slot:item.status="{ item }">
                     <v-chip
-                        :color="doneColor(item.careDetails.status)"
+                        :color="doneColor(item.status)"
                         dark
                     >
-                        {{ item.careDetails.status }}
+                        {{ item.status }}
                     </v-chip>
                 </template>
                 <template v-slot:top>
                     <v-toolbar
                         flat
                     >
-                        <v-toolbar-title>List of consultations </v-toolbar-title>
+                        <v-toolbar-title>List of admissions </v-toolbar-title>
                         <v-divider
                             class="mx-4"
                             inset
@@ -53,7 +53,7 @@
                                         <admission
                                             :reference="childRef"
                                             :edit="childEdit"
-                                            @updated="close"
+                                            @updated="refreshList"
                                         ></admission>
                                     </v-container>
                                 </v-card-text>
@@ -114,9 +114,9 @@
 </template>
 <script>
     import admission from "./admission";
-    import * as routes from "../../../api_routes"
     import {mapGetters,mapActions} from 'vuex';
     export default {
+        name:'admission_list',
         components: {admission},
         data: () => ({
             dialog: false,
@@ -126,7 +126,7 @@
                 { text: 'Patient Id', value: 'patient_id' },
                 { text: 'First Name', value: 'patient.firstName' },
                 { text: 'Last Name', value: 'patient.lastName' },
-                { text: 'Service', value: 'type_consult.name' },
+                { text: 'Service', value: 'service_activity.name' },
                 { text: 'Status',value:'status'},
                 {text:'Remark',value:'remark'},
                 { text: 'Actions', value: 'actions', sortable: false },
@@ -159,7 +159,7 @@
 
         methods:{
             async initialize () {
-                await axios.get(routes.CONSULTATION+'/today/0').then(response=>{
+                await axios.get('/api/v1/patient_system/admission/list_today').then(response=>{
                     this.list=response.data
                 })
             },
@@ -180,7 +180,7 @@
             deleteItemConfirm () {
                 this.list.splice(this.editedIndex, 1)
                 this.closeDelete()
-                axios.delete(`/api/consultation/${this.editedItem.id}`)
+                axios.delete(`/api/v1/patient_system/admission/admission/${this.editedItem.id}`)
             },
 
             close () {
@@ -223,7 +223,17 @@
                 }else{
                     return 'grey'
                 }
+            },
+            refreshList(){
+                this.close()
+                this.initialize()
             }
         },
     }
 </script>
+<style scoped>
+.elevation-1{
+    margin-top: 50px;
+}
+</style>
+

@@ -4,18 +4,16 @@ namespace App\Http\Controllers\V1\patient_system\admission;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\AdmissionRequest;
+use App\Models\Admission;
 use App\Service\Medical\obstetrics\CpnAdmissionService;
 use App\Service\V1\AdmissionService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 
 class AdmissionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         //
@@ -32,43 +30,30 @@ class AdmissionController extends Controller
         $admission= new AdmissionService();
         return $admission->store($request);
     }
-
     public function show($id)
     {
-        //
+        $consultation= Admission::with(['admissionCareDetails'=>function($data){
+            return $data->with('activity_prices')->get();
+        },'patient'=>function($patient){
+            return $patient->with('patient_due');
+        }])->find($id);
+        return $consultation;
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         //
     }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
-        //
+        $consultation= new AdmissionService();
+        return $consultation->update($request,$id);
     }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
-        //
+        $consultation= new AdmissionService();
+        return $consultation->destroy($id);
+    }
+    public function list_today(){
+        return Admission::whereDate('created_at',Carbon::today())->with(['patient','service_activity'])->get();
     }
 }

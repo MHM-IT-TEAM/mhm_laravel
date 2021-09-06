@@ -10,11 +10,11 @@ import welcome from "./views/home/welcome";
 
 //joyCenter
 import joyLayout from "./views/joyCenter/layouts/joyLayout";
-import joyWelcome from "./views/joyCenter/consultation/joyWelcome";
+import joyWelcome from "./views/joyCenter/admission/joyWelcome";
 import patientSearch from "./components/patient/patientSearch";
 import patient_crud from "./views/patient/patient_crud";
-import admission from "./views/joyCenter/consultation/admission";
-import queue from "./views/joyCenter/consultation/queue";
+import admission from "./views/joyCenter/admission/admission";
+import admission_list from "./views/joyCenter/admission/admissionList";
 
 
 //Obstetrics
@@ -111,9 +111,9 @@ const routes = [
             },
             //queue list
             {
-                path: 'queueList',
-                name: "consultation.list",
-                component: queue
+                path: 'admission_list',
+                name: "admission.list",
+                component: admission_list
             },
             //
             {

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\V1\patient_system\consultation;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\AdmissionRequest;
 use App\Models\Consultation;
-use App\Models\PatientCareDetail;
+use App\Models\AdmissionCareDetail;
 use App\Service\V1\ConsultationService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -56,7 +56,7 @@ class ConsultationController extends Controller
     public function destroy($id)
     {
         //delete care_details
-        PatientCareDetail::where('consultation_id',$id)->delete();
+        AdmissionCareDetail::where('consultation_id',$id)->delete();
         //delete consultations
         Consultation::find($id)->delete();
     }

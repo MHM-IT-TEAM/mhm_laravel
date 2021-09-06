@@ -17,6 +17,8 @@ class CreateAdmissionsTable extends Migration
             $table->id();
             $table->timestamps();
             $table->foreignId('patient_id');
+            $table->foreignId('category_id');
+            $table->foreignId('service_id');
             $table->foreignId('service_activity_id');
             $table->foreignId('user_id');
             $table->integer('admission_priority_id')->nullable();
@@ -31,7 +33,6 @@ class CreateAdmissionsTable extends Migration
             $table->integer('pulse',)->nullable();
             $table->integer('spo2',)->nullable();
             $table->text('remark')->nullable();
-            $table->String('senior_informed');
         });
     }
 

@@ -5,7 +5,7 @@ namespace App\Service\V1;
 
 
 use App\Models\Consultation;
-use App\Models\PatientCareDetail;
+use App\Models\AdmissionCareDetail;
 use App\Models\VitalSign;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePatientCareDetailsTable extends Migration
+class CreateAdmissionCareDetailsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreatePatientCareDetailsTable extends Migration
      */
     public function up()
     {
-        Schema::create('patient_care_details', function (Blueprint $table) {
+        Schema::create('admission_care_details', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
             $table->foreignId('admission_id')->constrained();

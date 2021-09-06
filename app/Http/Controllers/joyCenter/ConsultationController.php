@@ -5,7 +5,7 @@ namespace App\Http\Controllers\joyCenter;
 use App\Http\Controllers\Controller;
 use App\Models\Consultation;
 use App\Models\Patient;
-use App\Models\PatientCareDetail;
+use App\Models\AdmissionCareDetail;
 use App\Models\VitalSign;
 use App\Service\ConsultationService;
 use Carbon\Carbon;
@@ -60,7 +60,7 @@ class ConsultationController extends Controller
     public function destroy(Request $request, $id)
     {
         //delete care_details
-        PatientCareDetail::where('consultation_id',$id)->delete();
+        AdmissionCareDetail::where('consultation_id',$id)->delete();
         //delete consultations
         Consultation::find($id)->delete();
     }

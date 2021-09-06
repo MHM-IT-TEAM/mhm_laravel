@@ -21,7 +21,7 @@ class Consultation extends Model
             return $this->hasOne(VitalSign::class);
         }
         public function patientCareDetails(){
-            return $this->hasMany(PatientCareDetail::class);
+            return $this->hasMany(AdmissionCareDetail::class);
         }
         public function graceCsbTransaction(){
             return $this->hasMany(GraceCsbTransaction::class);

@@ -42,19 +42,19 @@
                     </tr>
                     <tr>
                         <td>
-                            <select class="required" v-model="accessory.chosen_category" @change="changeCategory" :disabled="formData.patient.id===''">
+                            <select class="required" v-model="formData.category_id" @change="changeCategory" :disabled="formData.patient.id===''">
                                 <option value=""><span class="text-danger">*</span>Category</option>
                                 <option v-for="item in accessory.categories" :value="item.id">{{item.name}}</option>
                             </select>
                         </td>
                         <td>
-                            <select class="required" v-model="accessory.chosen_service" @change="changeService" :disabled="accessory.chosen_category===''">
+                            <select class="required" v-model="formData.service_id" @change="changeService" :disabled="formData.category_id===''">
                                 <option value="">Service</option>
                                 <option v-for="item in accessory.services" :value="item.id">{{item.name}}</option>
                             </select>
                         </td>
                         <td>
-                            <select class="required" v-model="formData.service_activity_id" @change="changeActivity" :disabled="accessory.chosen_service===''">
+                            <select class="required" v-model="formData.service_activity_id" @change="changeActivity" :disabled="formData.service_id===''">
                                 <option value="">Activity</option>
                                 <option v-for="item in accessory.service_activities" :value="item.id">{{item.name}}</option>
                             </select>
@@ -135,10 +135,10 @@
                             <td>Price</td>
                         </tr>
                         <tr>
-                            <td>{{formData.patient_care_details.name}}</td>
+                            <td>{{formData.admission_care_details.name}}</td>
                             <td>
-                                <span v-if="!accessory.price_manual_entry">{{formData.patient_care_details.price}}</span>
-                                <input type="number" v-if="accessory.price_manual_entry" v-model="formData.patient_care_details.price" class="required"/>
+                                <span v-if="!accessory.price_manual_entry">{{formData.admission_care_details.price}}</span>
+                                <input type="number" v-if="accessory.price_manual_entry" v-model="formData.admission_care_details.price" class="required"/>
                             </td>
                         </tr>
 <!--                        <tr>-->
@@ -157,7 +157,7 @@
 <!--                                {{accessory.temp_care_line.qty * accessory.temp_care_line.price }}-->
 <!--                            </td>-->
 <!--                        </tr>-->
-<!--                        <tr v-for="(line,i ) in formData.patient_care_details">-->
+<!--                        <tr v-for="(line,i ) in formData.admission_care_details">-->
 <!--                            <td>{{line.name}}</td>-->
 <!--                            <td>{{line.price}}</td>-->
 <!--                            <td>{{line.qty}}</td>-->
@@ -183,7 +183,7 @@
                         </tr>
                         <tr>
                             <td>Total</td>
-                            <td class="font-weight-bold text-decoration-underline">{{parseInt(formData.patient_care_details.price) + formData.patient.last_due}}</td>
+                            <td class="font-weight-bold text-decoration-underline">{{parseInt(formData.admission_care_details.price) + formData.patient.last_due}}</td>
                         </tr>
                     </table>
                     <div class="text-right mt-6">
@@ -227,6 +227,8 @@ const {
             return {
                 formData: {
                     id: "",
+                    category_id:'',
+                    service_id:'',
                     service_activity_id:'',
                     admission_priority_id: '',
                     status: "RUNNING",
@@ -250,7 +252,7 @@ const {
                         mhm_partner_id:''
                     },
                     remark:'',
-                    patient_care_details:{
+                    admission_care_details:{
                         id:'',
                         name:'',
                         price:null
@@ -267,14 +269,19 @@ const {
                     noPatientFound: false,
                     form_is_submitting:false,
                     form_update:false,
-                    chosen_category:'',
-                    chosen_service:'',
                     height_modal:false
                 },
 
             }
         },
-        created() {
+        watch:{
+            reference(val){
+                this.resetForm()
+                this.formData.id=val
+                this.fetch_reference()
+            }
+        },
+        mounted() {
             this.init()
         },
         validations:{
@@ -324,68 +331,72 @@ const {
             async changeCategory(){
                 this.accessory.service_activities=[]
                 this.accessory.services=[]
-                this.formData.patient_care_details={id:'', name:'', price:null}
+                this.formData.admission_care_details={id:'', name:'', price:null}
                 await this.validate_category()
-                if(this.accessory.chosen_category!==""){
-                    await axios.get(`/api/v1/patient_system/system/service/category/${this.accessory.chosen_category}`).then(response=>this.accessory.services=response.data)
+                if(this.formData.category_id!==""){
+                    await axios.get(`/api/v1/patient_system/system/service/category/${this.formData.category_id}`).then(response=>this.accessory.services=response.data)
                 }
             },
             async changeService() {
-                this.formData.patient_care_details={id:'', name:'', price:null}
+                this.formData.admission_care_details={id:'', name:'', price:null}
                 this.accessory.service_activities=[]
                 await this.validate_service()
-                if(this.accessory.chosen_service!==""){
-                    axios.get(`/api/v1/patient_system/system/serviceActivity/service/${this.accessory.chosen_service}`).then(response=>{
+                if(this.formData.service_id!==""){
+                    axios.get(`/api/v1/patient_system/system/serviceActivity/service/${this.formData.service_id}`).then(response=>{
                         this.accessory.service_activities=response.data
                     })
                 }
             },
             async changeActivity(){
-                this.formData.patient_care_details={id:'', name:'', price:null}
+                this.formData.admission_care_details={id:'', name:'', price:null}
                 let patient_category
                 if(this.formData.patient.patient_category_id===null){
                     patient_category= this.formData.patient.sector===false?0:1
                 }else patient_category=this.formData.patient.patient_category_id
                 await axios.get(`/api/v1/patient_system/admission/activity_price/${this.formData.service_activity_id}/${patient_category}`).then(response=>{
                     if(response.data.length>0){
-                        this.formData.patient_care_details=response.data[0]
+                        this.formData.admission_care_details=response.data[0]
                     }
                 })
             },
             add_care_line(){
                 let line= this.accessory.temp_care_line
                 line.amount= line.price * line.qty
-                this.formData.patient_care_details.push(line)
+                this.formData.admission_care_details.push(line)
                 this.accessory.temp_care_line={id:'',name:'',price:'', qty:''}
             },
             delete_care_line(rowId) {
-                return  this.formData.patient_care_details.splice(rowId, 1)
+                return  this.formData.admission_care_details.splice(rowId, 1)
             },
             async validate_service(){
-                if(this.formData.patient.gender==='M' && this.accessory.chosen_service===8 && this.accessory.chosen_category===6){
+                if(this.formData.patient.gender==='M' && this.formData.service_id===8 && this.formData.category_id===6){
                     this.$toast.open({message:'the patient is not female',position:'top-right',type:'error'})
-                    this.accessory.chosen_service=""
+                    this.formData.service_id=""
                 }
-                if(this.check_age<2 && this.accessory.chosen_service!==9 && this.accessory.chosen_category===6){
+                if(this.check_age<2 && this.formData.service_id!==9 && this.formData.category_id===6){
                     this.$toast.open({message:'the patient should go to the pediatric service',position:'top-right',type:'error'})
-                    this.accessory.chosen_service=""
+                    this.formData.service_id=""
                 }
-                if(this.formData.patient.gender==='M' && this.accessory.chosen_service===14 && this.accessory.chosen_category===7){
+                if(this.check_age>18 && this.formData.service_id===9 && this.formData.category_id===6){
+                    this.$toast.open({message:'the patient is too old for pediatric service',position:'top-right',type:'error'})
+                    this.formData.service_id=""
+                }
+                if(this.formData.patient.gender==='M' && this.formData.service_id===14 && this.formData.category_id===7){
                     this.$toast.open({message:'the patient is not female',position:'top-right',type:'error'})
-                    this.accessory.chosen_service=""
+                    this.formData.service_id=""
                 }
-                if(this.check_age<2 && this.accessory.chosen_service!==15 && this.accessory.chosen_category===7){
+                if(this.check_age<2 && this.formData.service_id!==15 && this.formData.category_id===7){
                     this.$toast.open({message:'the patient should go to the pediatric service',position:'top-right',type:'error'})
-                    this.accessory.chosen_service=""
+                    this.formData.service_id=""
                 }
-                if(this.accessory.chosen_service===8 && this.formData.patient.height !==null){
+                if(this.formData.service_id===8 && this.formData.patient.height !==null){
                     this.accessory.height_modal=true
                 }
             },
             async validate_category(){
-                if(this.formData.patient.gender==='M' && this.accessory.chosen_category===8){
+                if(this.formData.patient.gender==='M' && this.formData.category_id===8){
                     this.$toast.open({message:'the patient is not female',position:'top-right',type:'error'})
-                    this.accessory.chosen_category=""
+                    this.formData.category_id=""
                 }
             },
             async update_patient_height(){
@@ -399,6 +410,8 @@ const {
             resetForm() {
                 this.formData = {
                     id: "",
+                    category_id:'',
+                    service_id:'',
                     service_activity_id:'',
                     admission_priority_id: '',
                     status: "RUNNING",
@@ -422,7 +435,7 @@ const {
                         mhm_partner_id:''
                     },
                     remark:'',
-                    patient_care_details:{
+                    admission_care_details:{
                         id:'',
                         name:'',
                         price:null
@@ -438,7 +451,7 @@ const {
                 this.formData.user_id= window.auth.user.id
                 this.formData.patient_id= this.formData.patient.id
                 if(!this.accessory.form_update){
-                    await axios.post('/api/v1/patient_system/admission',this.formData).then(response=>{
+                    await axios.post('/api/v1/patient_system/admission/admission',this.formData).then(response=>{
                         if(response.data.success){
                                 this.accessory.form_is_submitting=false
                                 this.$toast.open({message:response.data.msg,position:'top-right',type:'success'})
@@ -447,37 +460,26 @@ const {
                         }
                     })
                 }else{
-                    await axios.put(`/api/v1/patient_system/consultation/${this.formData.id}`,this.formData).then(response=>{
+                    await axios.put(`/api/v1/patient_system/admission/admission/${this.formData.id}`,this.formData).then(response=>{
                         if(response.data.success){
-                            if(this.edit){
-                                this.$emit('updated')
-                            }else{
-                                this.$toast.open({message:response.data.msg,position:'top-right',type:'success'})
-                            }
+                            this.$v.$reset()
+                            this.accessory.form_is_submitting=false
+                            this.$emit('updated')
                         }
                     })
                 }
             },
             async fetch_reference(){
-                await axios.get(`/api/v1/patient_system/consultation/${this.formData.id}`).then(
+                await axios.get(`/api/v1/patient_system/admission/admission/${this.formData.id}`).then(
                     response=>{
                         this.accessory.form_update=true
                         let care_details=[]
                         this.formData=response.data
                         this.formData.patient.last_due=response.data.patient.patient_due !== null? parseInt(response.data.patient.patient_due.amount):0
-                        response.data.patient_care_details.forEach((line)=>{
-                             let output={
-                                 id:line.service_prices.id,
-                                 name:line.service_prices.name,
-                                 price:line.service_prices.price,
-                                 qty:line.qty,
-                                 amount:line.qty*line.service_prices.price
-                             }
-                             care_details.push(output)
-                        })
-                        this.formData.patient_care_details= response.data.patient_care_details.length>0?[...care_details]:[]
-                        this.changeConsult()
+                        this.changeCategory()
+                        this.changeService()
                 })
+                this.changeActivity()
             }
         },
         computed: {
@@ -499,7 +501,7 @@ const {
                 }
 
             }
-        }
+        },
     }
 </script>
 <style scoped>
