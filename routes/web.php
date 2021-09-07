@@ -30,7 +30,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 //joyCenter
-Route::group(['prefix'=>'joyCenter'],function(){
+Route::group(['prefix'=>'joyCenter','middleware'=>'auth'],function(){
     Route::get('/{any}',[App\Http\Controllers\joyCenter\JoyCenterController::class, 'index'])->name('joyHome')->where('any','.*');
 });
 //cash

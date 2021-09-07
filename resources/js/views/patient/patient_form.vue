@@ -225,6 +225,7 @@
                                                   id="idCard"
                                                   v-model="patient.cin_no"
                                               />
+                                              <span class="text-white bg-danger" v-if="$v.patient.cin_no.$error">ID Card required</span>
                                           </div>
                                       </div>
                                       <label for="idDate" class="pb-0 col-form-label">ID Date</label>
@@ -244,6 +245,7 @@
                                                       />
                                                   </template>
                                               </date-picker>
+                                              <span class="text-white bg-danger" v-if="$v.patient.cin_date.$error">ID Card Date required</span>
                                           </div>
                                       </div>
                                       <label for="idPlace" class="pb-0 col-form-label"
@@ -258,6 +260,7 @@
                                                   id="idPlace"
                                                   v-model="patient.cin_place"
                                               />
+                                              <span class="text-white bg-danger" v-if="$v.patient.cin_place.$error">ID Card Place required</span>
                                           </div>
                                       </div>
                                   </div>
@@ -494,10 +497,12 @@
 
 <script>
 import { validationMixin } from "vuelidate";
+import moment from "moment"
 import { mapActions, mapGetters } from "vuex";
 import _ from 'lodash';
 const {
   required,
+  requiredIf,
   minLength,
   email,
   url,
@@ -572,11 +577,25 @@ export default {
       },
       patient_category_id: {
           required
-      }
+      },
+      cin_no:{
+          required:requiredIf(patient=>{
+             return moment().diff(moment(patient.birthDate,"YYYY-MM-DD-"), 'years')>=18
+          })
+      },
+      cin_date: {
+          required:requiredIf(patient=>patient.cin_no!=="")
+      },
+        cin_place: {
+            required:requiredIf(patient=>patient.cin_no!=="")
+        }
     },
   },
   computed: {
     ...mapGetters("patient", ["selectedPatient"]),
+      check_age(){
+          return moment().diff(moment(this.patient.birthDate,"YYYY-MM-DD-"), 'years')
+      },
   },
   created() {
     this.getCountries();

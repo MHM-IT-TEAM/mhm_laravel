@@ -4,6 +4,7 @@
 use App\Models\BloodGroup;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 Route::prefix('/v1')->group(function(){
     //patient system
