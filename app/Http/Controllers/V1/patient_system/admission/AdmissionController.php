@@ -33,7 +33,7 @@ class AdmissionController extends Controller
     public function show($id)
     {
         $consultation= Admission::with(['admissionCareDetails'=>function($data){
-            return $data->with('activity_prices')->get();
+            return $data->with('activity_price')->get();
         },'patient'=>function($patient){
             return $patient->with('patient_due');
         }])->find($id);
@@ -54,6 +54,17 @@ class AdmissionController extends Controller
         return $consultation->destroy($id);
     }
     public function list_today(){
-        return Admission::whereDate('created_at',Carbon::today())->with(['patient','service_activity'])->get();
+        return Admission::whereDate('created_at',Carbon::today())
+            ->with(
+                [
+                    'patient'=>function($patient){
+                        return $patient->with('patient_due');
+                    },
+                     'service_activity',
+                    'admissionCareDetails'=>function($data){
+                        return $data->with('activity_price')->get();
+                    }
+                ]
+            )->get();
     }
 }

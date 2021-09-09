@@ -39,7 +39,7 @@ export default {
       let self = this;
       this.loading = true;
       this.timeout = setTimeout(function () {
-        self.query.length > 3 ? self.fetchPatients(self.query) : "";
+        self.query.length > 0 ? self.fetchPatients(self.query) : "";
       }, 1000);
     },
   },

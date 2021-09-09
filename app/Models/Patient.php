@@ -10,7 +10,9 @@ class Patient extends Model
     use HasFactory;
     protected $guarded=[];
 
-
+    public function admissions(){
+        return $this->hasMany(Admission::class);
+    }
     public function emContacts(){
         return $this->hasMany(EmContact::class);
     }

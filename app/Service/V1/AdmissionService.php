@@ -42,6 +42,7 @@ class AdmissionService
             'category_id'=>$request->category_id,
             'service_id'=>$request->service_id,
             'service_activity_id'=>$request->service_activity_id,
+            'mhm_partner_id'=>$request->mhm_partner_id,
             'user_id'=>$request->user_id,
             'admission_priority_id'=>$request->admission_priority_id,
             'status'=>$request->status,
@@ -68,7 +69,8 @@ class AdmissionService
                     'admission_id'=>$admission_id,
                     'activity_price_id'=>$care_details['id'],
                     'qty'=>1,
-                    'total'=>$care_details['price']
+                    'total'=>$care_details['price'],
+                    'payment_status'=>0
                 ]
             );
         }

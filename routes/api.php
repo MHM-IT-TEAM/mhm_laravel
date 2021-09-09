@@ -28,6 +28,12 @@ Route::prefix('/v1')->group(function(){
             Route::resource('service_price',\App\Http\Controllers\v1\patient_system\consultation\ServicePriceController::class);
             Route::resource('admission',\App\Http\Controllers\V1\patient_system\admission\AdmissionController::class);
         });
+        //Cashier
+        Route::group(['prefix'=>'cashier'],function(){
+            Route::get('former_transactions_list/{patient_id}',[\App\Http\Controllers\V1\patient_system\cashier\PaymentController::class,'former_transaction_list']);
+            Route::get('unpaid_today',[\App\Http\Controllers\V1\patient_system\cashier\PaymentController::class,'unpaid_today']);
+            Route::post('pay',[\App\Http\Controllers\V1\patient_system\cashier\PaymentController::class,'pay']);
+        });
         //out patient
         Route::group(['prefix'=>'out_patient'],function(){
 

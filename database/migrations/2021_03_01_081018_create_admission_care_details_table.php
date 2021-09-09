@@ -20,6 +20,7 @@ class CreateAdmissionCareDetailsTable extends Migration
             $table->foreignId('activity_price_id')->constrained();
             $table->integer('qty');
             $table->string('total',20);
+            $table->boolean('payment_Status')->nullable();
         });
     }
 

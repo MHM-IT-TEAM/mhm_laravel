@@ -5,7 +5,7 @@
                 :headers="headers"
                 :items="list"
                 :search="search"
-                sort-by="calories"
+                sort-by="patient_id"
                 class="elevation-1"
             >
                 <template v-slot:item.service_activity="{ item }">

@@ -5,6 +5,8 @@ namespace App\Http\Controllers\v1\patient_system\patient;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\patientRequest;
 use App\Models\Patient;
+use App\Models\PatientCashFlow;
+use App\Models\PatientDue;
 use App\Service\PatientService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -75,6 +77,6 @@ class PatientController extends Controller
         return $patient->filter($request);
     }
     public function with_due_sum($id){
-        return Patient::with('patient_due')->find($id);
+        return Patient::with(['patient_due'])->find($id);
     }
 }

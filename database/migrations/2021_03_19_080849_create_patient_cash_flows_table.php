@@ -17,11 +17,12 @@ class CreatePatientCashFlowsTable extends Migration
             $table->id();
             $table->timestamps();
             $table->foreignId('patient_id');
-            $table->foreignId('admission_id');
+            $table->integer('admission_id')->nullable();
+            $table->string('nature')->nullable();
             $table->string('last_due',20)->nullable();
-            $table->string('value',20)->nullable();
+            $table->string('to_pay',20)->nullable();
             $table->string('paid',20)->nullable();
-            $table->string('due',20)->nullable();
+            $table->string('new_debt',20)->nullable();
         });
     }
 

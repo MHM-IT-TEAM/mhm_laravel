@@ -11,10 +11,13 @@ import welcome from "./views/home/welcome";
 //joyCenter
 import joyLayout from "./views/joyCenter/layouts/joyLayout";
 import joyWelcome from "./views/joyCenter/admission/joyWelcome";
-import patientSearch from "./components/patient/patientSearch";
 import patient_crud from "./views/patient/patient_crud";
 import admission from "./views/joyCenter/admission/admission";
 import admission_list from "./views/joyCenter/admission/admissionList";
+//Cashier
+import cashier_layout from "./views/cashier/layouts/cashier_layout";
+import cashier_admission_list from "./views/cashier/cashier_admission_list";
+import cashier_payment from "./views/cashier/cashier_payment";
 
 
 //Obstetrics
@@ -52,6 +55,7 @@ import maternity_labwork from "./views/medical/maternity/labwork/maternity_labwo
 import generalist_layout from "./views/medical/generalist/layouts/generalist_layout";
 import generalist_list from "./views/medical/generalist/generalist_list";
 import generalist_consultation from "./views/medical/generalist/generalist_consultation";
+
 
 
 Vue.use(VueRouter);
@@ -121,6 +125,30 @@ const routes = [
                 name: "joycenter.maternity_admission",
                 component: maternity_admission
             },
+        ]
+    },
+    /**
+     /-------------------
+        Cashier
+     /-------------------
+     */
+    {
+        path:'/cashier',
+        name:'cashier',
+        component: cashier_layout,
+        children: [
+            {
+                path:'admission_list',
+                name:'cashier_admission_list',
+                component: cashier_admission_list
+
+            },
+            {
+                path:'payment',
+                name:'cashier_payment',
+                component: cashier_payment
+
+            }
         ]
     },
 

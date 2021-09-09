@@ -2,7 +2,7 @@
     <div class="container w-75">
         <v-app>
             <h1 class="text-center form-title">PATIENT ADMISSION</h1>
-            <div class="inline mb-4">Quick search <input type="number" class="required" style="width:80px" @change="fetch_reference" v-model="formData.id"/></div>
+            <div class="inline mb-4">Quick search <input type="number" class="required" style="width:80px" @change="quickSearch" v-model="formData.id"/></div>
             <div class="table-responsive">
                 <table class="table table-sm">
                     <tr>
@@ -60,10 +60,16 @@
                             </select>
                             <span v-if="$v.formData.service_activity_id.$error" class="text-white bg-danger">you have to choose here</span>
                         </td>
-                        <td colspan="2">
+                        <td>
                             <select class="form-control form-control-sm required" v-model="formData.admission_priority_id" :class="priority_color">
                                 <option value="">Priority</option>
                                 <option v-for="item in accessory.priorities" :value="item.id">{{item.code +"=> " + item.description}}</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select class="form-control form-control-sm required" v-model="formData.mhm_partner_id">
+                                <option value="">MHM Partner</option>
+                                <option v-for="partner in accessory.mhm_partners" :value="partner.id">{{partner.name}}</option>
                             </select>
                         </td>
                     </tr>
@@ -187,7 +193,7 @@
                         </tr>
                     </table>
                     <div class="text-right mt-6">
-                        <v-btn color="info" :loading="accessory.form_is_submitting" @click="submit">submit</v-btn>
+                        <v-btn color="info" :loading="accessory.form_is_submitting" @click="submit" v-if="!accessory.quick_search">submit</v-btn>
                     </div>
                 </div>
                 <!--patient height dialog modal -->
@@ -231,6 +237,7 @@ const {
                     service_id:'',
                     service_activity_id:'',
                     admission_priority_id: '',
+                    mhm_partner_id:'',
                     status: "RUNNING",
                     temp: "",
                     pulse: "",
@@ -264,12 +271,14 @@ const {
                     service_activities: [],
                     divisions: [],
                     priorities:[],
+                    mhm_partners:[],
                     price_manual_entry:false,
                     fokontany: [],
                     noPatientFound: false,
                     form_is_submitting:false,
                     form_update:false,
-                    height_modal:false
+                    height_modal:false,
+                    quick_search:false
                 },
 
             }
@@ -300,6 +309,7 @@ const {
                 axios.get('/api/v1/patient_system/system/category').then(response=>this.accessory.categories=response.data)
                 axios.get('/api/v1/patient_system/admission/priority').then(response=>this.accessory.priorities=response.data)
                 axios.get("/api/v1/extra/fokontany").then(response => response.data.forEach(fkt => this.accessory.fokontany.push(fkt.name.toLowerCase())))
+                axios.get("/api/v1/extra/mhm_partner").then(response=>this.accessory.mhm_partners=response.data)
                 if(this.reference !=='' && this.reference !==undefined){
                     this.formData.id=this.reference
                     this.fetch_reference()
@@ -414,6 +424,7 @@ const {
                     service_id:'',
                     service_activity_id:'',
                     admission_priority_id: '',
+                    mhm_partner_id:'',
                     status: "RUNNING",
                     temp: "",
                     pulse: "",
@@ -480,6 +491,10 @@ const {
                         this.changeService()
                 })
                 this.changeActivity()
+            },
+            quickSearch(){
+                this.accessory.quick_search=true
+              this.fetch_reference()
             }
         },
         computed: {

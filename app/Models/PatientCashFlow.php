@@ -13,4 +13,7 @@ class PatientCashFlow extends Model
     public function patients(){
         return $this->belongsTo(Patient::class);
     }
+    public function admission(){
+        return $this->belongsTo(Admission::class);
+    }
 }

@@ -12,7 +12,7 @@ class AdmissionCareDetail extends Model
     public function admission(){
         return $this->belongsTo(Admission::class);
     }
-    public function activity_prices(){
+    public function activity_price(){
         return $this->belongsTo(ActivityPrice::class);
     }
     public static function consult($id){

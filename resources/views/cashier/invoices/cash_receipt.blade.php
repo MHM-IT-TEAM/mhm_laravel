@@ -4,8 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="{{asset('custom/css/cash/finance_rezept.css')}}">
     <title>Cash</title>
+    <style>
+        .table{
+            width:100%;
+            border: solid 0.5px black;
+        }
+        table td{
+            border: solid 0.5px grey;
+            font-size: 11px;
+        }
+    </style>
 </head>
 <body>
 <div class="ticket">
@@ -21,18 +30,29 @@
         </tr>
         </thead>
         <tbody>
-        @foreach($results as $result)
+        @php
+        $total=0;
+        @endphp
+        @foreach($data as $line)
             <tr>
-                <td>{{$result->name}}</td>
-                <td>{{$result->sum}}</td>
+                <td>{{$line->service}}</td>
+                <td>{{$line->value}}</td>
             </tr>
+            @php
+                $total+=$line->value;
+            @endphp
         @endforeach
+
         <tr>
             <th>TOTAL</th>
-            <th>$total</th>
+            <th>{{$total}}</th>
         </tr>
         </tbody>
     </table>
 </div>
 </body>
+<script>
+    window.onafterprint = window.close;
+    window.print()
+</script>
 </html>

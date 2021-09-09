@@ -31,29 +31,15 @@ Route::get('/', function () {
 });
 //joyCenter
 Route::group(['prefix'=>'joyCenter','middleware'=>'auth'],function(){
-    Route::get('/{any}',[App\Http\Controllers\joyCenter\JoyCenterController::class, 'index'])->name('joyHome')->where('any','.*');
+    Route::get('/{any}',function(){
+        return view("joyCenter/home");
+    })->name('joyHome')->where('any','.*');
 });
 //cash
-Route::group(['prefix'=>'cash','middleware'=>'auth'],function(){
-    route::get('/home',[App\Http\Controllers\cash\cashController::class, 'index'])->name('cashHome');
-    route::get('/home/list',[App\Http\Controllers\cash\cashController::class, 'patient_list'])->name('cash_patient_list');
-    route::Get('/home/pay/{consult_id}/patId/{patient_id}/type_consult/{type_consult}',[App\Http\Controllers\cash\cashController::class, 'pay'] )->name('cash_pay');
-});
-//obstetrics
-Route::group(['prefix'=>'obstetrics','middleware'=>'auth'],function(){
-
-    Route::get('/{any}',[App\Http\Controllers\medical\obstetrics\ObstetricsController::class, 'index'])->where('any','.*');
-});
-// Maternity
-Route::group(['prefix'=>'maternity','middleware'=>'auth'],function(){
-    Route::get('/{any}',[App\Http\Controllers\medical\maternity\MaternityController::class, 'index'])->where('any','.*');
-});
-// Generalist
-Route::group(['prefix'=>'generalist','middleware'=>'auth'],function(){
-    Route::get('/{any}',[App\Http\Controllers\medical\generalist\GeneralistController::class, 'index'])->where('any','.*');
-});
-//Overviews
-Route::group(['prefix'=>'overview','middleware'=>'auth'],function(){
-
-    Route::get('/{any}',[\App\Http\Controllers\medical\overviews\OverviewController::class, 'index'])->where('any','.*');
+Route::group(['prefix'=>'cashier','middleware'=>'auth'],function(){
+    Route::get('invoices/payment/{data}',[\App\Http\Controllers\V1\patient_system\cashier\PaymentController::class,'print_invoice']);
+    Route::get('invoices/cash_receipt',[\App\Http\Controllers\V1\patient_system\cashier\PaymentController::class,'cash_receipt']);
+    Route::get('/{any}',function(){
+        return view("cashier/home");
+    })->name('cashier_home')->where('any','.*');
 });
