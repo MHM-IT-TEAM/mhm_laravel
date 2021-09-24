@@ -22,7 +22,7 @@
                        </td>
                    </tr>
                    <tr>
-                       <th style="width:10%"> B.1. Symptoms:</th>
+                       <th style="width:10%" colspan="2"> B.1. Symptoms:</th>
                        <td colspan="12">
                            <textarea  class="form-control form-control-sm" :class="{'is-invalid':$v.formData.symptoms.$error}" placeholder="write here the symptoms" v-model="formData.symptoms"></textarea>
                            <div class="invalid-feedback">
@@ -31,14 +31,14 @@
                        </td>
                    </tr>
                    <tr>
-                       <th>B.2. Diagnostics</th>
+                       <th colspan="2">B.2. Diagnostics</th>
                    </tr>
                    <tr>
-                       <td class="pl-4 text-decoration-underline">2.1. Vital signs</td>
+                       <td class="pl-4 text-decoration-underline" colspan="2">2.1. Vital signs</td>
                    </tr>
                    <tr>
-                       <td class="pl-6">From JC</td>
-                       <td colspan="6">
+                       <td class="pl-6" colspan="2">From JC</td>
+                       <td colspan="7">
 
                            <div class="form-inline">
                                BP:
@@ -53,7 +53,7 @@
                        </td>
                    </tr>
                    <tr>
-                       <td class="pl-6">
+                       <td class="pl-6" colspan="2">
                            <div class="form-check">
                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" v-model="formData.vital_sign_update_required">
                                <label class="form-check-label" for="flexCheckDefault">
@@ -61,7 +61,7 @@
                                </label>
                            </div>
                        </td>
-                       <td colspan="6" v-if="formData.vital_sign_update_required">
+                       <td colspan="7" v-if="formData.vital_sign_update_required">
                            <div class="form-inline">
                                BP:
                                <input type="number" class="form-control form-control-sm vital-signs ml-2" v-model="formData.taDia"> /
@@ -74,19 +74,19 @@
                        </td>
                    </tr>
                    <tr>
-                       <td class="pl-6">Cause:</td>
+                       <td class="pl-6" colspan="2">Cause:</td>
                        <td colspan="12">
                            <textarea class="form-control" v-model="formData.details"></textarea>
                        </td>
                    </tr>
                    <tr>
-                       <td class="pl-4 text-decoration-underline">2.2. Body Check:</td>
+                       <td class="pl-4 text-decoration-underline" colspan="2">2.2. Body Check:</td>
                        <td colspan="12">
                            <textarea class="form-control" v-model="formData.body_check"></textarea>
                        </td>
                    </tr>
                    <tr>
-                       <td class="pl-4 text-decoration-underline" >2.3. Lab-work</td>
+                       <td class="pl-4 text-decoration-underline" colspan="2">2.3. Lab-work</td>
                        <td colspan="12">
                             <div class="form-check form-check-inline">
                                 <input type="checkbox" class="form-check-input" v-model.number="formData.internal_lab"/>
@@ -99,7 +99,7 @@
                        </td>
                    </tr>
                    <tr>
-                       <td class="pl-4 text-decoration-underline" >2.4. Consultation</td>
+                       <td class="pl-4 text-decoration-underline"colspan="2" >2.4. Consultation</td>
                        <td colspan="12">
                            <div class="form-check form-check-inline">
                                <input type="checkbox" class="form-check-input" v-model.number="formData.internal_consultation"/>
@@ -112,7 +112,7 @@
                        </td>
                    </tr>
                    <tr>
-                       <th>B.3. Diagnose:</th>
+                       <th colspan="2">B.3. Diagnose:</th>
                    </tr>
                    <tr>
                        <td class="pl-4" >Diagnose code:</td>
@@ -173,10 +173,10 @@
                        </td>
                    </tr>
                    <tr>
-                       <th>B.4. Treatment:</th>
+                       <th colspan="2">B.4. Treatment:</th>
                    </tr>
                    <tr>
-                       <td class="pl-4 text-decoration-underline">4.1. Medication:</td>
+                       <td class="pl-4 text-decoration-underline"  colspan="2">4.1. Medication:</td>
                        <td colspan="4">
                            <multiselect
                                v-model="accessory.medication.item"
@@ -233,7 +233,7 @@
                        </td>
                    </tr>
                    <tr>
-                       <td class="pl-4 text-decoration-underline">4.2. Wound care</td>
+                       <td class="pl-4 text-decoration-underline" colspan="2">4.2. Wound care</td>
                        <td>
                            <div class="form-check form-check-inline">
                                <input class="form-check-input" type="radio" name="woundcare" id="woundcare1" value="1" v-model="formData.wound_care">
@@ -246,7 +246,7 @@
                        </td>
                    </tr>
                    <tr>
-                       <td class="pl-4 text-decoration-underline">4.3. Stitches</td>
+                       <td class="pl-4 text-decoration-underline" colspan="2">4.3. Stitches</td>
                        <td>
                            <div class="form-check form-check-inline">
                                <input class="form-check-input" type="radio" name="stiches" id="stiches1" value="1" v-model.number="formData.stiches">
@@ -259,7 +259,7 @@
                        </td>
                    </tr>
                    <tr>
-                       <td class="pl-4 text-decoration-underline">4.4. Nebulizer</td>
+                       <td class="pl-4 text-decoration-underline" colspan="2">4.4. Nebulizer</td>
                        <td>
                            <div class="form-check form-check-inline">
                                <input class="form-check-input" type="radio" name="nebulizer" id="nebulizer1" value="1" v-model.number="formData.nebulizer">
@@ -272,7 +272,7 @@
                        </td>
                    </tr>
                    <tr>
-                       <td class="pl-4 text-decoration-underline">4.5. Vaccination:</td>
+                       <td class="pl-4 text-decoration-underline" colspan="2">4.5. Vaccination:</td>
                        <td>
                            <div class="form-check form-check-inline">
                                <input class="form-check-input" type="radio" name="nebulizer" id="vaccination1" value="1" v-model.number="formData.vaccination">
@@ -285,7 +285,7 @@
                        </td>
                    </tr>
                    <tr>
-                       <th class="pt-6">B.5. Outcome:</th>
+                       <th class="pt-6" colspan="2">B.5. Outcome:</th>
                        <td colspan="4">
                            <v-select :items="accessory.outcome_list" dense chips v-model="formData.outcome"></v-select>
                        </td>
@@ -562,5 +562,4 @@ export default {
 .diag-code-list{
     background-color: lightgray;
 }
-
 </style>
