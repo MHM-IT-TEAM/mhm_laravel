@@ -2,6 +2,7 @@
 
 
 use App\Models\BloodGroup;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
@@ -23,20 +24,31 @@ Route::prefix('/v1')->group(function(){
         Route::group(['prefix'=>'admission'],function(){
             Route::resource('priority',\App\Http\Controllers\V1\patient_system\consultation\AdmissionPriorityController::class);
             Route::get('list_today',[\App\Http\Controllers\V1\patient_system\admission\AdmissionController::class,'list_today']);
-            Route::post('check_patient_today',[\App\Http\Controllers\V1\patient_system\consultation\ConsultationController::class,'check_patient_today_consultation']);
+            Route::get('list_today_service/{service_id}',[\App\Http\Controllers\V1\patient_system\admission\AdmissionController::class,'list_today_service']);
+//            Route::post('check_patient_today',[\App\Http\Controllers\V1\patient_system\consultation\ConsultationController::class,'check_patient_today_consultation']);
             Route::get('activity_price/{service_activity}/{patient_category}',[\App\Http\Controllers\v1\patient_system\consultation\ServicePriceController::class,'filter_per_service']);
             Route::resource('service_price',\App\Http\Controllers\v1\patient_system\consultation\ServicePriceController::class);
             Route::resource('admission',\App\Http\Controllers\V1\patient_system\admission\AdmissionController::class);
         });
+        //Internal referral
+        Route::resource('internal_referral',\App\Http\Controllers\V1\patient_system\internal_referral\InternalReferralController::class);
         //Cashier
         Route::group(['prefix'=>'cashier'],function(){
+            Route::get('patient_due/{patient_id}',[\App\Http\Controllers\V1\patient_system\cashier\PaymentController::class,'patient_due']);
             Route::get('former_transactions_list/{patient_id}',[\App\Http\Controllers\V1\patient_system\cashier\PaymentController::class,'former_transaction_list']);
             Route::get('unpaid_today',[\App\Http\Controllers\V1\patient_system\cashier\PaymentController::class,'unpaid_today']);
             Route::post('pay',[\App\Http\Controllers\V1\patient_system\cashier\PaymentController::class,'pay']);
+            Route::post('pay_previous_transaction',[\App\Http\Controllers\V1\patient_system\cashier\PaymentController::class,'pay_previous_transaction']);
         });
         //out patient
         Route::group(['prefix'=>'out_patient'],function(){
+            Route::group(['prefix'=>'generalist'],function(){
+                Route::get('diag_codes',function(){
+                   return \App\Models\DiagCode::all();
+                });
+                Route::resource('consultation',App\Http\Controllers\V1\patient_system\out_patient\general\GeneralistController::class);
 
+            });
         });
         //System
         Route::group(['prefix'=>'system'],function(){
@@ -46,6 +58,64 @@ Route::prefix('/v1')->group(function(){
             Route::get('serviceActivity/service/{service_id}',[\App\Http\Controllers\V1\System\ServiceActivityController::class,'whereService']);
             Route::resource('serviceActivity',\App\Http\Controllers\V1\System\ServiceActivityController::class);
             Route::resource('service',\App\Http\Controllers\V1\System\ServiceController::class);
+        });
+    });
+    Route::group(['prefix'=>'inventory_system'],function(){
+        Route::get('/app/bootstrap',[\App\Http\Controllers\V1\inventory_system\app\BootstrapController::class,'bootstrap']);
+
+        //Location
+        Route::get('/location',function(){
+            return \App\Models\inventory_system\Location::all();
+        });
+        //Departments
+        Route::get('/department',function(){
+            return \App\Models\Department::all();
+        });
+        //Collector
+        Route::get('collector/{department_id}',[\App\Http\Controllers\V1\inventory_system\collector\CollectorController::class,'fetch_by_department']);
+        Route::resource('collector',\App\Http\Controllers\V1\inventory_system\collector\CollectorController::class);
+        //item types
+        Route::get('/item_type',function(){
+            return \App\Models\inventory_system\ItemType::all();
+        });
+        //item units
+        Route::get('/item_unit',function(){
+            return \App\Models\inventory_system\ItemUnit::all();
+        });
+        //item administration
+        Route::get('/item_administration',function(){
+            return \App\Models\inventory_system\ItemAdministration::all();
+        });
+        //out
+        Route::get('/out/lastCode',[\App\Http\Controllers\V1\inventory_system\out\OutController::class,'lastCode']);
+        Route::get('out/pending',[\App\Http\Controllers\V1\inventory_system\out\OutController::class,'pending_list']);
+        Route::get('out/delivered',[\App\Http\Controllers\V1\inventory_system\out\OutController::class,'delivered_list']);
+        Route::resource('out',\App\Http\Controllers\V1\inventory_system\out\OutController::class);
+        Route::middleware('auth:api')->get('/user', function (Request $request) {
+            return $request->user();
+        });
+        //low_stock
+        Route::get('low_stock',[\App\Http\Controllers\V1\inventory_system\low_stock\LowStockController::class,'list']);
+        //Route::get('/item/count_low_stock',[\App\Http\Controllers\V1\inventory_system\item\ItemController::class,'count_low_stock']);
+        //item
+        Route::post('/item/inventory/update',[\App\Http\Controllers\V1\inventory_system\item\ItemController::class,'update_inventory']);
+        Route::get('/item/count_per_type',[\App\Http\Controllers\V1\inventory_system\item\ItemController::class,'count_per_type']);
+        Route::get('item/code',[\App\Http\Controllers\V1\inventory_system\item\ItemController::class,'getCode']);
+        Route::resource('item',\App\Http\Controllers\V1\inventory_system\item\ItemController::class);
+        //Cart
+        Route::get('/cart/lastCode',[\App\Http\Controllers\V1\inventory_system\cart\CartController::class,'lastCode']);
+        Route::resource('/cart',\App\Http\Controllers\V1\inventory_system\cart\CartController::class);
+        //IN
+        Route::patch('/in/validate/{id}',[\App\Http\Controllers\V1\inventory_system\in\InController::class,'validate_stock']);
+        Route::get('/in/lastCode',[\App\Http\Controllers\V1\inventory_system\in\InController::class,'lastCode']);
+        Route::resource('in',\App\Http\Controllers\V1\inventory_system\in\InController::class);
+        //excels
+        Route::get('/excel/items',[\App\Http\Controllers\V1\inventory_system\excel\ExcelController::class,'items']);
+        //pdf
+        //Route::get('/pdf/shopping_list/{id}',[\App\Http\Controllers\V1\inventory_system\pdf\PdfController::class,'shopping_list']);
+        //Grace Center
+        Route::group(['prefix'=>'grace_center'],function(){
+            Route::resource('/csb_transaction',\App\Http\Controllers\V1\inventory_system\grace_center\GraceCsbTransactionController::class);
         });
     });
     Route::group(['prefix'=>'extra'],function(){

@@ -17,20 +17,30 @@ import Calendar from 'v-calendar/lib/components/calendar.umd'
 import DatePicker from 'v-calendar/lib/components/date-picker.umd'
 import YesOrNo from './components/yes_or_no.vue'
 import moment from 'moment'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { fas } from '@fortawesome/free-solid-svg-icons'
+import Multiselect from 'vue-multiselect'
+import Pagination from 'vue-pagination-2';
+import VueSweetalert2 from 'vue-sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
 
 
 
 
 window.Vue = require('vue').default;
+library.add(fas)
 
 
-import Multiselect from 'vue-multiselect'
 Vue.component('multiselect', Multiselect);
 Vue.component('Loading', Loading)
 Vue.component('calendar', Calendar)
 Vue.component('date-picker', DatePicker)
 Vue.component('yes-or-no', YesOrNo)
+Vue.component('font-awesome-icon', FontAwesomeIcon)
+Vue.component('pagination', Pagination);
 Vue.use(VueHtmlToPaper)
+Vue.use(VueSweetalert2)
 Vue.prototype.moment = moment
 //api routes shortening
 Vue.prototype.CONSULTATION ='/api/v1/patient_system/out_patient/consultation'

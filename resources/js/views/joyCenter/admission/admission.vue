@@ -6,7 +6,7 @@
             <div class="table-responsive">
                 <table class="table table-sm">
                     <tr>
-                        <th class="table-title" colspan="3"><v-icon>mdi-account-circle</v-icon> Personal information <span :class="{'text-primary':formData.consultation_priority_id==='BLUE'}" v-if="formData.consultation_priority_id==='BLUE'">Blue consultation_priority_id</span></th>
+                        <th class="table-title" colspan="3"><v-icon>mdi-account-circle</v-icon> A) Personal information <span :class="{'text-primary':formData.consultation_priority_id==='BLUE'}" v-if="formData.consultation_priority_id==='BLUE'">Blue consultation_priority_id</span></th>
                     </tr>
                     <tr>
                         <td style="width:20%"><span class="text-danger">*</span>Id</td>
@@ -38,7 +38,7 @@
                 </table>
                 <table class="table table-sm">
                     <tr>
-                        <th class="table-title" colspan="5"> <v-icon>mdi-stethoscope</v-icon>Medical data</th>
+                        <th class="table-title" colspan="6"> <v-icon>mdi-stethoscope</v-icon>B) Today's consultation</th>
                     </tr>
                     <tr>
                         <td>
@@ -68,7 +68,7 @@
                         </td>
                         <td>
                             <select class="form-control form-control-sm required" v-model="formData.mhm_partner_id">
-                                <option value="">MHM Partner</option>
+                                <option value="">Choose if MHM's partner</option>
                                 <option v-for="partner in accessory.mhm_partners" :value="partner.id">{{partner.name}}</option>
                             </select>
                         </td>
@@ -85,6 +85,7 @@
                     <tr>
                         <td>Temp</td>
                         <td>Weight</td>
+                        <td>Height</td>
                         <td>Blood Pressure</td>
                         <td>Pulse</td>
                         <td>SpO<small>2</small></td>
@@ -95,6 +96,10 @@
                         </td>
                         <td>
                             <input type="number" class="required"  v-model="formData.weight" :disabled="formData.patient.id===''"/>
+                        </td>
+                        <td>
+                            <input type="number" class="required"  v-model="formData.patient.height"  :disabled="formData.patient.id===''"/>
+
                         </td>
                         <td>
                             <input type="number" class="required" style="width:40px" v-model="formData.taSysto" :class="{'text-danger': formData.taSysto>=14}" :disabled="formData.patient.id===''"/> /
@@ -110,7 +115,7 @@
                 </table>
                 <table class="table table-sm">
                     <tr>
-                        <th class="table-title">
+                        <th class="table-title pl-4">
                             <v-icon>mdi-calendar-check</v-icon>
                             Remarks:
                         </th>
@@ -123,7 +128,7 @@
                 </table>
                 <table class="table table-sm">
                     <tr>
-                        <th class="table-title">
+                        <th class="table-title pl-4">
                             <v-icon>mdi-cash</v-icon>
                             Pricing
                         </th>
@@ -288,7 +293,15 @@ const {
                 this.resetForm()
                 this.formData.id=val
                 this.fetch_reference()
-            }
+            },
+            // accessory:{
+            //     handler(val){
+            //         if(val.services.length===1){
+            //             this.formData.service_id= val.services[0].id
+            //         }
+            //     },
+            //     deep:true
+            // }
         },
         mounted() {
             this.init()
@@ -321,7 +334,7 @@ const {
                         this.resetForm()
                         if (response.data) {
                             this.formData.patient = response.data
-                            this.formData.patient.last_due =response.data.patient_due!==null?parseInt(response.data.patient_due.amount):0
+                            // this.formData.patient.last_due =response.data.patient_due!==null?parseInt(response.data.patient_due.amount):0
                             let adress = this.formData.patient.adress.toLowerCase().split(' ')
                             let check = false
                             adress.forEach(ad => {
@@ -336,6 +349,9 @@ const {
                         if([3,4,5,6].includes(this.formData.patient.patient_category_id))this.formData.admission_priority_id=1
                         else this.formData.admission_priority_id=5
                     })
+                await axios.get(`/api/v1/patient_system/cashier/patient_due/${this.formData.patient.id}`).then(response=>{
+                    this.formData.patient.last_due =response.data
+                })
 
             },
             async changeCategory(){
@@ -345,6 +361,10 @@ const {
                 await this.validate_category()
                 if(this.formData.category_id!==""){
                     await axios.get(`/api/v1/patient_system/system/service/category/${this.formData.category_id}`).then(response=>this.accessory.services=response.data)
+                    if(this.accessory.services.length===1){
+                        this.formData.service_id= this.accessory.services[0].id
+                        this.changeService()
+                    }
                 }
             },
             async changeService() {
@@ -354,6 +374,10 @@ const {
                 if(this.formData.service_id!==""){
                     axios.get(`/api/v1/patient_system/system/serviceActivity/service/${this.formData.service_id}`).then(response=>{
                         this.accessory.service_activities=response.data
+                        if(this.accessory.service_activities.length===1){
+                            this.formData.service_activity_id= this.accessory.service_activities[0].id
+                            this.changeActivity()
+                        }
                     })
                 }
             },
@@ -527,7 +551,8 @@ const {
     padding:40px;
 }
 .table-title{
-    background-color: #cceff0;
+    background-color: #1390C6;
+    color:white;
 }
 .required{
     background-color: rgba(233, 242, 238, 0.7);

@@ -43,3 +43,17 @@ Route::group(['prefix'=>'cashier','middleware'=>'auth'],function(){
         return view("cashier/home");
     })->name('cashier_home')->where('any','.*');
 });
+//generalist
+Route::group(['prefix'=>'generalist','middleware'=>'auth'],function(){
+    Route::get('invoices/payment/{data}',[\App\Http\Controllers\V1\patient_system\cashier\PaymentController::class,'print_invoice']);
+    Route::get('invoices/cash_receipt',[\App\Http\Controllers\V1\patient_system\cashier\PaymentController::class,'cash_receipt']);
+    Route::get('/{any}',function(){
+        return view("medical/generalist/home");
+    })->name('generalist_home')->where('any','.*');
+});
+//Inventory system
+Route::group(['prefix'=>'inventory_system'],function(){
+    Route::get('/{any}',function(){
+        return view("inventory_system/home");
+    })->name('inventory_home')->where('any','.*');
+});

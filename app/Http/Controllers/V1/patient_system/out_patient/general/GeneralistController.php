@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\V1\medical\out_patient;
+namespace App\Http\Controllers\V1\patient_system\out_patient\general;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admission;
 use App\Models\Generalist;
 use Illuminate\Http\Request;
 
@@ -30,13 +31,9 @@ class GeneralistController extends Controller
 
     public function show($id)
     {
-        return Generalist::with(['consultation'=>function($consultation){
-            return $consultation->with(['graceCsbTransaction'=>
-                function($transaction){
-                    return $transaction->with('graceCsbTransactionDetail');
-                }
-            ]);
-        }])->where('consultations.patient_id',$id)->get();
+        return Admission::with(['generalist','graceCsbTransaction'=>function($transaction){
+            $transaction->with(['graceCsbTransactionDetail'=>function($det){return $det->with('item')->get();}])->get();
+        }])->where('patient_id',$id)->get();
     }
 
     public function edit($id)

@@ -1,7 +1,11 @@
 import * as types from './mutation_types'
+import moment from "moment"
 export default {
     [types.BOOTSTRAP_PATIENTS] (state, patients) {
         state.patients = patients
+        state.patients.forEach(patient=>{
+            return patient.birthDate= moment(patient.birthDate).format('DD-MMM-YYYY')
+        })
     },
 
     [types.SET_TOTAL_PATIENTS] (state, totalPatients) {

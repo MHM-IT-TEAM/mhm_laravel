@@ -2,9 +2,9 @@
     <div>
         <nav class="navbar navbar-expand-md shadow-sm navbar-dark fixed-top" style="background-color: #7b54d6">
             <div class="container-fluid">
-                <router-link :to="{ name: 'joyHome' }" class="navbar-brand" href="#">
+                <li  class="navbar-brand" >
                     Cashier
-                </router-link>
+                </li>
                 <button
                     class="navbar-toggler"
                     type="button"
@@ -25,7 +25,15 @@
                                 :to="{ name: 'cashier_admission_list' }"
                                 class="nav-link"
                                 href=""
-                            >LIST</router-link
+                            >List of admissions</router-link
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <router-link
+                                :to="{ name: 'cashier_payment',params:{direct:true} }"
+                                class="nav-link"
+                                href=""
+                            >Direct payment</router-link
                             >
                         </li>
 <!--                        <li class="nav-item dropdown">-->

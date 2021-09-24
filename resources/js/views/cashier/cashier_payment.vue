@@ -1,30 +1,24 @@
 <template>
     <div class="container w-75">
         <v-app>
-            <h2>{{patient_full_name}}</h2>
+            <h2 class="text-center title">Patient payment Form</h2>
+            <div class="p-2">
+                <input type="number"
+                       v-if="direct_payment"
+                       class="form-control form-control-sm"
+                       style="width:200px"
+                       placeholder="write the patient Id"
+                       @change="fetch_patient"
+                       v-model="patient_id"/>
+            </div>
+            <h3 class="p-2">{{patient_full_name}}</h3>
             <div class="panel panel-default p-4 m-4 bg-light">
-                <!--            <section>-->
-                <!--                <h6>DUE</h6>-->
-                <!--                <table class="table">-->
-                <!--                    <thead>-->
-                <!--                        <th>Date</th>-->
-                <!--                        <th>Service</th>-->
-                <!--                        <th>Value</th>-->
-                <!--                    </thead>-->
-                <!--                    <tbody>-->
-                <!--                        <tr v-for="item in patient_dues">-->
-                <!--                            <td>{{moment(item.created_at).format("DD/MM/YYYY")}}</td>-->
-                <!--                            <td>{{item.admission.service_activity.name}}</td>-->
-                <!--                            <td>{{item.amount}}</td>-->
-                <!--                        </tr>-->
-                <!--                    </tbody>-->
-                <!--                </table>-->
-                <!--            </section>-->
-                <section>
+                <section >
                     <h6> Former Transactions</h6>
                     <table class="table table-bordered mt-4" id="paymentRecords">
                         <thead>
                         <th>Date</th>
+                        <th>Transac Nr</th>
                         <th>Nature</th>
                         <th>Last due</th>
                         <th>Value</th>
@@ -35,7 +29,8 @@
                         <tbody>
                         <tr v-for="line in former_transactions">
                             <td> {{moment(line.created_at).format("DD/MM/YYYY")}}</td>
-                            <td> {{line.admission.service_activity.name}}</td>
+                            <td>{{line.id}}</td>
+                            <td> {{line.nature}}</td>
                             <td> {{line.last_due}}</td>
                             <td> {{line.to_pay}}</td>
                             <td> {{line.paid}}</td>
@@ -51,6 +46,11 @@
                                     Pay
                                 </v-btn>
                             </td>
+                        </tr>
+                        <tr>
+                            <td colspan="6"><strong>Total</strong></td>
+                            <td><strong>{{current_debt}}</strong></td>
+                            <td></td>
                         </tr>
                         </tbody>
                     </table>
@@ -172,13 +172,24 @@ export default {
     mixins: [validationMixin],
     data(){
         return{
-            admission:'',
+            admission:{
+                patient:{
+                    firstName:'',
+                    lastName:'',
+                },
+                service_activity:{
+                    name:''
+                },
+                admission_care_details:[]
+
+            },
             formData:{
                admission_id:'',
                patient_id:'',
                last_due:'',
                to_pay:'',
                paid:null,
+               nature:'',
                new_debt:''
             },
             former_transactions:[],
@@ -190,7 +201,9 @@ export default {
                 patient_id:'',
                 admission_id:'',
                 nature:''
-            }
+            },
+            direct_payment:false,
+            patient_id:''
         }
     },
     created(){
@@ -213,16 +226,25 @@ export default {
     },
     methods:{
         async init(){
+
             if(this.$route.params.paid===1) this.already_paid=true
-            this.admission=this.$route.params.admission
-            this.formData.last_due=this.admission.patient.patient_due===null?0:this.admission.patient.patient_due.amount
-            this.formData.patient_id=this.admission.patient_id
-            this.formData.admission_id=this.admission.id
+            if(this.$route.params.admission){
+                this.admission=this.$route.params.admission
+                this.formData.patient_id=this.admission.patient_id
+                this.fetch_data()
+                this.formData.nature= this.admission.service_activity.name + "-"+ moment(this.admission.created_at).format("DD/MM/YYYY")
+            }else{
+                this.already_paid=true
+                this.direct_payment=true
+            }
+        },
+        async fetch_data(){
+            await axios.get(`/api/v1/patient_system/cashier/patient_due/${this.formData.patient_id}`).then(response=>{
+                this.formData.last_due=response.data
+            })
             this.formData.to_pay=this.to_pay
+            this.formData.admission_id=this.admission.id
             axios.get(`/api/v1/patient_system/cashier/former_transactions_list/${this.formData.patient_id}`).then(response=>this.former_transactions=response.data)
-            // axios.get(`/api/v1/patient_system/patient/patient_due/${this.formData.patient_id}`).then(response=>{
-            //     this.patient_dues=response.data.patient_due
-            // })
         },
         async submit(){
             this.$v.$touch()
@@ -239,12 +261,24 @@ export default {
         },
         pay_due(transaction){
             this.payment_dialog=true
+            this.due_payment.id=transaction.id
             this.due_payment.patient_id=transaction.patient_id
             this.due_payment.admission_id=transaction.admission_id
-            this.due_payment.nature=`Debt payment PCF-${transaction.id} `
+            this.due_payment.nature=`Payment Transaction Nr-${transaction.id} `
         },
-        submit_due_payment(){
-
+        async submit_due_payment(){
+           await axios.post("/api/v1/patient_system/cashier/pay_previous_transaction",this.due_payment)
+            this.payment_dialog=false
+            this.fetch_data()
+            // axios.get(`/api/v1/patient_system/cashier/former_transactions_list/${this.formData.patient_id}`).then(response=>this.former_transactions=response.data)
+        },
+        async fetch_patient(){
+           this.formData.patient_id= this.patient_id
+           await axios.get(`/api/v1/patient_system/patient/patient/${this.patient_id}`).then(response=>{
+                this.admission.patient.firstName= response.data.firstName
+                this.admission.patient.lastName= response.data.lastName
+            })
+            this.fetch_data()
         }
     },
     computed:{
@@ -263,6 +297,16 @@ export default {
             else if(this.unpaid_treatments.length===1) to_pay=parseInt(this.unpaid_treatments[0].total)+parseInt(this.formData.last_due)
             else if (this.unpaid_treatments.length>1) to_pay=this.unpaid_treatments.reduce((acc,obj)=>parseInt(acc.total)+parseInt(obj.total))+parseInt(this.formData.last_due)
             return to_pay
+        },
+        current_debt(){
+            if(this.former_transactions.length>0){
+                let debt=0;
+                this.former_transactions.forEach(item=>{
+                    if (item.new_debt===null) item.new_debt=0
+                    debt+= parseInt(item.new_debt)
+                })
+                return debt
+            }
         }
     }
 }
@@ -275,5 +319,13 @@ function null_to_empty(val){
 <style scoped>
 .container{
     margin-top: 50px;
+}
+.title{
+    font-family: 'Enriqueta', arial, serif;
+    line-height: 1.25;
+    margin: 0 0 10px;
+    font-size: 50px;
+    font-weight: bold;
+    color: #7c795d;
 }
 </style>

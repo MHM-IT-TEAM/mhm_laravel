@@ -67,4 +67,8 @@ class AdmissionController extends Controller
                 ]
             )->get();
     }
+    public function list_today_service($service_id){
+        return Admission::with('patient')->where('service_id',$service_id)->whereDate('created_at',Carbon::today())->get();
+    }
+
 }

@@ -62,7 +62,7 @@
             <v-app-bar
                 app
                 clipped-left
-                color="light-blue lighten-4"
+                color="#1390C6"
                 class="white-text d-print-none"
                 dense
             >
@@ -74,7 +74,7 @@
                     mdi-hospital
                 </v-icon>
                 <v-toolbar-title class="mr-12 align-center">
-                    <span class="title">Generalist Doctor</span>
+                    <span class="title text-white">General Doctor</span>
                 </v-toolbar-title>
                 <v-spacer></v-spacer>
                 <v-row
@@ -115,45 +115,7 @@
         },
         data: () => ({
             drawer: null,
-            items: [
-                {
-                    action: 'mdi-baby-face',
-                    items: [{ title: 'Registration',url:'delivery_registration' },{title:'Declaration',url:'birth_certificate'},{title:'Delivery Book',url:'delivery_book'}],
-                    title: 'Delivery',
-
-                },
-                {
-                    action: 'mdi-mother-nurse',
-
-                    items: [
-                        { title: 'List',url:'maternity_in_patient_list' },
-                        { title: 'Overview &report',url:'' },
-                    ],
-                    title: 'In-Patient ',
-                },
-                {
-                    action: 'mdi-truck-delivery',
-                    items: [
-                        { title: 'Internal referral',url:'internal_referral' },
-                        { title: 'External referral',url:'external_referral' },
-                        { title: 'Discharge',url:'maternity_discharge' },
-                    ],
-                    title: 'Referral & Discharge ',
-                },
-                {
-                    action: 'mdi-chemical-weapon',
-                    items: [{ title: 'Request',url:'maternity_labwork' },{title:'Lab result',url:''},{title:'overview',url:''}],
-                    title: 'Lab Works',
-
-                },
-                {
-                    action: 'mdi-warehouse',
-                    items: [{ title: 'Order request',url:'' },{title:'report',url:''}],
-                    title: 'Inventory',
-
-                },
-
-            ],
+            items: [],
             user:{
                 id:'',
                 name:''

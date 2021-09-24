@@ -8,6 +8,12 @@ import actions from './actions'
 import patient from "./modules/patient";
 import consultation from "./modules/consultation";
 import baby_checkup from "./modules/baby_checkup"
+import auth from "./modules/auth"
+import department from "./modules/department"
+import in_order from "./modules/in_order"
+import item from "./modules/item"
+import low_stock from "./modules/low_stock"
+import out_order from "./modules/out_order"
 
 Vue.use(Vuex)
 const initialState = {
@@ -21,6 +27,13 @@ export default new Vuex.Store({
     modules:{
         patient,
         consultation,
-        baby_checkup
+        baby_checkup,
+        auth,
+        department,
+        item,
+        low_stock,
+        in_order,
+        out_order
+
     }
 })

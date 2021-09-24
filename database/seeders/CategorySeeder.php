@@ -27,10 +27,10 @@ class CategorySeeder extends Seeder
             ['name'=>'Surgery','division_id'=>2,'code'=>124,'joyCenter'=>1],
             ['name'=>'Referral','division_id'=>2,'code'=>125,'joyCenter'=>0],
             ['name'=>'Hospital in general','division_id'=>2,'code'=>126,'joyCenter'=>0],
-            ['name'=>'Medical Service','division_id'=>3,'code'=>131,'joyCenter'=>1],
+            ['name'=>'External Medical Service','division_id'=>3,'code'=>131,'joyCenter'=>1],
             ['name'=>'Tulisa','division_id'=>3,'code'=>132,'joyCenter'=>0],
             ['name'=>'Sponsorship','division_id'=>4,'code'=>141,'joyCenter'=>1],
-            ['name'=>'Social affairs/Ministry','division_id'=>5,'code'=>151,'joyCenter'=>0],
+            ['name'=>'Social affairs/Ministry','division_id'=>5,'code'=>151,'joyCenter'=>1],
             ['name'=>'Internal','division_id'=>6,'code'=>161,'joyCenter'=>0],
             ['name'=>'External','division_id'=>6,'code'=>162,'joyCenter'=>0],
 

@@ -19,4 +19,10 @@ class Admission extends Model
     public function admissionCareDetails(){
         return $this->hasMany(AdmissionCareDetail::class);
     }
+    public function graceCsbTransaction(){
+        return $this->hasOne(GraceCsbTransaction::class);
+    }
+    public function generalist(){
+        return $this->hasOne(Generalist::class);
+    }
 }

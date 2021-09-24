@@ -7,7 +7,7 @@ use App\Http\Requests\patientRequest;
 use App\Models\Patient;
 use App\Models\PatientCashFlow;
 use App\Models\PatientDue;
-use App\Service\PatientService;
+use App\Service\V1\PatientService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Throwable;

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\inventory_system\Item;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -14,6 +15,9 @@ class GraceCsbTransactionDetail extends Model
 
     public function graceCsbTransaction(){
         return $this->belongsTo(GraceCsbTransaction::class);
+    }
+    public function item(){
+        return $this->belongsTo(Item::class);
     }
     public static function create_detail($request){
         $request= collect($request);

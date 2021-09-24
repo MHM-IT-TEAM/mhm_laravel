@@ -43,4 +43,10 @@ class PaymentController extends Controller
     public function cash_receipt(){
         return PaymentService::cash_receipt();
     }
+    public function pay_previous_transaction(Request $request){
+        return PaymentService::pay_previous_transaction($request);
+    }
+    public function patient_due($patient_id){
+        return PatientCashFlow::where('patient_id',$patient_id)->sum('new_debt');
+    }
 }

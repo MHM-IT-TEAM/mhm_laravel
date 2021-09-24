@@ -56,7 +56,7 @@ export default {
             let data;
             switch (this.type_consult){
                 case 1:
-                    data=await axios.get('/api/consultation/today/1')
+                    data=await axios.get('/api/v1/patient_system/admission/list_today_service/6')
                     break;
                 case 2:
                     break;

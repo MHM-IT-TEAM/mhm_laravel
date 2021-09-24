@@ -12,8 +12,8 @@ class Generalist extends Model
     protected $guarded=[];
 
     //relationships
-        public function consultation(){
-            return $this->belongsTo(Consultation::class);
+        public function admission(){
+            return $this->belongsTo(Admission::class);
         }
         public function generalistMedication(){
             return $this->hasMany(GeneralistMedication::class);
@@ -23,16 +23,16 @@ class Generalist extends Model
     public function store($request){
         $this->fill($this->_fill_main_data($request))->save();
         if(count($request->get('medication'))>0){
-            $this->_medicines_transaction($request->get('medication'),$this->id);
+            $this->_medicines_transaction($request->get('medication'),$request->admission['id']);
         }
-        $consultation= Consultation::find($request->consultation['id']);
-        $consultation->status='DONE';
-        $consultation->save();
+        $admission= Admission::find($request->admission['id']);
+        $admission->status='DONE';
+        $admission->save();
     }
 
     private function _fill_main_data($request){
             return [
-                'consultation_id'=>$request->consultation['id'],
+                'admission_id'=>$request->admission['id'],
                 'new_case'=>intval($request->new_case),
                 'complaint'=>$request->complaint,
                 'finding'=>$request->finding,
@@ -47,14 +47,14 @@ class Generalist extends Model
                 'responsible'=>$request->responsible
             ];
     }
-    private function _medicines_transaction($request,$consultation_id){
+    private function _medicines_transaction($request,$admission_id){
         $transaction= new GraceCsbTransaction();
-        $transaction->create([
-            'consultation_id'=>$consultation_id,
-            'done'=>0
-            ]);
+
+            $transaction->admission_id=$admission_id;
+            $transaction->done=0;
+            $transaction->save();
         foreach($request as $line){
-            $line['grace_csb_transaction_id']=$consultation_id;
+            $line['grace_csb_transaction_id']=$transaction->id;
             GraceCsbTransactionDetail::create_detail($line,);
         }
     }

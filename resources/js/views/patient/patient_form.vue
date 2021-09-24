@@ -142,11 +142,17 @@
                                           name="martialStatus"
                                           id="martialStatus"
                                           v-model="patient.martialStatus"
+                                          :class="{'is-invalid':$v.patient.martialStatus.$error}"
                                       >
                                           <option value=""></option>
                                           <option value="Single">Single</option>
-                                          <option value="Couple">Couple</option>
+                                          <option value="Couple">Married</option>
+                                          <option value="Couple">Divorced</option>
+                                          <option value="Couple">Widowed</option>
                                       </select>
+                                      <div class="invalid-feedback">
+                                          Martial status required
+                                      </div>
                                   </div>
                               </div>
                               <label for="bloodGroup" class="pb-0 col-form-label"
@@ -311,18 +317,14 @@
                           <div class="col-4">
                               <div class="row">
                                   <div class="col-sm-12">
-<!--                                      <input-->
-<!--                                          type="text"-->
-<!--                                          class="form-control"-->
-<!--                                          name="adress"-->
-<!--                                          id="adress"-->
-<!--                                          v-model="patient.adress"-->
-<!--                                      />-->
-                                      <v-combobox
+                                      <label>Address</label>
+                                      <input
+                                          type="text"
+                                          class="form-control"
+                                          name="adress"
+                                          id="adress"
                                           v-model="patient.adress"
-                                          :items="fokontany"
-                                          label="Address"
-                                      ></v-combobox>
+                                      />
                                       <div v-if="$v.patient.adress.$error">
                                           <div
                                               class="error text-white alert-danger"
@@ -588,7 +590,8 @@ export default {
       },
         cin_place: {
             required:requiredIf(patient=>patient.cin_no!=="")
-        }
+        },
+        martialStatus:{required}
     },
   },
   computed: {

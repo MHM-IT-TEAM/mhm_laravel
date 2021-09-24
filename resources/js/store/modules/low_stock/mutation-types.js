@@ -1,0 +1,2 @@
+export const BOOTSTRAP_LIST='BOOTSTRAP_LIST'
+export const RESET_LIST= 'RESET_LIST'

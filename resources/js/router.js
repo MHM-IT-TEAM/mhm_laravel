@@ -55,6 +55,23 @@ import maternity_labwork from "./views/medical/maternity/labwork/maternity_labwo
 import generalist_layout from "./views/medical/generalist/layouts/generalist_layout";
 import generalist_list from "./views/medical/generalist/generalist_list";
 import generalist_consultation from "./views/medical/generalist/generalist_consultation";
+import medical_form_layout from "./components/medical_form_layout";
+//inventory_system
+import inventory_welcome from "./views/inventory_management/inventory_welcome";
+import inventory_layout_base from "./views/inventory_management/layouts/inventory_layout_base";
+import inventory_dashboard from "./views/inventory_management/inventory_dashboard";
+import create from "./views/inventory_management/item/create";
+import item_index from "./views/inventory_management/item/item_index";
+import out_form from "./views/inventory_management/out/out_form";
+import out_list from "./views/inventory_management/out/out_list";
+import low_stock from "./views/inventory_management/item/low_stock";
+import cart_list from "./views/inventory_management/cart/cart_list";
+import cart_form from "./views/inventory_management/cart/cart_form";
+import in_list from "./views/inventory_management/IN/in_list";
+import in_form from "./views/inventory_management/IN/in_form";
+import inventory_book from "./views/inventory_management/inventory/inventory_book";
+
+
 
 
 
@@ -148,6 +165,75 @@ const routes = [
                 name:'cashier_payment',
                 component: cashier_payment
 
+            }
+        ]
+    },
+    /**
+     |-----------------------------
+     | Inventory system
+     |-----------------------------
+     */{
+         path:'/inventory_system',
+        name:'inventory_system',
+        component: inventory_layout_base,
+        children: [
+            {
+                path:'dashboard',
+                name:'inventory_dashboard',
+                component:inventory_dashboard
+            },
+            {
+                path:'item/index',
+                name:'item_index',
+                component:item_index,
+            },
+            {
+                path:'item/create',
+                name:'item_create',
+                component:create,
+            },
+            {
+                path:'item/low_stock',
+                name:'low_stock',
+                component:low_stock,
+            },
+            //out
+            {
+                path:'out/create',
+                name:'out_create',
+                component:out_form
+            },
+            {
+                path:'out/list',
+                name:'out_list',
+                component:out_list,
+            },
+            //shopping cart
+            {
+                path:'cart',
+                name:'cart_list',
+                component:cart_list,
+            },
+            {
+                path:'cart/form',
+                name:'cart_form',
+                component:cart_form
+            },
+            //IN
+            {
+                path:'in/list',
+                name:'in_list',
+                component: in_list
+            },
+            {
+                path:'in/form',
+                name:'in_form',
+                component: in_form
+            },
+            {
+                path:'inventory',
+                name:'inventory_book',
+                component:inventory_book
             }
         ]
     },
@@ -331,7 +417,8 @@ const routes = [
             {
                 path:'obstetrics',
                 name:'obstetrics_overview',
-                component:obstetrics_overview
+                component:obstetrics_overview,
+
             }
         ]
     },

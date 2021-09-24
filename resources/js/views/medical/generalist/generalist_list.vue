@@ -22,7 +22,7 @@ export default {
     },
     methods:{
         process_consultation(consultation){
-            this.$router.push({name:'generalist_consultation',params:{consultation:consultation}})
+            this.$router.push({name:'generalist_consultation',params:{admission:consultation}})
         }
     }
 }

@@ -76,4 +76,21 @@ class PaymentService
                                 WHERE DATE(patient_cash_flows.created_at) = CURDATE() GROUP BY service_activities.name');
         return view('cashier/invoices/cash_receipt',compact('data'));
     }
+
+    public static function pay_previous_transaction($request){
+//        dd($request->all());
+        $cf= PatientCashFlow::find($request->id);
+        $cf->paid= $cf->paid +$request->paid;
+        $cf->new_debt = $cf->new_debt-$request->paid;
+        $cf->save();
+
+        PatientCashFlow::create([
+            'patient_id'=>$request->patient_id,
+            'admission_id'=>$request->admission_id,
+            'to_pay'=>$request->to_pay,
+            'paid'=>$request->paid,
+            'nature'=>$request->nature
+
+        ]);
+    }
 }
