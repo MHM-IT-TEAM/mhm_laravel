@@ -249,12 +249,12 @@
                        <td class="pl-4 text-decoration-underline" colspan="2">4.3. Stitches</td>
                        <td>
                            <div class="form-check form-check-inline">
-                               <input class="form-check-input" type="radio" name="stiches" id="stiches1" value="1" v-model.number="formData.stiches">
-                               <label class="form-check-label" for="stiches1">Yes</label>
+                               <input class="form-check-input" type="radio" name="stitches" id="stitches1" value="1" v-model.number="formData.stitches">
+                               <label class="form-check-label" for="stitches1">Yes</label>
                            </div>
                            <div class="form-check form-check-inline">
-                               <input class="form-check-input" type="radio" name="stiches" id="stiches2" value="0" v-model.number="formData.stiches">
-                               <label class="form-check-label" for="stiches2">No</label>
+                               <input class="form-check-input" type="radio" name="stitches" id="stitches2" value="0" v-model.number="formData.stitches">
+                               <label class="form-check-label" for="stitches2">No</label>
                            </div>
                        </td>
                    </tr>
@@ -313,7 +313,7 @@
                            D.1. Internal Consultation
                        </v-expansion-panel-header>
                        <v-expansion-panel-content>
-                           <internal_consultation  :admission="admission"/>
+                           <internal_consultation  :admission="formData.admission"/>
                        </v-expansion-panel-content>
                    </v-expansion-panel>
                    <v-expansion-panel v-if="formData.outcome==='internal referral'" inset>
@@ -321,7 +321,7 @@
                            E.1. Internal Referral
                        </v-expansion-panel-header>
                        <v-expansion-panel-content>
-                           <internal_referral :admission="admission" />
+                           <internal_referral :admission="formData.admission" />
                        </v-expansion-panel-content>
                    </v-expansion-panel>
                </v-expansion-panels>
@@ -375,13 +375,11 @@ export default {
                 weight: '',
                 spo2: '',
                 vital_sign_update_required: false,
+                vital_sign_update_cause: '',
                 body_check: '',
                 diag_codes: [],
-                diagnose_confirmed: '',
-                diagnose_suspicion: '',
-                diagnose_exclusion: '',
                 wound_care: '',
-                stiches: '',
+                stitches: '',
                 nebulizer: '',
                 outcome:'',
                 vaccinations: [],
@@ -511,11 +509,8 @@ export default {
                 diag_codes: [
                     {code: '', status: '', details: ''}
                 ],
-                diagnose_confirmed: '',
-                diagnose_suspicion: '',
-                diagnose_exclusion: '',
                 wound_care: '',
-                stiches: '',
+                stitches: '',
                 nebulizer: '',
                 vaccinations: []
             }

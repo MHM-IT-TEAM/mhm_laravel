@@ -152,37 +152,6 @@
                                 <input type="number" v-if="accessory.price_manual_entry" v-model="formData.admission_care_details.price" class="required"/>
                             </td>
                         </tr>
-<!--                        <tr>-->
-<!--                            <td>-->
-<!--                                <select class="required" v-model="accessory.temp_care_line">-->
-<!--                                    <option v-for="item in accessory.servicePrice" :value="item">{{item.name}}</option>-->
-<!--                                </select>-->
-<!--                            </td>-->
-<!--                            <td>-->
-<!--                                {{accessory.temp_care_line.price}}-->
-<!--                            </td>-->
-<!--                            <td>-->
-<!--                                <input type="number" class="required" @keypress.enter.prevent="add_care_line" v-model="accessory.temp_care_line.qty"/>-->
-<!--                            </td>-->
-<!--                            <td>-->
-<!--                                {{accessory.temp_care_line.qty * accessory.temp_care_line.price }}-->
-<!--                            </td>-->
-<!--                        </tr>-->
-<!--                        <tr v-for="(line,i ) in formData.admission_care_details">-->
-<!--                            <td>{{line.name}}</td>-->
-<!--                            <td>{{line.price}}</td>-->
-<!--                            <td>{{line.qty}}</td>-->
-<!--                            <td>{{line.qty * line.price}}</td>-->
-<!--                            <td>-->
-<!--                                <v-btn-->
-<!--                                    x-small-->
-<!--                                    icon-->
-<!--                                    @click="delete_care_line(i)"-->
-<!--                                >-->
-<!--                                    <v-icon> mdi-delete</v-icon>-->
-<!--                                </v-btn>-->
-<!--                            </td>-->
-<!--                        </tr>-->
                     </table>
                 </div>
                 <div class="col-6">

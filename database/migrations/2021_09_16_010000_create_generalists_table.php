@@ -19,7 +19,7 @@ class CreateGeneralistsTable extends Migration
             $table->boolean('new_case');
             $table->foreignId('admission_id')->constrained();
             $table->text('symptoms')->nullable();
-            $table->text('finding')->nullable();
+            $table->text('body_check')->nullable();
             $table->integer('taDia')->nullable();
             $table->integer('taSysto')->nullable();
             $table->integer('weight')->nullable();
@@ -30,15 +30,12 @@ class CreateGeneralistsTable extends Migration
             $table->text('details')->nullable();
             $table->string('appointment')->nullable();
             $table->boolean('vital_sign_update_required')->nullable();
-            $table->text('body_check')->nullable();
-            $table->smallInteger('diagnose_confimred')->nullable();
-            $table->smallInteger('diagnose_suspicion')->nullable();
-            $table->smallInteger('diagnose_exclusion')->nullable();
+            $table->string('vital_sign_update_cause')->nullable();
             $table->smallInteger('wound_care')->nullable();
-            $table->smallInteger('stiches')->nullable();
+            $table->smallInteger('stitches')->nullable();
             $table->smallInteger('nebulizer')->nullable();
+            $table->smallInteger('vaccination')->nullable();
             $table->string('responsible');
-
         });
     }
 

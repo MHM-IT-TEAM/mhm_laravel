@@ -87,23 +87,37 @@ export default {
         async changeCategory(){
             this.accessory.service_activities=[]
             this.accessory.services=[]
+            this.formData.admission_care_details={id:'', name:'', price:null}
             if(this.formData.category_id!==""){
-                await axios.get(`/api/v1/patient_system/system/service/category/${this.formData.category_id}`).then(response=>this.accessory.services=response.data)
+                await axios.get(`/api/v1/patient_system/system/service/category/${this.formData.category_id}`).then(response=>{
+                    this.accessory.services=response.data
+                    if(this.accessory.services.length===1){
+                        this.formData.service_id= this.accessory.services[0].id
+                        this.changeService()
+                    }
+                })
+
             }
         },
         async changeService() {
+            this.formData.admission_care_details={id:'', name:'', price:null}
             this.accessory.service_activities=[]
             if(this.formData.service_id!==""){
                 axios.get(`/api/v1/patient_system/system/serviceActivity/service/${this.formData.service_id}`).then(response=>{
                     this.accessory.service_activities=response.data
+                    if(this.accessory.service_activities.length===1){
+                        this.formData.service_activity_id= this.accessory.service_activities[0].id
+                        this.changeActivity()
+                    }
                 })
             }
         },
         async changeActivity(){
+            this.formData.admission_care_details={id:'', name:'', price:null}
             let patient_category
-            if(this.admission.patient.patient_category_id===null){
-                patient_category= this.admission.patient.sector===false?0:1
-            }else patient_category=this.admission.patient.patient_category_id
+            if(this.formData.patient.patient_category_id===null){
+                patient_category= this.formData.patient.sector===false?0:1
+            }else patient_category=this.formData.patient.patient_category_id
             await axios.get(`/api/v1/patient_system/admission/activity_price/${this.formData.service_activity_id}/${patient_category}`).then(response=>{
                 if(response.data.length>0){
                     this.formData.admission_care_details=response.data[0]
