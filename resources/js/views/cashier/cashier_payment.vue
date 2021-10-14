@@ -289,7 +289,7 @@ export default {
             return this.formData.to_pay- this.formData.paid
         },
         unpaid_treatments(){
-            return this.admission.admission_care_details.filter(care => care.payment_status === 0)
+            return this.admission.admission_care_details.filter(care => care.payment_Status === 0)
         },
         to_pay(){
             let to_pay

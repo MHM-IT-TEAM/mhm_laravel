@@ -20,6 +20,9 @@
                            </div>
                            <span class="text-white bg-danger" v-if="$v.formData.new_case.$error">You must choose one between new case or followup</span>
                        </td>
+                       <td>
+                           <v-btn  small color="light-blue darken-1" dark @click="accessory.show_overview=true"> show overview</v-btn>
+                       </td>
                    </tr>
                    <tr>
                        <th style="width:10%" colspan="2"> B.1. Symptoms:</th>
@@ -76,7 +79,7 @@
                    <tr>
                        <td class="pl-6" colspan="2">Cause:</td>
                        <td colspan="12">
-                           <textarea class="form-control" v-model="formData.details"></textarea>
+                           <textarea class="form-control" v-model="formData.vital_sign_update_cause"></textarea>
                        </td>
                    </tr>
                    <tr>
@@ -145,7 +148,7 @@
                        <td colspan="2">
                            <v-select dense v-model="accessory.temporary_diag_code.status" :items="accessory.status_list" label="status"></v-select>
                        </td>
-                       <td colspan="4">
+                       <td colspan="5">
                         <textarea class="form-control form-control-sm"
                                   placeholder="Details"
                                   v-model="accessory.temporary_diag_code.details">
@@ -291,40 +294,64 @@
                        </td>
                    </tr>
                </table>
-               <v-expansion-panels>
-                   <v-expansion-panel v-if="formData.internal_lab" inset>
-                       <v-expansion-panel-header class="table-title">
-                           C.1.  Internal Lab-work
-                       </v-expansion-panel-header>
-                       <v-expansion-panel-content>
-                          <internal_lab :form_type="'request'"/>
-                       </v-expansion-panel-content>
-                   </v-expansion-panel>
-                   <v-expansion-panel v-if="formData.external_lab" inset>
-                       <v-expansion-panel-header class="table-title">
-                           C.2. External Lab-work
-                       </v-expansion-panel-header>
-                       <v-expansion-panel-content>
-                           <external_lab/>
-                       </v-expansion-panel-content>
-                   </v-expansion-panel>
-                   <v-expansion-panel v-if="formData.internal_consultation" inset>
-                       <v-expansion-panel-header class="table-title">
-                           D.1. Internal Consultation
-                       </v-expansion-panel-header>
-                       <v-expansion-panel-content>
-                           <internal_consultation  :admission="formData.admission"/>
-                       </v-expansion-panel-content>
-                   </v-expansion-panel>
-                   <v-expansion-panel v-if="formData.outcome==='internal referral'" inset>
-                       <v-expansion-panel-header class="table-title">
-                           E.1. Internal Referral
-                       </v-expansion-panel-header>
-                       <v-expansion-panel-content>
-                           <internal_referral :admission="formData.admission" />
-                       </v-expansion-panel-content>
-                   </v-expansion-panel>
-               </v-expansion-panels>
+               <v-dialog
+                   v-model="formData.internal_lab"
+               >
+                   <v-card>
+
+                       <v-card-text class="p-2">
+<!--                           <internal_lab :form_type="'request'" :admission="formData.admission"/>-->
+                           <internal_lab :form_type="'request'" :admission="formData.admission"/>
+                       </v-card-text>
+                   </v-card>
+               </v-dialog>
+               <v-dialog
+                   v-model="accessory.show_overview"
+               >
+                   <v-card>
+
+                       <v-card-text class="p-2">
+                          <generalist_overview :patient_id="formData.admission.patient_id"/>
+                       </v-card-text>
+                   </v-card>
+               </v-dialog>
+<!--               <v-expansion-panels>-->
+<!--                   <v-expansion-panel v-if="formData.internal_lab" inset>-->
+<!--                       <v-expansion-panel-header class="table-title">-->
+<!--                           C.1.  Internal Lab-work-->
+<!--                       </v-expansion-panel-header>-->
+<!--                       <v-expansion-panel-content>-->
+<!--                          <internal_lab :form_type="'request'"/>-->
+<!--                       </v-expansion-panel-content>-->
+<!--                   </v-expansion-panel>-->
+<!--                   <v-expansion-panel v-if="formData.external_lab" inset>-->
+<!--                       <v-expansion-panel-header class="table-title">-->
+<!--                           C.2. External Lab-work-->
+<!--                       </v-expansion-panel-header>-->
+<!--                       <v-expansion-panel-content>-->
+<!--                           <external_lab/>-->
+<!--                       </v-expansion-panel-content>-->
+<!--                   </v-expansion-panel>-->
+<!--                   <v-expansion-panel v-if="formData.internal_consultation" inset>-->
+<!--                       <v-expansion-panel-header class="table-title">-->
+<!--                           D.1. Internal Consultation-->
+<!--                       </v-expansion-panel-header>-->
+<!--                       <v-expansion-panel-content>-->
+<!--                           <internal_consultation  :admission="formData.admission"/>-->
+<!--                       </v-expansion-panel-content>-->
+<!--                   </v-expansion-panel>-->
+<!--                   <v-expansion-panel v-if="formData.outcome==='internal referral'" inset>-->
+<!--                       <v-expansion-panel-header class="table-title">-->
+<!--                           E.1. Internal Referral-->
+<!--                       </v-expansion-panel-header>-->
+<!--                       <v-expansion-panel-content>-->
+<!--                           <internal_referral :admission="formData.admission" />-->
+<!--                       </v-expansion-panel-content>-->
+<!--                   </v-expansion-panel>-->
+<!--               </v-expansion-panels>-->
+           </div>
+           <div class="text-right mt-6">
+               <v-btn color="info"  @click="submit">submit</v-btn>
            </div>
        </v-app>
     </div>
@@ -335,7 +362,7 @@ import { validationMixin } from "vuelidate";
 import Generalist_overview from "./generalist_overview";
 import moment from "moment"
 import Patient_information from "../../../components/patient_information";
-import Internal_lab from "../../../components/internal_lab";
+import Internal_lab from "../labwork/internal/internal_lab";
 import External_lab from "../../../components/external_lab";
 import Internal_referral from "../../../components/internal_referral";
 import Internal_consultation from "../../../components/internal_consultation";
@@ -347,7 +374,9 @@ const {
 export default {
     name: "generalist_admission",
     props: ['admission'],
-    components: {Internal_consultation, Internal_referral, External_lab, Internal_lab, Patient_information},
+    components: {
+        Generalist_overview,
+        Internal_lab, Internal_consultation, Internal_referral, External_lab, Patient_information},
     mixins: [validationMixin],
     data() {
         return {
@@ -365,8 +394,7 @@ export default {
                 },
                 admission_id: '',
                 symptoms: '',
-                medical_care_needed: '',
-                details: '',
+                body_check: '',
                 appointment: '',
                 medication: [],
                 taDia: '',
@@ -376,17 +404,16 @@ export default {
                 spo2: '',
                 vital_sign_update_required: false,
                 vital_sign_update_cause: '',
-                body_check: '',
                 diag_codes: [],
-                wound_care: '',
-                stitches: '',
-                nebulizer: '',
-                outcome:'',
-                vaccinations: [],
+                vaccination: false,
                 internal_lab:false,
                 external_lab:false,
                 internal_consultation:false,
-                external_consultation:false
+                external_consultation:false,
+                wound_care: '',
+                stitches: '',
+                nebulizer: '',
+                outcome:''
             },
             accessory: {
                 dateConfig: {
@@ -410,16 +437,14 @@ export default {
                 },
                 temporary_diag_code: {
                     code: null, status: null, details: null
-                }
+                },
+                show_overview:false
             }
         }
     },
     validations: {
         formData: {
             new_case: {required},
-            diagnose: {required},
-            medical_care_needed: {required},
-            diag_codes: {required},
             symptoms: {required},
         }
     },
@@ -470,13 +495,13 @@ export default {
             await axios.post('/api/v1/patient_system/out_patient/generalist/consultation', this.formData).then(response => {
                 if (response.data.success) {
                     this.$toast.open({position: 'top-right', type: 'success', message: response.data.msg})
-                    this.reset_form()
-                    this.$v.$reset()
+                    // this.reset_form()
+                    // this.$v.$reset()
                 }
             })
         },
         reset_form() {
-            this.formData = {
+            this.formData =  {
                 id: '',
                 new_case: '',
                 admission: {
@@ -490,10 +515,6 @@ export default {
                 },
                 admission_id: '',
                 symptoms: '',
-                finding: '',
-                malaria: '',
-                syphilis: '',
-                hiv: '',
                 medical_care_needed: '',
                 details: '',
                 appointment: '',
@@ -506,13 +527,16 @@ export default {
                 vital_sign_update_required: false,
                 vital_sign_update_cause: '',
                 body_check: '',
-                diag_codes: [
-                    {code: '', status: '', details: ''}
-                ],
+                diag_codes: [],
                 wound_care: '',
                 stitches: '',
                 nebulizer: '',
-                vaccinations: []
+                outcome:'',
+                vaccination: false,
+                internal_lab:false,
+                external_lab:false,
+                internal_consultation:false,
+                external_consultation:false
             }
         },
         add_diagCode() {

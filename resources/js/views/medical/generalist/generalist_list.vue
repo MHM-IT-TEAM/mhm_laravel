@@ -15,6 +15,7 @@ export default {
                 { text: "Id", value: "patient_id" },
                 { text: "First Name", value: "patient.firstName" },
                 { text: "Last Name", value: "patient.lastName" },
+                { text: "Type", value: "admission_type.code" },
                 { text: "Status", value: "status" },
                 { text: "Actions", value: "actions", sortable: false },
             ]

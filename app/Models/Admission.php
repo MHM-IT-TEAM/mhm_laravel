@@ -12,6 +12,9 @@ class Admission extends Model
     public function patient(){
         return $this->belongsTo(Patient::class);
     }
+    public function service(){
+        return $this->belongsTo(Service::class);
+    }
     public function service_activity(){
         return $this->belongsTo(ServiceActivity::class);
     }
@@ -24,5 +27,8 @@ class Admission extends Model
     }
     public function generalist(){
         return $this->hasOne(Generalist::class);
+    }
+    public function admission_type(){
+        return $this->belongsTo(AdmissionType::class);
     }
 }

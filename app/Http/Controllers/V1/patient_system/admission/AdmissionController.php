@@ -63,12 +63,14 @@ class AdmissionController extends Controller
                      'service_activity',
                     'admissionCareDetails'=>function($data){
                         return $data->with('activity_price')->get();
-                    }
+                    },
+                    'admission_type'
+
                 ]
             )->get();
     }
     public function list_today_service($service_id){
-        return Admission::with('patient')->where('service_id',$service_id)->whereDate('created_at',Carbon::today())->get();
+        return Admission::with('patient','admission_type')->where('service_id',$service_id)->whereDate('created_at',Carbon::today())->get();
     }
 
 }

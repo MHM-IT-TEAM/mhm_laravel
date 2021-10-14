@@ -29,8 +29,11 @@ class DatabaseSeeder extends Seeder
             AnaesthetistConsultationSeeder::class,
             SeniorSeeder::class,
             AdmissionPrioritySeeder::class,
+            AdmissionTypeSeeder::class,
             //generalist
             DiagCodeSeeder::class,
+            //internal lab work
+            LabWorkStepSeeder::class,
             //inventory system
             ItemTypeSeeder::class,
             ItemUnitSeeder::class,
@@ -38,6 +41,7 @@ class DatabaseSeeder extends Seeder
             LocationSeeder::class,
             CollectorSeeder::class,
             StorageResponsibleSeeder::class
+
 
 
         ]);

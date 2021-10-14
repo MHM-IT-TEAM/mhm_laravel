@@ -54,7 +54,7 @@
 
 <script>
 import Internal_referral from "./internal_referral";
-import Internal_lab from "./internal_lab";
+import Internal_lab from "../views/medical/labwork/internal/internal_lab";
 export default {
     name: "medical_form_layout",
     components: {Internal_lab, Internal_referral},

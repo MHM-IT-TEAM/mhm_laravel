@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateInternalReferralsTable extends Migration
+class CreateAdmissionTypesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,10 @@ class CreateInternalReferralsTable extends Migration
      */
     public function up()
     {
-        Schema::create('internal_referrals', function (Blueprint $table) {
+        Schema::create('admission_types', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->bigInteger('from_admission_id');
-            $table->bigInteger('to_admission_id');
-            $table->text('reason_for_transfer');
-            $table->foreignId('user_id');
+            $table->string('description');
         });
     }
 
@@ -30,6 +27,6 @@ class CreateInternalReferralsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('internal_referrals');
+        Schema::dropIfExists('admission_types');
     }
 }

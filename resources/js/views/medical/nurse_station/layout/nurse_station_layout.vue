@@ -25,28 +25,28 @@
                 <v-divider></v-divider>
 
                 <v-list >
-                    <v-list-item>
-                        <v-list-item-icon>
-                            <v-icon>mdi-alpha-p-box</v-icon>
-                        </v-list-item-icon>
-                        <v-list-item-content>
-                            <v-list-item-title ><router-link :to="{name:'generalist_patient_list'}" class="link">Patient list</router-link></v-list-item-title>
-                        </v-list-item-content>
-                    </v-list-item>
-                    <v-list-item>
-                        <v-list-item-icon>
-                            <v-icon>mdi-flask</v-icon>
-                        </v-list-item-icon>
-                        <v-list-item-content>
-                            <v-list-item-title ><router-link :to="{name:'generalist_internal_lab_list'}" class="link">Lab-work requests</router-link></v-list-item-title>
-                        </v-list-item-content>
-                    </v-list-item>
+<!--                    <v-list-item>-->
+<!--                        <v-list-item-icon>-->
+<!--                            <v-icon>mdi-alpha-p-box</v-icon>-->
+<!--                        </v-list-item-icon>-->
+<!--                        <v-list-item-content>-->
+<!--                            <v-list-item-title ><router-link :to="{name:'generalist_patient_list'}" class="link">Patient list</router-link></v-list-item-title>-->
+<!--                        </v-list-item-content>-->
+<!--                    </v-list-item>-->
+<!--                    <v-list-item>-->
+<!--                        <v-list-item-icon>-->
+<!--                            <v-icon>mdi-flask</v-icon>-->
+<!--                        </v-list-item-icon>-->
+<!--                        <v-list-item-content>-->
+<!--                            <v-list-item-title ><router-link :to="{name:'generalist_internal_lab_list'}" class="link">Lab-work requests</router-link></v-list-item-title>-->
+<!--                        </v-list-item-content>-->
+<!--                    </v-list-item>-->
 
                     <v-list-group
                         v-for="item in items"
                         :key="item.title"
                         v-model="item.active"
-                        :prepend-icon="item.action"
+                        :prepend-icon="item.icon"
                         no-action
                     >
                         <template v-slot:activator>
@@ -82,7 +82,7 @@
                     mdi-hospital
                 </v-icon>
                 <v-toolbar-title class="mr-12 align-center">
-                    <span class="title text-white">General Doctor</span>
+                    <span class="title text-white">NURSE STATION</span>
                 </v-toolbar-title>
                 <v-spacer></v-spacer>
                 <v-row
@@ -117,13 +117,23 @@
 <script>
 
     export default {
-        name: "generalist_layout",
+        name: "nurse_station_layout",
         props: {
             source: String,
         },
         data: () => ({
             drawer: null,
-            items: [],
+            items: [
+                {
+                    title:'C. Labwork',
+                    active:false,
+                    icon:'mdi-flask',
+                    items:[
+                        {title:'C.1 Internal',url:'internal_lab_request',active:false},
+                        {title:'C.2 External',url:'',active:false}
+                    ]
+                }
+            ],
             user:{
                 id:'',
                 name:''

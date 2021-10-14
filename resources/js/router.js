@@ -55,8 +55,11 @@ import maternity_labwork from "./views/medical/maternity/labwork/maternity_labwo
 import generalist_layout from "./views/medical/generalist/layouts/generalist_layout";
 import generalist_list from "./views/medical/generalist/generalist_list";
 import generalist_consultation from "./views/medical/generalist/generalist_consultation";
+import generalist_internal_lab_list from "./views/medical/generalist/generalist_internal_lab_list";
 import medical_form_layout from "./components/medical_form_layout";
 //inventory_system
+//Nurse station
+import nurse_station_layout from "./views/medical/nurse_station/layout/nurse_station_layout";
 import inventory_welcome from "./views/inventory_management/inventory_welcome";
 import inventory_layout_base from "./views/inventory_management/layouts/inventory_layout_base";
 import inventory_dashboard from "./views/inventory_management/inventory_dashboard";
@@ -70,6 +73,8 @@ import cart_form from "./views/inventory_management/cart/cart_form";
 import in_list from "./views/inventory_management/IN/in_list";
 import in_form from "./views/inventory_management/IN/in_form";
 import inventory_book from "./views/inventory_management/inventory/inventory_book";
+import internal_lab_list from "./views/medical/labwork/internal/internal_lab_list";
+import internal_lab from "./views/medical/labwork/internal/internal_lab";
 
 
 
@@ -400,8 +405,35 @@ const routes = [
                 path:'generalist_consultation',
                 name:'generalist_consultation',
                 component:generalist_consultation
+            },
+            {
+                path:'generalist_internal_lab_list',
+                name:'generalist_internal_lab_list',
+                component:generalist_internal_lab_list
             }
         ]
+    },
+    /**
+     |-----------------------------
+     | Nurse station
+     |-----------------------------
+     */
+    {
+        path:'/nurse_station',
+        component:nurse_station_layout,
+        children:[
+            {
+                path:'internal_lab_request',
+                name:'internal_lab_request',
+                component:internal_lab_list
+            },
+            {
+                path:'internal_lab_form',
+                name:'internal_lab_form',
+                component: internal_lab
+            }
+        ]
+
     },
 
     /**

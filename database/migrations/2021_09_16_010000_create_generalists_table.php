@@ -22,11 +22,10 @@ class CreateGeneralistsTable extends Migration
             $table->text('body_check')->nullable();
             $table->integer('taDia')->nullable();
             $table->integer('taSysto')->nullable();
-            $table->integer('weight')->nullable();
+            $table->integer('pulse')->nullable();
             $table->integer('temp')->nullable();
             $table->integer('weight')->nullable();
             $table->integer('spo2')->nullable();
-            $table->boolean('medical_care_needed');
             $table->text('details')->nullable();
             $table->string('appointment')->nullable();
             $table->boolean('vital_sign_update_required')->nullable();
@@ -35,6 +34,11 @@ class CreateGeneralistsTable extends Migration
             $table->smallInteger('stitches')->nullable();
             $table->smallInteger('nebulizer')->nullable();
             $table->smallInteger('vaccination')->nullable();
+            $table->string('outcome')->nullable();
+            $table->smallInteger('internal_lab')->nullable();
+            $table->smallInteger('external_lab')->nullable();
+            $table->smallInteger('internal_consultation')->nullable();
+            $table->smallInteger('external_consultation')->nullable();
             $table->string('responsible');
         });
     }

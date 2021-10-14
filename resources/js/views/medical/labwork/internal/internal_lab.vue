@@ -1,9 +1,10 @@
 <template>
-    <div>
-        <h4 class="text-center form-title" v-if="form_type==='result'">LAB-WORK</h4>
-        <patient_information :patient_id="admission.patient_id" v-if="form_type==='result'"></patient_information>
+    <div class="container-fluid">
+        <h6 class="text-center mt-2 form-title" v-if="accessory.form_type==='result'">Internal lab-work</h6>
+        <h6 class="text-center mt-2 title" v-if="accessory.form_type !=='result'">C.1 Internal lab-work</h6>
+        <patient_information :patient_id="accessory.admission.patient_id" v-if="accessory.form_type==='result'"></patient_information>
         <hr>
-        <p class="title pl-2" v-if="form_type==='result'"> <v-icon class="text-white" >mdi-stethoscope</v-icon> &nbsp B) Today's actions</p>
+        <p class="title pl-2" v-if="accessory.form_type==='result'"> <v-icon class="text-white" >mdi-stethoscope</v-icon> &nbsp B) Today's actions</p>
         <div class="form-group row">
            <div class="col-2">
                <label>Date</label>
@@ -32,18 +33,18 @@
                             <thead>
                                 <tr>
                                     <th colspan="2">Test</th>
-                                    <th v-if="form_type==='result'">Result</th>
+                                    <th v-if="accessory.form_type==='result'">Result</th>
                                 </tr>
                             </thead>
                             <tr v-for="test in formData.blood_test.pos_neg">
                                 <td>
-                                    {{test.title}}
+                                    {{test.label}}
                                 </td>
                                 <td>
-                                    <input type="checkbox" class="form-check-input" v-model="test.checked"/>
+                                    <input type="checkbox" class="form-check-input" v-model="test.checked" :disabled="accessory.form_submitted || accessory.form_type==='result'"/>
 
                                 </td>
-                                <td v-if="form_type==='result'">
+                                <td v-if="test.checked && accessory.form_type==='result'">
                                     <select class="form-control form-control-sm" v-model="test.result" :disabled="!test.checked">
                                         <option value=""></option>
                                         <option v-for="item in formData.pos_neg">{{item}}</option>
@@ -58,18 +59,18 @@
                                <thead>
                                <tr>
                                    <th colspan="2">Test</th>
-                                   <th v-if="form_type==='result'">Result</th>
+                                   <th v-if="accessory.form_type==='result'">Result</th>
                                </tr>
                                </thead>
                                <tr v-for="test in formData.blood_test.result">
                                    <td>
-                                       {{test.title}}
+                                       {{test.label}}
                                    </td>
                                    <td>
-                                       <input type="checkbox" class="form-check-input" v-model="test.checked"/>
+                                       <input type="checkbox" class="form-check-input" v-model="test.checked" :disabled="accessory.form_submitted || accessory.form_type==='result'"/>
 
                                    </td>
-                                   <td v-if="form_type==='result'">
+                                   <td v-if="test.checked && accessory.form_type==='result'">
                                        <select class="form-control form-control-sm result" v-model="test.result" v-if="test.items!==null" :disabled="!test.checked">
                                            <option value=""></option>
                                            <option v-for="i in test.items">{{i}}</option>
@@ -91,16 +92,16 @@
                             <table class="table table-sm">
                                 <tr>
                                     <th colspan="2">Test</th>
-                                    <th v-if="form_type==='result'">Result</th>
+                                    <th v-if="accessory.form_type==='result'">Result</th>
                                 </tr>
                                 <tr v-for="child in test.children">
                                     <td>
-                                        {{child.title}}
+                                        {{child.label}}
                                     </td>
                                     <td>
-                                        <input type="checkbox" class="form-check-input" v-model="child.checked"/>
+                                        <input type="checkbox" class="form-check-input" v-model="child.checked" :disabled="accessory.form_submitted || accessory.form_type==='result'"/>
                                     </td>
-                                    <td v-if="form_type==='result'">
+                                    <td v-if="child.checked && accessory.form_type==='result'">
                                         <select class="form-control form-control-sm result" v-model="child.result" :disabled="!child.checked" v-if="child.items!==null">
                                             <option value=""></option>
                                             <option v-for="i in child.items">{{i}}</option>
@@ -118,16 +119,18 @@
         <div class="row">
             <div class="col-12 form-group">
                 <label>Remark</label>
-                <textarea class="form-control form-control-sm"></textarea>
+                <textarea class="form-control form-control-sm" v-model="formData.remark" :disabled="accessory.form_submitted"></textarea>
             </div>
         </div>
-        <div class="text-right" v-if="form_type==='result'">
+        <div class="text-right">
             <v-btn
-                text
                 @click="submit"
-                class="btn"
+                color="warning"
+                x-small
+                :disabled="accessory.form_submitted"
             >
-                Submit
+                <span v-if="!accessory.form_submitted">Submit</span>
+                <span v-if="accessory.form_submitted">Submitted</span>
             </v-btn>
         </div>
 
@@ -135,7 +138,7 @@
 </template>
 
 <script>
-import Patient_information from "./patient_information";
+import Patient_information from "../../../../components/patient_information";
 export default {
     name: "internal_lab",
     props:['admission','form_type'],
@@ -147,49 +150,50 @@ export default {
                 pos_neg:['pos','neg'],
                 blood_test:{
                     pos_neg:[
-                        {title:'COVID',checked:false,result:''},
-                        {title:'HIV',checked:false,result:''},
-                        {title:'Malaria',checked:false,result:''},
-                        {title:'Syphilis',checked:false,result:''},
+                        {db_name:'blood_covid',label:'COVID',checked:false,result:''},
+                        {db_name:'blood_hiv',label:'HIV',checked:false,result:''},
+                        {db_name:'blood_malaria',label:'Malaria',checked:false,result:''},
+                        {db_name:'blood_syphilis',label:'Syphilis',checked:false,result:''},
                     ],
                     result:[
-                        {title:'BG',checked:false,result:'',items:['A','B','O','AB','pos','neg']},
-                        {title:'Bilirubin',checked:false,result:'',items:null},
-                        {title:'CRP',checked:false,result:'',items:['neg','[10-40]','[40-80]','>80']},
-                        {title:'Glycemia',checked:false,result:'',items:null},
-                        {title:'HB',checked:false,result:'',items:null},
-                        {title:'PTT',checked:false,result:'',items:null},
+                        {db_name:'blood_bg',label:'BG',checked:false,result:'',items:['A','B','O','AB','pos','neg']},
+                        {db_name:'blood_bilirubin',label:'Bilirubin',checked:false,result:'',items:null},
+                        {db_name:'blood_crp',label:'CRP',checked:false,result:'',items:['neg','[10-40]','[40-80]','>80']},
+                        {db_name:'blood_glycemia',label:'Glycemia',checked:false,result:'',items:null},
+                        {db_name:'blood_hb',label:'HB',checked:false,result:'',items:null},
+                        {db_name:'blood_ptt',label:'PTT',checked:false,result:'',items:null},
                     ]
                 },
                 urine_test:[
                     {
                         category:'Pregnancy',
-                        children:[{title:'Pregnancy_test', checked:false,result:'',items:['pos','neg']}]
+                        children:[{db_name:'urine_pregnancy_test',label:'Pregnancy_test', checked:false,result:'',items:['pos','neg']}]
                     },
                     {
                         category:'Small',
                         children:[
-                            {title:'PH',checked:false,result:'',items:null},
-                            {title:'Glucose',checked:false,result:'',items:null},
-                            {title:'Protein',checked:false,result:'',items:null},
+                            {db_name:'urine_small_ph',label:'PH',checked:false,result:'',items:null},
+                            {db_name:'urine_small_glucose',label:'Glucose',checked:false,result:'',items:null},
+                            {db_name:'urine_small_protein',label:'Protein',checked:false,result:'',items:null},
                         ]
                     },
                     {
                         category:'big',
                         children:[
-                            {title:'Leucocyte',checked:false,result:'',items:null},
-                            {title:'Nitrite',checked:false,result:'',items:null},
-                            {title:'Protein',checked:false,result:'',items:null},
-                            {title:'PH',checked:false,result:'',items:null},
-                            {title:'blood',checked:false,result:'',items:['A','B','O','AB','pos','neg']},
-                            {title:'SP gravity',checked:false,result:'',items:null},
-                            {title:'Ketane',checked:false,result:'',items:null},
-                            {title:'Bilirubin',checked:false,result:'',items:null},
-                            {title:'Glucose',checked:false,result:'',items:null},
+                            {db_name:'urine_big_leucocyte',label:'Leucocyte',checked:false,result:'',items:null},
+                            {db_name:'urine_big_nitrite',label:'Nitrite',checked:false,result:'',items:null},
+                            {db_name:'urine_big_protein',label:'Protein',checked:false,result:'',items:null},
+                            {db_name:'urine_big_ph',label:'PH',checked:false,result:'',items:null},
+                            {db_name:'urine_big_blood',label:'blood',checked:false,result:'',items:['A','B','O','AB','pos','neg']},
+                            {db_name:'urine_big_sp_gravity',label:'SP gravity',checked:false,result:'',items:null},
+                            {db_name:'urine_big_ketane',label:'Ketane',checked:false,result:'',items:null},
+                            {db_name:'urine_big_bilirubin',label:'Bilirubin',checked:false,result:'',items:null},
+                            {db_name:'urine_big_glucose',label:'Glucose',checked:false,result:'',items:null},
                         ]
                     }
 
-                ]
+                ],
+                remark:''
             },
             accessory:{
                 dateConfig: {
@@ -199,14 +203,49 @@ export default {
                         input: 'DD/MMM/YYYY',
                     },
                 },
+                form_submitted:false,
+                form_type:'',
+                admission:''
             },
+        }
+    },
+    created(){
+        if(this.$route.params.request){
+            console.log(this.$route.params.request)
+            this.accessory.admission=this.$route.params.request.admission
+            this.accessory.form_type='result'
+            let data=this.$route.params.request
+            this.formData.blood_test.pos_neg.forEach(bt=>{
+                bt.checked= data[bt.db_name]
+            })
+            this.formData.blood_test.result.forEach(bt=>{
+                bt.checked= data[bt.db_name]
+            })
+            this.formData.urine_test.forEach(ut=>{
+                ut.children.forEach(test=>{
+                    test.checked=data[test.db_name]
+                })
+            })
         }
     },
     methods:{
         async submit(){
+            if(this.accessory.form_type!=='result'){
+                this.formData.admission_id= this.admission.id
+                axios.post("/api/v1/patient_system/internal_lab/resource",this.formData).then(response=>{
+                    this.accessory.form_submitted=true
+                })
+            }else{
+                this.formData.internal_lab_request_id=this.$route.params.request.id
+                this.formData.user_id= window.auth.user.id
+                axios.post("/api/v1/patient_system/internal_lab/save_result",this.formData).then(response=>{
+                    console.log(response.data)
+                })
+            }
 
         }
-    }
+    },
+
 }
 </script>
 

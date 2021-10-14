@@ -20,6 +20,7 @@ class CreateAdmissionsTable extends Migration
             $table->foreignId('category_id');
             $table->foreignId('service_id');
             $table->foreignId('service_activity_id');
+            $table->foreignId('admission_type_id');
             $table->integer('mhm_partner_id')->nullable();
             $table->foreignId('user_id');
             $table->integer('admission_priority_id')->nullable();

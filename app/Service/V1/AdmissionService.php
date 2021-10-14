@@ -56,6 +56,7 @@ class AdmissionService
             'pulse'=>$request->pulse,
             'spo2'=>$request->spo2,
             'remark'=>$request->remark,
+            'admission_type_id'=>1,
         ];
     }
 

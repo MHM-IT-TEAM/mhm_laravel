@@ -31,7 +31,7 @@ class GeneralistController extends Controller
 
     public function show($id)
     {
-        return Admission::with(['generalist','graceCsbTransaction'=>function($transaction){
+        return Admission::with(['patient','generalist'=>function($gl){return $gl->with(['generalistDiagCodes'=>function($code){return $code->with('diagCode')->get();}])->get();},'graceCsbTransaction'=>function($transaction){
             $transaction->with(['graceCsbTransactionDetail'=>function($det){return $det->with('item')->get();}])->get();
         }])->where('patient_id',$id)->get();
     }
@@ -49,5 +49,11 @@ class GeneralistController extends Controller
     public function destroy($id)
     {
         //
+    }
+    public function overview($admission_id){
+        $data=Admission::with(['generalist'=>function($gl){return $gl->with('generalistDiagCodes')->get();},'graceCsbTransaction'=>function($transaction){
+            $transaction->with(['graceCsbTransactionDetail'=>function($det){return $det->with('item')->get();}])->get();
+        }])->find($admission_id);
+        return view('medical/generalist/generalist_overview')->with('data',$data);
     }
 }

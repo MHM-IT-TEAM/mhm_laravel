@@ -4,10 +4,10 @@
             <table class="table table-sm border">
                 <thead>
                     <th>Date</th>
-                    <th>Diag Code</th>
-                    <th>Diagnose</th>
+                    <th>Symptoms</th>
+                    <th>Body Check</th>
+                    <th>Diagnoses</th>
                     <th>Complaint</th>
-                    <th>Finding</th>
                     <th>Medication</th>
                     <th>Responsible</th>
                 </thead>

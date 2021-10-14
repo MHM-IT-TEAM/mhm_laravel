@@ -25,6 +25,11 @@
                                 {{ item.status }}
                             </v-chip>
                         </template>
+                        <template v-slot:item.admission_type.code="{ item }">
+                            <v-chip :color="getTypeColor(item.admission_type.code)" dark x-small>
+                                {{ item.admission_type.code }}
+                            </v-chip>
+                        </template>
                     </v-data-table>
                 </v-card>
             </v-app>
@@ -92,6 +97,11 @@ export default {
             if (status === "RUNNING") return "blue";
             else if (status === "DONE") return "green";
             else return "green";
+        },
+        getTypeColor(code) {
+            if (code === "A") return "yellow";
+            else if (code === "IR") return "orange";
+            else return "purple";
         }
     },
 }

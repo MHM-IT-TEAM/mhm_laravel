@@ -32,6 +32,13 @@ Route::prefix('/v1')->group(function(){
         });
         //Internal referral
         Route::resource('internal_referral',\App\Http\Controllers\V1\patient_system\internal_referral\InternalReferralController::class);
+        //Internal Lab
+        Route::group(['prefix'=>'internal_lab'],function(){
+            Route::post('open_request',[\App\Http\Controllers\V1\patient_system\internal_lab\InternalLabController::class,'open_request']);
+            Route::post('save_result',[\App\Http\Controllers\V1\patient_system\internal_lab\InternalLabController::class,'save_result']);
+            Route::resource('resource',\App\Http\Controllers\V1\patient_system\internal_lab\InternalLabController::class);
+        });
+
         //Cashier
         Route::group(['prefix'=>'cashier'],function(){
             Route::get('patient_due/{patient_id}',[\App\Http\Controllers\V1\patient_system\cashier\PaymentController::class,'patient_due']);

@@ -129,6 +129,7 @@ export default {
             if (this.$v.$invalid) {
                 return true;
             }
+            this.formData.user= window.auth.user
             axios.post('/api/v1/patient_system/internal_referral',this.formData).then(response=>{
                 console.log(response.data)
             })

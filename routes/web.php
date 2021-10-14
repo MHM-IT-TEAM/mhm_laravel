@@ -46,10 +46,16 @@ Route::group(['prefix'=>'cashier','middleware'=>'auth'],function(){
 //generalist
 Route::group(['prefix'=>'generalist','middleware'=>'auth'],function(){
     Route::get('invoices/payment/{data}',[\App\Http\Controllers\V1\patient_system\cashier\PaymentController::class,'print_invoice']);
-    Route::get('invoices/cash_receipt',[\App\Http\Controllers\V1\patient_system\cashier\PaymentController::class,'cash_receipt']);
+    Route::get('overview/{admission_id}',[\App\Http\Controllers\V1\patient_system\out_patient\general\GeneralistController::class,'overview']);
     Route::get('/{any}',function(){
         return view("medical/generalist/home");
     })->name('generalist_home')->where('any','.*');
+});
+//Laboratory Station
+Route::group(['prefix'=>'nurse_station','middleware'=>'auth'],function(){
+    Route::get('/{any}',function(){
+        return view("medical/nurse_station/home");
+    })->name('nurse_station_home')->where('any','.*');
 });
 //Inventory system
 Route::group(['prefix'=>'inventory_system'],function(){
