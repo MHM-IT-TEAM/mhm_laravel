@@ -31,9 +31,17 @@ class GeneralistController extends Controller
 
     public function show($id)
     {
-        return Admission::with(['patient','generalist'=>function($gl){return $gl->with(['generalistDiagCodes'=>function($code){return $code->with('diagCode')->get();}])->get();},'graceCsbTransaction'=>function($transaction){
-            $transaction->with(['graceCsbTransactionDetail'=>function($det){return $det->with('item')->get();}])->get();
-        }])->where('patient_id',$id)->get();
+        return Admission::with(['patient',
+            'generalist'=>function($gl){
+                return $gl->with(['generalistDiagCodes'=>function($code){
+                                    return $code->with('diagCode')->get();}
+                                ])->get();
+                },
+            'graceCsbTransaction'=>function($transaction){
+                $transaction->with(['graceCsbTransactionDetail'=>function($det){
+                                    return $det->with('item')->get();}])->get();
+                                            }])
+            ->where('patient_id',$id)->get();
     }
 
     public function edit($id)
