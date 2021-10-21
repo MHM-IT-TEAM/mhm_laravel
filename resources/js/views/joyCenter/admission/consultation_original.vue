@@ -154,7 +154,7 @@
     </div>
 </template>
 <script>
-    import vitalSign from "../../medical/nurseStation/vitalSign";
+    import vitalSign from "../../medical/nurseStation_old/vitalSign";
     //import queueSideBar from "./queueSideBar";
     import {mapActions, mapGetters} from 'vuex';
 

@@ -3,29 +3,23 @@
         <div class="table-responsive">
             <table class="table table-sm border">
                 <thead>
+                    <th>Admission Id</th>
                     <th>Date</th>
-                    <th>Symptoms</th>
-                    <th>Body Check</th>
-                    <th>Diagnoses</th>
-                    <th>Complaint</th>
-                    <th>Medication</th>
                     <th>Responsible</th>
+                    <th>Action</th>
                 </thead>
                 <tbody>
-                    <tr v-for="line in medical_history">
+                    <tr v-for="line in clean_medical_history_list">
+                        <td>{{line.id}}</td>
                         <td>
                             {{moment(line.created_at).format("DD-MM-YYYY")}}
                         </td>
-                        <td>{{line.generalist.diag_code}}</td>
-                        <td>{{line.generalist.diagnose}}</td>
-                        <td>{{line.generalist.complaint}}</td>
-                        <td>{{line.generalist.finding}}</td>
-                        <td>
-                            <button class="btn btn-sm" @click="showMedication(line.grace_csb_transaction)">
-                                <font-awesome-icon icon="eye"/>
-                            </button>
-                        </td>
                         <td>{{line.generalist.responsible}}</td>
+                        <td>
+                            <v-btn x-small @click="process(line.id)">
+                                <v-icon>mdi-door-open</v-icon>
+                            </v-btn>
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -87,8 +81,19 @@ export default {
             if(medication !==null){
                 this.medication=medication.grace_csb_transaction_detail
             }
+        },
+        process(id){
+            window.open(`/generalist/overview/${id}`)
+        }
+    },
+    computed:{
+        clean_medical_history_list(){
+            return this.medical_history.filter(history=>{
+                return history.generalist !==null
+            })
         }
     }
+
 }
 </script>
 

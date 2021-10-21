@@ -19,6 +19,9 @@ class Out extends Model
     public function department(){
         return $this->belongsTo(Department::class);
     }
+    public function orderer(){
+        return $this->belongsTo(Department::class);
+    }
     public function out_details(){
         return $this->hasMany(OutDetail::class);
     }
@@ -49,7 +52,7 @@ class Out extends Model
     private static function _fillHeader($request){
         return [
             'code'=>$request->code,
-            'department_id'=>$request->department_id,
+            'orderer_id'=>$request->department_id,
             'collector_id'=>$request->collector,
             'storage_responsible_id'=>1,
             'status'=>1,

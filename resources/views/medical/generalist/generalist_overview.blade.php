@@ -228,11 +228,11 @@
                     <td class="pl-4 text-decoration-underline" colspan="5">4.2. Wound care</td>
                     <td colspan="8">
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="woundcare" id="woundcare1" value="1" >
+                            <input class="form-check-input" type="radio" name="woundcare" id="woundcare1" value="1" disabled @php echo $data->generalist['wound_care']===1?'checked="checked"':false @endphp >
                             <label class="form-check-label" for="woundcare1">Yes</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="woundcare" id="woundcare2" value="0" >
+                            <input class="form-check-input" type="radio" name="woundcare" id="woundcare2" value="0" disabled  @php echo $data->generalist['wound_care']===0?'checked="checked"':false @endphp >
                             <label class="form-check-label" for="woundcare2">No</label>
                         </div>
                     </td>
@@ -241,11 +241,11 @@
                     <td class="pl-4 text-decoration-underline" colspan="5">4.3. Stitches</td>
                     <td colspan="8">
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="stitches" id="stitches1" value="1" >
+                            <input class="form-check-input" type="radio" name="stitches" id="stitches1" value="1" disabled  @php echo $data->generalist['stitches']===1?'checked="checked"':false @endphp >
                             <label class="form-check-label" for="stitches1">Yes</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="stitches" id="stitches2" value="0" >
+                            <input class="form-check-input" type="radio" name="stitches" id="stitches2" value="0" disabled  @php echo $data->generalist['stitches']===0?'checked="checked"':false @endphp >
                             <label class="form-check-label" for="stitches2">No</label>
                         </div>
                     </td>
@@ -254,11 +254,11 @@
                     <td class="pl-4 text-decoration-underline" colspan="5">4.4. Nebulizer</td>
                     <td colspan="8">
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="nebulizer" id="nebulizer1" value="1" >
+                            <input class="form-check-input" type="radio" name="nebulizer" id="nebulizer1" value="1" disabled  @php echo $data->generalist['nebulizer']===1?'checked="checked"':false @endphp >
                             <label class="form-check-label" for="nebulizer1">Yes</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="nebulizer" id="nebulizer2" value="0" >
+                            <input class="form-check-input" type="radio" name="nebulizer" id="nebulizer2" value="0" disabled  @php echo $data->generalist['nebulizer']===0?'checked="checked"':false @endphp >
                             <label class="form-check-label" for="nebulizer2">No</label>
                         </div>
                     </td>
@@ -267,11 +267,11 @@
                     <td class="pl-4 text-decoration-underline" colspan="5">4.5. Vaccination:</td>
                     <td colspan="8">
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="nebulizer" id="vaccination1" value="1" >
+                            <input class="form-check-input" type="radio" name="nebulizer" id="vaccination1" value="1" disabled  @php echo $data->generalist['vaccination']===1?'checked="checked"':false @endphp >
                             <label class="form-check-label" for="vaccination1">Yes</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="vaccination" id="vaccination2" value="0" >
+                            <input class="form-check-input" type="radio" name="vaccination" id="vaccination2" value="0" disabled  @php echo $data->generalist['vaccination']===0?'checked="checked"':false @endphp >
                             <label class="form-check-label" for="nebulizer2">No</label>
                         </div>
                     </td>

@@ -96,7 +96,7 @@
                                 <label class="form-check-label">Internal</label>
                             </div>
                            <div class="form-check form-check-inline">
-                               <input type="checkbox" class="form-check-input" v-model.number="formData.external_lab"/>
+                               <input type="checkbox" class="form-check-input" v-model="accessory.show_external_lab"/>
                                <label class="form-check-label">External</label>
                            </div>
                        </td>
@@ -105,11 +105,11 @@
                        <td class="pl-4 text-decoration-underline"colspan="2" >2.4. Consultation</td>
                        <td colspan="12">
                            <div class="form-check form-check-inline">
-                               <input type="checkbox" class="form-check-input" v-model.number="formData.internal_consultation"/>
+                               <input type="checkbox" class="form-check-input" v-model.number="accessory.show_internal_consultation"/>
                                <label class="form-check-label">Internal</label>
                            </div>
                            <div class="form-check form-check-inline">
-                               <input type="checkbox" class="form-check-input" v-model.number="formData.external_consultation"/>
+                               <input type="checkbox" class="form-check-input" v-model.number="accessory.show_external_consultation"/>
                                <label class="form-check-label">External</label>
                            </div>
                        </td>
@@ -315,6 +315,47 @@
                        </v-card-text>
                    </v-card>
                </v-dialog>
+               <v-dialog
+                   v-model="formData.outcome==='internal referral'"
+               >
+                   <v-card>
+                       <v-card-text class="p-2">
+<!--                           <internal_consultation  :admission="formData.admission"/>-->
+                           <internal_referral :admission="formData.admission"/>
+                       </v-card-text>
+                   </v-card>
+               </v-dialog>
+               <v-dialog
+                   v-model="accessory.show_internal_consultation"
+               >
+                   <v-card>
+                       <v-card-text class="p-2">
+                          <internal_consultation  :admission="formData.admission"/>
+                       </v-card-text>
+                   </v-card>
+               </v-dialog>
+               <v-dialog v-model="formData.outcome==='external referral'">
+                   <v-card>
+                       <v-card-text class="p-2">
+                           <external_referral :admission="formData.admission"/>
+                       </v-card-text>
+                   </v-card>
+               </v-dialog>
+               <v-dialog v-model="accessory.show_external_consultation">
+                   <v-card>
+                       <v-card-text class="p-2">
+                           <external_consultation :admission="formData.admission"/>
+                       </v-card-text>
+                   </v-card>
+               </v-dialog>
+               <v-dialog v-model="accessory.show_external_lab">
+                   <v-card>
+                       <v-card-text class="p-2">
+                           <external_lab  :admission="formData.admission"></external_lab>
+                       </v-card-text>
+                   </v-card>
+               </v-dialog>
+
 <!--               <v-expansion-panels>-->
 <!--                   <v-expansion-panel v-if="formData.internal_lab" inset>-->
 <!--                       <v-expansion-panel-header class="table-title">-->
@@ -363,9 +404,11 @@ import Generalist_overview from "./generalist_overview";
 import moment from "moment"
 import Patient_information from "../../../components/patient_information";
 import Internal_lab from "../labwork/internal/internal_lab";
-import External_lab from "../../../components/external_lab";
+import External_lab from "../labwork/external/external_lab";
 import Internal_referral from "../../../components/internal_referral";
 import Internal_consultation from "../../../components/internal_consultation";
+import External_referral from "../../../components/external_referral";
+import External_consultation from "../../../components/external_consultation";
 const {
     required,
     minLength,
@@ -375,6 +418,8 @@ export default {
     name: "generalist_admission",
     props: ['admission'],
     components: {
+        External_consultation,
+        External_referral,
         Generalist_overview,
         Internal_lab, Internal_consultation, Internal_referral, External_lab, Patient_information},
     mixins: [validationMixin],
@@ -438,7 +483,12 @@ export default {
                 temporary_diag_code: {
                     code: null, status: null, details: null
                 },
-                show_overview:false
+                show_overview:false,
+                show_internal_consultation:false,
+                show_external_consultation:false,
+                show_internal_referral:false,
+                show_external_referral:false,
+                show_external_lab:false
             }
         }
     },

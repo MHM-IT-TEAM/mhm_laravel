@@ -73,8 +73,14 @@ import cart_form from "./views/inventory_management/cart/cart_form";
 import in_list from "./views/inventory_management/IN/in_list";
 import in_form from "./views/inventory_management/IN/in_form";
 import inventory_book from "./views/inventory_management/inventory/inventory_book";
-import internal_lab_list from "./views/medical/labwork/internal/internal_lab_list";
+import labwork_list from "./views/medical/labwork/labwork_list";
 import internal_lab from "./views/medical/labwork/internal/internal_lab";
+//Grace center
+import grace_center_layout from "./views/medical/grace_center/grace_center_layout";
+import list_of_patient_grace from "./views/medical/grace_center/list_of_patient_grace";
+import grace_give_medicine from "./views/medical/grace_center/grace_give_medicine"
+import item_order_grace from "./views/medical/grace_center/item_order_grace";
+import grace_inventory from "./views/medical/grace_center/grace_inventory";
 
 
 
@@ -423,9 +429,9 @@ const routes = [
         component:nurse_station_layout,
         children:[
             {
-                path:'internal_lab_request',
-                name:'internal_lab_request',
-                component:internal_lab_list
+                path:'lab_work_list',
+                name:'lab_work_list',
+                component:labwork_list
             },
             {
                 path:'internal_lab_form',
@@ -434,6 +440,37 @@ const routes = [
             }
         ]
 
+    },
+    /**
+     |-----------------------------
+     | Nurse station
+     |-----------------------------
+     */
+    {
+        path:'/grace_center',
+        component:grace_center_layout,
+        children:[
+            {
+                name:'grace_patient_list',
+                path:'patient_list',
+                component: list_of_patient_grace
+            },
+            {
+                name:'grace_give_medicine',
+                path:'give_medicine',
+                component: grace_give_medicine
+            },
+            {
+                name:'item_order_grace',
+                path:'order',
+                component: item_order_grace
+            },
+            {
+                name:'grace_inventory',
+                path:'inventory',
+                component: grace_inventory
+            }
+        ]
     },
 
     /**

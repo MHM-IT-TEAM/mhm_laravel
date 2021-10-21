@@ -1,8 +1,8 @@
 <template>
     <div class="mt-2">
-<!--            <p class="table-title pl-6">E.1. Internal referral</p>-->
+            <p class="table-title pl-6">E.1. Internal referral</p>
             <div class="card">
-                <div class="card-body">
+                <div class="card-body" v-if="!accessory.data_submitted">
                     <table class="table table-sm">
                         <tr>
                             <td>
@@ -36,6 +36,16 @@
                         <button class="btn btn-sm submit" @click="submit">Submit</button>
                     </div>
                 </div>
+                <transition name="fade">
+                    <div class="card-body" v-if="accessory.data_submitted">
+                        <v-row justify="center">
+                            <h3>Data submitted</h3>
+                        </v-row>
+                        <v-row justify="center">
+                            <v-icon color="success" large> mdi-check-circle</v-icon>
+                        </v-row>
+                    </div>
+                </transition>
             </div>
     </div>
 </template>
@@ -66,7 +76,8 @@ export default {
            accessory:{
                categories:[],
                services:[],
-               service_activities: []
+               service_activities: [],
+               data_submitted:false
            }
        }
     },
@@ -131,7 +142,7 @@ export default {
             }
             this.formData.user= window.auth.user
             axios.post('/api/v1/patient_system/internal_referral',this.formData).then(response=>{
-                console.log(response.data)
+                this.accessory.data_submitted=!! response.data.success
             })
         }
     }
@@ -155,5 +166,11 @@ export default {
     text-align: center !important;
     vertical-align: middle !important;
     padding: 0;
+}
+.fade-enter-active, .fade-leave-active {
+    transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    opacity: 0;
 }
 </style>

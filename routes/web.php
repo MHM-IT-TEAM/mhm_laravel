@@ -35,6 +35,12 @@ Route::group(['prefix'=>'joyCenter','middleware'=>'auth'],function(){
         return view("joyCenter/home");
     })->name('joyHome')->where('any','.*');
 });
+//Grace center
+Route::group(['prefix'=>'grace_center','middleware'=>'auth'],function(){
+    Route::get('/{any}',function(){
+        return view("medical/grace_center/home");
+    })->name('grace_home')->where('any','.*');
+});
 //cash
 Route::group(['prefix'=>'cashier','middleware'=>'auth'],function(){
     Route::get('invoices/payment/{data}',[\App\Http\Controllers\V1\patient_system\cashier\PaymentController::class,'print_invoice']);

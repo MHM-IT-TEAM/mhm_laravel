@@ -272,7 +272,7 @@
 </template>
 
 <script>
-import LabWork from "../nurseStation/LabWork";
+import LabWork from "../nurseStation_old/LabWork";
 import External_referral from "../maternity/referral/external_referral";
 import { validationMixin } from "vuelidate";
 import Generalist_overview from "./generalist_overview";

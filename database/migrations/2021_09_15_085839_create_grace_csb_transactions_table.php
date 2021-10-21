@@ -19,6 +19,7 @@ class CreateGraceCsbTransactionsTable extends Migration
             $table->bigInteger('admission_id');
             $table->boolean('done')->default(0);
             $table->string('responsible')->nullable();
+            $table->text('remark')->nullable();
             $table->unique('admission_id');
         });
     }

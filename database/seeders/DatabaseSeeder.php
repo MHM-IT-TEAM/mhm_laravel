@@ -40,7 +40,11 @@ class DatabaseSeeder extends Seeder
             ItemAdministrationSeeder::class,
             LocationSeeder::class,
             CollectorSeeder::class,
-            StorageResponsibleSeeder::class
+            StorageResponsibleSeeder::class,
+            InternalConsultationTypeSeeder::class,
+            CarSeeder::class,
+            MedicalCenterSeeder::class,
+            AppointmentStatusSeeder::class,
 
 
 

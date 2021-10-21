@@ -32,11 +32,24 @@ Route::prefix('/v1')->group(function(){
         });
         //Internal referral
         Route::resource('internal_referral',\App\Http\Controllers\V1\patient_system\internal_referral\InternalReferralController::class);
+        //External referral
+        Route::resource('external_referral',\App\Http\Controllers\V1\patient_system\external_referral\ExternalReferralController::class);
+        //Internal consultation
+            //internalConsultationType
+            Route::get('internal_consultation_types',[\App\Http\Controllers\v1\patient_system\internal_consultation\InternalConsultationController::class,'get_all_types']);
+            Route::resource('internal_consultation',\App\Http\Controllers\v1\patient_system\internal_consultation\InternalConsultationController::class);
+        //External consultation
+            Route::resource('external_consultation',\App\Http\Controllers\V1\patient_system\external_consultation\ExternalConsultationController::class);
         //Internal Lab
         Route::group(['prefix'=>'internal_lab'],function(){
-            Route::post('open_request',[\App\Http\Controllers\V1\patient_system\internal_lab\InternalLabController::class,'open_request']);
-            Route::post('save_result',[\App\Http\Controllers\V1\patient_system\internal_lab\InternalLabController::class,'save_result']);
-            Route::resource('resource',\App\Http\Controllers\V1\patient_system\internal_lab\InternalLabController::class);
+            Route::post('open_request',[\App\Http\Controllers\V1\patient_system\labwork\InternalLabController::class,'open_request']);
+            Route::post('save_result',[\App\Http\Controllers\V1\patient_system\labwork\InternalLabController::class,'save_result']);
+            Route::resource('resource',\App\Http\Controllers\V1\patient_system\labwork\InternalLabController::class);
+        });
+        //Grace center
+        Route::group(['prefix'=>'grace_center'],function(){
+            Route::get('patient_list',[\App\Http\Controllers\V1\patient_system\grace_center\GraceCenterController::class,'index']);
+            Route::post('store',[\App\Http\Controllers\V1\patient_system\grace_center\GraceCenterController::class,'store']);
         });
 
         //Cashier
@@ -126,6 +139,12 @@ Route::prefix('/v1')->group(function(){
         });
     });
     Route::group(['prefix'=>'extra'],function(){
+//cars
+        Route::resource('car',\App\Http\Controllers\V1\System\CarController::class);
+//Medical center
+        Route::resource('medical_center',\App\Http\Controllers\V1\System\MedicalCenterController::class);
+//employee
+        Route::resource('employee',\App\Http\Controllers\V1\System\EmployeeController::class);
 //list of sector fokontany
         Route::get('fokontany',function(){
             return \App\Models\Fokontany::all();

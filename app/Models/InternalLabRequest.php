@@ -16,6 +16,9 @@ class InternalLabRequest extends Model
     public function lab_work_step(){
         return $this->belongsTo(LabWorkStep::class);
     }
+    public function internalLabResults(){
+        return $this->hasMany(InternalLabResult::class);
+    }
 
 
     public function store($request){

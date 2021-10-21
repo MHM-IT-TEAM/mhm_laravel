@@ -25,14 +25,14 @@
                 <v-divider></v-divider>
 
                 <v-list >
-<!--                    <v-list-item>-->
-<!--                        <v-list-item-icon>-->
-<!--                            <v-icon>mdi-alpha-p-box</v-icon>-->
-<!--                        </v-list-item-icon>-->
-<!--                        <v-list-item-content>-->
-<!--                            <v-list-item-title ><router-link :to="{name:'generalist_patient_list'}" class="link">Patient list</router-link></v-list-item-title>-->
-<!--                        </v-list-item-content>-->
-<!--                    </v-list-item>-->
+                    <v-list-item>
+                        <v-list-item-icon>
+                            <v-icon>mdi-flask</v-icon>
+                        </v-list-item-icon>
+                        <v-list-item-content>
+                            <v-list-item-title ><router-link :to="{name:'lab_work_list'}" class="link">Lab-work list</router-link></v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>
 <!--                    <v-list-item>-->
 <!--                        <v-list-item-icon>-->
 <!--                            <v-icon>mdi-flask</v-icon>-->
@@ -124,15 +124,15 @@
         data: () => ({
             drawer: null,
             items: [
-                {
-                    title:'C. Labwork',
-                    active:false,
-                    icon:'mdi-flask',
-                    items:[
-                        {title:'C.1 Internal',url:'internal_lab_request',active:false},
-                        {title:'C.2 External',url:'',active:false}
-                    ]
-                }
+                // {
+                //     title:'C. Labwork',
+                //     active:false,
+                //     icon:'mdi-flask',
+                //     items:[
+                //         {title:'C.1 Internal',url:'internal_lab_request',active:false},
+                //         {title:'C.2 External',url:'',active:false}
+                //     ]
+                // }
             ],
             user:{
                 id:'',

@@ -11,6 +11,11 @@ class GraceCsbTransaction extends Model
 
     protected $guarded=[];
 
+
+    public function admission(){
+        return $this->belongsTo(Admission::class);
+    }
+
     public function graceCsbTransactionDetail(){
         return $this->hasMany(GraceCsbTransactionDetail::class);
     }

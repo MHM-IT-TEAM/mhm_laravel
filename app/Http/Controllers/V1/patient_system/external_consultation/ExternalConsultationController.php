@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\V1\patient_system\internal_lab;
+namespace App\Http\Controllers\V1\patient_system\external_consultation;
 
 use App\Http\Controllers\Controller;
-use App\Models\InternalLabRequest;
-use App\Models\InternalLabResult;
+use App\Http\Requests\V1\patient_system\ExternalConsultationRequest;
+use App\Models\ExternalConsultation;
 use Illuminate\Http\Request;
 
-class InternalLabController extends Controller
+class ExternalConsultationController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +16,7 @@ class InternalLabController extends Controller
      */
     public function index()
     {
-        return InternalLabRequest::with(['admission'=>function($data){return $data->with(['patient','service','service_activity'])->get();},'lab_work_step'])->get();
+        //
     }
 
     /**
@@ -35,10 +35,9 @@ class InternalLabController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ExternalConsultationRequest $request)
     {
-        $lab= new InternalLabRequest();
-        $lab->store($request);
+        return ExternalConsultation::store($request->validated());
     }
 
     /**
@@ -84,16 +83,5 @@ class InternalLabController extends Controller
     public function destroy($id)
     {
         //
-    }
-    public function open_request(Request $request){
-        $lab = InternalLabRequest::find($request->id);
-        $lab->lab_work_step_id=1;
-        $lab->save();
-        return true;
-    }
-    public function save_result(Request $request){
-        $result= new InternalLabResult();
-        $result->store($request);
-
     }
 }

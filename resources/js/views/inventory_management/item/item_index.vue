@@ -44,7 +44,7 @@
               />
             </button>
           </div>
-          <div class="d-inline-block">
+          <div class="d-inline-block" v-if="is_admin">
             <button type="button" class="btn btn-sm btn-primary">
               <font-awesome-icon icon="plus" /><router-link
                 to="create"
@@ -125,7 +125,7 @@
             <td>{{ item.description }}</td>
             <td><small>{{ item.item_type.name }}</small></td>
             <td><small>{{ item.item_unit.name }}</small></td>
-            <td><strong><input type="number" v-model="item.inventory.general" class="form-control form-control-sm gl edit-input" @change="update(index,'general')"/></strong></td>
+            <td><strong><input type="number" :disabled="!is_admin" v-model="item.inventory.general" class="form-control form-control-sm gl edit-input" @change="update(index,'general')"/></strong></td>
             <td><strong><input type="number" v-model="item.inventory.graceCenter" class="form-control form-control-sm gl edit-input" @change="update(index,'graceCenter')"/></strong></td>
             <td><strong><input type="number" v-model="item.inventory.storkCenter" class="form-control form-control-sm gl edit-input" @change="update(index,'storkCenter')"/></strong></td>
             <td><strong><input type="number" v-model="item.inventory.block" class="form-control form-control-sm gl edit-input" @change="update(index,'block')"/></strong></td>
@@ -198,6 +198,12 @@ import {mapActions,mapGetters} from 'vuex';
 import {item_unit} from "../../../store/modules/item/getters";
 export default {
   name: "item_index",
+    props:{
+      is_admin:{
+          type:Boolean,
+          default:true
+      }
+    },
     components: {Modal},
     data() {
     return {

@@ -18,7 +18,7 @@ class CreateOutsTable extends Migration
             $table->timestamps();
             $table->string('due_date',40)->nullable();
             $table->string('code',60);
-            $table->foreignId('department_id')->constrained();
+            $table->foreignId('orderer_id');
             $table->foreignId('storage_responsible_id')->constrained();
             $table->foreignId('collector_id')->constrained();
             $table->string('status',20);
