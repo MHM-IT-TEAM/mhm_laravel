@@ -41,16 +41,16 @@
                    </tr>
                    <tr>
                        <td class="pl-6" colspan="2">From JC</td>
-                       <td colspan="7">
+                       <td colspan="9">
 
-                           <div class="form-inline">
+                           <div class="form-inline vt">
                                BP:
-                               <input type="number" class="form-control form-control-sm vital-signs ml-2" v-model="formData.admission.taSysto"> /
-                               <input type="number" class="form-control form-control-sm vital-signs" v-model="formData.admission.taDia">
-                               &nbsp Pulse: <input type="number" class="form-control form-control-sm vital-signs ml-2" v-model="formData.admission.pulse">
-                               &nbsp Temp: <input type="number" class="form-control form-control-sm vital-signs ml-2" v-model="formData.admission.temp">
-                               &nbsp Weight:<input type="number" class="form-control form-control-sm vital-signs ml-2" v-model="formData.admission.weight">
-                               &nbsp Spo2:<input type="number" class="form-control form-control-sm vital-signs ml-2" v-model="formData.admission.spo2">
+                               <input type="number" readonly class="form-control form-control-sm vital-signs ml-2" v-model="formData.admission.taSysto"> /
+                               <input type="number" readonly class="form-control form-control-sm vital-signs" v-model="formData.admission.taDia">
+                               &nbsp Pulse: <input type="number" readonly class="form-control form-control-sm vital-signs ml-2" v-model="formData.admission.pulse">
+                               &nbsp Temp: <input type="number" readonly class="form-control form-control-sm vital-signs ml-2" v-model="formData.admission.temp">
+                               &nbsp Weight:<input type="number" readonly class="form-control form-control-sm vital-signs ml-2" v-model="formData.admission.weight">
+                               &nbsp Spo2:<input type="number" readonly class="form-control form-control-sm vital-signs ml-2" v-model="formData.admission.spo2">
                            </div>
 
                        </td>
@@ -64,7 +64,7 @@
                                </label>
                            </div>
                        </td>
-                       <td colspan="7" v-if="formData.vital_sign_update_required">
+                       <td colspan="9" v-if="formData.vital_sign_update_required">
                            <div class="form-inline">
                                BP:
                                <input type="number" class="form-control form-control-sm vital-signs ml-2" v-model="formData.taDia"> /
@@ -76,7 +76,7 @@
                            </div>
                        </td>
                    </tr>
-                   <tr>
+                   <tr v-if="formData.vital_sign_update_required">
                        <td class="pl-6" colspan="2">Cause:</td>
                        <td colspan="12">
                            <textarea class="form-control" v-model="formData.vital_sign_update_cause"></textarea>
@@ -115,7 +115,7 @@
                        </td>
                    </tr>
                    <tr>
-                       <th colspan="2">B.3. Diagnose:</th>
+                       <th colspan="2">B.3. Diagnose: <span class="text-danger" v-if="$v.formData.diag_codes.$error">You must add at least a diagnosic code</span></th>
                    </tr>
                    <tr>
                        <td class="pl-4" >Diagnose code:</td>
@@ -210,8 +210,12 @@
                            <input type="number" placeholder="Dinner" class=" form-control " v-model="accessory.medication.dinner"/>
                        </td>
                        <td>
-                           <input type="number" placeholder="To give" class=" form-control " v-model="accessory.medication.to_give"/>
+                           <input type="number" placeholder="Nb of days" class=" form-control " v-model="accessory.medication.nb_of_day"/>
                        </td>
+<!--                       <td>-->
+
+<!--                           <input type="number" readonly class="form-control" value="(parseInt(accessory.medication.breakfast) + parseInt(accessory.medication.lunch) + parseInt(accessory.medication.dinner))* accessory.medication.to_give" v-model="accessory.medication.to_give"/>-->
+<!--                       </td>-->
                        <td>
                            <v-btn x-small text @click="add_medication" class="table-title">Add</v-btn>
                        </td>
@@ -223,7 +227,8 @@
                        <td class="text-center">{{item.lunch}}</td>
                        <td class="text-center">{{item.dinner}}</td>
                        <td class="text-center">
-                           {{item.to_give}} &nbsp
+                           {{item.nb_of_day}} &nbsp
+
                            <v-btn
                                class="float-right"
                                x-small
@@ -478,7 +483,8 @@ export default {
                     breakfast: null,
                     lunch: null,
                     dinner: null,
-                    to_give: null
+                    to_give: null,
+                    nb_of_day:null
                 },
                 temporary_diag_code: {
                     code: null, status: null, details: null
@@ -496,6 +502,7 @@ export default {
         formData: {
             new_case: {required},
             symptoms: {required},
+            diag_codes:minLength(1)
         }
     },
     created() {
@@ -523,6 +530,7 @@ export default {
             let arr=(Object.values(this.accessory.medicines_temp_list))
             valid = arr.indexOf(null) === -1;
             if(valid){
+                this.accessory.medication.to_give=(parseInt(this.accessory.medication.breakfast) + parseInt(this.accessory.medication.lunch) + parseInt(this.accessory.medication.dinner))* this.accessory.medication.nb_of_day
                 this.formData.medication.push(this.accessory.medication)
                 this.accessory.medication = {
                     item: null,
@@ -630,5 +638,8 @@ export default {
 }
 .diag-code-list{
     background-color: lightgray;
+}
+.vt{
+   min-width: 100% !important;
 }
 </style>

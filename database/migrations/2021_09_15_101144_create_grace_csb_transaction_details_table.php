@@ -22,6 +22,7 @@ class CreateGraceCsbTransactionDetailsTable extends Migration
             $table->string('lunch',50)->nullable();
             $table->string('dinner',50)->nullable();
             $table->string('to_give',50)->nullable();
+            $table->string('nb_of_day',50)->nullable();
             $table->string('given')->nullable();
         });
     }

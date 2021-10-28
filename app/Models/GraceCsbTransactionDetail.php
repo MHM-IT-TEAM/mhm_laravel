@@ -29,6 +29,7 @@ class GraceCsbTransactionDetail extends Model
                'lunch'=>$request->get('lunch'),
                'dinner'=>$request->get('dinner'),
                'to_give'=>$request->get('to_give'),
+               'nb_of_day'=>$request->get('nb_of_day'),
                'given'=>$request->get('given')
            ]
         );

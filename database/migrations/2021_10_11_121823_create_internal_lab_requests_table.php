@@ -28,7 +28,7 @@ class CreateInternalLabRequestsTable extends Migration
             $table->smallInteger('blood_crp')->nullable();
             $table->smallInteger('blood_glycemia')->nullable();
             $table->smallInteger('blood_hb')->nullable();
-            $table->smallInteger('blood_ptt')->nullable();
+            $table->smallInteger('blood_ogtt')->nullable();
             $table->smallInteger('urine_pregnancy_test')->nullable();
             $table->smallInteger('urine_small_ph')->nullable();
             $table->smallInteger('urine_small_glucose')->nullable();

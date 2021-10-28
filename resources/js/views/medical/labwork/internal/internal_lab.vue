@@ -88,7 +88,10 @@
                 <h6 class="text-center subtitle">URINE</h6>
                 <div class="row">
                     <div class="col-4" v-for="test in formData.urine_test">
-                        <p class="text-center font-weight-bold">{{test.category}}</p>
+                        <div class="text-center font-weight-bold">
+                            {{test.category}} &nbsp
+                            <input type="checkbox" v-model="test.checked" @click="check_all(test)"/>
+                        </div>
                         <div class="table-responsive">
                             <table class="table table-sm">
                                 <tr>
@@ -162,16 +165,18 @@ export default {
                         {db_name:'blood_crp',label:'CRP',checked:false,result:'',items:['neg','[10-40]','[40-80]','>80']},
                         {db_name:'blood_glycemia',label:'Glycemia',checked:false,result:'',items:null},
                         {db_name:'blood_hb',label:'HB',checked:false,result:'',items:null},
-                        {db_name:'blood_ptt',label:'PTT',checked:false,result:'',items:null},
+                        {db_name:'blood_ogtt',label:'OGTT',checked:false,result:'',items:['neg','suspicious','pos']},
                     ]
                 },
                 urine_test:[
                     {
                         category:'Pregnancy',
+                        checked:false,
                         children:[{db_name:'urine_pregnancy_test',label:'Pregnancy_test', checked:false,result:'',items:['pos','neg']}]
                     },
                     {
                         category:'Small',
+                        checked:false,
                         children:[
                             {db_name:'urine_small_ph',label:'PH',checked:false,result:'',items:['5.0','6.0','6.5','7.0','7.5','8.0','8+5']},
                             {db_name:'urine_small_glucose',label:'Glucose',checked:false,result:'',items:['neg','trace','+','++','+++','++++']},
@@ -180,12 +185,13 @@ export default {
                     },
                     {
                         category:'big',
+                        checked:false,
                         children:[
                             {db_name:'urine_big_leucocyte',label:'Leucocyte',checked:false,result:'',items:['neg','pos','trace','small','moderate','large']},
                             {db_name:'urine_big_nitrite',label:'Nitrite',checked:false,result:'',items:['neg','pos']},
                             {db_name:'urine_big_protein',label:'Protein',checked:false,result:'',items:['neg','trace','+','++','+++','++++']},
                             {db_name:'urine_big_ph',label:'PH',checked:false,result:'',items:['5.0','6.0','6.5','7.0','7.5','8.0','8+5']},
-                            {db_name:'urine_big_blood',label:'blood',checked:false,result:'',items:['A','B','O','AB','pos','neg']},
+                            {db_name:'urine_big_blood',label:'Blood',checked:false,result:'',items:['neg','trace','small','moderate','large']},
                             {db_name:'urine_big_sp_gravity',label:'SP gravity',checked:false,result:'',items:['1.000','1.005','1.010','1.015','1.020','1.025','1.030']},
                             {db_name:'urine_big_ketane',label:'Ketane',checked:false,result:'',items:['neg','pos','trace','small','moderate','large']},
                             {db_name:'urine_big_bilirubin',label:'Bilirubin',checked:false,result:'',items:['neg','pos','trace','small','moderate','large']},
@@ -212,6 +218,7 @@ export default {
             },
         }
     },
+
     created(){
         if(this.$route.params.request){
 
@@ -265,7 +272,10 @@ export default {
                     console.log(response.data)
                 })
             }
-
+        },
+        check_all(row){
+            if(row.checked) row.children.forEach(child=>child.checked=false)
+            else row.children.forEach(child=>child.checked=true)
         }
     },
 

@@ -26,7 +26,7 @@ class CreateInternalLabResultsTable extends Migration
             $table->string('blood_crp')->nullable();
             $table->string('blood_glycemia')->nullable();
             $table->string('blood_hb')->nullable();
-            $table->string('blood_ptt')->nullable();
+            $table->string('blood_ogtt')->nullable();
             $table->string('urine_pregnancy_test')->nullable();
             $table->string('urine_small_ph')->nullable();
             $table->string('urine_small_glucose')->nullable();

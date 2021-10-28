@@ -5,6 +5,7 @@
                 <thead>
                     <th>Admission Id</th>
                     <th>Date</th>
+                    <th>Diagnose</th>
                     <th>Responsible</th>
                     <th>Action</th>
                 </thead>
@@ -13,6 +14,9 @@
                         <td>{{line.id}}</td>
                         <td>
                             {{moment(line.created_at).format("DD-MM-YYYY")}}
+                        </td>
+                        <td>
+                            [ &nbsp {{line.generalist.generalist_diag_codes[0].diag_code.code}}&nbsp] {{line.generalist.generalist_diag_codes[0].diag_code.description}}
                         </td>
                         <td>{{line.generalist.responsible}}</td>
                         <td>
