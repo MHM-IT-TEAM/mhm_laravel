@@ -17,9 +17,9 @@ class CreateAppointmentsTable extends Migration
             $table->id();
             $table->timestamps();
             $table->date('booked_date');
-            $table->date('booked_time');
+            $table->date('booked_time')->nullable();
             $table->foreignId('patient_id');
-            $table->foreignId('admission_id');// to know where the appointment is issued
+            $table->foreignId('admission_id');// to know from where the appointment have been issued
             $table->foreignId('user_id');//the person who gave the appointment
             $table->foreignId('service_activity_id');//to which service
             $table->string('reason');

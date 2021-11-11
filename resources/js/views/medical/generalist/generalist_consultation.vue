@@ -553,8 +553,8 @@ export default {
             await axios.post('/api/v1/patient_system/out_patient/generalist/consultation', this.formData).then(response => {
                 if (response.data.success) {
                     this.$toast.open({position: 'top-right', type: 'success', message: response.data.msg})
-                    // this.reset_form()
-                    // this.$v.$reset()
+                    this.reset_form()
+                    this.$v.$reset()
                 }
             })
         },

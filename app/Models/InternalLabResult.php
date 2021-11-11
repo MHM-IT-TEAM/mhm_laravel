@@ -35,5 +35,6 @@ class InternalLabResult extends Model
         //result avalaible
         $lab_request->lab_work_step_id=3;
         $lab_request->save();
+        return response()->json(['success'=>true]);
     }
 }

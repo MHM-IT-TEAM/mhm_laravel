@@ -32,8 +32,8 @@
                                 <td style="width:10%"><input type="text" placeholder="id" v-model="accessory.filter.pending_list.code" class="form-control"/></td>
                                 <td><input type="date" v-model="accessory.filter.pending_list.created_at" class="form-control"/></td>
                                 <td>
-                                    <select v-model="accessory.filter.pending_list.department_id" class="form-control" @change="fetchCollector">
-                                        <option v-for="depart in department_list" :value="depart.id.toString()">{{depart.name}}</option>
+                                    <select v-model="accessory.filter.pending_list.orderer_id" class="form-control" @change="fetchCollector">
+                                        <option v-for="depart in orderer_list" :value="depart.id.toString()">{{depart.name}}</option>
                                     </select>
                                 </td>
                                 <td>
@@ -57,7 +57,7 @@
                                 <tr v-for="list in filtered_list.pending_result">
                                     <td>{{list.code}}</td>
                                     <td>{{list.created_at}}</td>
-                                    <td>{{findDepartment(list.department_id)}}</td>
+                                    <td>{{findDepartment(list.orderer_id)}}</td>
                                     <td>{{list.collector.name}}</td>
                                     <td>
                                         <div class="btn-group dropstart">
@@ -65,7 +65,7 @@
                                                 type="button"
                                                 class="btn"
                                                 id="dropdownMenuOffset_1"
-                                                data-bs-toggle="dropdown"
+                                                data-toggle="dropdown"
                                             >
                                                 <font-awesome-icon icon="ellipsis-h" size="lg" />
                                             </button>
@@ -117,8 +117,8 @@
                                     <td style="width:10%"><input type="text" placeholder="id" v-model="accessory.filter.delivered_list.code" class="form-control"/></td>
                                     <td><input type="date" v-model="accessory.filter.delivered_list.created_at" class="form-control"/></td>
                                     <td>
-                                        <select v-model="accessory.filter.delivered_list.department_id" class="form-control" @change="fetchCollector">
-                                            <option v-for="depart in department_list" :value="depart.id.toString()">{{depart.name}}</option>
+                                        <select v-model="accessory.filter.delivered_list.orderer_id" class="form-control" @change="fetchCollector">
+                                            <option v-for="depart in orderer_list" :value="depart.id.toString()">{{depart.name}}</option>
                                         </select>
                                     </td>
                                     <td>
@@ -142,7 +142,7 @@
                             <tr v-for="list in filtered_list.delivered_result">
                                 <td>{{list.code}}</td>
                                 <td>{{list.created_at}}</td>
-                                <td>{{findDepartment(list.department_id)}}</td>
+                                <td>{{findDepartment(list.orderer_id)}}</td>
                                 <td>{{list.collector.name}}</td>
                                 <td>
                                     <button
@@ -181,8 +181,8 @@ export default{
                     delivered:1
                 },
                 filter:{
-                    pending_list:{code:'',created_at:'',department_id:'',collector_id:''},
-                    delivered_list: {code:'',created_at:'',department_id:'',collector_id:''},
+                    pending_list:{code:'',created_at:'',orderer_id:'',collector_id:''},
+                    delivered_list: {code:'',created_at:'',orderer_id:'',collector_id:''},
                 },
                 filter_status:{
                     pending:false,
@@ -194,6 +194,7 @@ export default{
         }
     },
     created(){
+        this.fetch_orderers()
         this.pending_order=this.pending_list
         this.delivered_order=this.delivered_list
         this.fetch_out_order()
@@ -210,12 +211,11 @@ export default{
     },
     methods:{
         ...mapActions('out_order',['fetch_out_order','fetch_pending_order','fetch_delivered_order','delete_out_order']),
-        init(){
-            console.log(this.out_list.length)
-        },
+        ...mapActions('department',['fetch_orderers']),
         findDepartment(id){
-            let filter=this.department_list.find(depart=>depart.id===id)
-            return filter.name
+            if(this.orderer_list.length>0)return this.orderer_list.find(depart=>depart.id===id).name
+            else return ''
+
         },
         delete_item(id){
 
@@ -224,7 +224,7 @@ export default{
             type==='pending'? this.fetch_pending_order(this.accessory.current_page.pending):this.fetch_pending_order(this.accessory.current_page.delivered)
         },
         async fetchCollector(){
-            await axios.get('/api/v1/inventory_system/collector/'+this.accessory.filter.pending_list.department_id).then(response=>this.accessory.collector_list=response.data)
+            await axios.get('/api/v1/inventory_system/collector/'+this.accessory.filter.pending_list.orderer_id).then(response=>this.accessory.collector_list=response.data)
         },
         setFilter(type){
             if(type==='pending')this.accessory.filter_status.pending=!this.accessory.filter_status.pending
@@ -252,7 +252,7 @@ export default{
         }
     },
     computed:{
-        ...mapGetters('department',['department_list']),
+        ...mapGetters('department',['orderer_list']),
         ...mapGetters('out_order',['delivered_list','delivered_pagination','pending_list','pending_pagination']),
         filtered_list() {
             let pending_filter = this.accessory.filter.pending_list;

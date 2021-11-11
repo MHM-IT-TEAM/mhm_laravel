@@ -20,7 +20,7 @@ class CreateInventoriesTable extends Migration
             $table->integer('general')->nullable();
             $table->integer('graceCenter')->nullable();
             $table->integer('storkCenter')->nullable();
-            $table->integer('block')->nullable();
+            $table->integer('bloc')->nullable();
             $table->integer('midPink')->nullable();
             $table->integer('pediatric')->nullable();
             $table->integer('anesthetist')->nullable();

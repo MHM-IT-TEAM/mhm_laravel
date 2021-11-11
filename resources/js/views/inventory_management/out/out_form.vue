@@ -30,23 +30,23 @@
                     <div class="col-6">
                         <div class="row">
                             <div class="form-group col-6">
-                                <label>Department<span class="text-danger">*</span></label>
-                                <select class="form-control" v-model="formData.department_id" @change="fetchCollector">
-                                    <option v-for="department in department_list" :value="department.id">{{department.name}}</option>
+                                <label>Orderer<span class="text-danger">*</span></label>
+                                <select class="form-control" v-model="formData.orderer_id" @change="fetchCollector">
+                                    <option v-for="department in orderer_list" :value="department.id">{{department.name}}</option>
                                 </select>
-                                <div class="text-danger" v-if="$v.formData.department_id.$error.length">
-                                    please choose a department
+                                <div class="text-danger" v-if="$v.formData.orderer_id.$error.length">
+                                    please choose a Orderer
                                 </div>
 
                             </div>
                             <div class="form-group col-6">
                                 <label>Collector<span class="text-danger">*</span></label>
-                                <select class="form-control" :disabled="formData.department===null" v-model="formData.collector">
+                                <select class="form-control" :disabled="formData.department===null" v-model="formData.collector_id">
                                     <option v-for="collector in accessory.collector_list" :value="collector.id">{{collector.name}}</option>
                                 </select>
-                                <div class="text-danger" v-if="$v.formData.collector.$error.length">
-                                    please choose a collector
-                                </div>
+<!--                                <div class="text-danger" v-if="$v.formData.collector.$error.length">-->
+<!--                                    please choose a collector-->
+<!--                                </div>-->
                             </div>
                         </div>
                     </div>
@@ -86,7 +86,7 @@
                                              :hide-selected="true" @search-change="fetchCode">
 
                                 </multiselect>
-                            <input type="text" class="form-control" :id="'label-'+index"  :value="row.item.label" v-if="accessory.form_status==='edit'" @click="hide_text_input(index)"/>
+<!--                            <input type="text" class="form-control" :id="'label-'+index"  :value="row.item.label" v-if="accessory.form_status==='edit'"/>-->
                         </td>
                         <td>
                             <input type="text" class="form-control" v-model="row.item.in_stock" readonly="true"/>
@@ -125,6 +125,7 @@
 <script>
 import {mapGetters,mapActions} from "vuex";
 import { validationMixin } from "vuelidate";
+import {fetch_collectors} from "../../../store/modules/department/actions";
 const {
     required,
     requiredIf,
@@ -142,8 +143,7 @@ export default {
                 code:'',
                 order_date:null,
                 due_date:null,
-                department_id:null,
-                collector:null,
+                orderer_id:null,
                 remark:null,
                 order_details:[
                     {
@@ -158,7 +158,7 @@ export default {
                 code:'',
                 order_date:null,
                 due_date:null,
-                department_id:null,
+                orderer_id:null,
                 collector:null,
                 remark:null,
                 order_details:[
@@ -186,26 +186,28 @@ export default {
     validations(){
         return{
             formData:{
-                department_id:{required},
-                collector:{required},
+                orderer_id:{required},
                 order_date:{required}
             }
         }
     },
     created(){
-        // this.init()
+        this.init()
     },
     methods:{
-        ...mapActions('out_order',['new_out_order','edit_out_order']),
+        ...mapActions('out_order',['new_out_order','edit_out_order','fetch_last_code']),
+        // ...mapActions('department',['fetch_departments']),
         async init(){
+            this.fetch_last_code()
             //check form_status
             if(Object.keys(this.$route.params).length>0){
                 this.accessory.form_status='edit'
-                setTimeout(()=>{
-                    document.querySelectorAll(".multiSelect").forEach(item=>item.classList.add('d-none'))
-                },1500)
+                // setTimeout(()=>{
+                //     document.querySelectorAll(".multiSelect").forEach(item=>item.classList.add('d-none'))
+                // },1500)
                await this.fetch_edited_order()
             }
+
         },
         async fetchCode(code){
             this.accessory.item_list=[]
@@ -234,7 +236,7 @@ export default {
             this.populate_form(src.data)
         },
         async fetchCollector(){
-            await axios.get('/api/v1/inventory_system/collector/'+this.formData.department_id).then(response=>this.accessory.collector_list=response.data)
+            await axios.get('/api/v1/inventory_system/collector/'+this.formData.orderer_id).then(response=>this.accessory.collector_list=response.data)
         },
         addRow(){
             this.formData.order_details.push({item:[],quantity:''})
@@ -279,12 +281,12 @@ export default {
             this.formData.order_date=data.created_at
             this.formData.due_date=data.due_date
             this.formData.code=data.code
-            this.formData.department_id=data.department_id
+            this.formData.orderer_id=data.orderer_id
             this.formData.storage_responsible_id=data.storage_responsible_id
             this.formData.remark=data.remark
             this.accessory.order_edit_no=data.code
             await this.fetchCollector()
-            this.formData.collector=data.collector_id
+            this.formData.collector_id=data.collector_id
             this.formData.order_details=[]
             data.out_details.forEach(detail=>{
                 this.formData.order_details.push({
@@ -301,7 +303,7 @@ export default {
         }
     },
     computed:{
-        ...mapGetters('department',['department_list']),
+        ...mapGetters('department',['department_list','orderer_list']),
         ...mapGetters('out_order',['last_code']),
         order_code(){
             return pad(this.last_code)

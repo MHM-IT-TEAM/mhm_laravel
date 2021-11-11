@@ -93,7 +93,7 @@ class InternalLabController extends Controller
     }
     public function save_result(Request $request){
         $result= new InternalLabResult();
-        $result->store($request);
+        return $result->store($request);
 
     }
 }

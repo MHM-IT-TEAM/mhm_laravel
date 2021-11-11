@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <internal_lab_list :headers="headers" @open="open_request"/>
+        <internal_lab_list :headers="headers" @open="open_request" :service_id="6"/>
     </div>
 </template>
 
@@ -23,9 +23,7 @@ export default {
     },
     methods:{
         async open_request(request){
-            // console.log(request)
-            await axios.post('/api/v1/patient_system/internal_lab/open_request',{id:request.id}).then(response=>{
-            })
+            this.$router.push({name:'generalist_view_internal_lab_result',params:{request:request}})
         }
     }
 }

@@ -9,6 +9,6 @@ class Collector extends Model
 {
     use HasFactory;
     public function scopeWhereDepartment($query,$id){
-        return $this->where('department_id',$id);
+        return $this->where('orderer_id',$id);
     }
 }

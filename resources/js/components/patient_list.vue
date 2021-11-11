@@ -16,7 +16,7 @@
                     </v-card-title>
                     <v-data-table :headers="headers" :items="items" :search="search" :loading="loading">
                         <template v-slot:item.actions="{ item }">
-                            <v-icon small class="mr-2" @click="$emit('edit', item)">
+                            <v-icon small class="mr-2" @click="$emit('edit', item)" v-if="item.status!=='DONE'">
                                 mdi-pencil
                             </v-icon>
                         </template>
@@ -64,6 +64,7 @@ export default {
                     data=await axios.get('/api/v1/patient_system/admission/list_today_service/6')
                     break;
                 case 2:
+                    data=await axios.get('/api/v1/patient_system/admission/list_today_service/7')
                     break;
                 case 3:
                     break;

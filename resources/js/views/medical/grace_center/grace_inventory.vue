@@ -1,6 +1,7 @@
 <template>
     <div class="container">
-        <item_index :is_admin="is_admin"/>
+        <item_index :is_admin="is_admin" :orderer_id="orderer_id" />
+<!--        <inventory_service/>-->
     </div>
 </template>
 
@@ -11,7 +12,8 @@ export default {
     components: {Item_index},
     data(){
         return{
-            is_admin:false
+            is_admin:false,
+            orderer_id:1
         }
     }
 }

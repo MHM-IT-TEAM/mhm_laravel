@@ -41,6 +41,14 @@
                             <v-list-item-title ><router-link :to="{name:'generalist_internal_lab_list'}" class="link">Lab-work requests</router-link></v-list-item-title>
                         </v-list-item-content>
                     </v-list-item>
+                    <v-list-item>
+                        <v-list-item-icon>
+                            <v-icon>mdi-book-edit</v-icon>
+                        </v-list-item-icon>
+                        <v-list-item-content>
+                            <v-list-item-title ><router-link :to="{name:'generalist_item_order'}" class="link">Order</router-link></v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>
 
                     <v-list-group
                         v-for="item in items"
@@ -85,20 +93,22 @@
                     <span class="title text-white">General Doctor</span>
                 </v-toolbar-title>
                 <v-spacer></v-spacer>
-                <v-row
-                    align="center"
-                    style="max-width: 650px"
-                >
-                    <v-text-field
-                        :append-icon-cb="() => {}"
-                        placeholder="Search..."
-                        single-line
-                        append-icon="mdi-magnify"
-                        color="white"
-                        class="white--text"
-                        hide-details
-                    ></v-text-field>
-                </v-row>
+<!--                <v-row>-->
+<!--                    align="right"-->
+<!--                    style="max-width: 650px"-->
+<!--                    <v-text-field-->
+<!--                        :append-icon-cb="() => {}"-->
+<!--                        placeholder="Search..."-->
+<!--                        single-line-->
+<!--                        append-icon="mdi-magnify"-->
+<!--                        color="white"-->
+<!--                        class="white&#45;&#45;text"-->
+<!--                        hide-details-->
+<!--                    ></v-text-field>-->
+
+<!--                </v-row>-->
+                <span class="text-white mr-2 text-uppercase">{{user.name}}</span>
+                <v-icon medium @click="logout" class="text-white"> mdi-exit-to-app</v-icon>
             </v-app-bar>
 
             <v-main>
@@ -133,6 +143,12 @@
             // this.$vuetify.theme.dark = true
             this.user= window.auth.user
         },
+        methods:{
+            async logout(){
+                await axios.post("/logout").then((resp) => console.log(resp));
+                window.location.href = "/login";
+            }
+        }
     }
 </script>
 

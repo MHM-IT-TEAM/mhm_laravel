@@ -56,7 +56,13 @@ import generalist_layout from "./views/medical/generalist/layouts/generalist_lay
 import generalist_list from "./views/medical/generalist/generalist_list";
 import generalist_consultation from "./views/medical/generalist/generalist_consultation";
 import generalist_internal_lab_list from "./views/medical/generalist/generalist_internal_lab_list";
+import item_order_generalist from "./views/medical/generalist/item_order_generalist";
+import generalist_view_internal_lab_result from "./views/medical/generalist/generalist_view_internal_lab_result";
 import medical_form_layout from "./components/medical_form_layout";
+//dentist
+import dentist_layout from "./views/medical/dentist/layouts/dentist_layout"
+import dentist_patient_list from "./views/medical/dentist/dentist_patient_list";
+import dental_diagnostic_form from "./views/medical/dentist/dental_diagnostic_form";
 //inventory_system
 //Nurse station
 import nurse_station_layout from "./views/medical/nurse_station/layout/nurse_station_layout";
@@ -73,8 +79,9 @@ import cart_form from "./views/inventory_management/cart/cart_form";
 import in_list from "./views/inventory_management/IN/in_list";
 import in_form from "./views/inventory_management/IN/in_form";
 import inventory_book from "./views/inventory_management/inventory/inventory_book";
-import labwork_list from "./views/medical/labwork/labwork_list";
+import labwork_list from "./views/medical/nurse_station/labwork_list";
 import internal_lab from "./views/medical/labwork/internal/internal_lab";
+import nurse_view_internal_lab_result from "./views/medical/nurse_station/nurse_view_internal_lab_result";
 //Grace center
 import grace_center_layout from "./views/medical/grace_center/grace_center_layout";
 import list_of_patient_grace from "./views/medical/grace_center/list_of_patient_grace";
@@ -416,6 +423,37 @@ const routes = [
                 path:'generalist_internal_lab_list',
                 name:'generalist_internal_lab_list',
                 component:generalist_internal_lab_list
+            },
+            {
+                path:'item_order',
+                name:'generalist_item_order',
+                component:item_order_generalist
+            },
+            {
+                path:'internal_lab_result',
+                name:'generalist_view_internal_lab_result',
+                component:generalist_view_internal_lab_result
+            },
+        ]
+    },
+    /**
+     |-----------------------------
+     | Dentist
+     |-----------------------------
+     */
+    {
+        path:'/dentist',
+        component:dentist_layout,
+        children:[
+            {
+                path:'patient_list',
+                name:'dentist_patient_list',
+                component: dentist_patient_list
+            },
+            {
+                path:'diagnostic',
+                name:'dental_diagnostic_form',
+                component: dental_diagnostic_form
             }
         ]
     },
@@ -437,13 +475,18 @@ const routes = [
                 path:'internal_lab_form',
                 name:'internal_lab_form',
                 component: internal_lab
+            },
+            {
+                path:'internal_lab_result',
+                name:'nurse_view_internal_lab_result',
+                component: nurse_view_internal_lab_result
             }
         ]
 
     },
     /**
      |-----------------------------
-     | Nurse station
+     | Grace Center
      |-----------------------------
      */
     {

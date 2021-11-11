@@ -20,7 +20,7 @@ class Out extends Model
         return $this->belongsTo(Department::class);
     }
     public function orderer(){
-        return $this->belongsTo(Department::class);
+        return $this->belongsTo(Orderer::class);
     }
     public function out_details(){
         return $this->hasMany(OutDetail::class);
@@ -30,6 +30,7 @@ class Out extends Model
     }
 
     public static function createOut($request){
+//        dd($request->all());
         DB::transaction(function() use($request){
             $out= new Out();
             $out->fill(self::_fillHeader($request))->save();
@@ -52,11 +53,11 @@ class Out extends Model
     private static function _fillHeader($request){
         return [
             'code'=>$request->code,
-            'orderer_id'=>$request->department_id,
-            'collector_id'=>$request->collector,
-            'storage_responsible_id'=>1,
+            'orderer_id'=>$request->orderer_id,
+            'collector_id'=>$request->collector_id,
+//            'storage_responsible_id'=>1,
             'status'=>1,
-            'due_date'=>$request->due_date,
+//            'due_date'=>$request->due_date,
             'remark'=>$request->remark
         ];
     }

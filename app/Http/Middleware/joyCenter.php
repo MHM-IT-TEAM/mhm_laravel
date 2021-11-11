@@ -17,7 +17,7 @@ class joyCenter
      */
     public function handle(Request $request, Closure $next)
     {
-        if(Auth::user()->department_id !==1) {
+        if(Auth::user()->service_id !==11) {
             Auth::logout();
             return redirect('/');
         };

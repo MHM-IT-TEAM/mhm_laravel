@@ -105,18 +105,19 @@
           <th @click="sort('description','desc')" style="width: 15%">Description</th>
           <th @click="sort('type','desc')" style="width:5%">Type</th>
           <th style="width:5%">Unit</th>
-          <th style="width:5%">General</th>
-          <th style="width:5%">Grace</th>
-          <th style="width:5%">Stork</th>
-          <th style="width:5%">Block</th>
-          <th style="width:5%">Pink</th>
-          <th style="width:5%">Pediatric</th>
-          <th style="width:5%">Anesthesia</th>
-          <th style="width:5%">Ambulance</th>
-          <th style="width:5%">Office</th>
-          <th style="width:5%">Technical</th>
-          <th style="width:5%">Household</th>
-          <th style="width:5%"></th>
+          <th style="width:5%" v-if="is_admin">General</th>
+          <th style="width:5%" v-if="is_admin || orderer_id===1">Grace</th>
+          <th style="width:5%"v-if="is_admin || orderer_id===2">Stork</th>
+          <th style="width:5%"v-if="is_admin || orderer_id===3">Block</th>
+          <th style="width:5%"v-if="is_admin || orderer_id===4">Pink</th>
+          <th style="width:5%"v-if="is_admin || orderer_id===5">Pediatric</th>
+          <th style="width:5%"v-if="is_admin || orderer_id===6">Anesthesia</th>
+          <th style="width:5%"v-if="is_admin || orderer_id===7">Ambulance</th>
+          <th style="width:5%"v-if="is_admin || orderer_id===8">Office</th>
+          <th style="width:5%"v-if="is_admin || orderer_id===9">Technical</th>
+          <th style="width:5%"v-if="is_admin || orderer_id===10">Household</th>
+          <th style="width:5%" v-if="!is_admin" >Min stock</th>
+          <th style="width:5%" v-if="is_admin"></th>
         </thead>
         <tbody>
           <tr v-for="(item,index) in filtered_list">
@@ -125,18 +126,23 @@
             <td>{{ item.description }}</td>
             <td><small>{{ item.item_type.name }}</small></td>
             <td><small>{{ item.item_unit.name }}</small></td>
-            <td><strong><input type="number" :disabled="!is_admin" v-model="item.inventory.general" class="form-control form-control-sm gl edit-input" @change="update(index,'general')"/></strong></td>
-            <td><strong><input type="number" v-model="item.inventory.graceCenter" class="form-control form-control-sm gl edit-input" @change="update(index,'graceCenter')"/></strong></td>
-            <td><strong><input type="number" v-model="item.inventory.storkCenter" class="form-control form-control-sm gl edit-input" @change="update(index,'storkCenter')"/></strong></td>
-            <td><strong><input type="number" v-model="item.inventory.block" class="form-control form-control-sm gl edit-input" @change="update(index,'block')"/></strong></td>
-            <td><strong><input type="number" v-model="item.inventory.midPink" class="form-control form-control-sm gl edit-input" @change="update(index,'midPink')"/></strong></td>
-            <td><strong><input type="number" v-model="item.inventory.pediatric" class="form-control form-control-sm gl edit-input" @change="update(index,'pediatric')"/></strong></td>
-            <td><strong><input type="number" v-model="item.inventory.anesthetist" class="form-control form-control-sm gl edit-input" @change="update(index,'anesthetist')"/></strong></td>
-            <td><strong><input type="number" v-model="item.inventory.ambulance" class="form-control form-control-sm gl edit-input" @change="update(index,'ambulance')"/></strong></td>
-            <td><strong><input type="number" v-model="item.inventory.office" class="form-control form-control-sm gl edit-input" @change="update(index,'office')"/></strong></td>
-            <td><strong><input type="number" v-model="item.inventory.technical" class="form-control form-control-sm gl edit-input" @change="update(index,'technical')"/></strong></td>
-            <td><strong><input type="number" v-model="item.inventory.houseHold" class="form-control form-control-sm gl edit-input" @change="update(index,'houseHold')"/></strong></td>
-            <td>
+            <td v-if="is_admin"><strong><input type="number" :disabled="!is_admin" v-model="item.inventory.general" class="form-control form-control-sm gl edit-input" @change="update(index,'general')"/></strong></td>
+            <td v-if="is_admin || orderer_id===1" ><strong><input type="number" v-model="item.inventory.graceCenter"  class="form-control form-control-sm gl edit-input" :class="{'text-danger':item.inventory[orderer_name(orderer_id)]<item.min_stock[orderer_name(orderer_id)]}" @change="update(index,'graceCenter')"/></strong></td>
+            <td v-if="is_admin || orderer_id===2"><strong><input type="number" v-model="item.inventory.storkCenter" class="form-control form-control-sm gl edit-input" @change="update(index,'storkCenter')" :class="{'text-danger':item.inventory[orderer_name(orderer_id)]<item.min_stock[orderer_name(orderer_id)]}"/></strong></td>
+            <td v-if="is_admin || orderer_id===3"><strong><input type="number" v-model="item.inventory.block" class="form-control form-control-sm gl edit-input" @change="update(index,'bloc')" :class="{'text-danger':item.inventory[orderer_name(orderer_id)]<item.min_stock[orderer_name(orderer_id)]}"/></strong></td>
+            <td v-if="is_admin || orderer_id===4"><strong><input type="number" v-model="item.inventory.midPink" class="form-control form-control-sm gl edit-input" @change="update(index,'midPink')" :class="{'text-danger':item.inventory[orderer_name(orderer_id)]<item.min_stock[orderer_name(orderer_id)]}"/></strong></td>
+            <td v-if="is_admin || orderer_id===5"><strong><input type="number" v-model="item.inventory.pediatric" class="form-control form-control-sm gl edit-input" @change="update(index,'pediatric')" :class="{'text-danger':item.inventory[orderer_name(orderer_id)]<item.min_stock[orderer_name(orderer_id)]}"/></strong></td>
+            <td v-if="is_admin || orderer_id===6"><strong><input type="number" v-model="item.inventory.anesthetist" class="form-control form-control-sm gl edit-input" @change="update(index,'anesthetist')" :class="{'text-danger':item.inventory[orderer_name(orderer_id)]<item.min_stock[orderer_name(orderer_id)]}"/></strong></td>
+            <td v-if="is_admin || orderer_id===7"><strong><input type="number" v-model="item.inventory.ambulance" class="form-control form-control-sm gl edit-input" @change="update(index,'ambulance')" :class="{'text-danger':item.inventory[orderer_name(orderer_id)]<item.min_stock[orderer_name(orderer_id)]}"/></strong></td>
+            <td v-if="is_admin || orderer_id===8"><strong><input type="number" v-model="item.inventory.office" class="form-control form-control-sm gl edit-input" @change="update(index,'office')" :class="{'text-danger':item.inventory[orderer_name(orderer_id)]<item.min_stock[orderer_name(orderer_id)]}"/></strong></td>
+            <td v-if="is_admin || orderer_id===9"><strong><input type="number" v-model="item.inventory.technical" class="form-control form-control-sm gl edit-input" @change="update(index,'technical')" :class="{'text-danger':item.inventory[orderer_name(orderer_id)]<item.min_stock[orderer_name(orderer_id)]}"/></strong></td>
+            <td v-if="is_admin || orderer_id===10"><strong><input type="number" v-model="item.inventory.houseHold" class="form-control form-control-sm gl edit-input" @change="update(index,'houseHold')" :class="{'text-danger':item.inventory[orderer_name(orderer_id)]<item.min_stock[orderer_name(orderer_id)]}"/></strong></td>
+            <td v-if="!is_admin">
+                <span class="text-center mt-4"></span>
+                <input type="number" class="form-control form-control-sm gl edit-input" disabled :value="item.min_stock[orderer_name(orderer_id)]"/>
+<!--                {{orderer_name(orderer_id)}}-->
+            </td>
+            <td v-if="is_admin">
 <!--              <div class="dropdown me-1">-->
 <!--                <button-->
 <!--                  type="button"-->
@@ -196,13 +202,17 @@
 import Modal from "../component/modal"
 import {mapActions,mapGetters} from 'vuex';
 import {item_unit} from "../../../store/modules/item/getters";
+import {isInt} from "@fullcalendar/vue";
 export default {
   name: "item_index",
     props:{
       is_admin:{
           type:Boolean,
           default:true
-      }
+      },
+        orderer_id:{
+          type:Number
+        }
     },
     components: {Modal},
     data() {
@@ -235,9 +245,11 @@ export default {
     };
   },
   created() {
+      this.fetch_orderers()
   },
   methods: {
     ...mapActions('item',['fetch_items_list']),
+    ...mapActions('department',['fetch_orderers']),
     async fetchData() {
       await axios
         .get("/api/v1/inventory_system/item?page=" + this.accessory.pages.active,{params:{category:this.accessory.category_filter.id,search_text:this.accessory.search_text}})
@@ -300,7 +312,7 @@ export default {
         let params={
             id:this.items[index].id,
             col:col,
-            quantity:this.items[index].inventory.general
+            quantity:this.items[index].inventory[col]
         }
         await axios.post('/api/v1/inventory_system/item/inventory/update',params).then(response=>{
             if(response.data.success){
@@ -308,10 +320,17 @@ export default {
                 setTimeout(()=>{this.accessory.row_update=false},2000)
             }
         })
-      }
+      },
+      orderer_name(id){
+        if(this.orderer_list.length>0 && isInt(this.orderer_id) ) return this.orderer_list.find(orderer=>orderer.id===id).name
+          else return ''
+
+      },
   },
   computed: {
       ...mapGetters('item',['item_list','item_unit','item_type']),
+      ...mapGetters('department',['orderer_list']),
+
     filtered_list() {
       let filter = this.accessory.filter;
       const filter_keys = Object.keys(filter);

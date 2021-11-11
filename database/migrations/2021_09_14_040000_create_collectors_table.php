@@ -17,7 +17,7 @@ class CreateCollectorsTable extends Migration
             $table->id();
             $table->timestamps();
             $table->string('name',50);
-            $table->foreignId('department_id');
+            $table->foreignId('orderer_id');
         });
     }
 

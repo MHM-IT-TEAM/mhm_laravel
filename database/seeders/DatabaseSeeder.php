@@ -39,6 +39,7 @@ class DatabaseSeeder extends Seeder
             ItemUnitSeeder::class,
             ItemAdministrationSeeder::class,
             LocationSeeder::class,
+            OrdererSeeder::class,
             CollectorSeeder::class,
             StorageResponsibleSeeder::class,
             InternalConsultationTypeSeeder::class,

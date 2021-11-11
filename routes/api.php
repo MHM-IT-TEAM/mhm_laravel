@@ -91,6 +91,9 @@ Route::prefix('/v1')->group(function(){
         Route::get('/department',function(){
             return \App\Models\Department::all();
         });
+        Route::get('/orderers',function(){
+            return \App\Models\inventory_system\Orderer::all();
+        });
         //Collector
         Route::get('collector/{department_id}',[\App\Http\Controllers\V1\inventory_system\collector\CollectorController::class,'fetch_by_department']);
         Route::resource('collector',\App\Http\Controllers\V1\inventory_system\collector\CollectorController::class);
@@ -116,6 +119,7 @@ Route::prefix('/v1')->group(function(){
         });
         //low_stock
         Route::get('low_stock',[\App\Http\Controllers\V1\inventory_system\low_stock\LowStockController::class,'list']);
+        //inventory_service
         //Route::get('/item/count_low_stock',[\App\Http\Controllers\V1\inventory_system\item\ItemController::class,'count_low_stock']);
         //item
         Route::post('/item/inventory/update',[\App\Http\Controllers\V1\inventory_system\item\ItemController::class,'update_inventory']);

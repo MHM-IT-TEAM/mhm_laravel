@@ -13,7 +13,7 @@
                     <th>To give</th>
                     <th>Given</th>
                 </tr>
-                 <tr v-for="line in formData.transaction.grace_csb_transaction_detail">
+                 <tr v-for="(line,i) in formData.transaction.grace_csb_transaction_detail">
                      <td>
 <!--                         [ &nbsp {{line.item.code}} &nbsp] {{line.item.description}}-->
                          <multiselect
@@ -41,7 +41,7 @@
                      <td>{{line.dinner}}</td>
                      <td>{{line.to_give}}</td>
                      <td>
-                         <input type="number" class="form-control form-control-sm" v-model="line.given" :readonly="formData.transaction.done===1"/>
+                         <input type="number" class="form-control form-control-sm" v-model="line.given" :readonly="formData.transaction.done===1" @change="check_given(i)"/>
                      </td>
                  </tr>
                  <tr>
@@ -112,6 +112,12 @@ export default {
                 });
             }
         },
+        check_given(i){
+            if(parseInt(this.formData.transaction.grace_csb_transaction_detail[i].given)>parseInt(this.formData.transaction.grace_csb_transaction_detail[i].to_give)){
+                this.$toast.open({position: 'top-right', type: 'error', message: "The quantity should not exceed the prescribed medicine"})
+                this.formData.transaction.grace_csb_transaction_detail[i].given=''
+            }
+        }
 
     }
 }

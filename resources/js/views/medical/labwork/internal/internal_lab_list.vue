@@ -13,12 +13,12 @@
                         hide-details
                     ></v-text-field>
                 </v-card-title>
-                <v-data-table :headers="headers" :items="list" :search="search" :loading="loading">
+                <v-data-table :headers="headers" :items="filtered_list" :search="search" :loading="loading">
                     <template v-slot:item.actions="{ item }">
-<!--                        <v-icon small class="mr-2" @click="$emit('open', item)">-->
-<!--                            mdi-pencil-->
-<!--                        </v-icon>-->
-                        <v-icon small class="mr-2" @click="process(item)">
+                        <v-icon small class="mr-2" @click="$emit('open', item)" v-if="item.lab_work_step_id===3">
+                            mdi-eye
+                        </v-icon>
+                        <v-icon small class="mr-2" @click="process(item)" v-if="item.lab_work_step_id !== 3 && is_admin">
                             mdi-pencil
                         </v-icon>
                     </template>
@@ -36,7 +36,7 @@
 <script>
 export default {
     name: "internal_lab_list",
-    // props:['headers'],
+    props:['is_admin','service_id'],
     data(){
         return{
             search:'',
@@ -80,6 +80,13 @@ export default {
                     return "green"
                 break;
             }
+        }
+    },
+    computed:{
+        filtered_list(){
+            if(this.service_id !=='' && this.service_id !==undefined){
+                return this.list.filter(item=>item.admission.service_id===this.service_id)
+            }else return this.list
         }
     }
 }

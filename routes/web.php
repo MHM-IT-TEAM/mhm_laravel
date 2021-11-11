@@ -30,7 +30,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 //joyCenter
-Route::group(['prefix'=>'joyCenter','middleware'=>'auth'],function(){
+Route::group(['prefix'=>'joyCenter','middleware'=>['auth','joyCenter']],function(){
     Route::get('/{any}',function(){
         return view("joyCenter/home");
     })->name('joyHome')->where('any','.*');
@@ -57,6 +57,12 @@ Route::group(['prefix'=>'generalist','middleware'=>'auth'],function(){
         return view("medical/generalist/home");
     })->name('generalist_home')->where('any','.*');
 });
+//dentist
+Route::group(['prefix'=>'dentist','middleware'=>'auth'],function(){
+    Route::get('/{any}',function(){
+        return view("medical/dentist/home");
+    })->name('dentist_home')->where('any','.*');
+});
 //Laboratory Station
 Route::group(['prefix'=>'nurse_station','middleware'=>'auth'],function(){
     Route::get('/{any}',function(){
@@ -65,6 +71,9 @@ Route::group(['prefix'=>'nurse_station','middleware'=>'auth'],function(){
 });
 //Inventory system
 Route::group(['prefix'=>'inventory_system'],function(){
+    Route::get('/pdf/shopping_list/{id}',[\App\Http\Controllers\V1\inventory_system\pdf\PdfController::class,'shopping_list']);
+    Route::get('/pdf/stock_entry/{id}',[\App\Http\Controllers\V1\inventory_system\pdf\PdfController::class,'stock_entry']);
+    Route::get('/pdf/delivered_out/{id}',[\App\Http\Controllers\V1\inventory_system\pdf\PdfController::class,'delivered_out']);
     Route::get('/{any}',function(){
         return view("inventory_system/home");
     })->name('inventory_home')->where('any','.*');

@@ -269,7 +269,7 @@ export default {
                 this.formData.internal_lab_request_id=this.$route.params.request.id
                 this.formData.user_id= window.auth.user.id
                 axios.post("/api/v1/patient_system/internal_lab/save_result",this.formData).then(response=>{
-                    console.log(response.data)
+                    if(response.data.success)  this.accessory.form_submitted=true
                 })
             }
         },

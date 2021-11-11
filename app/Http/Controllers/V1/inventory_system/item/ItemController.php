@@ -15,7 +15,7 @@ class ItemController extends Controller
 
     public function index(Request $request)
     {
-        return Item::with(['item_type','item_unit','item_administration','location','inventory'])->search($request->search_text)->applyFilter($request)->paginate(20);
+        return Item::with(['item_type','item_unit','item_administration','location','inventory','minStock'])->search($request->search_text)->applyFilter($request)->paginate(20);
     }
     public function store(Request $request)
     {
@@ -59,4 +59,7 @@ class ItemController extends Controller
         $inventory->save();
         return $this->_success();
     }
+//    public function inventory_service($service){
+//         return Inventory::with(['item'])->where($service,'>',0);
+//    }
 }

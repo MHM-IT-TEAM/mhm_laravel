@@ -30,23 +30,23 @@
                             <v-icon>mdi-alpha-p-box</v-icon>
                         </v-list-item-icon>
                         <v-list-item-content>
-                            <v-list-item-title ><router-link :to="{name:'grace_patient_list'}" class="link">Patient list</router-link></v-list-item-title>
+                            <v-list-item-title ><router-link :to="{name:'dentist_patient_list'}" class="link">Patient list</router-link></v-list-item-title>
                         </v-list-item-content>
                     </v-list-item>
+<!--                    <v-list-item>-->
+<!--                        <v-list-item-icon>-->
+<!--                            <v-icon>mdi-flask</v-icon>-->
+<!--                        </v-list-item-icon>-->
+<!--                        <v-list-item-content>-->
+<!--                            <v-list-item-title ><router-link :to="{name:'generalist_internal_lab_list'}" class="link">Lab-work requests</router-link></v-list-item-title>-->
+<!--                        </v-list-item-content>-->
+<!--                    </v-list-item>-->
                     <v-list-item>
                         <v-list-item-icon>
-                            <v-icon>mdi-flask</v-icon>
+                            <v-icon>mdi-book-edit</v-icon>
                         </v-list-item-icon>
                         <v-list-item-content>
-                            <v-list-item-title ><router-link :to="{name:'item_order_grace'}" class="link">Order medicines</router-link></v-list-item-title>
-                        </v-list-item-content>
-                    </v-list-item>
-                    <v-list-item>
-                        <v-list-item-icon>
-                            <v-icon>mdi-flask</v-icon>
-                        </v-list-item-icon>
-                        <v-list-item-content>
-                            <v-list-item-title ><router-link :to="{name:'grace_inventory'}" class="link">Inventory</router-link></v-list-item-title>
+                            <v-list-item-title ><router-link :to="{name:'generalist_item_order'}" class="link">Order</router-link></v-list-item-title>
                         </v-list-item-content>
                     </v-list-item>
 
@@ -87,16 +87,15 @@
                     class="mx-4 white--text"
                     large
                 >
-                    mdi-pill
+                    mdi-tooth
                 </v-icon>
                 <v-toolbar-title class="mr-12 align-center">
-                    <span class="title text-white">GRACE CENTER</span>
+                    <span class="title text-white">Dentist</span>
                 </v-toolbar-title>
                 <v-spacer></v-spacer>
-<!--                <v-row-->
-<!--                    align="center"-->
+<!--                <v-row>-->
+<!--                    align="right"-->
 <!--                    style="max-width: 650px"-->
-<!--                >-->
 <!--                    <v-text-field-->
 <!--                        :append-icon-cb="() => {}"-->
 <!--                        placeholder="Search..."-->
@@ -106,6 +105,7 @@
 <!--                        class="white&#45;&#45;text"-->
 <!--                        hide-details-->
 <!--                    ></v-text-field>-->
+
 <!--                </v-row>-->
                 <span class="text-white mr-2 text-uppercase">{{user.name}}</span>
                 <v-icon medium @click="logout" class="text-white"> mdi-exit-to-app</v-icon>
@@ -125,27 +125,31 @@
 </template>
 
 <script>
-export default {
-    name: "grace_center_layout",
-    data: () => ({
-        drawer: null,
-        items: [],
-        user:{
-            id:'',
-            name:''
-        }
-    }),
-    created () {
-        // this.$vuetify.theme.dark = true
-        this.user= window.auth.user
-    },
-    methods:{
-        async logout(){
-            await axios.post("/logout").then((resp) => console.log(resp));
-            window.location.href = "/login";
+
+    export default {
+        name: "dentist_layout",
+        props: {
+            source: String,
+        },
+        data: () => ({
+            drawer: null,
+            items: [],
+            user:{
+                id:'',
+                name:''
+            }
+        }),
+        created () {
+            // this.$vuetify.theme.dark = true
+            this.user= window.auth.user
+        },
+        methods:{
+            async logout(){
+                await axios.post("/logout").then((resp) => console.log(resp));
+                window.location.href = "/login";
+            }
         }
     }
-}
 </script>
 
 <style scoped>

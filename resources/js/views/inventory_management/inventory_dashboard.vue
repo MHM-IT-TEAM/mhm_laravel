@@ -85,8 +85,8 @@
                 <div class="list-group-item" v-for="row in pending_list">
                     <div class="row">
                         <div class="col">
-                            <router-link :to="{name:'out_create', params:{id:row.id}}" class="dropdown-item"><span class="badge bg-primary text-white rounded-circle">{{sigle(findDepartment(row.department_id))}}</span>
-                            <span class="m-2 text-warning text-bold" >{{findDepartment(row.department_id)}}</span></router-link>
+                            <router-link :to="{name:'out_create', params:{id:row.id}}" class="dropdown-item"><span class="badge bg-primary text-white rounded-circle">{{sigle(findDepartment(row.orderer_id))}}</span>
+                            <span class="m-2 text-warning text-bold" >{{findDepartment(row.orderer_id)}}</span></router-link>
                         </div>
                         <div class="col">
                             <div class="float-end">{{row.out_details.length}}</div>
@@ -135,14 +135,19 @@ export default {
     methods:{
         ...mapActions('low_stock',['fetch_low_stock_list']),
         ...mapActions('item',['fetch_count_per_type']),
+        ...mapActions('department',['fetch_orderers']),
         async init(){
             await this.fetch_low_stock_list()
             await this.fetch_count_per_type()
+            await this.fetch_orderers()
             this.item_type_count= {...this.count_per_type}
         },
         findDepartment(id){
-            let filter=this.department_list.find(depart=>depart.id===id)
-            return filter.name
+
+            if(this.orderer_list.length>0){
+                let filter=this.orderer_list.find(depart=>depart.id===id)
+                return filter.name
+            }else return ''
         },
         sigle(text){
             return text.charAt(0).toUpperCase()
@@ -151,7 +156,7 @@ export default {
     computed:{
         ...mapGetters('item',['count_per_type']),
         ...mapGetters('low_stock',['low_stock_list']),
-        ...mapGetters('department',['department_list']),
+        ...mapGetters('department',['department_list','orderer_list']),
         ...mapGetters('out_order',['pending_list']),
 
         low_stock(){

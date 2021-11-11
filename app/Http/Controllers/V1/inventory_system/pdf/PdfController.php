@@ -18,7 +18,7 @@ class PdfController extends Controller
             return $data->with('item')->get();
         }])->find($id);
         view()->share('items',$items);
-        $pdf = PDF::loadView('pdf.shopping_list', $items);
+        $pdf = PDF::loadView('inventory_system.pdf.shopping_list', $items);
         return $pdf->download($items->code.'.pdf');
     }
     public function stock_entry($id){
@@ -28,7 +28,7 @@ class PdfController extends Controller
             }])->get();
         }])->find($id);
         view()->share('entries',$entries);
-        $pdf = PDF::loadView('pdf.entry', $entries);
+        $pdf = PDF::loadView('inventory_system.pdf.entry', $entries);
         return $pdf->download($entries->code.'.pdf');
     }
 
@@ -37,9 +37,9 @@ class PdfController extends Controller
             return $data->with(['item'=>function($src){
                 return $src->with(['inventory'])->get();
             }])->get();
-        },'department','collector'])->find($id);
+        },'orderer','collector'])->find($id);
         view()->share('order',$order);
-        $pdf = PDF::loadView('pdf.delivered_out', $order);
+        $pdf = PDF::loadView('inventory_system.pdf.delivered_out', $order);
         return $pdf->download($order->code.'.pdf');
     }
 }

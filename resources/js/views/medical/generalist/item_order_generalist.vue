@@ -1,15 +1,15 @@
 <template>
     <div class="container w-75">
-       <v-app>
-           <item_order :orderer_id="1"/>
-       </v-app>
+        <v-app>
+            <item_order :orderer_id="8"/>
+        </v-app>
     </div>
 </template>
 
 <script>
 import Item_order from "../../../components/item_order";
 export default {
-    name: "item_order_grace",
+    name: "item_order_generalist",
     components: {Item_order}
 }
 </script>
