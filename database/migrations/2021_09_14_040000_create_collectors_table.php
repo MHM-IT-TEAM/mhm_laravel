@@ -17,7 +17,8 @@ class CreateCollectorsTable extends Migration
             $table->id();
             $table->timestamps();
             $table->string('name',50);
-            $table->foreignId('orderer_id');
+            $table->foreignId('orderer_id')->nullable();
+            $table->integer('department_id')->nullable();
         });
     }
 

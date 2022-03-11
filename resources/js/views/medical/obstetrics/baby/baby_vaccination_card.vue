@@ -336,13 +336,13 @@ export default {
     },
     methods:{
         async changePat(){
-            let patData = await axios.get(`/api/patients/${this.formData.patient.id}/edit`);
+            let patData = await axios.get(`/api/v1/patient_system/patient/patient/${this.formData.patient.id}/edit`);
             this.formData.patient.firstName=patData.data.patient.firstName !==null?patData.data.patient.firstName:''
             this.formData.patient.lastName=patData.data.patient.lastName!==null?patData.data.patient.lastName:''
             this.formData.patient.birthDate=patData.data.patient.birthDate
-            axios.get(`/api/obstetrics/baby_checkup/${this.formData.patient.id}`)
+            axios.get(`/api/v1/patient_system/out_patient/obstetrical/baby_checkup/${this.formData.patient.id}`)
             .then(response=>this.formData.patient.weight_at_birth=response.data.birth_medical_data[0].birth_weight)
-            axios.get(`/api/obstetrics/baby_vaccination/${this.formData.patient.id}`)
+            axios.get(`/api/v1/patient_system/out_patient/obstetrical/baby_vaccination/${this.formData.patient.id}`)
             .then(response=>{
                 if(response.data.vaccinRecord.length>0){
                     this.check(response.data.vaccinRecord)
@@ -351,13 +351,13 @@ export default {
             })
         },
         async changeMom(){
-            let patData = await axios.get(`/api/patients/${this.formData.mom.id}/edit`);
+            let patData = await axios.get(`/api/v1/patient_system/patient/patient/${this.formData.mom.id}/edit`);
             this.formData.mom.firstName=patData.data.patient.firstName !==null?patData.data.patient.firstName:''
             this.formData.mom.lastName=patData.data.patient.lastName!==null?patData.data.patient.lastName:''
             this.formData.mom.adress=patData.data.patient.adress
         },
         async submit(){
-            await axios.post('/api/obstetrics/baby_vaccination',this.formData)
+            await axios.post('/api/v1/patient_system/out_patient/obstetrical/baby_vaccination',this.formData)
             .then(response=>{
                 if(response.data.success===true){
                     this.$toast.open({

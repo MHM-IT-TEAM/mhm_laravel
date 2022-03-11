@@ -4,7 +4,7 @@
 namespace App\Service\Medical\obstetrics;
 
 
-use App\Models\Consultation;
+use App\Models\Admission;
 use App\Models\CpnAdmission;
 use App\Models\PregnancyHistory;
 use App\Models\UltrasoundAdmission;
@@ -13,37 +13,31 @@ class CpnAdmissionService
 {
     private $admission;
     private $pregHisto;
+    private $ultrasound_service;
     public function __construct()
     {
         $this->admission=new CpnAdmission();
         $this->pregHisto=new PregnancyHistory();
+        $this->ultrasound_service = new UltrasoundService();
     }
     public function store($request){
+        $admission = $this->admission->fill($this->fill_data($request));
+        $admission->save();
         if(count($request->pregnancy_history)>0){
             foreach($request->pregnancy_history as $preg){
                 $this->pregHisto->create($this->pregHistoData($preg,$request->patient_id));
             }
         }
         if($request->has('consultation_id')){
-            $consultation= Consultation::find($request->consultation_id);
+            $consultation= Admission::find($request->consultation_id);
             $consultation->status='DONE';
             $consultation->save();
         }
 
-        $admission = $this->admission->fill($this->fill_data($request));
-        $admission->save();
-
-        if ($request->ultrasound_admission_id) {
-            $ultrasound_admission = UltrasoundAdmission::find($request->ultrasound_admission_id);
-            if ($ultrasound_admission && !$ultrasound_admission->cpn_admission_id) {
-                $ultrasound_admission->cpn_admission_id = $admission->id;
-                $ultrasound_admission->save();
-            }                
-        }
-
-        return ["success"=>true,"id"=>$this->admission->id];
+        return ["success"=>true,"cpn_admission"=>CpnAdmission::with('patient')->find($this->admission->id)];
     }
     private function fill_data($request){
+
 
         return [
             'patient_id'=>$request->patient_id,
@@ -62,20 +56,17 @@ class CpnAdmissionService
             'close_family_malformation'=>$request->close_family_malformation,
             'close_family_prob_in_preg'=>$request->close_family_prob_in_preg,
             'close_family_dead_baby'=>$request->close_family_dead_baby,
-            'planned_oc'=>$request->planned_oc,
             'patient_at_risk'=>$request->patient_at_risk,
             'risk_description'=>$request->risk_description,
-            'planned_oc_date'=>$request->planned_oc_date,
             'preeclampsia_needed'=>$request->preeclampsia_needed,
+            'high_frequency_prenatal_care'=>$request->high_frequency_prenatal_care,
             'ogtt_needed'=>$request->ogtt_needed,
-            'ddr'=>$request->ddr,
-            'unknown_lpd'=>$request->unknown_lpd,
-            'wop'=>$request->gestational_age,
+            'planned_oc'=>$request->planned_oc,
+            'planned_oc_date'=>$request->planned_oc_date,
+            'planned_induction'=>$request->planned_induction,
+            'takes_blood_pressure_medication'=>$request->takes_blood_pressure_medication,
+            'blood_pressure_medication_start_date'=>$request->blood_pressure_medication_start_date,
             'dda'=>$request->dda,
-            'dpa_calc'=>$request->dpa_calc,
-            'dpa_echo'=>$request->dpa_echo,
-            'dpa_corrected'=>$request->dpa_corrected,
-            'dpa_method'=>$request->dpa_method,
             'gravida'=>$request->gravida,
             'parity'=>$request->parity,
             'abortion'=>$request->abortion,
@@ -95,7 +86,16 @@ class CpnAdmissionService
             'hiv'=>$request->hiv,
             'syphilis'=>$request->syphilis,
             'responsible'=>$request->responsible,
-            'ultrasound_admission_id'=>$request->ultrasound_admission_id
+            'ultrasound_admission_id'=>$request->ultrasound_admission_id,
+            'ddr'=>$request->ultrasound_data['ddr'],
+            'unknown_lpd'=>$request->ultrasound_data['unknown_lpd'],
+            'gestational_age'=>$request->ultrasound_data['gestational_age'],
+            'edd_method'=>$request->ultrasound_data['edd_method'],
+            'edd_calc'=>$request->ultrasound_data['edd_calc'],
+            'edd_ultrasound'=>$request->ultrasound_data['edd_ultrasound'],
+            'edd_corrected'=>$request->ultrasound_data['edd_corrected'],
+            'selected_edd'=>$request->ultrasound_data['selected_edd'],
+
         ];
     }
     private function pregHistoData($preg,$patient_id){
@@ -120,9 +120,29 @@ class CpnAdmissionService
         $admission=  CpnAdmission::find($reference);
         if($admission){
             $pregHisto= PregnancyHistory::where('patient_id',$admission->patient_id)->orderBy('nr_year','desc')->get();
+            $ultrasound = null;
+            if ($admission->ultrasound_admission_id) {
+                $ultrasound = $this->ultrasound_service->fetch($admission->ultrasound_admission_id);
+            }
+
+            $legacy_edd = null;
+            if (!$admission->ultrasound_admission_id) {
+                $legacy_edd = (object)[
+                    "created_at"=>$admission->created_at,
+                    "ddr"=>$admission->ddr,
+                    "unknown_lpd"=>$admission->unknown_lpd,
+                    "dpa_method"=>$admission->dpa_method,
+                    "dpa_calc"=>$admission->dpa_calc,
+                    "dpa_echo"=>$admission->dpa_echo,
+                    "dpa_corrected"=>$admission->dpa_corrected,
+                ];
+            }
+
             return [
                 "admission"=>$admission,
                 "preg_history"=>$pregHisto,
+                "ultrasound"=>$ultrasound,
+                "legacy_edd"=>$legacy_edd,
                 "success"=>true
             ];
         }

@@ -8,6 +8,18 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 
 Route::prefix('/v1')->group(function(){
+    //Admin
+    Route::group(['prefix'=>'admin'],function(){
+        //users
+            Route::resource('users',\App\Http\Controllers\V1\admin\UserController::class);
+            Route::post('update_user_page',[\App\Http\Controllers\V1\admin\UserController::class,'update_user_page']);
+        //Pages
+            Route::resource('pages',\App\Http\Controllers\V1\admin\PageController::class);
+        //statistics
+            Route::get('statistics_overview',[\App\Http\Controllers\V1\admin\AdminController::class,'statistics_overview']);
+
+
+    });
     //patient system
     Route::group(['prefix'=>'patient_system'],function(){
         //patient
@@ -24,7 +36,7 @@ Route::prefix('/v1')->group(function(){
         Route::group(['prefix'=>'admission'],function(){
             Route::resource('priority',\App\Http\Controllers\V1\patient_system\consultation\AdmissionPriorityController::class);
             Route::get('list_today',[\App\Http\Controllers\V1\patient_system\admission\AdmissionController::class,'list_today']);
-            Route::get('list_today_service/{service_id}',[\App\Http\Controllers\V1\patient_system\admission\AdmissionController::class,'list_today_service']);
+            Route::post('list_service_activity_date',[\App\Http\Controllers\V1\patient_system\admission\AdmissionController::class,'list_service_activity_date']);
 //            Route::post('check_patient_today',[\App\Http\Controllers\V1\patient_system\consultation\ConsultationController::class,'check_patient_today_consultation']);
             Route::get('activity_price/{service_activity}/{patient_category}',[\App\Http\Controllers\v1\patient_system\consultation\ServicePriceController::class,'filter_per_service']);
             Route::resource('service_price',\App\Http\Controllers\v1\patient_system\consultation\ServicePriceController::class);
@@ -62,11 +74,76 @@ Route::prefix('/v1')->group(function(){
         });
         //out patient
         Route::group(['prefix'=>'out_patient'],function(){
+            //general doctor
             Route::group(['prefix'=>'generalist'],function(){
                 Route::get('diag_codes',function(){
                    return \App\Models\DiagCode::all();
                 });
                 Route::resource('consultation',App\Http\Controllers\V1\patient_system\out_patient\general\GeneralistController::class);
+
+            });
+            //Dentist
+            Route::group(['prefix'=>'dentist'],function(){
+                Route::get('today_task/{patient_id}',[\App\Http\Controllers\V1\patient_system\out_patient\dental\DentalTreatmentController::class,'today_task']);
+                Route::get('check_if_followup/{patient_id}',[\App\Http\Controllers\V1\patient_system\out_patient\dental\DentalTreatmentController::class,'check_if_followup']);
+                Route::get('patient_last_checkup/{patient_id}', [\App\Http\Controllers\V1\patient_system\out_patient\dental\DentalChekupController::class,'patient_last_checkup']);
+                Route::post('send_to_cashier', [\App\Http\Controllers\V1\patient_system\out_patient\dental\DentalChekupController::class,'send_to_cashier']);
+                Route::resource('dental_checkup',\App\Http\Controllers\V1\patient_system\out_patient\dental\DentalChekupController::class);
+                Route::resource('dental_treatment',\App\Http\Controllers\V1\patient_system\out_patient\dental\DentalTreatmentController::class);
+            });
+            //Obstetrics
+            Route::group(['prefix'=>'obstetrical'],function() {
+               // moved to cpn Route::post('/cpn_admission',[App\Http\Controllers\V1\patient_system\out_patient\obstetrical\ObstetricsController::class,'store']);
+//                Route::put('/cpn_admission/{reference}',[App\Http\Controllers\V1\patient_system\out_patient\obstetrical\CpnAdmissionController::class,'update']);
+//                Route::get('/cpn/{reference}',[App\Http\Controllers\V1\patient_system\out_patient\obstetrical\CpnAdmissionController::class,'show']);
+//                Route::get('/ultrasound_id_for_admission_id_for_cpn/{admission_id}',[\App\Http\Controllers\V1\patient_system\out_patient\obstetrical\UltraSoundControllerOriginal::class,'ultrasound_id_for_admission_id_for_cpn']);
+//                Route::get('/search',[App\Http\Controllers\V1\patient_system\out_patient\obstetrical\CpnAdmissionController::class,'search']);
+//                Route::get('/cpn_followup/get_recent_cpn_admissions_for_patient/{patient_id}', [\App\Http\Controllers\V1\patient_system\out_patient\obstetrical\CpnFollowupController::class, 'get_recent_cpn_admissions_for_patient']);
+//                Route::get('/cpn_followup/new_followup/{cpn_admission_id}',[\App\Http\Controllers\V1\patient_system\out_patient\obstetrical\CpnFollowupController::class, 'new_followup']);
+//                Route::get('/cpn_followup/followup_history/{cpn_admission_id}',[\App\Http\Controllers\V1\patient_system\out_patient\obstetrical\CpnFollowupController::class, 'followup_history']);
+//                Route::get('/cpn_followup/get_pregnancy_information/{cpn_admission_id}', [\App\Http\Controllers\V1\patient_system\out_patient\obstetrical\CpnFollowupController::class, 'get_pregnancy_information']);
+//                Route::resource('/cpn_followup',\App\Http\Controllers\V1\patient_system\out_patient\obstetrical\CpnFollowupController::class);
+//                Route::resource('/cpn_blood_pressure',\App\Http\Controllers\V1\patient_system\out_patient\obstetrical\CpnBloodPressureController::class);
+//                Route::get('/ultrasound/get_recent_ultrasound_admissions_for_patient/{patient_id}',[\App\Http\Controllers\V1\patient_system\out_patient\obstetrical\UltraSoundControllerOriginal::class, 'get_recent_ultrasound_admissions_for_patient']);
+//                Route::resource('ultrasound',\App\Http\Controllers\V1\patient_system\out_patient\obstetrical\UltraSoundControllerOriginal::class);
+                // baby checkup routes
+//                Route::resource('/baby_checkup',\App\Http\Controllers\V1\patient_system\out_patient\obstetrical\BabyCheckupController::class);
+//                Route::resource('/baby_vaccination',\App\Http\Controllers\V1\patient_system\out_patient\obstetrical\BabyVaccinationController::class);
+                //New CPN routes
+                Route::group(['prefix'=>'cpn'],function(){
+                    Route::resource('admission',App\Http\Controllers\V1\patient_system\out_patient\obstetrical\CpnAdmissionController::class);
+                    Route::get('get_ultrasound_admission_data/{patient_id}',[App\Http\Controllers\V1\patient_system\out_patient\obstetrical\CpnAdmissionController::class,'get_ultrasound_admission_data']);
+                    Route::resource('followup',\App\Http\Controllers\V1\patient_system\out_patient\obstetrical\CpnFollowupController::class);
+                    Route::post('patient_cpn_search',[\App\Http\Controllers\V1\patient_system\out_patient\obstetrical\CpnAdmissionController::class,'patient_cpn_search']);
+
+                });
+                //new ultrasound routes
+                Route::group(['prefix'=>'ultrasound'],function(){
+                    Route::post('admission',[\App\Http\Controllers\V1\patient_system\out_patient\obstetrical\UltrasoundController::class,'admission']);
+                    Route::get('admission_list/{patient_id}',[\App\Http\Controllers\V1\patient_system\out_patient\obstetrical\UltrasoundController::class,'admission_list']);
+                    Route::post("details",[\App\Http\Controllers\V1\patient_system\out_patient\obstetrical\UltrasoundController::class,'details']);
+                    Route::post("patient_search",[\App\Http\Controllers\V1\patient_system\out_patient\obstetrical\UltrasoundController::class,'patient_search']);
+                    Route::put("close_exam/{ultrasound_admission_id}",[\App\Http\Controllers\V1\patient_system\out_patient\obstetrical\UltrasoundController::class,'close_exam']);
+                });
+                Route::group(['prefix'=>'overview'], function() {
+                    Route::get('/ultrasoundIdFromCpnAdmissionId/{cpn_admission_id}',[App\Http\Controllers\V1\patient_system\out_patient\obstetrical\ObstetricalOverviewController::class,'ultrasoundIdFromCpnAdmissionId']);
+                });
+            });
+        });
+        // In patient
+        Route::group(['prefix'=>'in_patient'],function(){
+            //Maternity routes
+            Route::group(['prefix'=>'maternity'],function(){
+                route::get('/fetch_patient_data/{patient_id}',[\App\Http\Controllers\V1\patient_system\maternity\MaternityAdmissionController::class,'fetch_patient_data']);
+                route::get('/last_code',[\App\Http\Controllers\V1\patient_system\maternity\MaternityAdmissionController::class,'last_code']);
+                route::get('/last_birth_code',[\App\Http\Controllers\V1\patient_system\maternity\BirthRegistrationController::class,'last_birth_code']);
+                route::post('/upload_files',[\App\Http\Controllers\V1\patient_system\maternity\MaternityAdmissionController::class,'upload_files']);
+                route::put('/delivery_registration/birth_certificate/{id}',[\App\Http\Controllers\V1\patient_system\maternity\BirthRegistrationController::class,'birth_certificate']);
+                route::resource('/delivery_registration',\App\Http\Controllers\V1\patient_system\maternity\BirthRegistrationController::class);
+                route::resource('/maternity_admission',\App\Http\Controllers\V1\patient_system\maternity\MaternityAdmissionController::class);
+                route::resource('/actions',\App\Http\Controllers\V1\patient_system\maternity\MaternityActionController::class);
+                route::resource('/medical_appreciation',\App\Http\Controllers\V1\patient_system\maternity\MedicalAppreciationController::class);
+                route::resource('/medical_appreciation_comment',\App\Http\Controllers\V1\patient_system\maternity\MedicalAppreciationCommentController::class);
 
             });
         });
@@ -80,6 +157,7 @@ Route::prefix('/v1')->group(function(){
             Route::resource('service',\App\Http\Controllers\V1\System\ServiceController::class);
         });
     });
+    //Inventory System
     Route::group(['prefix'=>'inventory_system'],function(){
         Route::get('/app/bootstrap',[\App\Http\Controllers\V1\inventory_system\app\BootstrapController::class,'bootstrap']);
 
@@ -142,72 +220,86 @@ Route::prefix('/v1')->group(function(){
             Route::resource('/csb_transaction',\App\Http\Controllers\V1\inventory_system\grace_center\GraceCsbTransactionController::class);
         });
     });
+    //extra
     Route::group(['prefix'=>'extra'],function(){
-//cars
+        //cars
         Route::resource('car',\App\Http\Controllers\V1\System\CarController::class);
-//Medical center
+        //Medical center
         Route::resource('medical_center',\App\Http\Controllers\V1\System\MedicalCenterController::class);
-//employee
+        //employee
         Route::resource('employee',\App\Http\Controllers\V1\System\EmployeeController::class);
-//list of sector fokontany
+        //list of sector fokontany
         Route::get('fokontany',function(){
             return \App\Models\Fokontany::all();
         });
-//list of mhm partners
+        //list of mhm partners
         Route::get('mhm_partner',function(){
             return \App\Models\MhmPartner::all();
         });
-// list of countries
+        // list of countries
         Route::get('countries',function(){
             return  Storage::get("public/countries.txt");
         });
-//Return bloodgroup list
+        //Return bloodgroup list
         Route::get('/blood_group',function(){
             return BloodGroup::All();
         });
-//Return birth problem list
+        //Return birth problem list
         Route::get('pregnancy_problem',function(){
             return \App\Models\PregnancyProblems::all();
         });
-// Cervix position
+        // Cervix position
         Route::get('cervix_position',function(){
             return \App\Models\CervixPosition::all();
         });
-//Cervix length
+        //Cervix length
         Route::get('cervix_length',function(){
             return \App\Models\CervixLength::all();
         });
-//Cervix opening
+        //Cervix opening
         Route::get('cervix_opening',function(){
             return \App\Models\CervixOpening::all();
         });
-// position of babies
+        // position of babies
         Route::get('position_of_baby',function(){
             return \App\Models\PositionOfBaby::all();
         });
-// presentation of babies
+        // presentation of babies
         Route::get('presentation_of_baby',function(){
             return \App\Models\PresentationOfBaby::all();
         });
-// type of birth
+        // type of birth
         Route::get('birth_type',function(){
             return \App\Models\BirthType::all();
         });
-// lp1
+        // lp1
         Route::get('lp1',function(){
             return \App\Models\lpi::get();
         });
-//lp2
+        //lp2
         Route::get('lp2',function(){
             return \App\Models\lpii::all();
         });
-// lp3
+        // lp3
         Route::get('lp3',function(){
             return \App\Models\lpiii::all();
         });
-// placenta_type
+        // placenta_type
         Route::get('placenta_type',function(){
             return \App\Models\PlacentaType::all();
         });
+        // additional screening reasons
+        Route::get('ultrasound_additional_screening_reasons',function() {
+            return \App\Models\UltrasoundAdditionalScreeningReason::all();
+        });
+        // login check
+        Route::group(['prefix'=> 'auth'], function() {
+            Route::post('/credentials', [\App\Http\Controllers\v1\System\Auth\CredentialController::class,'check']);
+        });
+        //Cervix consistency
+        Route::get('cervix_consistency',function(){
+            return \App\Models\CervixConsistency::all();
+        });
+
     });
 });

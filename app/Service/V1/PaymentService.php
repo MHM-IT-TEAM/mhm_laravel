@@ -93,4 +93,30 @@ class PaymentService
 
         ]);
     }
+    public static function get_patient_category_actual_price_for_activity($activity_price, $patient_category_id) {
+        $actual_price = null;
+        switch ($patient_category_id){
+            case 1:
+            case null:
+                $actual_price = $activity_price->sector;
+                break;
+            case 2:
+                $actual_price = $activity_price->out_sector;
+                break;
+            case 3:
+                $actual_price = $activity_price->mhm_staff;
+                break;
+            case 4:
+                $actual_price = $activity_price->mhm_staff_family;
+                break;
+            case 5:
+                $actual_price = $activity_price->mhm_partners;
+                break;
+            case 6:
+                $actual_price = $activity_price->vip;
+                break;
+        }
+
+        return $actual_price;
+    }
 }

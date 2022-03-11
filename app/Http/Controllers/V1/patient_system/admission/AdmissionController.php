@@ -69,8 +69,27 @@ class AdmissionController extends Controller
                 ]
             )->get();
     }
-    public function list_today_service($service_id){
-        return Admission::with('patient','admission_type')->where('service_id',$service_id)->whereDate('created_at',Carbon::today())->get();
+    /**
+     * Display a list of the patient depending on the service
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function list_service_date(Request $request){
+            return Admission::with('patient','admission_type','admissionCareDetails')
+                ->where('service_id',$request->service_id)
+                ->where('payment_status','PAID')
+                ->whereDate('created_at',date($request->date))->get();
+    }
+    public function list_service_activity_date(Request $request){
+        //if no service activity then return the admission based on service
+        $admission= Admission::with('patient','admission_type','admissionCareDetails')
+            ->where('service_id',$request->service_id)
+            ->where('payment_status','PAID')
+            ->whereDate('created_at',date($request->date));
+        if($request->has('service_activity_id')){
+            $admission= $admission->where('service_activity_id',$request->service_activity_id);
+        }
+        return $admission->get();
     }
 
 }

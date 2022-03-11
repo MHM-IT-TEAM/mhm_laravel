@@ -20,13 +20,9 @@
         >
           <span class="navbar-toggler-icon"></span>
         </button>
-
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <!-- Left Side Of Navbar -->
           <ul class="navbar-nav ml-4 mr-auto">
-            <li class="nav-item section-title">
-              <span>{{ $route.meta.title }}</span>
-            </li>
             <li class="nav-item dropdown" id="navOrder">
               <a
                 href="#"
@@ -36,7 +32,7 @@
                 aria-haspopup="true"
                 aria-expanded="false"
               >
-                <i class="glyphicon glyphicon-plus-sign"></i>Admission
+                <i class="glyphicon glyphicon-plus-sign"></i>Menu
                 <span class="caret"></span
               ></a>
               <ul class="dropdown-menu">
@@ -45,14 +41,14 @@
                   class="dropdown-item"
                 >
                   <i class="glyphicon glyphicon-plus"></i>
-                  CPN
+                  Prenatal Care First Checkup
                 </router-link>
                 <router-link
-                  :to="{ name: 'cpn_followup'}"
+                  :to="{ name: 'cpn_followup_list'}"
                   class="dropdown-item"
                 >
                   <i class="glyphicon glyphicon-plus"></i>
-                  CPN Followup
+                  Prenatal Care Followup
                 </router-link>
                 <router-link
                   :to="{ name: 'ultrasound_list' }"
@@ -101,24 +97,46 @@
         </p>
         <table class="table table-sm">
           <thead>
-            <th>CPN</th>
-            <th>US</th>
+            <th>Prenatal Care First Checkup</th>
+            <th>Ultrasound</th>
             <th>Birth</th>
             <th>Post Partum</th>
-            <th>Overview</th>
           </thead>
           <tbody>
             <tr>
               <td>
                 <ul>
                   <li v-for="adm of result.cpn_admissions">
-                    <router-link
-                      :to="{ name: 'cpn_admission', params: { id: adm.id } }"
-                      @click.native="reset"
-                    >
-                        <v-icon>mdi-arrow-right</v-icon>
-                      {{ adm.id }}
-                    </router-link>
+                    <table>
+                      <tr>
+                        <td>{{ adm.id }} ({{ formatDate(new Date(adm.created_at)) }})</td>
+                        <td class="text-nowrap">
+                          <router-link
+                            :to="{ name: 'cpn_admission', params: { id: adm.id } }"
+                            @click.native="reset"
+                          >
+                              <v-icon>mdi-arrow-right</v-icon>
+                              First Checkup
+                          </router-link>
+                          <br/>
+                           <router-link
+                             :to="{ name: 'cpn_followup', params: { cpn_ref: adm.id } }"
+                             @click.native="reset"
+                            >
+                              <v-icon>mdi-arrow-right</v-icon>
+                              Followups ({{ adm.followups.length }})
+                          </router-link>
+                          <br/>
+                          <router-link
+                              :to="{ name: 'obstetrics_overview', params: { cpn_ref: adm.id, } }"
+                              @click.native="reset"
+                          >
+                              <v-icon>mdi-arrow-right</v-icon>
+                              Overview
+                          </router-link>
+                        </td>
+                      </tr>
+                    </table>
                   </li>
                 </ul>
               </td>
@@ -126,11 +144,11 @@
                   <ul>
                       <li v-for="us of result.ultra_sound_admissions">
                           <router-link
-                              :to="{ name: 'ultrasound_form', params: { id: us.id } }"
+                              :to="{ name: 'ultrasound_form', params: { ref: us.id } }"
                               @click.native="reset"
                           >
                               <v-icon>mdi-arrow-right</v-icon>
-                              {{ us.id }}
+                              {{ us.id }} ({{ formatDate(new Date(us.created_at)) }})
                           </router-link>
                       </li>
 
@@ -138,20 +156,6 @@
               </td>
               <td>{{ result.birth_id }}</td>
               <td>{{ result.post_partum_id }}</td>
-              <td>
-                  <ul>
-                      <li v-for="adm of result.cpn_admissions">
-                          <router-link
-                              :to="{ name: 'obstetrics_overview', params: { cpn_ref: adm.id, } }"
-                              @click.native="reset"
-                          >
-                              <v-icon>mdi-arrow-right</v-icon>
-                              {{ adm.id }}
-                          </router-link>
-                      </li>
-
-                  </ul>
-              </td>
             </tr>
           </tbody>
         </table>
@@ -191,7 +195,7 @@ export default {
     },
     async fetch() {
       this.loading = true;
-      let response = await axios.get("/api/obstetrics/search", {
+      let response = await axios.get("/api/v1/patient_system/out_patient/obstetrical/search", {
         params: { search: this.search_text },
       });
       this.results = response.data;
@@ -208,7 +212,13 @@ export default {
       toEmpty(firstName){
           if(firstName===null ) return ''
           return firstName
-      }
+      },
+    formatDate(date) {
+      if (!date)
+        return '';
+
+      return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
+    }
   },
 };
 // let result = document.getElementById("test");
@@ -226,15 +236,18 @@ export default {
 }
 .search_input {
   width: 500px;
-  margin-left: 100px;
+  margin-left: 26px;
 }
 #result {
   width: 500px;
-  margin-left: 455px;
+  margin-left: 305px;
   position: absolute;
   z-index: 1000;
   border-radius: 0;
   overflow-y: scroll;
+}
+#result td {
+  white-space: nowrap;
 }
 .result_content {
   padding: 5px;

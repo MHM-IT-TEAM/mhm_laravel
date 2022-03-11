@@ -8,5 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Fetus extends Model
 {
     use HasFactory;
+    protected $guarded=[];
 
 }

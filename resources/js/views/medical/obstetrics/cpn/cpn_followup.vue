@@ -1,8 +1,11 @@
 <template>
-    <div class="container-fluid p-4">
+    <div class="container-fluid p-4 vh-100">
+        <Loading :active.sync="accessory.isLoading"></Loading>
         <v-app>
-            <div class="mt-6 p-2" v-if="patient_details.firstName !==undefined">
-                <h6>{{patient_details.firstName+" "+ patient_details.lastName }}</h6>
+            <div>
+            <div class="mt-6 p-2" v-if="patient_details">
+                <h6>{{ patientFullName }}</h6>
+<!--                <span v-if="first_checkup.created_at">First checkup on {{formatDate(new Date(first_checkup.created_at))}}</span>-->
             </div>
             <v-data-table
                 :headers="headers"
@@ -10,30 +13,39 @@
                 sort-by="created_at"
                 :sort-desc="true"
                 class="elevation-1"
+                :items-per-page="is_overview ? -1 : 10"
             >
                 <template v-slot:top>
                     <v-toolbar
                         flat
                     >
-                        <v-toolbar-title>CPN FOLLOWUP</v-toolbar-title>
+                        <v-toolbar-title>PRENATAL CARE FOLLOWUP</v-toolbar-title>
 
                             <v-text-field
                                 hide-details
                                 placeholder="type the reference here"
-                                v-model="reference"
+                                v-model="manual_cpn_admission_id_search"
                                 class="search ml-4"
-                                @change="search"
+                                @change="get_data(manual_cpn_admission_id_search)"
                                 prepend-icon="mdi-magnify"
                                 v-if="!is_overview"
                             ></v-text-field>
                             <span v-if="noDataFound" class="text-white bg-danger">no data found</span>
 
                             <v-spacer></v-spacer>
-                        <v-btn color="primary" @click="redirect" :disabled="!canShowData">View first checkup</v-btn >
+                        <v-btn color="primary" @click="navigateToAdmission"  v-if="!is_overview" small>View first checkup</v-btn >
                         <v-divider
                             class="mx-4"
                             inset
                             vertical
+                            v-if="!is_overview"
+                        ></v-divider>
+                        <v-btn color="primary" @click="navigateToOverview"  v-if="!is_overview" small>View overview</v-btn>
+                        <v-divider
+                            class="mx-4"
+                            inset
+                            vertical
+                            v-if="!is_overview"
                         ></v-divider>
                         <v-spacer></v-spacer>
                         <v-dialog
@@ -47,7 +59,7 @@
                                     class="mb-2"
                                     v-bind="attrs"
                                     v-on="on"
-                                    :disabled="!canShowData"
+                                    small
                                 >
                                     New Data
                                 </v-btn>
@@ -55,7 +67,7 @@
                             <v-card>
                                 <v-card-title class="align-items-baseline">
                                     <span class="headline">{{ formTitle }}</span>
-                                    <span class="pl-2" v-if="patient_details.firstName != null">- {{ patient_details.firstName + " " + patient_details.lastName }}</span>
+                                    <span class="pl-2" v-if="patientFullName">- {{ patientFullName }}</span>
                                 </v-card-title>
 
                                 <v-card-text>
@@ -67,13 +79,12 @@
                                                 sm="6"
                                                 md="2"
                                             >
-                                            <div style="padding: 30px 0px 0px 30px">
-                                                <gestational-age
-                                                    v-model="editedItem.week_of_pregnancy"
-                                                    label="Gestational age"
-                                                    :error-messages="gestationalAgeError"
-                                                ></gestational-age>
-                                            </div>
+                                            <v-text-field
+                                                :value="editedItem.gestational_age"
+                                                label="Gestational age"
+                                                readonly
+                                                disabled
+                                            ></v-text-field>
                                             </v-col>
                                             <v-col
                                                 cols="12"
@@ -248,6 +259,20 @@
                                                 sm="6"
                                                 md="2">
                                                 <v-select
+                                                    label="Cervix consistency"
+                                                    :items="cervix_consistency"
+                                                    item-text="name"
+                                                    v-model="editedItem.cervix_consistency"
+                                                >
+
+                                                </v-select>
+
+                                            </v-col>
+                                            <v-col
+                                                cols="12"
+                                                sm="6"
+                                                md="2">
+                                                <v-select
                                                     label="Cervix opening"
                                                     :items="cervix_opening"
                                                     item-text="name"
@@ -256,6 +281,19 @@
 
                                                 </v-select>
 
+                                            </v-col>
+                                        </v-row>
+                                        <v-row>
+                                            <v-col
+                                                cols="12"
+                                                sm="6"
+                                                md="2"
+                                            >
+                                                <v-select
+                                                    label="Discharge"
+                                                    :items="discharge"
+                                                    v-model="editedItem.discharge"
+                                                ></v-select>
                                             </v-col>
                                             <v-col
                                                 cols="12"
@@ -268,8 +306,6 @@
                                                     v-model="editedItem.liquids"
                                                 ></v-select>
                                             </v-col>
-                                        </v-row>
-                                        <v-row>
                                             <v-col
                                                 cols="12"
                                                 sm="6"
@@ -400,13 +436,21 @@
                                                     label="CTG needed"
                                                     value=1
                                                 ></v-checkbox>
-<!--                                                <v-select-->
-<!--                                                    :items="regular_unplanned",-->
-<!--                                                    label="how?"-->
-<!--                                                    v-if="editedItem.ctg_needed"-->
-<!--                                                    v-model="editedItem.ctg_plan"-->
-<!--                                                >-->
-<!--                                                </v-select>-->
+                                               <v-select
+                                                    :items="ctg_us_reasons"
+                                                    label="Reason"
+                                                    v-if="editedItem.ctg_needed"
+                                                    v-model="editedItem.ctg_reason"
+                                                    :class="{'error': $v.editedItem.ctg_reason.$error }">
+                                               </v-select>
+                                               <v-textarea
+                                                    v-if="editedItem.ctg_needed"
+                                                    v-model="editedItem.ctg_explanation"
+                                                    label="Explanation"
+                                                    rows="3"
+                                                    dense
+                                                >
+                                                </v-textarea>
                                             </v-col>
                                             <v-col
                                                 cols="12"
@@ -418,6 +462,21 @@
                                                     label="US needed"
                                                     value=1
                                                 ></v-checkbox>
+                                                <v-select
+                                                    :items="ctg_us_reasons"
+                                                    label="Reason"
+                                                    v-if="editedItem.us_needed"
+                                                    v-model="editedItem.us_reason"
+                                                    :class="{'error': $v.editedItem.ctg_reason.$error }">
+                                                </v-select>
+                                                <v-textarea
+                                                    v-if="editedItem.us_needed"
+                                                    v-model="editedItem.us_explanation"
+                                                    label="Explanation"
+                                                    rows="3"
+                                                    dense
+                                                >
+                                                </v-textarea>
                                             </v-col>
                                             <v-col
                                                 cols="12"
@@ -431,13 +490,14 @@
                                                         @input="menu = false"
                                                         :input-debounce="500" mode="date"
                                                         :model-config="accessory.dateConfig" :masks="accessory.dateConfig.masks"
-                                                        :min-date="new Date()">
+                                                        :min-date="new Date()"
+                                                        :popover="{ visibility: is_overview ? 'hidden' : 'click' }">
                                                             <template v-slot="{ inputValue, inputEvents }">
                                                                 <input
                                                                     class="bg-white border px-2 py-1 rounded"
                                                                     :value="inputValue"
                                                                     v-on="inputEvents"
-
+                                                                    readonly
                                                                 />
                                                             </template>
                                                     </date-picker>
@@ -452,6 +512,7 @@
                                                     label="Senior midwife informed"
                                                     class="ml-2"
                                                     :items="senior_midwife"
+                                                    multiple
                                                     v-model="editedItem.senior_informed"
                                                 ></v-select>
                                             </v-col>
@@ -496,7 +557,7 @@
                         </v-dialog>
                     </v-toolbar>
                 </template>
-                <template v-slot:item.actions="{ item }">
+                <template v-slot:item.actions="{ item }" v-if="!is_overview">
                     <v-icon
                         small
                         class="mr-2"
@@ -516,6 +577,7 @@
                         class="float-left"
                         color="primary"
                         @click="initialize"
+                        small
                     >
                         Reset
                     </v-btn>
@@ -533,6 +595,12 @@
                     <span>{{ item.appointment ? new Date(item.appointment).toLocaleDateString() : '' }}</span>
                 </template>
             </v-data-table>
+
+            <senior-auth-dialog
+                v-on:authorized="authorized"
+                v-model="auth_dialog"
+            />
+            </div>
         </v-app>
     </div>
 </template>
@@ -540,8 +608,10 @@
 <script>
 import { validationMixin } from "vuelidate";
 import gestationalAge from "../../../../components/gestational_age_control.vue"
+import seniorAuthDialog from "../../../../components/senior_auth_dialog.vue"
 const {
     required,
+    requiredIf,
     minLength,
     email,
     url,
@@ -550,14 +620,14 @@ const {
     export default {
         name: "cpn_followup",
         mixins: [validationMixin],
-        components: { gestationalAge },
-        props:['is_overview','cpn_ref'],
+        components: { gestationalAge, seniorAuthDialog },
+        props:['is_overview','cpn_admission_id'],
         data: () => ({
             dialog: false,
             dialogDelete: false,
             headers: [
                 { text: 'Date', value: 'created_at' },
-                { text: 'GA', value: 'week_of_pregnancy' },
+                { text: 'GA', value: 'gestational_age' },
                 { text: 'Weight (kg)', value: 'weight' },
                 { text: 'BP (left)', value: 'bp_left' },
                 { text: 'BP (right)', value: 'bp_right' },
@@ -572,7 +642,9 @@ const {
                 {text:'Heartbeat of the baby', value:'heartbeat_baby'},
                 {text:'Cervix length',value:'cervix_length'},
                 {text:'Cervix posistion',value:'cervix_position'},
-                {text:'Cervix opening',value:'cervix_opening'},
+                {text:'Cervix Consistency',value:'cervix_consistency'},
+                {text:'Cervix Opening',value:'cervix_opening', width: '150px'},
+                {text:'Discharge',value:'discharge'},
                 {text:'Liquids',value:'liquids'},
                 {text:'Oedema',value:'oedema'},
                 {text:'Varicosis',value:'varicosis'},
@@ -582,20 +654,23 @@ const {
                 {text:'Leucocyte test',value:'leucocyte_test'},
                 {text:'OGTT',value:'ogtt'},
                 {text:'CTG needed',value:'ctg_needed'},
+                {text:'CTG reason',value:'ctg_reason'},
+                {text:'CTG explanation',value:'ctg_explanation', width: '200px'},
                 {text:'US needed',value:'us_needed'},
-                {text:'Senior midwife informed',value:'senior_informed'},
+                {text:'US reason',value:'us_reason'},
+                {text:'US explanation',value:'us_explanation', width: '200px'},
                 {text:'Appointment',value:'appointment'},
-                {text:'Actions',value:'actions',sortable:false},
                 {text:'Remark',value:'remark',sortable:false, width: '300px'},
-                {text:'Responsible',value:'responsible'}
-
+                {text:'Senior midwife informed',value:'senior_informed'},
+                {text:'Responsible',value:'responsible'},
+                {text:'Actions',value:'actions',sortable:false}
             ],
             cpn_data: [],
             editedIndex: -1,
             editedItem: {
                 cpn_admission_id:'',
                 date:"",
-                week_of_pregnancy:null,
+                gestational_age:null,
                 weight:'',
                 bp_left:'',
                 bp_right:'',
@@ -609,8 +684,10 @@ const {
                 mov_baby:'',
                 heartbeat_baby:'',
                 cervix_length:'',
+                cervix_consistency:'',
                 cervix_opening:'',
                 cervix_position:'',
+                discharge:'',
                 liquids:'',
                 oedema:'',
                 varicosis:'',
@@ -622,19 +699,21 @@ const {
                 membranes:"",
                 leading_part:"",
                 leading_part_attitude: "",
-                us_needed:false,
-                us_plan:"",
-                ctg_needed:false,
-                ctg_plan:"",
+                us_needed:null,
+                us_reason:"",
+                us_explanation:null,
+                ctg_needed:null,
+                ctg_reason:"",
+                ctg_explanation:null,
                 appointment:'',
                 responsible:'',
-                senior_informed:'',
+                senior_informed:[],
                 remark:''
             },
             defaultItem: {
                 cpn_admission_id:'',
                 date:"",
-                week_of_pregnancy:null,
+                gestational_age: null,
                 weight:'',
                 bp_left:'',
                 bp_right:'',
@@ -648,8 +727,10 @@ const {
                 mov_baby:'',
                 heartbeat_baby:'',
                 cervix_length:'',
+                cervix_consistency:'',
                 cervix_opening:'',
                 cervix_position:'',
+                discharge:'',
                 liquids:'',
                 oedema:'',
                 varicosis:'',
@@ -661,15 +742,18 @@ const {
                 membranes:"",
                 leading_part:"",
                 leading_part_attitude: "",
-                us_needed:false,
-                us_plan:"",
-                ctg_needed:false,
-                ctg_plan:"",
+                us_needed:null,
+                us_reason:"",
+                us_explanation:null,
+                ctg_needed:null,
+                ctg_reason:"",
+                ctg_explanation:null,
                 appointment:'',
                 responsible:'',
-                senior_informed:'',
+                senior_informed:[],
                 remark:''
             },
+            auth_dialog: false,
             eyes:['white','medium','red'],
             ok:['ok','not ok'],
             lp1:[],
@@ -678,22 +762,24 @@ const {
             pos_baby:[],
             posNeg:["positive","negative"],
             cervix_length:[],
+            cervix_consistency:[],
             cervix_opening:[],
             cervix_position:[],
             membranes:["intact","bulging","ruptured","not to be determined"],
-            liquids:["blood","infection","amniotic clear","amniotic meconial"],
-            leading_part:["fixed","engaged","mobile"],
+            discharge:["Candida", "Gardnerella", "Bleeding fresh", "Bleeding old", "Other"],
+            liquids:["Clear", "Bloody", "Yellow", "Green", "Meconial", "Thick", "Infecteuse"],
+            leading_part:["fixed","engaged","mobile","not reachable"],
             leading_part_attitude:["transversal","oblic","longitudinal","abnormal"],
             oedema:[],
             urine_test:["Negative","trace","+","++","+++","invalid"],
-            varicosis:["Negative","left leg","right leg","vulva"],
-            regular_unplanned:["regular","unplanned"],
-            senior_midwife:["Tanja","Tianasoa", "Marlys"],
+            varicosis:["Negative","Left leg","Right leg","Both legs", "Vulva"],
+            ctg_us_reasons:["QM","Additional"],
+            senior_midwife:["Tanja","Tianasoa", "Marlies"],
             is_new_form:true,
             menu:false,
-            reference:'',
             patient_details:{},
             noDataFound:false,
+            manual_cpn_admission_id_search:'',
             accessory: {
                 dateConfig: {
                     type: 'string',
@@ -701,7 +787,8 @@ const {
                     masks: {
                         input: 'DD/MMM/YYYY',
                     },
-                }
+                },
+                isLoading: false,
             }
 
         }),
@@ -710,17 +797,17 @@ const {
             formTitle () {
                 return this.editedIndex === -1 ? 'New Data' : 'Edit Data'
             },
-            gestationalAgeError(){
-                const errors = []
-                if (!this.$v.editedItem.week_of_pregnancy.$dirty) return errors
-                !this.$v.editedItem.week_of_pregnancy.required && errors.push('The gestational age is required!')
-                return errors
-            },
             today(){
                 return new Date().toLocaleString();
             },
-            canShowData() {
-                return this.reference != null && this.reference != '' && !this.noDataFound && (this.is_overview !== true);
+            patientFullName() {
+                if (!this.patient_details)
+                    return "";
+
+                const firstName = this.patient_details.firstName ?? "";
+                const lastName = this.patient_details.lastName ?? "";
+
+                return `${firstName} ${lastName}`;
             }
         },
 
@@ -739,46 +826,70 @@ const {
 
         methods: {
             async initialize () {
-                if(this.cpn_ref!=='' && this.cpn_ref!==undefined){
-                    this.reference= this.cpn_ref
-                    this.search()
-                }
-                if(Object.keys(this.$route.params).length>0){
-                    let response = await axios.get(`/api/obstetrics/cpn_followup/${this.$route.params.cpn_admission_id}`)
-                    this.cpn_data= response.data.followups;
-                    this.reference= this.editedItem.cpn_admission_id= this.$route.params.cpn_admission_id
-                    this.patient_details= response.data.patient;
-                }
-                // if(this.reference !=='' || this.reference !==undefined) this.search()
-                let lp1 = await axios.get('/api/lp1')
-                let lp2 = await axios.get('/api/lp2')
-                let lp3 = await axios.get('/api/lp3')
-                let cervix_length=  await axios.get('/api/cervix_length')
-                let cervix_opening=  await axios.get('/api/cervix_opening')
-                let cervix_position=  await axios.get('/api/cervix_position')
-                this.lp1=lp1.data
-                this.lp2= lp2.data
-                this.lp3=lp3.data
-                this.cervix_length= cervix_length.data
-                this.cervix_opening= cervix_opening.data
-                this.cervix_position= cervix_position.data
+                //check whether getting data from cpn admission or from props
+                var id = this.manual_cpn_admission_id_search =  this.cpn_admission_id ?? this.$route.params?.cpn_admission?.id
+                if(id) await this.get_data(id)
+                await Promise.allSettled(
+                    [  axios.get('/api/v1/extra/lp1')
+                            .then(response => this.lp1 = response.data),
+                        axios.get('/api/v1/extra/lp2')
+                            .then(response => this.lp2 = response.data),
+                        axios.get('/api/v1/extra/lp3')
+                            .then(response => this.lp3 = response.data),
+                        axios.get('/api/v1/extra/cervix_length')
+                            .then(response => this.cervix_length = response.data),
+                        axios.get('/api/v1/extra/cervix_consistency')
+                            .then(response => this.cervix_consistency = response.data),
+                        axios.get('/api/v1/extra/cervix_opening')
+                            .then(response => this.cervix_opening = response.data),
+                        axios.get('/api/v1/extra/cervix_position')
+                            .then(response => this.cervix_position = response.data)
+                    ]
+                );
+            },
 
+            requireAuthorization(action) {
+                this.auth_dialog = true;
+                this.auth_action = action;
+            },
+
+            authorized() {
+                this.authorized_user = true;
+                this.auth_dialog = false;
+                this.auth_action();
+                this.auth_action = null;
             },
 
             editItem (item) {
-                this.editedIndex = this.cpn_data.indexOf(item)
-                this.editedItem = Object.assign({}, item)
-                this.dialog = true
+                // if a day has passed since creation, require senior auth
+                if (!this.authorized_user &&
+                    (new Date().getDate() !== new Date(item.created_at).getDate() ||
+                    (new Date() - new Date(item.created_at) > (1000 * 60 * 60 * 24)))) {
+                    this.requireAuthorization(() => this.editItem(item));
+                }
+                else {
+                    this.editedIndex = this.cpn_data.indexOf(item)
+                    this.editedItem = Object.assign({}, item)
+                    this.dialog = true
+                }
             },
 
             deleteItem (item) {
-                this.editedIndex = this.cpn_data.indexOf(item)
-                this.editedItem = Object.assign({}, item)
-                this.dialogDelete = true
+                // if a day has passed since creation, require senior auth
+                if (!this.authorized_user &&
+                    (new Date().getDate() !== new Date(item.created_at).getDate() ||
+                    (new Date() - new Date(item.created_at) > (1000 * 60 * 60 * 24)))) {
+                    this.requireAuthorization(() => this.deleteItem(item));
+                }
+                else {
+                    this.editedIndex = this.cpn_data.indexOf(item)
+                    this.editedItem = Object.assign({}, item)
+                    this.dialogDelete = true
+                }
             },
 
             async deleteItemConfirm () {
-                await axios.delete(`/api/obstetrics/cpn_followup/${this.cpn_data[this.editedIndex].id}`)
+                await axios.delete(`/api/v1/patient_system/out_patient/obstetrical/cpn/followup/${this.cpn_data[this.editedIndex].id}`)
                 this.cpn_data.splice(this.editedIndex, 1)
                 this.closeDelete()
 
@@ -800,11 +911,11 @@ const {
                 })
             },
 
-           async save () {
+            async save () {
                     if (this.editedIndex > -1) {
                         Object.assign(this.cpn_data[this.editedIndex], this.editedItem)
-                        this.cpn_data[this.editedIndex].responsible=window.auth.user.name
-                        let update= await axios.put(`/api/obstetrics/cpn_followup/${this.cpn_data[this.editedIndex].id}`,this.editedItem)
+                        this.cpn_data[this.editedIndex].responsible=window.auth.user.name;
+                        let update = await axios.put(`/api/v1/patient_system/out_patient/obstetrical/cpn/followup/${this.cpn_data[this.editedIndex].id}`,this.editedItem)
                         if(update.data.success===true){
                             this.$toast.open({
                                 message: 'Data updated',
@@ -815,32 +926,58 @@ const {
                     } else {
                         //new data
                         this.$v.editedItem.$touch();
-                        this.editedItem.cpn_admission_id=this.reference
-                        this.editedItem.responsible=window.auth.user.name
+                        this.editedItem.cpn_admission_id=this.manual_cpn_admission_id_search;
+
+                        this.editedItem.responsible=window.auth.user.name;
                         if (!this.$v.$invalid) {
-                            let post= await axios.post('/api/obstetrics/cpn_followup',this.editedItem)
+                            let post= await axios.post('/api/v1/patient_system/out_patient/obstetrical/cpn/followup',this.editedItem)
                             if(post.data.success===true){
                                 this.$toast.open({
                                     message: 'Data submitted',
-                                    position: "top-right",
+                                    position: "top-right"
                                 });
                                 this.close()
                             }
-
-                            await this.search();
+                            this.get_data(this.manual_cpn_admission_id_search)
                         }
                     }
             },
-            async search(){
+            async get_data(cpn_admission_id){
                 this.reset()
-                let fetch= await axios.get(`/api/obstetrics/cpn_followup/${this.reference}`)
-                if(fetch.data && fetch.data.followups.length>0){
-                    this.cpn_data= fetch.data.followups;
+                this.accessory.isLoading = true;
+                if(!cpn_admission_id) return
+                let fetch = await axios.get(`/api/v1/patient_system/out_patient/obstetrical/cpn/followup/${cpn_admission_id}`)
+                if(fetch.data){
+                    const cpn_data = fetch.data.followups;
+                    cpn_data.forEach(data =>
+                    {
+                        data.senior_informed =
+                            (data.senior_informed && data.senior_informed.length > 0)
+                            ? data.senior_informed.split(',')
+                            : [];
+                    });
+                    this.cpn_data= cpn_data;
                     this.patient_details = fetch.data.patient;
+                    //gestational age
+                    let [src_date,src_ga]= [fetch.data.created_at,fetch.data.gestational_age]
+                    const diff = new Date()- new Date(src_date);
+                    const diff_in_days = Math.round(diff / 1000 / 60 / 60 / 24);
+                    const ga_weeks = Math.floor(diff_in_days / 7);
+                    const ga_days = diff_in_days % 7;
+                    // splitting src date
+                    let [left_ga,right_ga]= [parseInt(src_ga.split('+')[0]),parseInt(src_ga.split('+')[1])]
+                    // summing the right part
+                    let ga_in_days= ga_days+ right_ga
+                    let ga_in_week= ga_weeks+ left_ga
+                    if (ga_in_days>6) ga_in_week++
+                    this.editedItem.gestational_age= ga_in_week + "+"+ ga_in_days
                 }
-                else this.noDataFound=true
+                else {
+                    this.noDataFound=true;
+                }
+                this.accessory.isLoading = false;
             },
-            redirect(){
+            navigateToAdmission(){
                 this.$router.push({
                     name:"cpn_admission",
                     params:{
@@ -849,22 +986,40 @@ const {
                     }
                 })
             },
+            navigateToOverview(){
+                this.$router.push({
+                    name:"obstetrics_overview",
+                    params:{
+                        cpn_admission_id: this.reference,
+                    }
+                })
+            },
             reset(){
                 this.editedItem= {...this.defaultItem}
                 this.cpn_data=[]
                 this.noDataFound=false
+                this.accessory.data_fetched = false;
             },
             yesNoString(x) {
                 if (x == null)
                     return null;
 
                 return x ? 'Yes' : 'No'
+            },
+            formatDate(date) {
+                if (!date)
+                    return '';
+
+                return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
             }
         },
         validations:{
-            editedItem:{
-                week_of_pregnancy:{
-                    required
+            editedItem: {
+                us_reason: {
+                    required: requiredIf(x => x.us_needed)
+                },
+                ctg_reason: {
+                    required: requiredIf(x => x.ctg_needed)
                 }
             }
         }

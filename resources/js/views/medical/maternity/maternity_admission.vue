@@ -41,7 +41,7 @@
                             <span class="text text-danger">Emergency Case: </span> <input v-model="formData.emergency_case" type="checkbox">
                             <span style="color:#1B4390" class="ml-2" v-if="formData.emergency_case">
                                 Please take all required actions if any of the following danger signs are present.
-                            Remember, following the QM is primordial for the survival of the mother and the baby.
+                            Remember, following the QM is capital for the survival of the mother and the baby.
                             </span>
                         </td>
                     </tr>
@@ -256,7 +256,7 @@ const {
         },
         methods:{
             async change_patient(){
-                let patData = await axios.get(`/api/maternity/fetch_patient_data/${this.formData.patient_id}`);
+                let patData = await axios.get(`/api/v1/patient_system/in_patient/maternity/fetch_patient_data/${this.formData.patient_id}`);
                 this.formData.firstName=patData.data.patient_data.firstName
                 this.formData.lastName=patData.data.patient_data.lastName
                 this.formData.birthDate=patData.data.patient_data.birthDate

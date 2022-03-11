@@ -1,6 +1,9 @@
 <template>
-  <div class="container">
-      <patient-list :headers="headers" @edit="editItem" :type_consult="4"></patient-list>
+  <div class="container-fluid vh-100">
+      <v-app>
+          <h3 class="p-2 text-center">Prenatal checkup </h3>
+          <patient-list :headers="headers" @edit="editItem" :service_id="8" :service_activity_id="12"></patient-list>
+      </v-app>
   </div>
 </template>
 
@@ -21,27 +24,14 @@ export default {
     };
   },
   methods: {
-    getFullName(firstName, lastName) {
-      let name;
-      if (firstName) 
-        name = firstName;
-      if (lastName)
-        name += " " + lastName;
-
-      if (!name)
-        name = "<Missing name>"
-
-      return name;
-    },
     editItem(item) {
-      this.$router.push({
-        name: "pregnancy_test",
-        params: {
-          patient_id: item.patient_id, 
-          fullName: this.getFullName(item.patient.firstName, item.patient.lastName),
+       this.$router.push({
+        name:"cpn_admission",
+        params:{
+          patient: item.patient,
           weight: item.weight,
-          consultation_id: item.id,
-        },
+          admission_id:item.id,
+        }
       });
     }
   },

@@ -177,8 +177,14 @@ export default {
             }
             this.accessory.form_is_submitting=true
             this.formData.code= this.order_code
-            await axios.post("/api/v1/inventory_system/out",this.formData).then(response=>console.log(response.data))
-            this.accessory.form_is_submitting=false
+            await axios.post("/api/v1/inventory_system/out",this.formData).then(response=>{
+                if(response.data){
+                    this.accessory.form_is_submitting=false
+                    this.$toast.open({position: 'top-right', type: 'success', message: 'Order submitted'})
+                    this.accessory.form_submitted=true
+                }
+            })
+
 
         },
         get_collector(){

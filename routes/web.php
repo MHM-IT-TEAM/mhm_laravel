@@ -18,6 +18,13 @@ use Illuminate\Support\Facades\Route;
 
 //auth
 Auth::routes();
+//Admin
+//Grace center
+Route::group(['prefix'=>'admin','middleware'=>'auth'],function(){
+    Route::get('/{any}',function(){
+        return view("admin/home");
+    })->name('admin_home')->where('any','.*');
+});
 // home
 Route::get('/home',function(){
     $user= Auth::user();
@@ -30,7 +37,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 //joyCenter
-Route::group(['prefix'=>'joyCenter','middleware'=>['auth','joyCenter']],function(){
+Route::group(['prefix'=>'joyCenter','middleware'=>['auth']],function(){
     Route::get('/{any}',function(){
         return view("joyCenter/home");
     })->name('joyHome')->where('any','.*');
@@ -77,4 +84,19 @@ Route::group(['prefix'=>'inventory_system'],function(){
     Route::get('/{any}',function(){
         return view("inventory_system/home");
     })->name('inventory_home')->where('any','.*');
+});
+//obstetrics
+Route::group(['prefix'=>'obstetrics','middleware'=>'auth'],function(){
+    Route::get('/{any}',[App\Http\Controllers\V1\patient_system\out_patient\obstetrical\CpnAdmissionController::class, 'index'])->where('any','.*');
+});
+//ultrasound_1
+Route::group(['prefix'=>'ultrasound','middleware'=>'auth'],function(){
+    Route::get('/{any}',[App\Http\Controllers\V1\patient_system\out_patient\obstetrical\CpnAdmissionController::class, 'index'])->where('any','.*');
+});
+//Maternity
+
+Route::group(['prefix'=>'maternity','middleware'=>'auth'],function(){
+    Route::get('/{any}',function(){
+        return view("medical/maternity/home");
+    })->name('maternity_home')->where('any','.*');
 });

@@ -21,6 +21,11 @@ class AdmissionService
 
         return $this->success('Admission saved');
     }
+    public function store_internal($request){
+        $admission= Admission::create($this->_fill_admission_data($request));
+        $this->_fill_care_details($request,$admission->id);
+        return $admission->id;
+    }
     public function update($request,$id){
         //delete care_details
         AdmissionCareDetail::where('admission_id',$id)->delete();
@@ -62,7 +67,7 @@ class AdmissionService
 
     private function _fill_care_details($request,$admission_id){
 
-        $care_details= $request->get('admission_care_details');
+        $care_details= $request->admission_care_details;
 
         if(isset($care_details['id'])){
             AdmissionCareDetail::create(

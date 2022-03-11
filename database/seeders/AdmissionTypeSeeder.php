@@ -15,7 +15,7 @@ class AdmissionTypeSeeder extends Seeder
     public function run()
     {
         AdmissionType::insert([
-            ['code'=>'A','description'=>'simple admission'],
+            ['code'=>'ADM','description'=>'simple admission'],
             ['code'=>'IR','description'=>'internal referral'],
             ['code'=>'AC','description'=>'additional consultation']
         ]);

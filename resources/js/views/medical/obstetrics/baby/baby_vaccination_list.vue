@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <patient-list :headers="headers" @edit="editItem" :type_consult="7"></patient-list>
+        <patient-list :headers="headers" @edit="editItem" :type_consult="17"></patient-list>
     </div>
 </template>
 

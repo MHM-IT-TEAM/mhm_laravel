@@ -3,6 +3,26 @@
         <div class="container">
             <v-app >
                 <v-card class="p-4">
+                    <v-row>
+                        <v-container>
+                            Filter by date
+                            <date-picker
+                                v-model="today"
+                                mode="date"
+                                :model-config="dateConfig"
+                                :masks="dateConfig.masks"
+                                @input="fetch"
+                            >
+                                <template v-slot="{ inputValue, inputEvents }">
+                                    <input
+                                        class="bg-white border px-2 py-1 rounded"
+                                        :value="inputValue"
+                                        v-on="inputEvents"
+                                    />
+                                </template>
+                            </date-picker>
+                        </v-container>
+                    </v-row>
                     <v-card-title>
                         Patients
                         <v-spacer></v-spacer>
@@ -14,23 +34,25 @@
                             hide-details
                         ></v-text-field>
                     </v-card-title>
-                    <v-data-table :headers="headers" :items="items" :search="search" :loading="loading">
-                        <template v-slot:item.actions="{ item }">
-                            <v-icon small class="mr-2" @click="$emit('edit', item)" v-if="item.status!=='DONE'">
-                                mdi-pencil
-                            </v-icon>
-                        </template>
-                        <template v-slot:item.status="{ item }">
-                            <v-chip :color="getColor(item.status)" dark x-small>
-                                {{ item.status }}
-                            </v-chip>
-                        </template>
-                        <template v-slot:item.admission_type.code="{ item }">
-                            <v-chip :color="getTypeColor(item.admission_type.code)" dark x-small>
-                                {{ item.admission_type.code }}
-                            </v-chip>
-                        </template>
-                    </v-data-table>
+                    <v-card-text>
+                        <v-data-table :headers="headers" :items="items" :search="search" :loading="loading">
+                            <template v-slot:item.actions="{ item }">
+                                <v-icon small class="mr-2" @click="$emit('edit', item)" v-if="item.status!=='DONE'">
+                                    mdi-pencil
+                                </v-icon>
+                            </template>
+                            <template v-slot:item.status="{ item }">
+                                <v-chip :color="getColor(item.status)" dark x-small>
+                                    {{ item.status }}
+                                </v-chip>
+                            </template>
+                            <template v-slot:item.admission_type.code="{ item }">
+                                <v-chip :color="getTypeColor(item.admission_type.code)" dark x-small>
+                                    {{ item.admission_type.code }}
+                                </v-chip>
+                            </template>
+                        </v-data-table>
+                    </v-card-text>
                 </v-card>
             </v-app>
         </div>
@@ -38,17 +60,28 @@
 </template>
 
 <script>
+import moment from "moment";
 export default {
     name: "patient_list",
     props:{
-        type_consult:'',
+        service_id:'',
+        service_activity_id:'',
         headers: Array
     },
     data(){
         return{
             search: '',
             items: [],
-            loading: false
+            loading: false,
+            search_date:'',
+            dateConfig: {
+                type: "string",
+                mask: "YYYY-MM-DD",
+                masks: {
+                    input: "DD/MMM/YYYY",
+                },
+            },
+            today:moment().format("YYYY/MM/DD")
         }
     },
     created(){
@@ -58,41 +91,14 @@ export default {
         async fetch(){
             this.loading = true;
 
-            let data;
-            switch (this.type_consult){
-                case 1:
-                    data=await axios.get('/api/v1/patient_system/admission/list_today_service/6')
-                    break;
-                case 2:
-                    data=await axios.get('/api/v1/patient_system/admission/list_today_service/7')
-                    break;
-                case 3:
-                    break;
-                case 4:
-                    data=await axios.get('/api/consultation/today/4')
-                    break;
-                case 5:
-                    data=await axios.get('/api/consultation/today/5');
-                    break;
-                case 6:
-                    break;
-                case 7:
-                    data=await axios.get('/api/obstetrics/baby_vaccination/todayList')
-                    break;
-                case 8:
-                    data=await axios.get('/api/obstetrics/baby_checkup/todayList')
-                    break;
-                case 9:
-                    break;
-                case 10:
-                    break;
-                case 11:
-                    break;
-            }
+            let data = await axios.post(`/api/v1/patient_system/admission/list_service_activity_date`,{service_id:this.service_id,service_activity_id:this.service_activity_id,date:this.today})
             this.loading = false;
 
             this.consultation_id=data.id
             this.items=data.data
+        },
+        search_by_date(){
+
         },
         getColor(status) {
             if (status === "RUNNING") return "blue";

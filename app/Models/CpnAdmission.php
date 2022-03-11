@@ -17,4 +17,7 @@ class CpnAdmission extends Model
     public function followups(){
         return $this->hasMany(CpnFollowup::class);
     }
+    public function patient(){
+        return $this->belongsTo(Patient::class);
+    }
 }

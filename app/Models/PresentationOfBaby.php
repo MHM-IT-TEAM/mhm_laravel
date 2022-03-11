@@ -8,5 +8,4 @@ use Illuminate\Database\Eloquent\Model;
 class PresentationOfBaby extends Model
 {
     use HasFactory;
-
 }

@@ -1,122 +1,105 @@
 <template>
-<div class="item-wrapper">
-    <div class="card">
-       <div class="card-body">
-           <h5 class="card-title"> Items</h5>
-            <div class="list-group">
-                <div class="list-group-item border-0">
-                    <div class="row">
-                        <div class="col">
-                           <font-awesome-icon icon="pills" size="lg"></font-awesome-icon> Medicines:
+    <div>
+        <div class="item-wrapper">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title"> Items</h5>
+                    <div class="list-group">
+                        <div class="list-group-item border-0">
+                            <div class="row">
+                                <div class="col">
+                                    <font-awesome-icon icon="pills" size="lg"></font-awesome-icon> Medicines:
+                                </div>
+                                <div class="col">
+                                    <div class="float-end" ><span class="badge badge-sm bg-primary mr-0">{{item_type_count.medicines}}</span></div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col">
-                            <div class="float-end" ><span class="badge badge-sm bg-primary mr-0">{{item_type_count.medicines}}</span></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="list-group-item border-0">
-                    <div class="row">
-                        <div class="col">
-                            <font-awesome-icon icon="spray-can" size="lg"></font-awesome-icon> Consumables:
-                        </div>
-                        <div class="col">
-                            <div class="float-end"><span class="badge badge-sm bg-warning mr-0">{{item_type_count.consummables}}</span></div>
-                        </div>
-                    </div>
+                        <div class="list-group-item border-0">
+                            <div class="row">
+                                <div class="col">
+                                    <font-awesome-icon icon="spray-can" size="lg"></font-awesome-icon> Consumables:
+                                </div>
+                                <div class="col">
+                                    <div class="float-end"><span class="badge badge-sm bg-warning mr-0">{{item_type_count.consummables}}</span></div>
+                                </div>
+                            </div>
 
-                </div>
-                <div class="list-group-item border-0">
-                    <div class="row">
-                        <div class="col">
-                            <font-awesome-icon icon="tools" size="lg"></font-awesome-icon> Equipments:
                         </div>
-                        <div class="col">
-                            <div class="float-end"><span class="badge badge-sm bg-info mr-0">{{item_type_count.equipments}}</span></div>
+                        <div class="list-group-item border-0">
+                            <div class="row">
+                                <div class="col">
+                                    <font-awesome-icon icon="tools" size="lg"></font-awesome-icon> Equipments:
+                                </div>
+                                <div class="col">
+                                    <div class="float-end"><span class="badge badge-sm bg-info mr-0">{{item_type_count.equipments}}</span></div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
-
                 </div>
             </div>
-       </div>
-    </div>
-    <div class="card  low-stock">
-        <div class="card-body">
-            <h5 class="card-title"> Low Stock</h5>
-            <div class="list-group">
-                <div class="list-group-item border-0">
-                    <div class="row">
-                        <div class="col">
-                            <font-awesome-icon icon="pills" size="lg"></font-awesome-icon> Medicines:
+            <div class="card  low-stock">
+                <div class="card-body">
+                    <h5 class="card-title"> Low Stock</h5>
+                    <div class="list-group">
+                        <div class="list-group-item border-0">
+                            <div class="row">
+                                <div class="col">
+                                    <font-awesome-icon icon="pills" size="lg"></font-awesome-icon> Medicines:
+                                </div>
+                                <div class="col ">
+                                    <div class="float-end"><router-link :to="{name:'low_stock',params:{type:1}}" class="btn"><span class="badge badge-sm bg-primary mr-0">{{low_stock.medicines}}</span></router-link></div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col ">
-                            <div class="float-end"><router-link :to="{name:'low_stock',params:{type:1}}" class="btn"><span class="badge badge-sm bg-primary mr-0">{{low_stock.medicines}}</span></router-link></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="list-group-item border-0">
-                    <div class="row">
-                        <div class="col">
-                            <font-awesome-icon icon="spray-can" size="lg"></font-awesome-icon> Consumables:
-                        </div>
-                        <div class="col ">
-                            <div class="float-end"><router-link :to="{name:'low_stock',params:{type:2}}" class="btn"> <span class="badge badge-sm bg-warning mr-0">{{low_stock.consumables}}</span></router-link></div>
-                        </div>
-                    </div>
+                        <div class="list-group-item border-0">
+                            <div class="row">
+                                <div class="col">
+                                    <font-awesome-icon icon="spray-can" size="lg"></font-awesome-icon> Consumables:
+                                </div>
+                                <div class="col ">
+                                    <div class="float-end"><router-link :to="{name:'low_stock',params:{type:2}}" class="btn"> <span class="badge badge-sm bg-warning mr-0">{{low_stock.consumables}}</span></router-link></div>
+                                </div>
+                            </div>
 
-                </div>
-                <div class="list-group-item border-0">
-                    <div class="row">
-                        <div class="col">
-                            <font-awesome-icon icon="tools" size="lg"></font-awesome-icon> Equipments:
                         </div>
-                        <div class="col ">
-                            <div class="float-end"><span class="badge badge-sm bg-info mr-0">{{low_stock.equipments}}</span></div>
-                        </div>
-                    </div>
+                        <div class="list-group-item border-0">
+                            <div class="row">
+                                <div class="col">
+                                    <font-awesome-icon icon="tools" size="lg"></font-awesome-icon> Equipments:
+                                </div>
+                                <div class="col ">
+                                    <div class="float-end"><span class="badge badge-sm bg-info mr-0">{{low_stock.equipments}}</span></div>
+                                </div>
+                            </div>
 
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="card overflow-auto order">
-        <div class="card-body">
-            <h5 class="card-title"> Pending Out Orders</h5>
-            <div class="list-group border-0">
-                <div class="list-group-item" v-for="row in pending_list">
-                    <div class="row">
-                        <div class="col">
-                            <router-link :to="{name:'out_create', params:{id:row.id}}" class="dropdown-item"><span class="badge bg-primary text-white rounded-circle">{{sigle(findDepartment(row.orderer_id))}}</span>
-                            <span class="m-2 text-warning text-bold" >{{findDepartment(row.orderer_id)}}</span></router-link>
-                        </div>
-                        <div class="col">
-                            <div class="float-end">{{row.out_details.length}}</div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <div class="card overflow-auto order mt-2">
+            <div class="card-body">
+                <h5 class="card-title"> Pending Out Orders</h5>
+                <div class="list-group border-0">
+                    <div class="list-group-item" v-for="row in pending_list">
+                        <div class="row">
+                            <div class="col">
+                                <router-link :to="{name:'out_create', params:{id:row.id}}" class="dropdown-item"><span class="badge bg-primary text-white rounded-circle">{{sigle(findDepartment(row.orderer_id))}}</span>
+                                    <span class="m-2 text-bold" >{{findDepartment(row.orderer_id)}}</span></router-link>
+                            </div>
+                            <div class="col">
+                                <div class="float-end">{{row.out_details.length}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-<!--    <div class="card overflow-auto">-->
-<!--        <div class="card-body">-->
-<!--            <h5 class="card-title">Item location</h5>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--    <div class="card overflow-auto">-->
-<!--        <div class="card-body">-->
-<!--            <h5 class="card-title">Orderers</h5>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--    <div class="card overflow-auto">-->
-<!--        <div class="card-body">-->
-<!--            <h5 class="card-title">Suppliers</h5>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--    <div class="card overflow-auto">-->
-<!--        <div class="card-body">-->
-<!--            <h5 class="card-title">Orderers</h5>-->
-<!--        </div>-->
-<!--    </div>-->
-</div>
+
 </template>
 
 <script>
@@ -180,8 +163,8 @@ export default {
 .card-body{
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23) !important;
 }
-.order{
-    max-height: 250px;
-}
+/*.order{*/
+/*    max-height: 250px;*/
+/*}*/
 
 </style>

@@ -17,9 +17,8 @@ export default {
   name: "gestationalAge",
   computed: {
     computedValue() {
-      if (this.isNull)
-        return null;
-
+      // if (this.isNull)
+      //   return null;
       return this.gestationalAge.week + "+" + this.gestationalAge.day;
     }
   },
@@ -28,7 +27,7 @@ export default {
       handler: function () {
         if (this.gestationalAge.week !== "" && this.gestationalAge.day !== "")
           this.isNull = false;
-        
+
         this.$emit("input", this.computedValue);
       },
       deep: true,

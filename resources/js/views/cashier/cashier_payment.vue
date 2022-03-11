@@ -295,7 +295,10 @@ export default {
             let to_pay
             if(this.unpaid_treatments.length===0) to_pay=this.formData.last_due
             else if(this.unpaid_treatments.length===1) to_pay=parseInt(this.unpaid_treatments[0].total)+parseInt(this.formData.last_due)
-            else if (this.unpaid_treatments.length>1) to_pay=this.unpaid_treatments.reduce((acc,obj)=>parseInt(acc.total)+parseInt(obj.total))+parseInt(this.formData.last_due)
+            else if (this.unpaid_treatments.length>1) to_pay=this.unpaid_treatments.reduce((total, currentValue)=>{
+                return total + parseInt(currentValue.total)
+            }, 0)+parseInt(this.formData.last_due)
+
             return to_pay
         },
         current_debt(){

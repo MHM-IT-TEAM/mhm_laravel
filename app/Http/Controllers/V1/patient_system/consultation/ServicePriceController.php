@@ -46,8 +46,8 @@ class ServicePriceController extends Controller
     {
         //
     }
-    public function filter_per_service($service_activity_id,$patient_category){
-        $prices=ActivityPrice::where('service_activity_id',$service_activity_id)->where('joyCenter',1);
+    public function filter_per_service($service_activity_id,$patient_category,$from_joy=null){
+            $prices=ActivityPrice::where('service_activity_id',$service_activity_id);
         switch ($patient_category){
             case 0:
                 $prices=$prices->get(['id','name','out_sector as price']);

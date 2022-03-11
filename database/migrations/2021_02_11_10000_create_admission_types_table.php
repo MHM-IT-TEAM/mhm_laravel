@@ -15,6 +15,7 @@ class CreateAdmissionTypesTable extends Migration
     {
         Schema::create('admission_types', function (Blueprint $table) {
             $table->id();
+            $table->string('code',50);
             $table->timestamps();
             $table->string('description');
         });

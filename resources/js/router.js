@@ -4,7 +4,12 @@ import VueRouter from 'vue-router';
 
 //Auth
 import login from "./views/auth/login"
-
+//Admin
+import admin_layout from "./views/admin/layouts/admin_layout";
+import user_page_overview from "./views/admin/user_page_overview";
+import users_crud from "./views/admin/users_crud";
+import pages from "./views/admin/pages";
+import admin_statistic from "./views/admin/admin_statistic";
 //landing Page
 import welcome from "./views/home/welcome";
 
@@ -25,7 +30,7 @@ import cpn_admission from "./views/medical/obstetrics/cpn/cpn_admission";
 import obstetrics_layout from "./views/medical/obstetrics/layouts/obstetrics_layout";
 import cpn_followup from "./views/medical/obstetrics/cpn/cpn_followup";
 import first_cpn_list from "./views/medical/obstetrics/cpn/first_cpn_list";
-import pregnancy_test from "./views/medical/obstetrics/cpn/pregnancy_test";
+import cpn_followup_list from "./views/medical/obstetrics/cpn/cpn_followup_list";
 import ultrasound_form from "./views/medical/obstetrics/ultrasound/ultrasound_form";
 import ultrasound_list from "./views/medical/obstetrics/ultrasound/ultrasound_list";
 import weight_overview from "./views/medical/obstetrics/baby/weight_overview";
@@ -37,7 +42,6 @@ import baby_vaccination_list from "./views/medical/obstetrics/baby/baby_vaccinat
 import overview_layout from "./views/medical/overview/layouts/overview_layout";
 import obstetrics_overview from "./views/medical/overview/obstetrics_overview";
 //maternity
-
 import maternity_layout from "./views/medical/maternity/layouts/maternity_layout"
 import maternity_admission from "./views/medical/maternity/maternity_admission";
 import delivery_registration from "./views/medical/maternity/delivery/delivery_registration";
@@ -51,6 +55,7 @@ import internal_referral from "./views/medical/maternity/referral/internal_refer
 import maternity_discharge from "./views/medical/maternity/maternity_discharge";
 import laboratory_request from "./views/medical/laboratory/laboratory_request";
 import maternity_labwork from "./views/medical/maternity/labwork/maternity_labwork";
+import maternity_list from "./views/medical/maternity/maternity_list";
 //generalist
 import generalist_layout from "./views/medical/generalist/layouts/generalist_layout";
 import generalist_list from "./views/medical/generalist/generalist_list";
@@ -63,6 +68,7 @@ import medical_form_layout from "./components/medical_form_layout";
 import dentist_layout from "./views/medical/dentist/layouts/dentist_layout"
 import dentist_patient_list from "./views/medical/dentist/dentist_patient_list";
 import dental_diagnostic_form from "./views/medical/dentist/dental_diagnostic_form";
+import item_order_dentist from "./views/medical/dentist/item_order_dentist";
 //inventory_system
 //Nurse station
 import nurse_station_layout from "./views/medical/nurse_station/layout/nurse_station_layout";
@@ -88,8 +94,16 @@ import list_of_patient_grace from "./views/medical/grace_center/list_of_patient_
 import grace_give_medicine from "./views/medical/grace_center/grace_give_medicine"
 import item_order_grace from "./views/medical/grace_center/item_order_grace";
 import grace_inventory from "./views/medical/grace_center/grace_inventory";
-
-
+//ultrasound_1
+import ultrasound_layout from "./views/medical/obstetrics/ultrasound_1/ultrasound_layout";
+import ultrasound_exam_crud from "./views/medical/obstetrics/ultrasound_1/ultrasound_exam_crud";
+import ultrasound_queue from "./views/medical/obstetrics/ultrasound_1/ultrasound_queue";
+import ultrasound_admission_form from "./views/medical/obstetrics/ultrasound_1/ultrasound_admission_form";
+import patient_ultrasound_admission_list  from "./views/medical/obstetrics/ultrasound_1/patient_ultrasound_admission_list";
+import patient_ultrasound_search from "./views/medical/obstetrics/ultrasound_1/patient_ultrasound_search";
+import item_order_ultrasound from "./views/medical/obstetrics/ultrasound_1/item_order_ultrasound";
+import patient_cpn_search from "./views/medical/obstetrics/cpn/patient_cpn_search";
+import pregnancy_card from "./views/medical/obstetrics/pregnancy_card";
 
 
 
@@ -107,6 +121,7 @@ const routes = [
         component: welcome
     },
 
+
     /**
      |----------------------------
      | Auth and Registration form
@@ -116,6 +131,43 @@ const routes = [
         name:'login',
         path:'/login',
         component:login
+
+    },
+    /**
+     |---------------------------
+     | Admin
+     |--------------------------
+     */
+    {
+        name:'admin',
+        path:'/admin',
+        component:admin_layout,
+        children: [
+            //user_page_overview
+            {
+                path:'user_page_overview',
+                name:'admin_user_page_overview',
+                component: user_page_overview
+            },
+            //User CRUD
+            {
+                path:'user_crud',
+                name:'admin_user_crud',
+                component:users_crud
+            },
+            //Pages CRUD
+            {
+                path:'page_crud',
+                name:'admin_page_crud',
+                component:pages
+            },
+            //Statistics Page
+            {
+                path:'admin_statistics',
+                name:'admin_statistics',
+                component:admin_statistic
+            }
+        ]
 
     },
 
@@ -270,7 +322,7 @@ const routes = [
                 path: 'first_cpn_list',
                 name: 'first_cpn_list',
                 component: first_cpn_list,
-                meta: { title : 'CPN' }
+                meta: { title : 'Prenatal Care First Checkup' }
             },
             {
                 path: 'admission/:id?',
@@ -278,54 +330,70 @@ const routes = [
                 component: cpn_admission
             },
             {
-                path: 'followup',
+                path: 'cpn_followup_list',
+                name: 'cpn_followup_list',
+                component: cpn_followup_list,
+                meta: { title : 'Prenatal Care Followup' }
+            },
+            {
+                path: 'cpn_followup/:cpn_ref?',
                 name: 'cpn_followup',
-                component: cpn_followup,
-                meta : { title: 'CPN Followup' }
+                component: cpn_followup
             },
             {
-                path: 'pregnancy_test',
-                name: 'pregnancy_test',
-                component: pregnancy_test
+                path:'pregnancy_card',
+                name:'pregnancy_card',
+                component:pregnancy_card
+
             },
+            // {
+            //     path: 'ultrasound_form/:ref?',
+            //     name: 'ultrasound_form',
+            //     component: ultrasound_form
+            // },
+            // {
+            //     path: 'ultrasound_form',
+            //     name: 'ultrasound_form_base',
+            //     component: ultrasound_form
+            // },
+            // {
+            //     path: 'ultrasound_list',
+            //     name: 'ultrasound_list',
+            //     component: ultrasound_list,
+            //     meta: { title : 'Ultrasound' }
+            // },
             {
-                path: 'ultrasound_form/:ref?',
-                name: 'ultrasound_form',
-                component: ultrasound_form
+                path:'cpn_search',
+                name:'patient_cpn_search',
+                component:patient_cpn_search
             },
-            {
-                path: 'ultrasound_list',
-                name: 'ultrasound_list',
-                component: ultrasound_list,
-                meta: { title : 'Ultrasound' }
-            },
-            {
-                path: 'baby_weight_overview',
-                name: 'baby_weight_overview',
-                component:weight_overview
-            },
-            {
-                path: 'baby_checkup_list',
-                name: 'baby_checkup_list',
-                component:baby_checkup_list,
-                meta: { title : 'Baby checkup' }
-            },
-            {
-                path: 'baby_checkup',
-                name: 'baby_checkup',
-                component:baby_checkup
-            },
-            {
-                path: 'baby_vaccination_list',
-                name: 'baby_vaccination_list',
-                component:baby_vaccination_list,
-                meta: { title : 'Baby vaccination' }
-            },
-            {
-                path: 'baby_vaccination_card',
-                name: 'baby_vaccination_card',
-                component:baby_vaccination_card
-            },
+            // {
+            //     path: 'baby_weight_overview',
+            //     name: 'baby_weight_overview',
+            //     component:weight_overview
+            // },
+            // {
+            //     path: 'baby_checkup_list',
+            //     name: 'baby_checkup_list',
+            //     component:baby_checkup_list,
+            //     meta: { title : 'Baby checkup' }
+            // },
+            // {
+            //     path: 'baby_checkup',
+            //     name: 'baby_checkup',
+            //     component:baby_checkup
+            // },
+            // {
+            //     path: 'baby_vaccination_list',
+            //     name: 'baby_vaccination_list',
+            //     component:baby_vaccination_list,
+            //     meta: { title : 'Baby vaccination' }
+            // },
+            // {
+            //     path: 'baby_vaccination_card',
+            //     name: 'baby_vaccination_card',
+            //     component:baby_vaccination_card
+            // },
 
 
         ]
@@ -341,6 +409,11 @@ const routes = [
         name:'maternity_home',
         component:maternity_layout,
         children:[
+            {
+                path:'patient_list',
+                name:'maternity_list',
+                component: maternity_list
+            },
             {
                 path:'admission',
                 name:'maternity_admission',
@@ -398,6 +471,7 @@ const routes = [
                 component: maternity_labwork
             },
 
+
         ]
     },
     /**
@@ -454,7 +528,12 @@ const routes = [
                 path:'diagnostic',
                 name:'dental_diagnostic_form',
                 component: dental_diagnostic_form
-            }
+            },
+            {
+                path:'item_order',
+                name:'dentist_item_order',
+                component:item_order_dentist
+            },
         ]
     },
     /**
@@ -512,6 +591,48 @@ const routes = [
                 name:'grace_inventory',
                 path:'inventory',
                 component: grace_inventory
+            }
+        ]
+    },
+    /**
+     |-----------------------------
+     | Ultrasound_1
+     |-----------------------------
+     */
+    {
+        path:'/ultrasound',
+        name:'ultrasound_layout',
+        component:ultrasound_layout,
+        children: [
+            {
+                path:'exam_crud',
+                name:'ultrasound_exam_crud',
+                component:ultrasound_exam_crud
+            },
+            {
+                path:'queue',
+                name:'ultrasound_queue',
+                component:ultrasound_queue
+            },
+            {
+                path:'admission_form',
+                name:'ultrasound_admission_form',
+                component:ultrasound_admission_form
+            },
+            {
+                path:'admission_list',
+                name:'patient_ultrasound_admission_list',
+                component:patient_ultrasound_admission_list
+            },
+            {
+                path:'patient_ultrasound',
+                name:'patient_ultrasound_search',
+                component:patient_ultrasound_search
+            },
+            {
+                path:'order',
+                name:'item_order_ultrasound',
+                component:item_order_ultrasound
             }
         ]
     },

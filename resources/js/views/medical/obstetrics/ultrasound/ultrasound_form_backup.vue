@@ -847,11 +847,11 @@ export default {
     },
     methods:{
       async init(){
-          await axios.get('/api/position_of_baby')
+          await axios.get('/api/v1/extra/position_of_baby')
           .then(res=>this.position_of_baby=res.data)
-          await axios.get('/api/presentation_of_baby')
+          await axios.get('/api/v1/extra/presentation_of_baby')
           .then(res=>this.presentation_of_baby=res.data)
-          axios.get('/api/placenta_type')
+          axios.get('/api/v1/extra/placenta_type')
           .then(res=>this.placenta_type=res.data)
           if (this.$route.params.patient_id !== "" && this.$route.params.patient_id !== undefined) {
               this.patient.id = this.$route.params.patient_id;
@@ -932,7 +932,7 @@ export default {
         },
         async submit(e){
           e.preventDefault()
-            await axios.post('/api/obstetrics/ultrasound',{formData:this.formData,patient_id:this.patient.id, count_of_fetus:this.count_of_fetus,ref:this.reference,formStatus:this.formStatus})
+            await axios.post('/api/v1/patient_system/out_patient/obstetrical/ultrasound',{formData:this.formData,patient_id:this.patient.id, count_of_fetus:this.count_of_fetus,ref:this.reference,formStatus:this.formStatus})
             .then(
                 this.$toast.open({
                     message: `data successfully submitted `,
@@ -949,7 +949,7 @@ export default {
             this.reset()
             this.formEdit.second_screening=true
             this.is_updating=true
-            let response= await axios.get(`/api/obstetrics/ultrasound/${this.reference}`)
+            let response= await axios.get(`/api/v1/patient_system/out_patient/obstetrical/ultrasound/${this.reference}`)
             this.formData=response.data;
             this.formEdit.first_screening=false
             if(this.formData[0].second_screening.position_of_baby !==''  && this.formData[0].second_screening.presentation_of_baby !==''  ){
@@ -973,7 +973,7 @@ export default {
             this.edited_screening=id
         },
         async login(){
-            await axios.post('/api/auth/credentials',this.loginForm)
+            await axios.post('/api/v1/auth/credentials',this.loginForm)
             .then(response=>{
                 if(response.data.success===true){
                     switch(this.edited_screening){
@@ -1001,7 +1001,7 @@ export default {
         },
         async changePatient(){
             let patData = await axios.get(
-                `/api/patients/${this.patient.id}/edit`
+                `/api/v1/patient_system/patient/patient/${this.patient.id}/edit`
             );
             let lastName= patData.data.patient.lastName==null?'':patData.data.patient.lastName
             this.patient.fullName = patData.data.patient.firstName.toUpperCase()+ " " + lastName;

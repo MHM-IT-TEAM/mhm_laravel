@@ -30,7 +30,9 @@
                             <v-icon>mdi-home</v-icon>
                         </v-list-item-icon>
                         <v-list-item-content>
-                            <v-list-item-title ><router-link :to="{name:'maternity_admission'}" class="link">Admission</router-link></v-list-item-title>
+<!--                            <v-list-item-title ><router-link :to="{name:'maternity_admission'}" class="link">Admission</router-link></v-list-item-title>-->
+                            <v-list-item-title ><router-link :to="{name:'maternity_list'}" class="link">Admission</router-link></v-list-item-title>
+
                         </v-list-item-content>
                     </v-list-item>
 
@@ -74,7 +76,7 @@
                     mdi-mother-nurse
                 </v-icon>
                 <v-toolbar-title class="mr-12 align-center">
-                    <span class="title">MATERNITY</span>
+                    <span class="title">IN PATIENT</span>
                 </v-toolbar-title>
                 <v-spacer></v-spacer>
                 <v-row
@@ -175,10 +177,6 @@
 }
 .title{
     font-size: 12px !important;
-}
-.print-area{
-    border:red solid 2px;
-    padding:5px;
 }
 @media print{
     #drawer{

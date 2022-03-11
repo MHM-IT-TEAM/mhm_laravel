@@ -16,6 +16,11 @@ class PageSeeder extends Seeder
     {
         Page::insert([
             ['description'=>'joyCenter','link'=>'joyCenter/consultation'],
+            ['description'=>'GraceCenter','link'=>'grace_center/patient_list'],
+            ['description'=>'Obstetrics','link'=>'obstetrics/ultrasound_list'],
+            ['description'=>'Cashier','link'=>'cashier/admission_list'],
+            ['description'=>'Generalist','link'=>'generalist/patient_list'],
+            ['description'=>'Dentist','link'=>'dentist/patient_list'],
         ]);
     }
 }

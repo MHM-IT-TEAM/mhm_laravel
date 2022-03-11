@@ -8,7 +8,16 @@ use App\Models\Patient;
 class SearchService
 {
     public function search($request){
-        $patient= new Patient();
-       if($request !==null) return $patient->search($request)->with(['cpnAdmissions','ultraSoundAdmissions'])->get();
+        if (!$request)
+            return [];
+
+        $patient = new Patient();
+        
+        $data = $patient
+            ->search(explode(' ', $request), 8)
+            ->with(['cpnAdmissions:id,created_at,patient_id','cpnAdmissions.followups:id,created_at,cpn_admission_id','ultraSoundAdmissions:id,created_at,patient_id'])
+            ->get();
+
+        return $data;
     }
 }

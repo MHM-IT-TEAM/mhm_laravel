@@ -46,7 +46,7 @@
                             <v-icon>mdi-book-edit</v-icon>
                         </v-list-item-icon>
                         <v-list-item-content>
-                            <v-list-item-title ><router-link :to="{name:'generalist_item_order'}" class="link">Order</router-link></v-list-item-title>
+                            <v-list-item-title ><router-link :to="{name:'dentist_item_order'}" class="link">Order</router-link></v-list-item-title>
                         </v-list-item-content>
                     </v-list-item>
 
