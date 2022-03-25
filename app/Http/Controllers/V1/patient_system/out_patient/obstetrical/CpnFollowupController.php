@@ -101,44 +101,6 @@ class CpnFollowupController extends Controller
     }
 
     public function get_recent_cpn_admissions_for_patient($patient_id) {
-        if (!$patient_id)
-            return [];
-
-        $patient = Patient::find($patient_id);
-
-        $cpn_admissions = CpnAdmission::with(['followups:id,cpn_admission_id,created_at,gestational_age'])
-            ->where('patient_id', $patient_id)
-            ->whereBetween('updated_at', [Carbon::now()->subYear(), Carbon::now()])
-            ->get();
-
-        $result = [];
-
-        foreach($cpn_admissions as $cpn_admission) {
-            $sorted_followups = $cpn_admission->followups->all();
-            usort($sorted_followups, function ($a, $b) {
-                return ($a->created_at->lt($b->created_at)
-                    ? 1
-                    : ($a->created_at->gt($b->created_at)
-                        ? -1
-                        : 0
-                    )
-                );
-            });
-            $number_of_followups = count($sorted_followups);
-
-            array_push($result, (object)[
-                'created_at' => $cpn_admission->created_at,
-                'updated_at' => $cpn_admission->updated_at,
-                'id' => $cpn_admission->id,
-                'number_of_followups' => $number_of_followups,
-                'last_followup_date' => $number_of_followups > 0 ? $sorted_followups[0]->created_at : null,
-                'last_followup_gestational_age' => $number_of_followups > 0 ? $sorted_followups[0]->gestational_age : null
-            ]);
-        }
-
-        return [
-            'patient' => $patient,
-            'cpn_admissions' => $result
-        ];
+        return CpnAdmission::where('patient_id',$patient_id)->latest()->first();
     }
 }

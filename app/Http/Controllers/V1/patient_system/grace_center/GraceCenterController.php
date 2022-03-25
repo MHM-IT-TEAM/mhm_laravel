@@ -23,6 +23,7 @@ class GraceCenterController extends Controller
     }
     public function store(Request $request){
         //update the details table
+        $low_stock_item_array=[];
         foreach($request->transaction['grace_csb_transaction_detail'] as $line){
             $detail =GraceCsbTransactionDetail::find($line['id']);
             $detail->update([
@@ -31,18 +32,34 @@ class GraceCenterController extends Controller
             ]);
             //update the inventory table
             $inventory= Inventory::find(intval($line['item']['id']));
-            $inventory->graceCenter= $inventory->graceCenter- $line['given'];
-            $inventory->save();
+            if($inventory->graceCenter < $line['given']){
+                //check if there is a low stock item in the array
+                $low_stock_item_array[]=$line;
+            }
+            if(count($low_stock_item_array)<1){
+                $inventory->graceCenter= $inventory->graceCenter- $line['given'];
+                $inventory->save();
+                //update the main table
+                $csb_transaction = GraceCsbTransaction::find($request->transaction['id']);
+                $csb_transaction->done=1;
+                $csb_transaction->remark=$request->remark;
+                $csb_transaction->save();
+            }
         }
-        //update the main table
-        $csb_transaction = GraceCsbTransaction::find($request->transaction['id']);
-        $csb_transaction->done=1;
-        $csb_transaction->remark=$request->remark;
-        $csb_transaction->save();
+        if(count($low_stock_item_array)>=1)
+        {
+            return response()->json([
+                'success'=>false,
+                'low_stock_items'=>$low_stock_item_array
+            ]);
+        }
+        else
+        {
+            return response()->json([
+                'success'=>true,
+                'msg'=>'data submitted'
+            ]);
+        }
 
-        return response()->json([
-            'success'=>true,
-            'msg'=>'data submitted'
-        ]);
     }
 }

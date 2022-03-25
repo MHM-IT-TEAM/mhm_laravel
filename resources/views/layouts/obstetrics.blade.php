@@ -19,10 +19,10 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <style>
-        body{
-            background: rgb(117,2,45);
-            background: linear-gradient(90deg, rgba(117,2,45,1) 0%, rgba(67,9,121,0.989233193277311) 50%, rgba(255,0,129,1) 100%);
-        }
+        /*body{*/
+        /*    background: rgb(117,2,45);*/
+        /*    background: linear-gradient(90deg, rgba(117,2,45,1) 0%, rgba(67,9,121,0.989233193277311) 50%, rgba(255,0,129,1) 100%);*/
+        /*}*/
         @media print{
             body{
                 background-color: white;

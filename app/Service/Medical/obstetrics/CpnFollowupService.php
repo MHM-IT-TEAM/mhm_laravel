@@ -12,13 +12,13 @@ class CpnFollowupService
  public function store($request){
     CpnFollowup::create($this->fill_data($request));
 
-//    if ($request->admission_id) {
-//        $admission = Admission::find($request->admission_id);
-//        if ($admission) {
-//            $admission->status = 'DONE';
-//            $admission->save();
-//        }
-//    }
+    if ($request->admission_id) {
+        $admission = Admission::find($request->admission_id);
+        if ($admission) {
+            $admission->status = 'DONE';
+            $admission->save();
+        }
+    }
     return ['success'=>true];
  }
  private function fill_data($request){

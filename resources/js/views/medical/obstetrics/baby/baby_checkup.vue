@@ -49,6 +49,7 @@
                                                label="weight"
                                                hide-details
                                                v-model="formData.weight"
+                                               :error="$v.formData.weight.$error"
                                            >
                                            </v-text-field>
                                        </v-col>
@@ -58,6 +59,7 @@
                                                hide-details
                                                v-model="formData.skin"
                                                :items="accessory.skin"
+                                               :error="$v.formData.skin.$error"
                                            >
 
                                            </v-select>
@@ -67,6 +69,7 @@
                                                label="umbilic"
                                                hide-details
                                                v-model="formData.umbilic"
+                                               :error="$v.formData.umbilic.$error"
                                            ></v-text-field>
                                        </v-col>
                                    </v-row>
@@ -77,6 +80,7 @@
                                                v-model="formData.gl_impression"
                                                :items="accessory.gl_impression"
                                                hide-details
+                                               :error="$v.formData.gl_impression.$error"
                                            ></v-select>
                                        </v-col>
                                        <v-col>
@@ -106,21 +110,34 @@
                               <weight_overview></weight_overview>
                           </v-col>
                        </v-row>
+                       <v-row>
+                           <v-col>
+                               <give_medicine @get_value="get_medicines" :reset="accessory.reset_medication_list"/>
+                           </v-col>
+                       </v-row>
 
                    </v-card>
                </v-col>
            </v-row>
+
        </v-card>
     </v-app>
 </div>
 </template>
 
 <script>
+import { validationMixin } from "vuelidate";
 import weight_overview from "./weight_overview";
 import {mapGetters,mapActions} from 'vuex'
+import Give_medicine from "../../../../components/give_medicine";
+const {
+    required,
+    requiredIf,
+} = require("vuelidate/lib/validators");
 export default {
     name: "baby_checkup",
-    components:{weight_overview},
+    components:{Give_medicine, weight_overview},
+    mixins: [validationMixin],
     data(){
         return{
             table_data:[],
@@ -132,7 +149,8 @@ export default {
                 umbilic:'',
                 gl_impression:'',
                 other:'',
-                precautions:''
+                precautions:'',
+                medication:[]
             },
             defaultData:{
                 patient_id:'',
@@ -142,12 +160,22 @@ export default {
                 umbilic:'',
                 gl_impression:'',
                 other:'',
-                precautions:''
+                precautions:'',
+                medication:[]
             },
             accessory:{
                 skin:['Healthy','Yellow','Dry'],
-                gl_impression:['Healthy','Weak','Infection sign','In Danger']
+                gl_impression:['Healthy','Weak','Infection sign','In Danger'],
+                reset_medication_list:false
             }
+        }
+    },
+    validations:{
+        formData:{
+            weight:{required},
+            skin:{required},
+            umbilic:{required},
+            gl_impression:{required},
         }
     },
     created(){
@@ -157,23 +185,31 @@ export default {
         ...mapActions('baby_checkup',['bootstrap_checkup_data','insert_checkup_data']),
         async init(){
             this.formData.patient_id= this.$route.params.patient_id
-            this.formData.consultation_id=this.$route.params.consultation_id
+            this.formData.admission_id=this.$route.params.admission_id
             await this.bootstrap_checkup_data(this.$route.params.patient_id)
             this.table_data=this.baby_checkup_data
         },
+        get_medicines(data){
+           this.formData.medication=data
+        },
         async submit(){
-            await this.insert_checkup_data(this.formData)
-            await this.bootstrap_checkup_data(this.$route.params.patient_id)
-            this.reset()
-            this.$toast.open({
-                message: 'Data submitted',
-                position: "top-right",
-                type: "success",
-            })
+            this.$v.$touch();
+            if (!this.$v.$invalid){
+                await this.insert_checkup_data(this.formData)
+                await this.bootstrap_checkup_data(this.$route.params.patient_id)
+                this.reset()
+                this.accessory.reset_medication_list=true
+                this.$toast.open({
+                    message: 'Data submitted',
+                    position: "top-right",
+                    type: "success",
+                })
+            }
+
         },
         reset(){
             this.formData=Object.assign({},this.defaultData)
-            this.formData.consultation_id=this.$route.params.consultation_id
+            this.formData.admission_id=this.$route.params.admission_id
         }
     },
     computed:{

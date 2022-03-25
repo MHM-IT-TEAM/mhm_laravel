@@ -93,41 +93,40 @@ Route::prefix('/v1')->group(function(){
             });
             //Obstetrics
             Route::group(['prefix'=>'obstetrical'],function() {
-               // moved to cpn Route::post('/cpn_admission',[App\Http\Controllers\V1\patient_system\out_patient\obstetrical\ObstetricsController::class,'store']);
-//                Route::put('/cpn_admission/{reference}',[App\Http\Controllers\V1\patient_system\out_patient\obstetrical\CpnAdmissionController::class,'update']);
-//                Route::get('/cpn/{reference}',[App\Http\Controllers\V1\patient_system\out_patient\obstetrical\CpnAdmissionController::class,'show']);
-//                Route::get('/ultrasound_id_for_admission_id_for_cpn/{admission_id}',[\App\Http\Controllers\V1\patient_system\out_patient\obstetrical\UltraSoundControllerOriginal::class,'ultrasound_id_for_admission_id_for_cpn']);
-//                Route::get('/search',[App\Http\Controllers\V1\patient_system\out_patient\obstetrical\CpnAdmissionController::class,'search']);
-//                Route::get('/cpn_followup/get_recent_cpn_admissions_for_patient/{patient_id}', [\App\Http\Controllers\V1\patient_system\out_patient\obstetrical\CpnFollowupController::class, 'get_recent_cpn_admissions_for_patient']);
-//                Route::get('/cpn_followup/new_followup/{cpn_admission_id}',[\App\Http\Controllers\V1\patient_system\out_patient\obstetrical\CpnFollowupController::class, 'new_followup']);
-//                Route::get('/cpn_followup/followup_history/{cpn_admission_id}',[\App\Http\Controllers\V1\patient_system\out_patient\obstetrical\CpnFollowupController::class, 'followup_history']);
-//                Route::get('/cpn_followup/get_pregnancy_information/{cpn_admission_id}', [\App\Http\Controllers\V1\patient_system\out_patient\obstetrical\CpnFollowupController::class, 'get_pregnancy_information']);
-//                Route::resource('/cpn_followup',\App\Http\Controllers\V1\patient_system\out_patient\obstetrical\CpnFollowupController::class);
-//                Route::resource('/cpn_blood_pressure',\App\Http\Controllers\V1\patient_system\out_patient\obstetrical\CpnBloodPressureController::class);
-//                Route::get('/ultrasound/get_recent_ultrasound_admissions_for_patient/{patient_id}',[\App\Http\Controllers\V1\patient_system\out_patient\obstetrical\UltraSoundControllerOriginal::class, 'get_recent_ultrasound_admissions_for_patient']);
-//                Route::resource('ultrasound',\App\Http\Controllers\V1\patient_system\out_patient\obstetrical\UltraSoundControllerOriginal::class);
-                // baby checkup routes
-//                Route::resource('/baby_checkup',\App\Http\Controllers\V1\patient_system\out_patient\obstetrical\BabyCheckupController::class);
-//                Route::resource('/baby_vaccination',\App\Http\Controllers\V1\patient_system\out_patient\obstetrical\BabyVaccinationController::class);
                 //New CPN routes
                 Route::group(['prefix'=>'cpn'],function(){
                     Route::resource('admission',App\Http\Controllers\V1\patient_system\out_patient\obstetrical\CpnAdmissionController::class);
                     Route::get('get_ultrasound_admission_data/{patient_id}',[App\Http\Controllers\V1\patient_system\out_patient\obstetrical\CpnAdmissionController::class,'get_ultrasound_admission_data']);
                     Route::resource('followup',\App\Http\Controllers\V1\patient_system\out_patient\obstetrical\CpnFollowupController::class);
                     Route::post('patient_cpn_search',[\App\Http\Controllers\V1\patient_system\out_patient\obstetrical\CpnAdmissionController::class,'patient_cpn_search']);
-
+                    Route::get('patient_list_of_cpn_admissions/{patient_id}',[\App\Http\Controllers\V1\patient_system\out_patient\obstetrical\CpnAdmissionController::class,'patient_list_of_cpn_admissions']);
+                    Route::get('get_recent_cpn_admissions_for_patient/{patient_id}', [\App\Http\Controllers\V1\patient_system\out_patient\obstetrical\CpnFollowupController::class, 'get_recent_cpn_admissions_for_patient']);
                 });
                 //new ultrasound routes
                 Route::group(['prefix'=>'ultrasound'],function(){
                     Route::post('admission',[\App\Http\Controllers\V1\patient_system\out_patient\obstetrical\UltrasoundController::class,'admission']);
                     Route::get('admission_list/{patient_id}',[\App\Http\Controllers\V1\patient_system\out_patient\obstetrical\UltrasoundController::class,'admission_list']);
                     Route::post("details",[\App\Http\Controllers\V1\patient_system\out_patient\obstetrical\UltrasoundController::class,'details']);
+                    Route::get("details/{ultrasound_admission_id}",[\App\Http\Controllers\V1\patient_system\out_patient\obstetrical\UltrasoundController::class,'get_details']);
                     Route::post("patient_search",[\App\Http\Controllers\V1\patient_system\out_patient\obstetrical\UltrasoundController::class,'patient_search']);
                     Route::put("close_exam/{ultrasound_admission_id}",[\App\Http\Controllers\V1\patient_system\out_patient\obstetrical\UltrasoundController::class,'close_exam']);
                 });
-                Route::group(['prefix'=>'overview'], function() {
-                    Route::get('/ultrasoundIdFromCpnAdmissionId/{cpn_admission_id}',[App\Http\Controllers\V1\patient_system\out_patient\obstetrical\ObstetricalOverviewController::class,'ultrasoundIdFromCpnAdmissionId']);
+                // Baby Checkup
+                    Route::group(['prefix'=>'baby'],function(){
+                        Route::resource('checkup',\App\Http\Controllers\V1\patient_system\out_patient\obstetrical\BabyCheckupController::class);
+                        Route::resource('vaccination',\App\Http\Controllers\V1\patient_system\out_patient\obstetrical\BabyVaccinationController::class);
+                    });
+                //Milk program
+                    Route::group(['prefix'=>'milkPro'],function(){
+                        Route::resource('main',\App\Http\Controllers\V1\patient_system\out_patient\obstetrical\BabyMilkProgramController::class);
+                        Route::get('patient/{patient_id}',[\App\Http\Controllers\V1\patient_system\out_patient\obstetrical\BabyMilkProgramController::class,'show_patient_milk_pro_admission']);
+                        Route::post('store_followup',[\App\Http\Controllers\V1\patient_system\out_patient\obstetrical\BabyMilkProgramController::class,'store_followup']);
+                    });
+                //Family planning
+                Route::group(['prefix'=>'family_planning'],function(){
+                    Route::resource('main',\App\Http\Controllers\V1\patient_system\out_patient\obstetrical\FamilyPlanningController::class);
                 });
+
             });
         });
         // In patient

@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <form class="p-4" @submit.prevent="submit">
-            <h2>INFANTILE CARD</h2>
+            <h2>VACCINATION CARD</h2>
             <br />
             <table class="myTable1" >
                 <tbody>
@@ -109,7 +109,7 @@
                 </tr>
 
                 <tr>
-                    <th colspan="3" style="text-align: center;">VACCINS</th>
+                    <th colspan="3">VACCINS</th>
                     <th colspan="2" style="text-align: center;">PCV-10-1</th>
                     <th colspan="2" style="text-align: center;">PCV-10-2</th>
                     <th style="text-align: center;">PCV-10-3</th>
@@ -118,7 +118,7 @@
                     <th style="text-align: center;">ROTAVE 2°prise</th>
                 </tr>
                 <tr>
-                    <th colspan="3">EXPECTED VACCINATION AGE</th>
+                    <th colspan="3">EXPECTED  AGE FOR VACCINATION</th>
                     <th colspan="2" style="text-align: center;"> 6 WEEK</th>
                     <th colspan="2" style="text-align: center;"> 10 WEEK</th>
                     <th colspan="2" style="text-align: center;"> 14 WEEK</th>
@@ -234,8 +234,20 @@
 </template>
 
 <script>
+import { validationMixin } from "vuelidate";
+const {
+    required,
+    minValue,
+    minLength,
+    email,
+    url,
+    maxLength,
+    between,
+    requiredIf,
+} = require("vuelidate/lib/validators");
 export default {
     name: "infantile_card",
+    mixins: [validationMixin],
     data(){
         return{
             formData:{
@@ -314,6 +326,9 @@ export default {
             }
         }
     },
+    validations:{
+
+    },
     computed:{
         td_avalaible(){
             return this.accessory.max_td_length-this.accessory.active_research_result.length
@@ -340,9 +355,9 @@ export default {
             this.formData.patient.firstName=patData.data.patient.firstName !==null?patData.data.patient.firstName:''
             this.formData.patient.lastName=patData.data.patient.lastName!==null?patData.data.patient.lastName:''
             this.formData.patient.birthDate=patData.data.patient.birthDate
-            axios.get(`/api/v1/patient_system/out_patient/obstetrical/baby_checkup/${this.formData.patient.id}`)
-            .then(response=>this.formData.patient.weight_at_birth=response.data.birth_medical_data[0].birth_weight)
-            axios.get(`/api/v1/patient_system/out_patient/obstetrical/baby_vaccination/${this.formData.patient.id}`)
+            axios.get(`/api/v1/patient_system/out_patient/obstetrical/baby/checkup/${this.formData.patient.id}`)
+            .then(response=>this.formData.patient.weight_at_birth=response.data.birth_medical_data[0]?.birth_weight ?? "N/A")
+            axios.get(`/api/v1/patient_system/out_patient/obstetrical/baby/vaccination/${this.formData.patient.id}`)
             .then(response=>{
                 if(response.data.vaccinRecord.length>0){
                     this.check(response.data.vaccinRecord)
@@ -357,7 +372,7 @@ export default {
             this.formData.mom.adress=patData.data.patient.adress
         },
         async submit(){
-            await axios.post('/api/v1/patient_system/out_patient/obstetrical/baby_vaccination',this.formData)
+            await axios.post('/api/v1/patient_system/out_patient/obstetrical/baby/vaccination',this.formData)
             .then(response=>{
                 if(response.data.success===true){
                     this.$toast.open({

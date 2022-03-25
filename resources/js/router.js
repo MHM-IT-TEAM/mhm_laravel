@@ -28,16 +28,7 @@ import cashier_payment from "./views/cashier/cashier_payment";
 //Obstetrics
 import cpn_admission from "./views/medical/obstetrics/cpn/cpn_admission";
 import obstetrics_layout from "./views/medical/obstetrics/layouts/obstetrics_layout";
-import cpn_followup from "./views/medical/obstetrics/cpn/cpn_followup";
-import first_cpn_list from "./views/medical/obstetrics/cpn/first_cpn_list";
-import cpn_followup_list from "./views/medical/obstetrics/cpn/cpn_followup_list";
-import ultrasound_form from "./views/medical/obstetrics/ultrasound/ultrasound_form";
-import ultrasound_list from "./views/medical/obstetrics/ultrasound/ultrasound_list";
-import weight_overview from "./views/medical/obstetrics/baby/weight_overview";
-import baby_checkup from "./views/medical/obstetrics/baby/baby_checkup";
-import baby_checkup_list from "./views/medical/obstetrics/baby/baby_checkup_list";
-import baby_vaccination_card from "./views/medical/obstetrics/baby/baby_vaccination_card";
-import baby_vaccination_list from "./views/medical/obstetrics/baby/baby_vaccination_list";
+
 //Overview
 import overview_layout from "./views/medical/overview/layouts/overview_layout";
 import obstetrics_overview from "./views/medical/overview/obstetrics_overview";
@@ -102,10 +93,25 @@ import ultrasound_admission_form from "./views/medical/obstetrics/ultrasound_1/u
 import patient_ultrasound_admission_list  from "./views/medical/obstetrics/ultrasound_1/patient_ultrasound_admission_list";
 import patient_ultrasound_search from "./views/medical/obstetrics/ultrasound_1/patient_ultrasound_search";
 import item_order_ultrasound from "./views/medical/obstetrics/ultrasound_1/item_order_ultrasound";
+//CPN
 import patient_cpn_search from "./views/medical/obstetrics/cpn/patient_cpn_search";
 import pregnancy_card from "./views/medical/obstetrics/pregnancy_card";
-
-
+import patient_list_of_cpn from "./views/medical/obstetrics/cpn/patient_list_of_cpn";
+import cpn_followup from "./views/medical/obstetrics/cpn/cpn_followup";
+import first_cpn_list from "./views/medical/obstetrics/cpn/first_cpn_list";
+import cpn_followup_list from "./views/medical/obstetrics/cpn/cpn_followup_list";
+//Baby
+import weight_overview from "./views/medical/obstetrics/baby/weight_overview";
+import baby_checkup from "./views/medical/obstetrics/baby/baby_checkup";
+import baby_checkup_list from "./views/medical/obstetrics/baby/baby_checkup_list";
+import baby_vaccination_card from "./views/medical/obstetrics/baby/baby_vaccination_card";
+import baby_vaccination_list from "./views/medical/obstetrics/baby/baby_vaccination_list";
+import baby_milk_pro_admission from "./views/medical/obstetrics/baby/baby_milk_pro_admission";
+import baby_milk_pro_followup from "./views/medical/obstetrics/baby/baby_milk_pro_followup";
+import baby_milk_pro_list from "./views/medical/obstetrics/baby/baby_milk_pro_list";
+//Family planning
+import family_planning_list from "./views/medical/obstetrics/family_planning/family_planning_list";
+import family_planning_form from "./views/medical/obstetrics/family_planning/family_planning_form";
 
 Vue.use(VueRouter);
 
@@ -344,58 +350,70 @@ const routes = [
                 path:'pregnancy_card',
                 name:'pregnancy_card',
                 component:pregnancy_card
-
             },
-            // {
-            //     path: 'ultrasound_form/:ref?',
-            //     name: 'ultrasound_form',
-            //     component: ultrasound_form
-            // },
-            // {
-            //     path: 'ultrasound_form',
-            //     name: 'ultrasound_form_base',
-            //     component: ultrasound_form
-            // },
-            // {
-            //     path: 'ultrasound_list',
-            //     name: 'ultrasound_list',
-            //     component: ultrasound_list,
-            //     meta: { title : 'Ultrasound' }
-            // },
+            {
+                path:'list_of_cpn',
+                name:'patient_list_of_cpn',
+                component:patient_list_of_cpn
+            },
             {
                 path:'cpn_search',
                 name:'patient_cpn_search',
                 component:patient_cpn_search
             },
-            // {
-            //     path: 'baby_weight_overview',
-            //     name: 'baby_weight_overview',
-            //     component:weight_overview
-            // },
-            // {
-            //     path: 'baby_checkup_list',
-            //     name: 'baby_checkup_list',
-            //     component:baby_checkup_list,
-            //     meta: { title : 'Baby checkup' }
-            // },
-            // {
-            //     path: 'baby_checkup',
-            //     name: 'baby_checkup',
-            //     component:baby_checkup
-            // },
-            // {
-            //     path: 'baby_vaccination_list',
-            //     name: 'baby_vaccination_list',
-            //     component:baby_vaccination_list,
-            //     meta: { title : 'Baby vaccination' }
-            // },
-            // {
-            //     path: 'baby_vaccination_card',
-            //     name: 'baby_vaccination_card',
-            //     component:baby_vaccination_card
-            // },
-
-
+            {
+                path: 'baby_weight_overview',
+                name: 'baby_weight_overview',
+                component:weight_overview
+            },
+            {
+                path: 'baby_checkup_list',
+                name: 'baby_checkup_list',
+                component:baby_checkup_list,
+                meta: { title : 'Baby checkup' }
+            },
+            {
+                path: 'baby_checkup',
+                name: 'baby_checkup',
+                component:baby_checkup
+            },
+            {
+                path: 'baby_vaccination_list',
+                name: 'baby_vaccination_list',
+                component:baby_vaccination_list,
+                meta: { title : 'Baby vaccination' }
+            },
+            {
+                path: 'baby_vaccination_card',
+                name: 'baby_vaccination_card',
+                component:baby_vaccination_card
+            },
+            {
+                path: 'milk_pro_admission',
+                name: 'milk_pro_admission',
+                component:baby_milk_pro_admission
+            },
+            {
+                path: 'milk_pro_followup',
+                name: 'milk_pro_followup',
+                component:baby_milk_pro_followup
+            },
+            {
+                path: 'milk_pro_list',
+                name: 'milk_pro_list',
+                component:baby_milk_pro_list
+            },
+            //family planning
+            {
+                path:'family_planning_list',
+                name:'family_planning_list',
+                component:family_planning_list
+            },
+            {
+                path:'family_planning_form',
+                name:'family_planning_form',
+                component:family_planning_form
+            }
         ]
     },
 

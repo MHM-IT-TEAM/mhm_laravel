@@ -1,17 +1,14 @@
 <template>
     <div class="container">
-        <patient-list :headers="headers" @edit="editItem" :service_id="9" :service_activity_id="17"></patient-list>
+        <patient-list :service_id="8" :service_activity_id="74" :headers="headers" @edit="editItem" title="FAMILY PLANNING"></patient-list>
     </div>
 </template>
 
 <script>
-import PatientList from "../../../../components/patient_list.vue";
-
-
-
+import PatientList from "../../../../components/patient_list";
 export default {
-    name: "baby_checkup_list",
-    components: { PatientList },
+    name: "family_planning_list",
+    components: {PatientList},
     data(){
         return{
             headers: [
@@ -26,10 +23,10 @@ export default {
     methods:{
         editItem(item) {
             this.$router.push({
-                name: "baby_vaccination_card",
+                name: "family_planning_form",
                 params: {
                     patient_id: item.patient_id,
-                    consultation_id: item.id,
+                    admission_id: item.id,
                 },
             });
         }

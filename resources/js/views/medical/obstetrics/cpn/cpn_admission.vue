@@ -1,6 +1,6 @@
 <template>
-  <div class="container-fluid p-4">
-    <v-app class="p-4">
+  <div class="container-fluid">
+    <v-app>
       <div class="d-flex flex-row justify-content-between">
         <div>
           <h1 id="title">PRENATAL CARE FIRST CHECKUP</h1>
@@ -207,7 +207,7 @@
                 [&nbsp;
                 <select v-model="ultrasound_data.edd_method" disabled>
                   <option value="calc">calc</option>
-                  <option value="echo">echo</option>
+                  <option value="us">US</option>
                   <option value="corrected">corrected</option>
                 </select>
                 &nbsp;]
@@ -264,7 +264,7 @@
                   <small
                     :class="{
                       'text-white bg-success':
-                        ultrasound_data.edd_method === 'echo',
+                        ultrasound_data.edd_method === 'us',
                     }"
                     class="mr-6"
                     >US:
@@ -291,7 +291,7 @@
                         readonly
                         disabled
                         :class="{
-                          'text-success': ultrasound_data.edd_method === 'echo',
+                          'text-success': ultrasound_data.edd_method === 'us',
                         }"
                       />
                     </template>
@@ -421,146 +421,6 @@
                   :readonly="!canEdit"
                 ></textarea>
               </td>
-<!--              <td style="width: 300px">-->
-<!--                <table class="table table-borderless precautions-table">-->
-<!--                  <tr>-->
-<!--                    <td>-->
-<!--                      <label-->
-<!--                        ><small-->
-<!--                          >Preeclampsia<br />prevention needed</small-->
-<!--                        ></label-->
-<!--                      >-->
-<!--                    </td>-->
-<!--                    <td>-->
-<!--                      <yes-or-no-->
-<!--                        row-->
-<!--                        v-model="formData.preeclampsia_needed"-->
-<!--                        :disabled="!canEdit"-->
-<!--                      />-->
-<!--                    </td>-->
-<!--                  </tr>-->
-<!--                  <tr>-->
-<!--                    <td>-->
-<!--                      <label><small>High frequency prenatal care</small></label>-->
-<!--                    </td>-->
-<!--                    <td>-->
-<!--                      <yes-or-no-->
-<!--                        row-->
-<!--                        v-model="formData.high_frequency_prenatal_care"-->
-<!--                        :disabled="!canEdit"-->
-<!--                      />-->
-<!--                    </td>-->
-<!--                  </tr>-->
-<!--                  <tr>-->
-<!--                    <td>-->
-<!--                      <label><small>OGTT Needed</small></label>-->
-<!--                    </td>-->
-<!--                    <td>-->
-<!--                      <yes-or-no-->
-<!--                        row-->
-<!--                        v-model="formData.ogtt_needed"-->
-<!--                        :disabled="!canEdit"-->
-<!--                      />-->
-<!--                    </td>-->
-<!--                  </tr>-->
-<!--                  <tr>-->
-<!--                    <td>-->
-<!--                      <label><small>Planned C-section</small></label>-->
-<!--                    </td>-->
-<!--                    <td>-->
-<!--                      <yes-or-no-->
-<!--                        row-->
-<!--                        v-model="formData.planned_oc"-->
-<!--                        :disabled="!canEdit"-->
-<!--                      />-->
-<!--                      <date-picker-->
-<!--                        v-model="formData.planned_oc_date"-->
-<!--                        class="d-block"-->
-<!--                        v-if="formData.planned_oc"-->
-<!--                        :input-debounce="500"-->
-<!--                        mode="date"-->
-<!--                        :model-config="accessory.dateConfig"-->
-<!--                        :masks="accessory.dateConfig.masks"-->
-<!--                        :min-date="planned_oc_min_date"-->
-<!--                        :popover="{ visibility: canEdit ? 'click' : 'hidden' }"-->
-<!--                      >-->
-<!--                        <template v-slot="{ inputValue, inputEvents }">-->
-<!--                          <input-->
-<!--                            class="-->
-<!--                              bg-white-->
-<!--                              form-control form-control-sm-->
-<!--                              px-2-->
-<!--                              py-1-->
-<!--                              rounded-->
-<!--                            "-->
-<!--                            :value="inputValue"-->
-<!--                            v-on="inputEvents"-->
-<!--                            readonly-->
-<!--                          />-->
-<!--                        </template>-->
-<!--                      </date-picker>-->
-<!--                    </td>-->
-<!--                  </tr>-->
-<!--                  <tr>-->
-<!--                    <td>-->
-<!--                      <label><small>Planned induction</small></label>-->
-<!--                    </td>-->
-<!--                    <td>-->
-<!--                      <yes-or-no-->
-<!--                        row-->
-<!--                        v-model="formData.planned_induction"-->
-<!--                        :disabled="!canEdit"-->
-<!--                      />-->
-<!--                    </td>-->
-<!--                  </tr>-->
-<!--                  <tr>-->
-<!--                    <td>-->
-<!--                      <label-->
-<!--                        ><small>Takes blood pressure medication</small></label-->
-<!--                      >-->
-<!--                    </td>-->
-<!--                    <td>-->
-<!--                      <yes-or-no-->
-<!--                        row-->
-<!--                        v-model="formData.takes_blood_pressure_medication"-->
-<!--                        :disabled="!canEdit"-->
-<!--                      />-->
-<!--                      <div v-if="formData.takes_blood_pressure_medication">-->
-<!--                        <span>Start date:</span>-->
-<!--                        <date-picker-->
-<!--                          v-model="-->
-<!--                            formData.blood_pressure_medication_start_date-->
-<!--                          "-->
-<!--                          class="d-block"-->
-<!--                          :input-debounce="500"-->
-<!--                          mode="date"-->
-<!--                          :model-config="accessory.dateConfig"-->
-<!--                          :masks="accessory.dateConfig.masks"-->
-<!--                          :max-date="new Date()"-->
-<!--                          :popover="{-->
-<!--                            visibility: canEdit ? 'click' : 'hidden',-->
-<!--                          }"-->
-<!--                        >-->
-<!--                          <template v-slot="{ inputValue, inputEvents }">-->
-<!--                            <input-->
-<!--                              class="-->
-<!--                                bg-white-->
-<!--                                form-control form-control-sm-->
-<!--                                px-2-->
-<!--                                py-1-->
-<!--                                rounded-->
-<!--                              "-->
-<!--                              :value="inputValue"-->
-<!--                              v-on="inputEvents"-->
-<!--                              readonly-->
-<!--                            />-->
-<!--                          </template>-->
-<!--                        </date-picker>-->
-<!--                      </div>-->
-<!--                    </td>-->
-<!--                  </tr>-->
-<!--                </table>-->
-<!--              </td>-->
             </tr>
           </tbody>
         </table>
@@ -1319,6 +1179,7 @@ export default {
         gender: "",
       },
       ultrasound_data: {
+        id:null,
         created_at: null,
         unknown_lpd: false,
         ddr: null,
@@ -1388,6 +1249,7 @@ export default {
         if (this.accessory.edit === false) {
             this.formData.ultrasound_data=this.ultrasound_data
             this.formData.ultrasound_data.gestational_age=this.current_gestational_age
+            this.formData.ultrasound_admission_id=this.ultrasound_data.id
           let response = await axios.post(
             "/api/v1/patient_system/out_patient/obstetrical/cpn/admission",
             this.formData
@@ -1447,7 +1309,7 @@ export default {
 
       if (this.accessory.data_populated === true) this.reset_form();
       let response = await axios.get(
-        `/api/v1/patient_system/out_patient/obstetrical/cpn/${reference}`
+        `/api/v1/patient_system/out_patient/obstetrical/cpn/admission/${reference}`
       );
 
       this.accessory.reference = reference;
@@ -1457,6 +1319,7 @@ export default {
         this.formData.pregnancy_history = response.data.preg_history;
         this.formData.gestational_age = response.data.admission.wop;
         this.accessory.data_populated = true;
+        this.patient_details=response.data.patient
         if (response.data.ultrasound) {
           this.set_ultrasound_data(response.data.ultrasound);
         } else {
@@ -1471,6 +1334,7 @@ export default {
       if (this.$route.params.patient){
         [this.patient_details,this.formData.patient_id,this.formData.weight,this.formData.consultation_id]=[this.$route.params.patient,this.$route.params.patient.id,this.$route.params.weight,this.$route.params.admission_id]
       }
+      if(this.reference) this.accessory.reference=this.reference
       if (this.accessory.reference !== "" && this.accessory.reference) {
         this.accessory.edit = true;
         await this.fetchData();
@@ -1488,20 +1352,21 @@ export default {
               )
               .then((response) => {
                   if (response.data) {
-                      this.ultrasound_data={
-                          created_at:response.data.created_at,
-                          ddr:response.data.last_period_date,
-                          edd_calc:response.data.edd_calculated,
-                          edd_corrected:response.data.edd_corrected,
-                          edd_ultrasound:response.data.edd_ultrasound,
-                          gestational_age:'',
-                          edd_method:response.data.edd_method,
-                          selected_edd:'',
-                          unknown_lpd:response.data.unknown_lpd,
-                          calculated_ga:response.data.calculated_ga,
-                          ultrasound_ga:response.data.ultrasound_ga,
-                          corrected_ga:response.data.corrected_ga,
-                      }
+                      this.set_ultrasound_data(response.data)
+                      // this.ultrasound_data={
+                      //     created_at:response.data.created_at,
+                      //     ddr:response.data.last_period_date,
+                      //     edd_calc:response.data.edd_calculated,
+                      //     edd_corrected:response.data.edd_corrected,
+                      //     edd_ultrasound:response.data.edd_ultrasound,
+                      //     gestational_age:'',
+                      //     edd_method:response.data.edd_method,
+                      //     selected_edd:'',
+                      //     unknown_lpd:response.data.unknown_lpd,
+                      //     calculated_ga:response.data.calculated_ga,
+                      //     ultrasound_ga:response.data.ultrasound_ga,
+                      //     corrected_ga:response.data.corrected_ga,
+                      // }
                   }
               })
       }
@@ -1570,7 +1435,7 @@ export default {
         case "calc":
           this.ultrasound_data.selected_edd = this.ultrasound_data.edd_calc;
           break;
-        case "echo":
+        case "us":
           this.ultrasound_data.selected_edd =
             this.ultrasound_data.edd_ultrasound;
           break;
@@ -1593,6 +1458,23 @@ export default {
             0;
       }
     },
+    set_ultrasound_data(data){
+        this.ultrasound_data={
+            id:data.id,
+            created_at:data.created_at,
+            ddr:data.last_period_date,
+            edd_calc:data.edd_calculated,
+            edd_corrected:data.edd_corrected,
+            edd_ultrasound:data.edd_ultrasound,
+            gestational_age:'',
+            edd_method:data.edd_method,
+            selected_edd:'',
+            unknown_lpd:data.unknown_lpd,
+            calculated_ga:data.calculated_ga,
+            ultrasound_ga:data.ultrasound_ga,
+            corrected_ga:data.corrected_ga,
+        }
+    }
   },
   computed: {
     canEdit() {

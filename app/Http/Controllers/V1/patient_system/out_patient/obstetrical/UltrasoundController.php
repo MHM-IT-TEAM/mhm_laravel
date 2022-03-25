@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\patient_system\UltrasoundAdmissionRequest;
 use App\Models\Fetus;
 use App\Models\UltrasoundAdmission;
+use App\Models\UltrasoundDetail;
 use App\Service\V1\patient_system\obstetrics\UltrasoundAdmissionService;
 use App\Service\V1\patient_system\obstetrics\UltrasoundDetailService;
 use Illuminate\Database\Eloquent\Model;
@@ -44,5 +45,8 @@ class UltrasoundController extends Controller
         $admission->status='closed';
         $admission->save();
         return response()->json(['success'=>true]);
+    }
+    public function get_details($id){
+        return UltrasoundAdmission::with('fetuses','ultrasoundDetails')->find($id);
     }
 }

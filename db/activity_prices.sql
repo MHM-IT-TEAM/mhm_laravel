@@ -78,3 +78,4 @@ INSERT INTO activity_prices(id,created_at,updated_at,name,joyCenter,service_acti
 INSERT INTO activity_prices(id,created_at,updated_at,name,joyCenter,service_activity_id,sector,out_sector,mhm_staff,mhm_staff_family,vip,mhm_partners) VALUES (78,NULL,NULL,'Medical',1,71,0,0,NULL,NULL,NULL,NULL);
 INSERT INTO activity_prices(id,created_at,updated_at,name,joyCenter,service_activity_id,sector,out_sector,mhm_staff,mhm_staff_family,vip,mhm_partners) VALUES (79,NULL,NULL,'Social',1,72,0,0,NULL,NULL,NULL,NULL);
 INSERT INTO activity_prices(id,created_at,updated_at,name,joyCenter,service_activity_id,sector,out_sector,mhm_staff,mhm_staff_family,vip,mhm_partners) VALUES (80,NULL,NULL,'Technical',1,73,0,0,NULL,NULL,NULL,NULL);
+INSERT INTO activity_prices(id,created_at,updated_at,name,joyCenter,service_activity_id,sector,out_sector,mhm_staff,mhm_staff_family,vip,mhm_partners) VALUES (80,NULL,NULL,'Family plannin',1,74,0,0,NULL,NULL,NULL,NULL);

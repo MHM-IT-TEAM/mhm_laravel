@@ -61,13 +61,9 @@ export default {
             })
         },
         process(patient){
-            console.log(patient);
             this.$router.push({
-                name: "pregnancy_card",
-                params: { admission:{
-                        patient:patient,
-                    }
-                }
+                name: "patient_list_of_cpn",
+                params: {data:patient}
             })
         }
     }

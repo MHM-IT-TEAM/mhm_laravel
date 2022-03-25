@@ -25,15 +25,16 @@ export default {
     methods:{
         ...mapActions('baby_checkup',['bootstrap_checkup_data']),
         async set(){
-            console.log(this.baby_checkup_data)
+            // console.log(this.baby_checkup_data)
+            // set the starting weight and date
+            // if the birth data (weight, date )is available, then take them if not it is then the first weight in checkups list
             this.birthDate= Date.parse(this.baby_checkup_data.birthDate)
             this.weight_list=this.baby_checkup_data.baby_checkups
-            // weight_list.forEach(list=>{
-            //     let count=(Date.parse(list.created_at)-birthDate)/(1000 * 60 * 60 * 24)
-            //     actual_weight[count]=list.weight
-            // })
             this.baby_name = this.baby_checkup_data.firstName
-            this.birth_weight = this.baby_checkup_data.birth_medical_data[0].birth_weight
+            this.birth_weight = this.baby_checkup_data?.birth_medical_data[0]?.birth_weight ?? this.baby_checkup_data?.baby_checkups[0]?.weight
+
+
+
             let birth_double = this.birth_weight * 2
             let birth_max = this.birth_weight * 3.5
             let minus_ten = this.birth_weight * 0.9
@@ -95,10 +96,11 @@ export default {
                 ac_keys.push(keys)
                 ac_values.push(list.weight)
             })
+            console.log(ac_keys)
             ac_keys.forEach((key, index) => {
                 actual_weight_line.splice(key, 1, ac_values[index])
             })
-            console.log(actual_weight_line)
+            // console.log(actual_weight_line)
 
             var ctx = document.getElementById('graph')
             var myChart = new Chart(ctx, {
@@ -178,7 +180,6 @@ export default {
     watch:{
         baby_checkup_data:{
             handler(val){
-                console.log('change')
                 this.set()
             },
             deep:true

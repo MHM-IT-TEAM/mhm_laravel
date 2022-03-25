@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <patient-list :type_consult="18" :headers="headers" @edit="editItem"></patient-list>
+        <patient-list :service_id="9" :service_activity_id="18" :headers="headers" @edit="editItem" title="baby checkup"></patient-list>
     </div>
 </template>
 
@@ -27,7 +27,7 @@ export default {
                 params: {
                     patient_id: item.patient_id,
                     fullName:item.patient.firstName +" "+ item.patient.lastName,
-                    consultation_id: item.id,
+                    admission_id: item.id,
                 },
             });
         }

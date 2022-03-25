@@ -3,13 +3,12 @@
 namespace App\Http\Controllers\V1\patient_system\out_patient\obstetrical;
 
 use App\Http\Controllers\Controller;
-use App\Models\BabyCheckup;
-use App\Models\Consultation;
+use App\Models\MilkprogramAdmission;
 use App\Models\Patient;
-use App\Service\V1\patient_system\obstetrics\BabyCheckupService;
+use App\Service\V1\patient_system\obstetrics\MilkProgramService;
 use Illuminate\Http\Request;
 
-class BabyCheckupController extends Controller
+class BabyMilkProgramController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,7 +17,7 @@ class BabyCheckupController extends Controller
      */
     public function index()
     {
-        return view('medical.obstetrics.pink.babies.weight_overview');
+        //
     }
 
     /**
@@ -39,9 +38,15 @@ class BabyCheckupController extends Controller
      */
     public function store(Request $request)
     {
-
-        $checkup=new BabyCheckupService();
-        return $checkup->store($request);
+        $mp= new MilkprogramAdmission();
+        $mp->admission_id=$request->admission_id;
+        $mp->patient_id=$request->patient_id;
+        $mp->story=$request->story;
+        $mp->mom_id=$request->mom_id;
+        $mp->mom_is_patient=$request->mom_is_patient;
+        $mp->mhm_baby=$request->mhm_baby;
+        $mp->save();
+        return $mp;
     }
 
     /**
@@ -52,7 +57,7 @@ class BabyCheckupController extends Controller
      */
     public function show($id)
     {
-        return  Patient::with(['babyCheckups','birth_medical_data'])->find($id);
+        //
     }
 
     /**
@@ -88,6 +93,17 @@ class BabyCheckupController extends Controller
     {
         //
     }
-
-
+    public function show_patient_milk_pro_admission($id){
+        return Patient::with(['milkProgramAdmission'=>function($adm){
+            return $adm->with(['milkprogramFollowups'=>function($fup){
+                return $fup->with(['milkProgramFollowupDetails'=>function($det){
+                    return $det->with('item')->get();
+                }])->get();
+            }])->get();
+        }])->find($id);
+    }
+    public function store_followup(Request $request){
+        $mp= new MilkProgramService();
+        return $mp->store_followup($request);
+    }
 }

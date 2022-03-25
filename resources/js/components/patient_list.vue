@@ -5,6 +5,7 @@
                 <v-card class="p-4">
                     <v-row>
                         <v-container>
+                            <h1 class="title">{{title}}</h1>
                             Filter by date
                             <date-picker
                                 v-model="today"
@@ -66,7 +67,8 @@ export default {
     props:{
         service_id:'',
         service_activity_id:'',
-        headers: Array
+        headers: Array,
+        title:''
     },
     data(){
         return{
@@ -115,5 +117,28 @@ export default {
 </script>
 
 <style scoped>
+h1 {
+    text-align: center;
+    color: white;
+    text-transform: uppercase;
+    padding: 1px;
+    font-family: 'Raleway', cursive;
+    font-weight: 100;
+    position: relative;
+    background: rgb(103,103,154);
+    background: linear-gradient(90deg, rgba(103,103,154,1) 0%, rgba(19,144,198,1) 67%);
+}
+h1::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: -50px;
+    width: 600px;
+    margin-left: -300px;
+    margin-top: -220px;
+    height: 600px;
+    /*background: radial-gradient(50% 50%, ellipse closest-side, #444, black);*/
+    z-index: -1;
+}
 
 </style>

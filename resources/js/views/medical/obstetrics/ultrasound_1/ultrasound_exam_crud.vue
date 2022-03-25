@@ -1,7 +1,7 @@
 <template>
     <div class="container-fluid vh-100">
-        <div class="d-inline mb-2">
-            <span class="font-weight-bold"> ({{patient.id}})-{{patient.firstName}} {{patient.lastName}}</span>
+        <div class="d-inline mb-2" v-if="!is_overview">
+            <span class="font-weight-bold"  > ({{patient.id}})-{{patient.firstName}} {{patient.lastName}}</span>
             <v-btn class="float-right" x-small dark color="purple" @click="dialog=true">New Data</v-btn>
         </div>
         <v-tabs
@@ -25,56 +25,58 @@
             >
                 <v-card flat>
                     <v-card-text>
-                        <table class="table table-sm table-striped">
-                            <thead>
-                            <th>Date</th>
-                            <th>Calc GA</th>
-                            <th>US GA</th>
-                            <th>Corrected GA</th>
-                            <th>Intra Ut</th>
-                            <th>Embryo visible</th>
-                            <th>BPD</th>
-                            <th>HC</th>
-                            <th>AC</th>
-                            <th>FL</th>
-                            <th>GS</th>
-                            <th>CRL</th>
-                            <th>FHR</th>
-                            <th>EWB</th>
-                            <th>Norm growth</th>
-                            <th>Heartbeat</th>
-                            <th>Placenta type</th>
-                            <th>Pos of baby</th>
-                            <th>Pres of baby</th>
-                            <th>Amnio liquid</th>
-                            <th>Medical staff</th>
-                            </thead>
-                            <tbody>
-                            <tr v-for="row in item.exams">
-                                <td>{{moment(row.created_at).format("DD/MMM/YYYY")}}</td>
-                                <td>{{row.calculated_ga}}</td>
-                                <td>{{row.ultrasound_ga}}</td>
-                                <td>{{row.corrected_ga}}</td>
-                                <td>{{row.intra_uterine}}</td>
-                                <td>{{row.embryo_visible}}</td>
-                                <td>{{row.bpd}}</td>
-                                <td>{{row.hc}}</td>
-                                <td>{{row.ac}}</td>
-                                <td>{{row.fl}}</td>
-                                <td>{{row.gs}}</td>
-                                <td>{{row.crl}}</td>
-                                <td>{{row.fhr}}</td>
-                                <td>{{row.ewb}}</td>
-                                <td>{{row.proportional_growth}}</td>
-                                <td>{{row.heart_beat}}</td>
-                                <td>{{row.placenta_type}}</td>
-                                <td>{{row.position_of_baby}}</td>
-                                <td>{{row.presentation_of_baby}}</td>
-                                <td>{{row.amniotic_liquid}}</td>
-                                <td>{{row.medical_staff}}</td>
-                            </tr>
-                            </tbody>
-                        </table>
+                      <div class="table-responsive">
+                          <table class="table table-sm table-striped">
+                              <thead>
+                              <th>Date</th>
+                              <th>Calc GA</th>
+                              <th>US GA</th>
+                              <th>Corrected GA</th>
+                              <th>Intra Ut</th>
+                              <th>Embryo visible</th>
+                              <th>BPD</th>
+                              <th>HC</th>
+                              <th>AC</th>
+                              <th>FL</th>
+                              <th>GS</th>
+                              <th>CRL</th>
+                              <th>FHR</th>
+                              <th>EWB</th>
+                              <th>Norm growth</th>
+                              <th>Heartbeat</th>
+                              <th>Placenta type</th>
+                              <th>Pos of baby</th>
+                              <th>Pres of baby</th>
+                              <th>Amnio liquid</th>
+                              <th>Medical staff</th>
+                              </thead>
+                              <tbody>
+                              <tr v-for="row in item.exams">
+                                  <td>{{moment(row.created_at).format("DD/MMM/YYYY")}}</td>
+                                  <td>{{row.calculated_ga}}</td>
+                                  <td>{{row.ultrasound_ga}}</td>
+                                  <td>{{row.corrected_ga}}</td>
+                                  <td>{{row.intra_uterine}}</td>
+                                  <td>{{row.embryo_visible}}</td>
+                                  <td>{{row.bpd}}</td>
+                                  <td>{{row.hc}}</td>
+                                  <td>{{row.ac}}</td>
+                                  <td>{{row.fl}}</td>
+                                  <td>{{row.gs}}</td>
+                                  <td>{{row.crl}}</td>
+                                  <td>{{row.fhr}}</td>
+                                  <td>{{row.ewb}}</td>
+                                  <td>{{row.proportional_growth}}</td>
+                                  <td>{{row.heart_beat}}</td>
+                                  <td>{{row.placenta_type}}</td>
+                                  <td>{{row.position_of_baby}}</td>
+                                  <td>{{row.presentation_of_baby}}</td>
+                                  <td>{{row.amniotic_liquid}}</td>
+                                  <td>{{row.medical_staff}}</td>
+                              </tr>
+                              </tbody>
+                          </table>
+                      </div>
                     </v-card-text>
                 </v-card>
             </v-tab-item>
@@ -90,6 +92,7 @@
                 dark
                 small
                 @click="go_back"
+                v-if="!is_overview"
             >
                 <v-icon left>
                     mdi-arrow-left-bold
@@ -118,6 +121,7 @@ import Ultrasound_form_new from "./ultrasound_form_new";
 import moment from 'moment'
 export default {
     name: "ultrasound_exam_crud",
+    props:['is_overview','ultrasound_admission_id'],
     components: {Ultrasound_form_new},
     data(){
         return{
@@ -134,12 +138,20 @@ export default {
         }
     },
     created(){
-        this.patient=this.$route.params.patient
-        // this.ultrasound_exam_list=this.$route.params.ultrasound_admission.ultrasound_details
-        this.populate_exam_list(this.$route.params.ultrasound_admission.ultrasound_details)
-
+        this.init()
     },
     methods:{
+        async init(){
+            if(this.$route.params.patient!==undefined){
+                this.patient=this.$route.params.patient
+                this.populate_exam_list(this.$route.params.ultrasound_admission.ultrasound_details)
+            }
+            if(this.is_overview){
+                axios.get(`/api/v1/patient_system/out_patient/obstetrical/ultrasound/details/${this.ultrasound_admission_id}`).then(response=>{
+                    this.populate_exam_list(response.data.ultrasound_details)
+                })
+            }
+        },
         populate_exam_list(src){
             let list_of_fetus_id=[]
             src.forEach(exam=>{

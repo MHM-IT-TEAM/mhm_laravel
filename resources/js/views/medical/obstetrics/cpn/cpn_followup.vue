@@ -1,5 +1,5 @@
 <template>
-    <div class="container-fluid p-4 vh-100">
+    <div class="container-fluid">
         <Loading :active.sync="accessory.isLoading"></Loading>
         <v-app>
             <div>
@@ -31,9 +31,7 @@
                                 v-if="!is_overview"
                             ></v-text-field>
                             <span v-if="noDataFound" class="text-white bg-danger">no data found</span>
-
-                            <v-spacer></v-spacer>
-                        <v-btn color="primary" @click="navigateToAdmission"  v-if="!is_overview" small>View first checkup</v-btn >
+<!--                        <v-btn color="primary" @click="navigateToAdmission"  v-if="!is_overview" small>View first checkup</v-btn >-->
                         <v-divider
                             class="mx-4"
                             inset
@@ -60,6 +58,7 @@
                                     v-bind="attrs"
                                     v-on="on"
                                     small
+                                    v-if="!is_overview"
                                 >
                                     New Data
                                 </v-btn>
@@ -927,9 +926,10 @@ const {
                         //new data
                         this.$v.editedItem.$touch();
                         this.editedItem.cpn_admission_id=this.manual_cpn_admission_id_search;
-
+                        this.editedItem.admission_id= this.$route.params.admission_id
                         this.editedItem.responsible=window.auth.user.name;
                         if (!this.$v.$invalid) {
+
                             let post= await axios.post('/api/v1/patient_system/out_patient/obstetrical/cpn/followup',this.editedItem)
                             if(post.data.success===true){
                                 this.$toast.open({
@@ -977,20 +977,12 @@ const {
                 }
                 this.accessory.isLoading = false;
             },
-            navigateToAdmission(){
+            async navigateToOverview(){
+                let response= await axios.get(`/api/v1/patient_system/out_patient/obstetrical/cpn/admission/${this.$route.params?.cpn_admission?.id}`)
                 this.$router.push({
-                    name:"cpn_admission",
+                    name:"pregnancy_card",
                     params:{
-                        id: this.reference,
-
-                    }
-                })
-            },
-            navigateToOverview(){
-                this.$router.push({
-                    name:"obstetrics_overview",
-                    params:{
-                        cpn_admission_id: this.reference,
+                        data:response.data.admission
                     }
                 })
             },

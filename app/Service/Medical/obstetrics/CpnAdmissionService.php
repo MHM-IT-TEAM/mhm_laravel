@@ -6,6 +6,7 @@ namespace App\Service\Medical\obstetrics;
 
 use App\Models\Admission;
 use App\Models\CpnAdmission;
+use App\Models\Patient;
 use App\Models\PregnancyHistory;
 use App\Models\UltrasoundAdmission;
 
@@ -120,29 +121,12 @@ class CpnAdmissionService
         $admission=  CpnAdmission::find($reference);
         if($admission){
             $pregHisto= PregnancyHistory::where('patient_id',$admission->patient_id)->orderBy('nr_year','desc')->get();
-            $ultrasound = null;
-            if ($admission->ultrasound_admission_id) {
-                $ultrasound = $this->ultrasound_service->fetch($admission->ultrasound_admission_id);
-            }
-
-            $legacy_edd = null;
-            if (!$admission->ultrasound_admission_id) {
-                $legacy_edd = (object)[
-                    "created_at"=>$admission->created_at,
-                    "ddr"=>$admission->ddr,
-                    "unknown_lpd"=>$admission->unknown_lpd,
-                    "dpa_method"=>$admission->dpa_method,
-                    "dpa_calc"=>$admission->dpa_calc,
-                    "dpa_echo"=>$admission->dpa_echo,
-                    "dpa_corrected"=>$admission->dpa_corrected,
-                ];
-            }
-
+            $ultrasound = UltrasoundAdmission::where('patient_id',$admission->patient_id)->latest()->first();
             return [
                 "admission"=>$admission,
                 "preg_history"=>$pregHisto,
                 "ultrasound"=>$ultrasound,
-                "legacy_edd"=>$legacy_edd,
+                "patient"=>Patient::find($admission->patient_id),
                 "success"=>true
             ];
         }

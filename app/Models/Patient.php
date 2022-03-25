@@ -26,7 +26,7 @@ class Patient extends Model
         return $this->hasMany(PatientCashFlow::class);
     }
     public function babyCheckups(){
-        return $this->hasManyThrough(BabyCheckup::class,Consultation::class);
+        return $this->hasManyThrough(BabyCheckup::class,Admission::class);
     }
     public function birth(){
         return $this->belongsTo(Birth::class);
@@ -39,6 +39,12 @@ class Patient extends Model
     }
     public function ultraSoundAdmissions(){
         return $this->hasMany(UltrasoundAdmission::class);
+    }
+    public function milkProgramAdmission(){
+        return $this->hasOne(MilkprogramAdmission::class);
+    }
+    public function familyPlannings(){
+        return $this->hasMany(FamilyPlanning::class);
     }
 
     public function search($searchWords){

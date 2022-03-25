@@ -58,7 +58,7 @@
                      @click="submit"
                      color="warning"
                      x-small
-                     :disabled="accessory.form_submitted || formData.transaction.done===1"
+                     :disabled="accessory.form_submitted || formData.transaction.done===1 || accessory.error"
                  >
                      <span v-if="!accessory.form_submitted">Submit</span>
                      <span v-if="accessory.form_submitted">Submitted</span>
@@ -83,6 +83,7 @@ export default {
             accessory:{
                 form_submitted:false,
                 medicines_temp_list: [],
+                error:false
             }
         }
     },
@@ -97,7 +98,24 @@ export default {
         },
         async submit(){
             await axios.post('/api/v1/patient_system/grace_center/store',this.formData).then(response=>{
-                this.accessory.form_submitted= !! response.data.success
+                if(response.data.success){
+                    this.accessory.form_submitted= !! response.data.success
+                    this.$toast.open({
+                        message: `data successfully saved `,
+                        position: "top-right",
+                    });
+                }else{
+                    let items=''
+                    response.data.low_stock_items.forEach(item=>{
+                        items += item.item.description+ ", "
+                    })
+                    this.$toast.open({
+                        message: ` the items ${items} do not have enough stock ! `,
+                        position: "top-right",
+                        type:'error'
+                    });
+                    this.accessory.error=true
+                }
             })
         },
         async fetchMedicine(code) {

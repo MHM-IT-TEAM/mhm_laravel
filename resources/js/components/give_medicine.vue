@@ -1,5 +1,6 @@
 <template>
     <div>
+        <h4>Treatment</h4>
        <table class="table table-sm">
                <tr>
                    <td colspan="4">
@@ -64,6 +65,7 @@
 <script>
 export default {
     name: "give_medicine",
+    props:['reset'],
     data(){
         return{
             formData:[],
@@ -86,6 +88,11 @@ export default {
                this.$emit('get_value',value)
             },
             deep:true
+        },
+        reset:{
+            handler(value){
+                if(value) this.formData=[]
+            }
         }
     },
     methods:{

@@ -133,6 +133,13 @@ export default {
         drawer: null,
         items: [
             {
+                title:'Family Planning',
+                active:false,
+                children:[
+                    {url:'family_planning_list',title:'Today List'}
+                ]
+            },
+            {
                 title:'Prenatal Checkup',
                 active:false,
                 icon:'mdi-apps',
@@ -146,14 +153,19 @@ export default {
                 title:'Babies',
                 active:false,
                 children:[
-                    {url:'',title:'Checkup'},
-                    {url:'',title:'Vaccination'}
+                    {url:'baby_checkup_list',title:'Checkup'},
+                    {url:'baby_vaccination_list',title:'Vaccination'},
+                    {url:'',title:'Sickness'},
+                    {url:'',title:'Injury'},
+                    {url:'',title:'Wound care'},
                 ]
             },
             {
                 title:'Milk Program',
                 active:false,
-                children:[{url:'',title:'Form'}]
+                children:[
+                    {url:'milk_pro_list',title:'Today List'},
+                ]
             },
         ],
         user:{

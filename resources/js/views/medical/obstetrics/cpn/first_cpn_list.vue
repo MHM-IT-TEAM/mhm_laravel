@@ -1,8 +1,7 @@
 <template>
   <div class="container-fluid vh-100">
       <v-app>
-          <h3 class="p-2 text-center">Prenatal checkup </h3>
-          <patient-list :headers="headers" @edit="editItem" :service_id="8" :service_activity_id="12"></patient-list>
+          <patient-list :headers="headers" @edit="editItem" :service_id="8" :service_activity_id="12" title="First CPN Checkup"></patient-list>
       </v-app>
   </div>
 </template>

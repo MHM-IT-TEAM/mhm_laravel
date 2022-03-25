@@ -54,4 +54,7 @@ class CpnAdmissionController extends Controller
         }
         return response()->json($output);
     }
+    public function patient_list_of_cpn_admissions($id){
+        return Patient::with(['cpnAdmissions','ultrasoundAdmissions'])->find($id);
+    }
 }

@@ -3,13 +3,11 @@
 namespace App\Http\Controllers\V1\patient_system\out_patient\obstetrical;
 
 use App\Http\Controllers\Controller;
-use App\Models\BabyCheckup;
-use App\Models\Consultation;
+use App\Models\FamilyPlanning;
 use App\Models\Patient;
-use App\Service\V1\patient_system\obstetrics\BabyCheckupService;
 use Illuminate\Http\Request;
 
-class BabyCheckupController extends Controller
+class FamilyPlanningController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,7 +16,7 @@ class BabyCheckupController extends Controller
      */
     public function index()
     {
-        return view('medical.obstetrics.pink.babies.weight_overview');
+        //
     }
 
     /**
@@ -39,9 +37,16 @@ class BabyCheckupController extends Controller
      */
     public function store(Request $request)
     {
-
-        $checkup=new BabyCheckupService();
-        return $checkup->store($request);
+        FamilyPlanning::create(
+            [
+                'admission_id'=>$request->admission_id,
+                'patient_id'=>$request->patient_id,
+                'method'=>$request->method,
+                'qty'=>$request->qty,
+                'remark'=>$request->remark
+            ]
+        );
+        return $this->show($request->patient_id);
     }
 
     /**
@@ -52,7 +57,7 @@ class BabyCheckupController extends Controller
      */
     public function show($id)
     {
-        return  Patient::with(['babyCheckups','birth_medical_data'])->find($id);
+        return Patient::with('familyPlannings')->find($id);
     }
 
     /**
@@ -88,6 +93,4 @@ class BabyCheckupController extends Controller
     {
         //
     }
-
-
 }

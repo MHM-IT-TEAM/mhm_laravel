@@ -1,6 +1,6 @@
 <template>
     <div class="container-fluid vh-100">
-        <patient_list :service_id="8" :service_activity_id="11" :headers="headers" @edit="process_consultation" />
+        <patient_list :service_id="8" :service_activity_id="11" :headers="headers" @edit="process_consultation" title="ultrasound"/>
     </div>
 </template>
 
