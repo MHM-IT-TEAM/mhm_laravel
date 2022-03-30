@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <patient-list :headers="headers" @edit="editItem" :service_id="9" :service_activity_id="17"></patient-list>
+        <patient-list :headers="headers" @edit="editItem" :service_id="9" :service_activity_id="17" title="Pediatric vaccination"></patient-list>
     </div>
 </template>
 

@@ -1,125 +1,174 @@
 
 <template>
-    <div>
-        <form @submit.prevent="submit">
-            <div>
-                <h4 class="form_title">{{formData.code}}</h4>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb" >
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item " aria-current="page">Order</li>
-                            <li class="breadcrumb-item active" aria-current="page">Out</li>
-                        </ol>
-                    </nav>
-                </div>
-                <div class="col d-flex justify-content-end ">
-                    <button class="btn btn-sm" id="saveBtn" type="submit">
-                        <div class="spinner-border text-info spinner-border-sm" role="status" v-if="accessory.submitting">
-                            <span class="sr-only">Loading...</span>
-                        </div>
-                        <span v-if="accessory.form_status==='new'">Save Order</span>
-                        <span v-if="accessory.form_status==='edit'">Deliver</span>
-                    </button>
-                </div>
-            </div>
-            <section class="header mt-2">
-                <div class="row">
-                    <div class="col-6">
-                        <div class="row">
-                            <div class="form-group col-6">
-                                <label>Orderer<span class="text-danger">*</span></label>
-                                <select class="form-control" v-model="formData.orderer_id" @change="fetchCollector">
-                                    <option v-for="department in orderer_list" :value="department.id">{{department.name}}</option>
-                                </select>
-                                <div class="text-danger" v-if="$v.formData.orderer_id.$error.length">
-                                    please choose a Orderer
-                                </div>
+   <v-app>
+       <div>
+           <form @submit.prevent="submit">
+               <div>
+                   <h4 class="form_title">{{formData.code}}</h4>
+               </div>
+               <div class="row">
+                   <div class="col">
+                       <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb" >
+                           <ol class="breadcrumb">
+                               <li class="breadcrumb-item"><a href="#">Home</a></li>
+                               <li class="breadcrumb-item " aria-current="page">Order</li>
+                               <li class="breadcrumb-item active" aria-current="page">Out</li>
+                           </ol>
+                       </nav>
+                   </div>
+                   <div class="col d-flex justify-content-end ">
+                       <button class="btn btn-sm" id="saveBtn" type="submit">
+                           <div class="spinner-border text-info spinner-border-sm" role="status" v-if="accessory.submitting">
+                               <span class="sr-only">Loading...</span>
+                           </div>
+                           <span v-if="accessory.form_status==='new'">Save Order</span>
+                           <span v-if="accessory.form_status==='edit'">Deliver</span>
+                       </button>
+                   </div>
+               </div>
+               <section class="header mt-2">
+                   <div class="row">
+                       <div class="col-6">
+                           <div class="row">
+                               <div class="form-group col-6">
+                                   <label>Orderer<span class="text-danger">*</span></label>
+                                   <select class="form-control" v-model="formData.orderer_id" @change="fetchCollector">
+                                       <option v-for="department in orderer_list" :value="department.id">{{department.name}}</option>
+                                   </select>
+                                   <div class="text-danger" v-if="$v.formData.orderer_id.$error.length">
+                                       please choose a Orderer
+                                   </div>
 
-                            </div>
-                            <div class="form-group col-6">
-                                <label>Collector<span class="text-danger">*</span></label>
-                                <select class="form-control" :disabled="formData.department===null" v-model="formData.collector_id">
-                                    <option v-for="collector in accessory.collector_list" :value="collector.id">{{collector.name}}</option>
-                                </select>
-<!--                                <div class="text-danger" v-if="$v.formData.collector.$error.length">-->
-<!--                                    please choose a collector-->
-<!--                                </div>-->
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="row">
-                            <div class="form-group col-6">
-                                <label>Order Date<span class="text-danger">*</span></label>
-                                <input type="date" class="form-control" v-model="formData.order_date" @change="formData.code=order_code" :disabled="accessory.form_status==='edit'"/>
-                                <div class="text-danger" v-if="$v.formData.order_date.$error.length">
-                                    please choose the date of order
-                                </div>
-                            </div>
-                            <div class="form-group col-6">
-                                <label>Due Date<span class="text-danger">*</span></label>
-                                <input type="date" class="form-control" v-model="formData.due_date"/>
-                            </div>
-                        </div>
+                               </div>
+                               <div class="form-group col-6">
+                                   <label>Collector<span class="text-danger">*</span></label>
+                                   <select class="form-control" :disabled="formData.department===null" v-model="formData.collector_id">
+                                       <option v-for="collector in accessory.collector_list" :value="collector.id">{{collector.name}}</option>
+                                   </select>
+                                   <!--                                <div class="text-danger" v-if="$v.formData.collector.$error.length">-->
+                                   <!--                                    please choose a collector-->
+                                   <!--                                </div>-->
+                               </div>
+                           </div>
+                       </div>
+                       <div class="col-6">
+                           <div class="row">
+                               <div class="form-group col-6">
+                                   <label>Order Date<span class="text-danger">*</span></label>
+                                   <input type="date" class="form-control" v-model="formData.order_date" @change="formData.code=order_code" :disabled="accessory.form_status==='edit'"/>
+                                   <div class="text-danger" v-if="$v.formData.order_date.$error.length">
+                                       please choose the date of order
+                                   </div>
+                               </div>
+                               <div class="form-group col-6">
+                                   <label>Due Date<span class="text-danger">*</span></label>
+                                   <input type="date" class="form-control" v-model="formData.due_date"/>
+                               </div>
+                           </div>
 
-                    </div>
-                </div>
-            </section>
-            <section class="body mt-2">
-                <table class="table" id="out_details">
-                    <thead>
-                    <th colspan="2" style="width:60%">Item</th>
-                    <th>Quantity in Stock</th>
-                    <th>Quantity to order</th>
-                    <th>Action</th>
-                    </thead>
-                    <tbody>
-                    <tr v-for="(row,index) in formData.order_details">
-                        <td colspan="2">
-                                <multiselect v-model="row.item" :id="'multiselect'+index" label="label"  track-by="description" class="multiSelect"
-                                             placeholder="Type to search" open-direction="bottom" :options="accessory.temp_item_list"
-                                             :searchable="true" :loading="accessory.search_loading" :internal-search="false" :clear-on-select="true"
-                                             :close-on-select="true"  :limit="10"  :max-height="600" :min-width="400" :show-no-results="false"
-                                             :hide-selected="true" @search-change="fetchCode">
+                       </div>
+                   </div>
+               </section>
+               <section class="body mt-2">
+                   <table class="table" id="out_details">
+                       <thead>
+                       <th colspan="2" style="width:60%">Item</th>
+                       <th>Quantity in Stock</th>
+                       <th>Quantity to order</th>
+                       <th>Action</th>
+                       </thead>
+                       <tbody>
+                       <tr v-for="(row,index) in formData.order_details">
+                           <td colspan="2">
+                               <multiselect v-model="row.item" :id="'multiselect'+index" label="label"  track-by="description" class="multiSelect"
+                                            placeholder="Type to search" open-direction="bottom" :options="accessory.temp_item_list"
+                                            :searchable="true" :loading="accessory.search_loading" :internal-search="false" :clear-on-select="true"
+                                            :close-on-select="true"  :limit="10"  :max-height="600" :min-width="400" :show-no-results="false"
+                                            :hide-selected="true" @search-change="fetchCode">
 
-                                </multiselect>
-<!--                            <input type="text" class="form-control" :id="'label-'+index"  :value="row.item.label" v-if="accessory.form_status==='edit'"/>-->
-                        </td>
-                        <td>
-                            <input type="text" class="form-control" v-model="row.item.in_stock" readonly="true"/>
-                        </td>
-                        <td>
-                            <input type="number" class="form-control" v-model="row.quantity" @keydown.enter.prevent="checkStock(index)" @change="checkStock(index)"/>
-                        </td>
-                        <td>
-                            <button class="btn" type="button" @click.prevent="removeRow(index)">
-                                <font-awesome-icon icon="trash"/>
-                            </button>
-                        </td>
+                               </multiselect>
+                               <!--                            <input type="text" class="form-control" :id="'label-'+index"  :value="row.item.label" v-if="accessory.form_status==='edit'"/>-->
+                           </td>
+                           <td>
+                               <input type="text" class="form-control" v-model="row.item.in_stock" readonly="true"/>
+                           </td>
+                           <td>
+                               <input type="number" class="form-control" v-model="row.quantity" @keydown.enter.prevent="checkStock(index)" @change="checkStock(index)"/>
+                           </td>
+                           <td>
+                               <button class="btn" type="button" @click.prevent="removeRow(index)">
+                                   <font-awesome-icon icon="trash"/>
+                               </button>
+                           </td>
 
-                    </tr>
-                    <tr>
-                        <td colspan="5" style="text-align: center" >
-                            <div class="add_item_container">
-                                <button type="button" class="btn" @click.prevent="addRow()"><font-awesome-icon icon="shopping-cart" /> &nbsp Add an item</button>
-                            </div>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-                <div class="row w-100">
-                    <div class="col form-group">
-                        <label>Notes</label>
-                        <textarea class="form-control" rows="4" v-model="formData.remark"></textarea>
-                    </div>
-                </div>
-            </section>
-        </form>
+                       </tr>
+                       <tr>
+                           <td colspan="5" style="text-align: center" >
+                               <div class="add_item_container">
+                                   <button type="button" class="btn" @click.prevent="addRow()"><font-awesome-icon icon="shopping-cart" /> &nbsp Add an item</button>
+                               </div>
+                           </td>
+                       </tr>
+                       </tbody>
+                   </table>
+                   <div class="row w-100">
+                       <div class="col form-group">
+                           <label>Notes</label>
+                           <textarea class="form-control" rows="4" v-model="formData.remark"></textarea>
+                       </div>
+                   </div>
+               </section>
+           </form>
+           <v-dialog
+               v-model="accessory.error_dialog"
+               max-width="900"
+               persistent
+           >
+               <v-card>
+                   <v-card-title>
+                       <v-alert
+                           border="right"
+                           colored-border
+                           type="error"
+                           elevation="2"
+                       >
+                         Inventory Error <small>(The elements below do not have enough stock)</small>
+                       </v-alert>
+                   </v-card-title>
+                   <div class="table-responsive">
+                       <table class="table table-sm">
+                           <tr>
+                               <td>Id</td>
+                               <td>Description</td>
+                               <td>Difference</td>
+                           </tr>
+                           <tr v-for="row in accessory.low_stock_items">
+                               <td>{{row.item.id}}</td>
+                               <td>{{row.item.description}}</td>
+                               <td>{{row.diff}}</td>
+                           </tr>
+                       </table>
+                   </div>
+                   <v-card-text>
 
-    </div>
+                   </v-card-text>
+
+                   <v-card-actions>
+                       <v-spacer></v-spacer>
+
+                       <v-btn
+                           color="green darken-1"
+                           text
+                           @click="reset_inventory_error_array"
+                       >
+                           Ok
+                       </v-btn>
+                   </v-card-actions>
+               </v-card>
+           </v-dialog>
+
+       </div>
+   </v-app>
 </template>
 
 <script>
@@ -179,7 +228,9 @@ export default {
                 },
                 form_status:'new',
                 hide_multiselect_input:true,
-                order_edit_no:''
+                order_edit_no:'',
+                low_stock_items:[],
+                error_dialog:false
             }
         }
     },
@@ -196,15 +247,11 @@ export default {
     },
     methods:{
         ...mapActions('out_order',['new_out_order','edit_out_order','fetch_last_code']),
-        // ...mapActions('department',['fetch_departments']),
         async init(){
             this.fetch_last_code()
             //check form_status
             if(Object.keys(this.$route.params).length>0){
                 this.accessory.form_status='edit'
-                // setTimeout(()=>{
-                //     document.querySelectorAll(".multiSelect").forEach(item=>item.classList.add('d-none'))
-                // },1500)
                await this.fetch_edited_order()
             }
 
@@ -264,13 +311,31 @@ export default {
             if (this.$v.$invalid) {
                 return true;
             }
+            //check the stock avalaibility
+            this.formData.order_details.forEach((item,i)=>{
+                if(item.quantity>item.item.in_stock){
+                    this.accessory.low_stock_items.push({
+                        item:item.item,
+                        diff:item.item.in_stock-item.quantity
+                    })
+                    this.accessory.error_dialog=true
+                }
+            })
             //submit to the out_table
-            this.accessory.submitting=true
-            this.accessory.form_status==='new'?await this.new_out_order(this.formData):await this.edit_out_order(this.formData)
-            this.$swal('Data saved')
-            this.resetForm()
-            this.accessory.submitting=false
-            this.$router.push({name:'out_list'})
+            if(this.accessory.low_stock_items.length===0){
+                this.accessory.submitting=true
+                this.accessory.form_status==='new'?await this.new_out_order(this.formData):await this.edit_out_order(this.formData)
+                this.$swal('Data saved')
+                this.resetForm()
+                this.accessory.submitting=false
+                this.$router.push({name:'out_list'})
+            }
+
+
+        },
+        reset_inventory_error_array(){
+            this.accessory.low_stock_items=[]
+            this.accessory.error_dialog=false
         },
         resetForm(){
             this.formData= Object.assign({},this.defaultData)

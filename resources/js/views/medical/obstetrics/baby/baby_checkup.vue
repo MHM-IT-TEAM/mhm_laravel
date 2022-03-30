@@ -2,7 +2,7 @@
 <div class="container-fluid">
     <v-app>
        <v-card>
-           <v-card-title >Baby Checkup</v-card-title>
+           <v-card-title >Baby Checkup ({{$route.params.fullName}})</v-card-title>
            <v-row class="p-2">
                <v-col cols="6">
                    <v-row>
@@ -35,6 +35,7 @@
                                        </tbody>
                                    </template>
                                </v-simple-table>
+                              <button class="btn btn-sm btn-secondary" @click="accessory.dialog = true">Weight control</button>
                            </v-card>
                        </v-col>
                    </v-row>
@@ -121,6 +122,32 @@
            </v-row>
 
        </v-card>
+        <v-dialog
+            v-model="accessory.dialog"
+            fullscreen
+        >
+            <v-card>
+                <v-card-title class="text-h5">
+                   Weight Control ({{$route.params.fullName}})
+                </v-card-title>
+
+                <v-card-text>
+                    <baby_weight_gain :src_data="table_data"/>
+                </v-card-text>
+
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+
+                    <v-btn
+                        color="purple lighten-2"
+                        text
+                        @click="accessory.dialog = false"
+                    >
+                        Close
+                    </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
     </v-app>
 </div>
 </template>
@@ -130,13 +157,14 @@ import { validationMixin } from "vuelidate";
 import weight_overview from "./weight_overview";
 import {mapGetters,mapActions} from 'vuex'
 import Give_medicine from "../../../../components/give_medicine";
+import Baby_weight_gain from "./baby_weight_gain";
 const {
     required,
     requiredIf,
 } = require("vuelidate/lib/validators");
 export default {
     name: "baby_checkup",
-    components:{Give_medicine, weight_overview},
+    components:{Baby_weight_gain, Give_medicine, weight_overview},
     mixins: [validationMixin],
     data(){
         return{
@@ -166,7 +194,8 @@ export default {
             accessory:{
                 skin:['Healthy','Yellow','Dry'],
                 gl_impression:['Healthy','Weak','Infection sign','In Danger'],
-                reset_medication_list:false
+                reset_medication_list:false,
+                dialog:false
             }
         }
     },

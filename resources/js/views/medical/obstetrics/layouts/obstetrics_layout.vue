@@ -167,6 +167,13 @@ export default {
                     {url:'milk_pro_list',title:'Today List'},
                 ]
             },
+            {
+                title:'Inventory',
+                active:false,
+                children:[
+                    {url:'item_order_obstetrics',title:'Order'},
+                ]
+            },
         ],
         user:{
             id:'',

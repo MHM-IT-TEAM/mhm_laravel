@@ -112,6 +112,8 @@ import baby_milk_pro_list from "./views/medical/obstetrics/baby/baby_milk_pro_li
 //Family planning
 import family_planning_list from "./views/medical/obstetrics/family_planning/family_planning_list";
 import family_planning_form from "./views/medical/obstetrics/family_planning/family_planning_form";
+//item order obstetrics
+import item_order_obstetrics from "./views/medical/obstetrics/item_order_obstetrics";
 
 Vue.use(VueRouter);
 
@@ -413,6 +415,12 @@ const routes = [
                 path:'family_planning_form',
                 name:'family_planning_form',
                 component:family_planning_form
+            },
+            //item order
+            {
+                path:'order',
+                name:'item_order_obstetrics',
+                component:item_order_obstetrics
             }
         ]
     },

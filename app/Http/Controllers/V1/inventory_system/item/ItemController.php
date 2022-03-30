@@ -59,7 +59,11 @@ class ItemController extends Controller
         $inventory->save();
         return $this->_success();
     }
-//    public function inventory_service($service){
-//         return Inventory::with(['item'])->where($service,'>',0);
-//    }
+
+    public function check_stock_avalaibility(Request $request){
+        $item= Item::find($request->item['id']);
+        $inventory= Inventory::where('item_id',$request->item['id'])->get();
+        $diff=intval($inventory->get('general')) - intval($request->quantity);
+       return ($diff<0) ? ['id'=>$item->id,'diff'=>$diff]:null;
+    }
 }

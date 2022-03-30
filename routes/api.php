@@ -203,6 +203,7 @@ Route::prefix('/v1')->group(function(){
         Route::get('/item/count_per_type',[\App\Http\Controllers\V1\inventory_system\item\ItemController::class,'count_per_type']);
         Route::get('item/code',[\App\Http\Controllers\V1\inventory_system\item\ItemController::class,'getCode']);
         Route::resource('item',\App\Http\Controllers\V1\inventory_system\item\ItemController::class);
+        Route::post('/item/stock_check',[\App\Http\Controllers\V1\inventory_system\item\ItemController::class,'check_stock_avalaibility']);
         //Cart
         Route::get('/cart/lastCode',[\App\Http\Controllers\V1\inventory_system\cart\CartController::class,'lastCode']);
         Route::resource('/cart',\App\Http\Controllers\V1\inventory_system\cart\CartController::class);
