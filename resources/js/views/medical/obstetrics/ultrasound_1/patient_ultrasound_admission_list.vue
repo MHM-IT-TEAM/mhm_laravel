@@ -65,6 +65,30 @@
                 </v-card-text>
             </v-card>
         </v-dialog>
+        <v-dialog
+            v-model="ultrasound_type_dialog"
+            max-width="400"
+        >
+            <v-card>
+                <v-card-title class="text">
+                    Type of examination
+                </v-card-title>
+                <v-card-text>
+                    <div class="form-group">
+                        <label>Type</label>
+                        <select class="form-control form-control-sm" v-model="formData.type_of_ultrasound">
+                            <option value="routine">Routine</option>
+                            <option value="extra">Extra</option>
+                        </select>
+                    </div>
+                    <div class="form-group mt-2" v-if="formData.type_of_ultrasound==='extra'">
+                        <label>Reason for extra checkup</label>
+                        <textarea class="form-control form-control-sm" v-model="formData.extra_checkup_reason"/>
+                    </div>
+                    <button class="btn btn-sm btn-primary mt-2" :disabled="formData.type_of_ultrasound ===''" @click="continue_to_exam">Continue</button>
+                </v-card-text>
+            </v-card>
+        </v-dialog>
     </div>
 </template>
 
@@ -79,12 +103,18 @@ export default {
             patient:{},
             ultrasound_admission_list:[],
             dialog:false,
+            ultrasound_type_dialog:false,
             closeOnContentClick:true,
             process_options:[
                 {title:'process'},
                 {title:'Close exam'},
                 {title:'Delete exam'},
-            ]
+            ],
+            formData:{
+                extra_checkup_reason:'',
+                type_of_ultrasound:''
+            },
+            temp_data:null
         }
     },
     created(){
@@ -94,7 +124,15 @@ export default {
     },
     methods:{
         process(admission){
-            this.$router.push({name:'ultrasound_exam_crud',params:{ultrasound_admission:admission,patient:this.patient}})
+            this.ultrasound_type_dialog=true
+            this.temp_data=admission
+            // this.$router.push({name:'ultrasound_exam_crud',params:{ultrasound_admission:admission,patient:this.patient}})
+            // this.continue_to_exam(admission,this.formData)
+        },
+        continue_to_exam(){
+            this.temp_data.type_of_ultrasound_data= this.formData
+            this.$router.push({name:'ultrasound_exam_crud',params:{ultrasound_admission:this.temp_data,patient:this.patient}})
+
         },
         boot_list(){
             axios.get(`/api/v1/patient_system/out_patient/obstetrical/ultrasound/admission_list/${this.patient.id}`).then(response=>{

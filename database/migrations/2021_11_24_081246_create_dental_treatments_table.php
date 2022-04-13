@@ -22,6 +22,7 @@ class CreateDentalTreatmentsTable extends Migration
             $table->string('care')->nullable();
             $table->integer('user_id')->nullable();
             $table->text('remark')->nullable();
+            $table->string('cleaning_necessary',10)->nullable();
         });
     }
 

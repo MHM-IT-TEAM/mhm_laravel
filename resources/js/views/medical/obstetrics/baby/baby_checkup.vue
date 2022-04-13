@@ -35,7 +35,7 @@
                                        </tbody>
                                    </template>
                                </v-simple-table>
-                              <button class="btn btn-sm btn-secondary" @click="accessory.dialog = true">Weight control</button>
+                              <button class="btn btn-sm btn-secondary" @click="weight_control">Weight control</button>
                            </v-card>
                        </v-col>
                    </v-row>
@@ -140,7 +140,7 @@
 
                     <v-btn
                         color="purple lighten-2"
-                        text
+                        dark
                         @click="accessory.dialog = false"
                     >
                         Close
@@ -234,11 +234,16 @@ export default {
                     type: "success",
                 })
             }
+            this.$v.$reset()
 
         },
         reset(){
             this.formData=Object.assign({},this.defaultData)
             this.formData.admission_id=this.$route.params.admission_id
+        },
+        async weight_control(){
+            await this.init()
+            this.accessory.dialog=true
         }
     },
     computed:{

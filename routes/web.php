@@ -95,8 +95,8 @@ Route::group(['prefix'=>'ultrasound','middleware'=>'auth'],function(){
 });
 //Maternity
 
-Route::group(['prefix'=>'maternity','middleware'=>'auth'],function(){
+Route::group(['prefix'=>'stork','middleware'=>'auth'],function(){
     Route::get('/{any}',function(){
-        return view("medical/maternity/home");
+        return view("medical/stork/home");
     })->name('maternity_home')->where('any','.*');
 });

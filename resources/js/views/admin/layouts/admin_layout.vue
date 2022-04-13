@@ -135,7 +135,7 @@
                     action:'mdi-ballot-outline',
                     items:[
                         {
-                            title:'Statistics',
+                            title:'General overview',
                             active:false,
                             url:"admin_statistics"
                         }

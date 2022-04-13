@@ -1,5 +1,5 @@
 <template>
-    <div class="container-fluid w-75 border">
+    <div class="container-fluid border">
         <div class="row">
             <div class="col-6">
                 <div class="table-responsive">
@@ -39,13 +39,13 @@
                         </tr>
                         <tr>
                             <td>
-                                <input class="form-control form-control-sm bg-success" v-model.number="weight_input"/>
+                                <input class="form-control form-control-sm bg-success" v-model.number="birth_weight"/>
                             </td>
-                            <td>{{weight_input*0.9}}</td>
-                            <td>{{weight_input}}</td>
-                            <td>{{weight_input*2}}</td>
-                            <td>{{weight_input*2}}</td>
-                            <td>{{weight_input*3}}</td>
+                            <td>{{birth_weight*0.9}}</td>
+                            <td>{{birth_weight}}</td>
+                            <td>{{birth_weight*2}}</td>
+                            <td>{{birth_weight*2}}</td>
+                            <td>{{birth_weight*3}}</td>
                         </tr>
                         <tr>
                             <td></td>
@@ -110,6 +110,7 @@
             </div>
             <div class="col-6">
                 <div class="table-responsive">
+                    <h4>Weight goal baby < 30 days</h4>
                     <table class="table table-sm table-bordered">
                         <tr>
                             <td>Last weight</td>
@@ -168,6 +169,7 @@ export default {
     props:['src_data'],
     data(){
         return{
+            birth_weight:'',
             weight_input:'',
             last_weight:'',
             birth_date: "",
@@ -176,8 +178,10 @@ export default {
     },
     methods:{
         init(){
-            this.last_weight= this.src_data.baby_checkups[this.src_data.baby_checkups.length-1].weight
-            this.last_time_here= this.src_data.baby_checkups[this.src_data.baby_checkups.length-1].created_at
+            this.birth_weight=this.src_data.baby_checkups[0].weight
+            this.weight_input=this.src_data.baby_checkups[this.src_data.baby_checkups.length-1].weight
+            this.last_weight= this.src_data.baby_checkups[this.src_data.baby_checkups.length-2].weight
+            this.last_time_here= this.src_data.baby_checkups[this.src_data.baby_checkups.length-2].created_at
             this.birth_date= this.src_data.birthDate
         }
     },
@@ -186,7 +190,7 @@ export default {
     },
     computed:{
         weight_chart(){
-            let [wi,wi_2,wi_3]= [this.weight_input,this.weight_input*2,this.weight_input*3]
+            let [wi,wi_2,wi_3]= [this.birth_weight,this.birth_weight*2,this.birth_weight*3]
 
             let a= wi+((wi_2-wi)/5)
             let b=a+((wi_2-a)/4)
@@ -204,7 +208,7 @@ export default {
         },
         weekly_gain(){
             let wc = this.weight_chart
-            let wi= this.weight_input
+            let wi= this.birth_weight
             let a= (wc[0]-wi)/4
             let b =  (wc[1]-wc[0])/4
             let c= (wc[2]-wc[1])/4

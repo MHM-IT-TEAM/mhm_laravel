@@ -181,7 +181,13 @@
                             <p class="ml-4 mt-4">{{item.code}}</p>
                     </td>
                     <td v-for="i in formData.active_research">
-                        <span class="mt-2" ><input type="text" style="width:40px" v-model="i.code"/></span>
+<!--                        <span class="mt-2" ><input type="text" style="width:40px" v-model="i.code"/></span>-->
+                        <span class="mt-2" >
+                            <select v-model="i.code" style="width:40px" class="ml-2">
+                                <option v-for="code in accessory.active_research_code">{{code}}</option>
+                            </select>
+                        </span>
+
                     </td>
                 </tr>
                 <tr>
@@ -322,7 +328,8 @@ export default {
             accessory:{
                 max_td_length:16,
                 active_research_result:[],
-                appointment_result:[]
+                appointment_result:[],
+                active_research_code:[1,2,3]
             }
         }
     },

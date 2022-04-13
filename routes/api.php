@@ -131,8 +131,14 @@ Route::prefix('/v1')->group(function(){
         });
         // In patient
         Route::group(['prefix'=>'in_patient'],function(){
-            //Maternity routes
-            Route::group(['prefix'=>'maternity'],function(){
+            Route::get('service/{category_id}',function($id){
+                return \App\Models\Service::where('category_id',$id)->get();
+            });
+            Route::get('bed/{service_id}',function($id){
+                return \App\Models\Service::where('category_id',$id)->get();
+            });
+            //Stork center
+            Route::group(['prefix'=>'stork'],function(){
                 route::get('/fetch_patient_data/{patient_id}',[\App\Http\Controllers\V1\patient_system\maternity\MaternityAdmissionController::class,'fetch_patient_data']);
                 route::get('/last_code',[\App\Http\Controllers\V1\patient_system\maternity\MaternityAdmissionController::class,'last_code']);
                 route::get('/last_birth_code',[\App\Http\Controllers\V1\patient_system\maternity\BirthRegistrationController::class,'last_birth_code']);

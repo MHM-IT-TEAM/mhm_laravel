@@ -15,7 +15,7 @@ class HospitalServiceSeeder extends Seeder
     public function run()
     {
         HospitalService::insert([
-            ['name'=>'Maternity'],
+            ['name'=>'Stork'],
             ['name'=>'Pediatry'],
             ['name'=>'Block']
         ]);

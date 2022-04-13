@@ -5,8 +5,9 @@
                 app
                 clipped
                 v-model="drawer"
+                mini-variant
                 id="drawer"
-                :width="190"
+                expand-on-hover
             >
                 <template v-slot:prepend>
                     <v-list-item two-line>
@@ -79,20 +80,6 @@
                     <span class="title">IN PATIENT</span>
                 </v-toolbar-title>
                 <v-spacer></v-spacer>
-                <v-row
-                    align="center"
-                    style="max-width: 650px"
-                >
-                    <v-text-field
-                        :append-icon-cb="() => {}"
-                        placeholder="Search..."
-                        single-line
-                        append-icon="mdi-magnify"
-                        color="white"
-                        class="white--text"
-                        hide-details
-                    ></v-text-field>
-                </v-row>
             </v-app-bar>
 
             <v-main>
@@ -131,7 +118,8 @@
                     action: 'mdi-mother-nurse',
 
                     items: [
-                        { title: 'List',url:'maternity_in_patient_list' },
+                        { title: 'Incoming',url:'maternity_incoming_patient' },
+                        { title: 'Staying',url:'maternity_in_patient_list' },
                         { title: 'Overview &report',url:'' },
                     ],
                     title: 'In-Patient ',

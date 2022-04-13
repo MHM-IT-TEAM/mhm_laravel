@@ -27,7 +27,7 @@ class CreateHospitalAdmissionsTable extends Migration
             $table->string('medical_antecedents',200)->nullable();
             $table->string('other_medical_issues',100)->nullable();
             $table->boolean('anesthesia_required');
-            $table->string('anesthesa_type',50)->nullable();
+            $table->string('anesthesia_type',50)->nullable();
             $table->boolean('refered_patient');
             $table->string('facility_name',30)->nullable();
             $table->string('staying_duration',10)->nullable();

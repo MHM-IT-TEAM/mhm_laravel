@@ -41,9 +41,10 @@ class FamilyPlanningController extends Controller
             [
                 'admission_id'=>$request->admission_id,
                 'patient_id'=>$request->patient_id,
-                'method'=>$request->method,
+                'used_method'=>$request->used_method,
                 'qty'=>$request->qty,
-                'remark'=>$request->remark
+                'remark'=>$request->remark,
+                'new_user'=>$request->new_user
             ]
         );
         return $this->show($request->patient_id);

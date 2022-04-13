@@ -26,12 +26,15 @@ export default {
                 name: "baby_checkup",
                 params: {
                     patient_id: item.patient_id,
-                    fullName:item.patient.firstName +" "+ item.patient.lastName,
+                    fullName:nullToString(item.patient.firstName) +" "+ nullToString(item.patient.lastName),
                     admission_id: item.id,
                 },
             });
         }
     }
+}
+function nullToString(el) {
+    return el ?? ''
 }
 </script>
 

@@ -59,7 +59,7 @@
                 <div class="table-responsive">
                     <table class="table table-sm">
                         <tr>
-                            <th>Milk</th>
+                            <th>Milk/Food</th>
                             <th>Qty</th>
                         </tr>
                         <tr>

@@ -50,7 +50,10 @@ class AdminController extends Controller
     private function _populate($class,$service_activity_id){
         $output=[];
         for($i=0; $i<12;$i++){
-            $output[]=$class::whereMonth('created_at',$i+1)->where('service_activity_id',$service_activity_id)->get()->count();
+            $output[]=$class::whereMonth('created_at',$i+1)
+                ->where('service_activity_id',$service_activity_id)
+                ->where('payment_status','PAID')
+                ->get()->count();
         }
         return $output;
     }

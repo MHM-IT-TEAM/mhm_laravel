@@ -1,5 +1,5 @@
 <template>
-<div class="container w-75 border">
+<div class="container-sm border">
     <cpn_admission :is_overview="true" :reference="cpn_admission_id"/>
     <cpn_followup :is_overview="true" :cpn_admission_id="cpn_admission_id"/>
     <div class="m-4">

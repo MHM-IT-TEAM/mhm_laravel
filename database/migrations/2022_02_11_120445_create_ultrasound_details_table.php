@@ -45,7 +45,8 @@ class CreateUltrasoundDetailsTable extends Migration
             $table->date('corrected_ga')->nullable();
             $table->integer('user_id');
             $table->string('medical_staff', 250)->nullable();
-            $table->string('ultrasound_type', 250)->nullable();
+            $table->string('ultrasound_type', 20)->nullable();
+            $table->text('extra_checkup_reason')->nullable();
         });
     }
 

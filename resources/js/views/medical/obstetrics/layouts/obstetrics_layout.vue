@@ -174,6 +174,13 @@ export default {
                     {url:'item_order_obstetrics',title:'Order'},
                 ]
             },
+            {
+                title:'Report',
+                active:false,
+                children:[
+                    {url:'pink_statistics',title:'General overview'},
+                ]
+            },
         ],
         user:{
             id:'',

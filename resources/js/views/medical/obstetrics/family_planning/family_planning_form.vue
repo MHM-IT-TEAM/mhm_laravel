@@ -17,7 +17,7 @@
                         <tr>
                             <td>{{moment().format("MMM Do YY")}}</td>
                             <td>
-                                <select class="form-control form-control-sm" v-model="formData.method">
+                                <select class="form-control form-control-sm" v-model="formData.used_method">
                                     <option v-for="method in methods">{{method}}</option>
                                 </select>
                             </td>
@@ -48,7 +48,7 @@
                         </tr>
                         <tr v-for="l in list">
                             <td>{{moment(l.created_at).format("MMM Do YY")}}</td>
-                            <td>{{l.method}}</td>
+                            <td>{{l.used_method}}</td>
                             <td>{{l.qty}}</td>
                             <td>{{l.remark}}</td>
                         </tr>
@@ -69,11 +69,12 @@ export default {
         return{
             list:[],
             formData:{
-                method:null,
+                used_method:null,
                 qty:'',
                 patient_id:'',
                 admission_id:'',
-                remark:''
+                remark:'',
+                new_user:false
             },
             methods:['Microgynon','Microlut','DMPA-IM','DMPA-SC','Male condom','Female condom','Implanon NXT']
         }
@@ -94,11 +95,12 @@ export default {
                         if(response.data){
                             this.get_data()
                             this.formData={
-                                method:'',
+                                used_method:'',
                                 qty:'',
                                 patient_id:'',
                                 admission_id:'',
-                                remark:''
+                                remark:'',
+                                new_user:false
                             }
                         }
                     })
@@ -109,6 +111,8 @@ export default {
         get_data(){
             axios.get(`/api/v1/patient_system/out_patient/obstetrical/family_planning/main/${this.formData.patient_id}`).then(response=>{
                 this.list=response.data.family_plannings
+                //check whether new_user or old
+                this.formData.new_user=(this.list.length>0)?0:1
             })
         }
 

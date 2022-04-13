@@ -1,18 +1,18 @@
 <template>
     <div class="container w-75  p-4 bg-light" >
         <div class="d-flex flex-row justify-content-between">
-            <div class="p-2"><h1 id="title">Admission Request  N247570</h1></div>
+            <div class="p-2"><h1 id="title">Stork Center Admission</h1></div>
             <div class="p-2"><img  id="logo" src="/storage/assets/media/images/system/MHMlogo_PRINT.jpg" alt="MHM logo"/></div>
         </div>
             <form>
                 <section id="notice">
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="newRequest">
+                        <input class="form-check-input" type="checkbox" id="newRequest" v-model="formData.new_request" :disabled="formData.changes_made">
                         <label class="form-check-label" for="newRequest">New Request</label>
                     </div>
                     <label class="form-check-label mr-2">Or </label>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="updateRequest">
+                        <input class="form-check-input" type="checkbox" id="updateRequest" v-model="formData.changes_made" :disabled="formData.new_request">
                         <label class="form-check-label" for="updateRequest">Changes Made</label>
                     </div>
                     <p class="text-justify"><span class="font-weight-bold">Notice:</span>
@@ -22,7 +22,6 @@
                 </section>
                 <div class="table-responsive">
                     <table class="table table-sm" id="details_table">
-                        <tbody>
                         <tr >
                             <td colspan="8" class="table_title">Patient's Details</td>
                         </tr>
@@ -30,40 +29,47 @@
                             <td>Id:</td>
                             <td><input type="text" v-model="formData.patient.id"/></td>
                             <td>Full Name:</td>
-                            <td style="width:25%">Ramora favori</td>
-                            <td style="width: 10% !important">D.O.B</td>
-                            <td>10/04/1991</td>
+                            <td style="width:25%">{{nullToString(formData.patient.firstName)+nullToString(formData.patient.lastName)}}</td>
+                            <td style="width: 10% !important">Date of birth</td>
+                            <td>{{formData.patient.birthDate}}</td>
                         </tr>
                         <tr>
                             <td >Adress:</td>
-                            <td colspan="">Ampamantanana Ivato</td>
+                            <td colspan="">{{formData.patient.adress}}</td>
                             <td>Tel:</td>
-                            <td>0332545788</td>
+                            <td>{{formData.patient.tel}}</td>
                         </tr>
-                        <td></td>
+                    </table>
+                    <table class="table table-sm" id="admission_details">
                         <tr >
-                            <td colspan="8" class="table_title">Admission's Details</td>
+                            <td colspan="9" class="table_title">Admission's Details</td>
                         </tr>
                         <tr>
                             <td>Admission Date</td>
-                            <td><input type="date" v-model="formData.accomodations.admission_date"/></td>
+                            <td ><input type="date" v-model="formData.accomodations.admission_date"/></td>
                             <td>Admission Time</td>
-                            <td style="max-width: 25px !important"><input type="time" v-model="formData.accomodations.admission_time" /></td>
+                            <td><input type="time" v-model="formData.accomodations.admission_time" /></td>
                             <td>Service</td>
                             <td>
-                                <select v-model="formData.accomodations.service" @change="change_service()">
+                                <select v-model="formData.accomodations.service" class="border">
                                     <option v-for="services in accessories.services" :value="services.id">{{services.name}}</option>
                                 </select>
                             </td>
-                            <td>Division</td>
                             <td>
-                                <select v-model="formData.accomodations.division" @change="change_divisions">
-                                    <option v-for="divisions in accessories.divisions" :value="divisions.id">{{divisions.name}}</option>
+                                <span>Type</span>
+                                <select v-model="formData.accomodations.division" class="border" :disabled="formData.accomodations.service!==14">
+                                    <option v-for="type in accessories.in_patient_service_type" >{{type}}</option>
+                                </select>
+                            </td>
+                            <td>
+                                <span>Reason</span>
+                                <select v-model="formData.accomodations.reason" class="border" :disabled="formData.accomodations.service!==14">
+                                    <option v-for="reason in accessories.in_patient_mom_baby" >{{reason}}</option>
                                 </select>
                             </td>
                         </tr>
                         <tr>
-                            <td  colspan="3">
+                            <td  colspan="2">
                                 <div class="custom-control custom-radio custom-control-inline">
                                     <input type="radio" name="type_of_stay" id="type_of_stay_1" value="day" class="custom-control-input" v-model="formData.accomodations.type_of_stay"/>
                                     <label class="custom-control-label" for="type_of_stay_1" >Day patient</label>
@@ -73,24 +79,41 @@
                                     <label class="custom-control-label"  for="type_of_stay_2" >Overnight Patient</label>
                                 </div>
                             </td>
-                            <td style="width: 40% !important">Estimated length of stay:</td>
+                            <td>Estimated length of stay:</td>
                             <td  colspan="2">
-                                <input type="number" style="width: 45px"/>
-                                <select v-model="formData.accomodations.estimated_stay_length">
-                                    <option v-for="day in accessories.date_range">{{day.text}}</option>
+                                <input type="number" style="width: 45px" class="border"  v-model="formData.accomodations.estimated_stay_length"/>
+                                <select v-model="formData.accomodations.estimated_stay_length_type" class="border">
+                                    <option v-for="day in accessories.date_range" :value="day.id">{{day.text}}</option>
                                 </select>
                             </td>
-                            <td style="width: 20% !important">Consigned Bed</td>
-                            <td colspan="3">
+                            <td>Mobilisation Status</td>
+                            <td>
+                                <select class="border" v-model="formData.accomodations.mobilisation_status">
+                                    <option v-for="mob in accessories.mobilisation_status">{{mob}}</option>
+                                </select>
+                            </td>
+                            <td>Level of care</td>
+                            <td>
+                                <select class="border" v-model="formData.accomodations.level_of_care">
+                                    <option v-for="level in accessories.level_of_care">{{level}}</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                Consigned Bed
+
                                 <select v-model="formData.accomodations.bed">
                                     <option v-for="beds in accessories.beds" :value="beds.id">{{beds.description}}</option>
                                 </select>
                             </td>
                         </tr>
+                    </table>
+                    <table class="table table-sm">
                         <tr>
                             <td colspan="8">Admission Diagnosis /indication of procedure:
 
-                                <textarea class="form-control" v-model="formData.medical_history.admisson_dagnosis"></textarea>
+                                <textarea class="form-control" v-model="formData.medical_history.admission_dagnosis"></textarea>
                             </td>
                         </tr>
                         <tr>
@@ -99,18 +122,20 @@
                             </td>
                         </tr>
                         <tr>
-                            <td colspan="2">Other significant medical issues:</td>
-                            <td colspan="6"><input type="text" style="width:100%" v-model="formData.medical_history.other_issues"/></td>
+                            <td colspan="8">
+                                Other significant medical issues:
+                                <textarea class="form-control" v-model="formData.medical_history.other_issues"></textarea>
+                            </td>
                         </tr>
                         <tr>
-                            <td colspan="2">
+                            <td>
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="checkbox" id="anesthesiaRequired" v-model="formData.anesthesia.required">
                                     <label class="form-check-label" for="newRequest">Anesthesia Required</label>
                                 </div>
                             </td>
-                            <td :class="{'d-none':!formData.anesthesia.required}">Anesthesia Type:</td>
                             <td :class="{'d-none':!formData.anesthesia.required}" colspan="4">
+                                Anesthesia Type:
                                 <div class="custom-control custom-radio custom-control-inline">
                                     <input type="radio" id="anesthesia_type1" name="anesthesia_type" value="local" v-model="formData.anesthesia.type" class="custom-control-input">
                                     <label class="custom-control-label" for="anesthesia_type1">Local</label>
@@ -129,8 +154,6 @@
                                 </div>
                             </td>
                         </tr>
-
-                        </tbody>
                     </table>
                     <table id="parameters_table" class="table table-sm">
                         <tbody>
@@ -152,15 +175,15 @@
                             <td class="table_title" colspan="11"  >Infection Control</td>
                         </tr>
                         <tr>
-                            <td colspan="7">Has the patient been an inpatient in another facility within the last seven days? </td>
+                            <td colspan="4">Has the patient been an inpatient in another facility within the last seven days? </td>
                             <td>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="referedPatient" v-model="formData.referedPatient"/>
+                                    <input class="form-check-input" type="checkbox" id="referedPatient" v-model="formData.referredPatient"/>
                                     <label class="form-check-label" for="referedPatient">Yes</label>
                                 </div>
                             </td>
                         </tr>
-                        <tr :class="{'d-none':!formData.referedPatient}">
+                        <tr :class="{'d-none':!formData.referredPatient}">
                             <td>Where?</td>
                             <td colspan="2"><input type="text" v-model="formData.infection_control.facility_place" /></td>
                             <td colspan="2">For how long</td>
@@ -171,7 +194,7 @@
                                 </select>
                             </td>
                         </tr>
-                        <tr :class="{'d-none':!formData.referedPatient}">
+                        <tr :class="{'d-none':!formData.referredPatient}">
                             <td colspan="2">Reason of hospitalisation:</td>
                             <td colspan="2"><input type="text" /></td>
                             <td colspan="2"> Reason of transfert:</td>
@@ -193,7 +216,7 @@
                             <td colspan="6"><input type="text" style="width: 100%" /></td>
                         </tr>
                         <tr>
-                            <td class="table_title" colspan="11">Accomodation Specifications</td>
+                            <td class="table_title" colspan="11">Accommodation Specifications</td>
                         </tr>
                         <tr>
                             <td colspan="3">Does the patient eat at the hospital?</td>
@@ -214,19 +237,20 @@
                             <td colspan="3">Does the patient has an insurance?</td>
                             <td>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="insurance" v-model="formData.accomodations.meal"/>
+                                    <input class="form-check-input" type="checkbox" id="insurance" v-model="formData.billing.insurance"/>
                                     <label class="form-check-label" for="meal">Yes</label>
                                 </div>
                             </td>
                             <td>which one?</td>
-                            <td colspan="6"> <input type="text" style="width:100%"/></td>
+                            <td colspan="6"> <input type="text" style="width:100%" class="border" :disabled="!formData.billing.insurance"/></td>
                         </tr>
                         <tr>
-                            <td colspan="2">Payment method:</td>
-                            <td>
-                                <select v-model="formData.billing.payment_method">
-                                    <option v-for="payment in accessories.payment_method">{{payment.text}}</option>
-                                </select>
+                            <td colspan="3">
+                                <span class="mr-2">Outstanding debt:</span>
+                                <input class="border" v-model="formData.billing.unpaid_amount"/>
+                            </td>
+                            <td colspan="2">
+                                <button class="btn btn-sm d-print-none btn-secondary">View Payment history</button>
                             </td>
                         </tr>
                         <hr>
@@ -247,13 +271,20 @@
 
 <script>
     export default {
-        name: "hospital_admission",
+        name: "stork_admission",
         data(){
             return{
                 formData:{
-                    referedPatient:false,
+                   new_request:false,
+                    changes_made:false,
+                    referred_patient:false,
                     patient:{
-                        id:""
+                        id:"",
+                        firstName:"",
+                        lastName:'',
+                        adress:'',
+                        birthDate:"",
+                        tel:''
                     },
                     infection_control:{
                         facility_place:"",
@@ -279,12 +310,15 @@
                     },
                     medical_history:{
                         medical_antecedents:"",
-                        admisson_dagnosis:"",
+                        admission_dagnosis:"",
                         other_issues:""
                     },
                     accomodations:{
                         type_of_stay:"",
                         estimated_stay_length:"",
+                        estimated_stay_length_type:1,
+                        mobilisation_status: '',
+                        level_of_care:'',
                         service:"",
                         division:"",
                         bed:"",
@@ -294,8 +328,45 @@
                         meal_frequency:""
                     },
                     billing:{
-                        payment_method:""
+                        unpaid_amount:'',
+                        insurance:false,
+                        insurance_name:""
                     }
+                },
+                formDataa:{
+                    referedPatient:false,
+                    patient_id:'',
+                    infection_control_facility_place:'',
+                    infection_control_duration:"",
+                    infection_control_reason_of_hospitalisation:"",
+                    infection_control_reason_of_transfert:"",
+                    doctor_id:'',
+                    anesthetist_id:'',
+                    nurse_id:'',
+                    midwife_id:'',
+                    temp:'',
+                    pulse:"",
+                    weight:"",
+                    bp:"",
+                    o2:"",
+                    anesthesia_required:false,
+                    anesthesia_type:"",
+                    medical_antecedents:"",
+                    admission_dagnosis:"",
+                    other_issues:"",
+                    type_of_stay:"",
+                    estimated_stay_length:"",
+                    estimated_stay_length_type:1,
+                    mobilisation_status: '',
+                    level_of_care:'',
+                    service:"",
+                    division:"",
+                    bed:"",
+                    admission_date:"",
+                    admission_time:"",
+                    meal:false,
+                    meal_frequency:"",
+                    payment_method:""
                 },
                 accessories:{
                     date_range:[
@@ -309,8 +380,12 @@
                         {id:1,text:"Card"},
                     ],
                     services:[],
-                    divisions:[],
-                    beds:[]
+                    in_patient_service_type:['pregnancy','postpartum'],
+                    in_patient_mom_baby:['Mom','Baby'],
+                    level_of_care:['normal','intermediate','intensive'],
+                    mobilisation_status: ['strict bed rest','bed rest','mobilisation','no restriction'],
+                    hospitals:['PSF','HJRA','CHU Anosiala','Befelatanana','HOMI','CHU Andohatapenaka','OTHER'],
+                    beds:[],
                 }
 
             }
@@ -321,18 +396,20 @@
         },
         methods:{
            async init(){
-                let response= await axios.get('/api/hospitalisation/service_list')
+                let response= await axios.get('/api/v1/patient_system/in_patient/service/7')
                 this.accessories.services.push(...response.data)
-            },
-            async change_service(){
-               this.accessories.divisions=[];
-               let response= await axios.get(`/api/hospitalisation/division_list/${this.formData.accomodations.service}`)
-                this.accessories.divisions.push(...response.data)
+               let src=this.$route.params.admission
+               if(src){
+                   this.formData.patient=src.patient
+               }
             },
             async change_divisions(){
                this.accessories.beds=[]
                let response= await axios.get(`/api/hospitalisation/bed_list/${this.formData.accomodations.division}`)
                 this.accessories.beds.push(...response.data)
+            },
+            nullToString(el) {
+                return el ?? ''
             }
         },
         computed:{
@@ -365,7 +442,6 @@
     #title{
         margin-top: 10px;
         font-weight: bold;
-
     }
     .table_title{
         background-color: rgb(195,195,195) !important;
@@ -382,6 +458,7 @@
         .container{
             width:100% !important;
             max-height:29.7cm;
+            margin-left: -50px !important;
         }
 
         input,select,textarea{

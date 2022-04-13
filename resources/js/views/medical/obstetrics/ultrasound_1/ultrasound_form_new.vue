@@ -320,6 +320,8 @@ export default {
             this.formData.forEach(data=>{
                 data.user_id=window.auth.user.id
                 data.ultrasound_admission_id=this.admission.id
+                data.ultrasound_type=this.admission.type_of_ultrasound_data.type_of_ultrasound
+                data.extra_checkup_reason=this.admission.type_of_ultrasound_data.extra_checkup_reason
             })
         },
         get_calculated_ga() {
@@ -344,8 +346,6 @@ export default {
             axios.post("/api/v1/patient_system/out_patient/obstetrical/ultrasound/details",this.formData).then(response=>{
                 if(response.data.success) {
                     this.$emit("success")
-                    // this.init()
-                    // this.get_calculated_ga()
                 }
             })
         }

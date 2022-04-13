@@ -134,19 +134,23 @@
             </tr>
             <tr>
                 <td>Follow-up prenatale care</td>
-                <td v-for="i in 13">-</td>
+                <td v-for="i in data.obstetrical_cpn_followup">{{symbol(i)}}</td>
+                <td class="font-weight-bold bg-light">{{total.obstetrical_cpn_followup}}</td>
             </tr>
             <tr>
                 <td>Postpartum Baby</td>
-                <td v-for="i in 13">-</td>
+                <td v-for="i in data.postpartum_baby">{{symbol(i)}}</td>
+                <td class="font-weight-bold bg-light">{{total.postpartum_baby}}</td>
             </tr>
             <tr>
                 <td>Postpartum Mom</td>
-                <td v-for="i in 13">-</td>
+                <td v-for="i in data.postpartum_mom">{{symbol(i)}}</td>
+                <td class="font-weight-bold bg-light">{{total.postpartum_mom}}</td>
             </tr>
             <tr>
                 <td>Postpartum Meeting</td>
-                <td v-for="i in 13">-</td>
+                <td v-for="i in data.postpartum_meeting">{{symbol(i)}}</td>
+                <td class="font-weight-bold bg-light">{{total.postpartum_meeting}}</td>
             </tr>
             <tr class="bg-light">
                 <td class="font-weight-bold">Total Outpatient-Obstetrical</td>
@@ -156,11 +160,13 @@
             <tr>
                 <td class="vertical" rowspan="4">Pediatric</td>
                 <td>Vaccination</td>
-                <td v-for="i in 13">-</td>
+                <td v-for="i in data.pediatric_vaccination">{{symbol(i)}}</td>
+                <td class="font-weight-bold bg-light">{{total.pediatric_vaccination}}</td>
             </tr>
             <tr>
                 <td>Routine check up</td>
-                <td v-for="i in 13">-</td>
+                <td v-for="i in data.pediatric_checkup">{{symbol(i)}}</td>
+                <td class="font-weight-bold bg-light">{{total.pediatric_checkup}}</td>
             </tr>
             <tr>
                 <td>Sickness</td>
@@ -318,7 +324,13 @@ export default {
                 dental_cleaning:[],
                 obstetrical_ultrasound:[],
                 obstetrical_first_cpn:[],
-                obstetrical_cpn_followup:[]
+                obstetrical_cpn_followup:[],
+                pediatric_checkup:[],
+                pediatric_vaccination:[],
+                pediatric_sickness:[],
+                postpartum_baby:[],
+                postpartum_mom:[],
+                postpartum_meeting:[],
             }
         }
     },
@@ -356,6 +368,13 @@ export default {
                 dental_cleaning: this.data.dental_cleaning.reduce((a,b)=>a+b,0),
                 obstetrical_ultrasound: this.data.obstetrical_ultrasound.reduce((a,b)=>a+b,0),
                 obstetrical_first_cpn: this.data.obstetrical_first_cpn.reduce((a,b)=>a+b,0),
+                obstetrical_cpn_followup: this.data.obstetrical_cpn_followup.reduce((a,b)=>a+b,0),
+                pediatric_checkup: this.data.pediatric_checkup.reduce((a,b)=>a+b,0),
+                pediatric_vaccination: this.data.pediatric_vaccination.reduce((a,b)=>a+b,0),
+                pediatric_sickness: this.data.pediatric_sickness.reduce((a,b)=>a+b,0),
+                postpartum_baby: this.data.postpartum_baby.reduce((a,b)=>a+b,0),
+                postpartum_mom: this.data.postpartum_mom.reduce((a,b)=>a+b,0),
+                postpartum_meeting: this.data.postpartum_meeting.reduce((a,b)=>a+b,0),
             }
         }
     }

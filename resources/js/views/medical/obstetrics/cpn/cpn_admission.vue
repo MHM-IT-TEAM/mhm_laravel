@@ -1686,13 +1686,13 @@ function toNull(val) {
 </script>
 
 <style scoped>
-.container {
-  box-shadow: 0px 0px 0.5cm rgba(0, 0, 0, 0.8);
-  margin-top: 0.6%;
-  background-color: white !important;
-  font-family: calibri;
-  z-index: 500;
-}
+/*.container {*/
+/*  box-shadow: 0px 0px 0.5cm rgba(0, 0, 0, 0.8);*/
+/*  margin-top: 0.6%;*/
+/*  background-color: white !important;*/
+/*  font-family: calibri;*/
+/*  z-index: 500;*/
+/*}*/
 input {
   font-size: 11px;
   border: lightgrey solid 0.5px;
