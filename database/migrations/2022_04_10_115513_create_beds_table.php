@@ -20,6 +20,7 @@ class CreateBedsTable extends Migration
             $table->string('description',50);
             $table->foreignId('service_id')->nullable();
             $table->smallInteger('occupied')->nullable();
+            $table->string("room",40);
         });
     }
 

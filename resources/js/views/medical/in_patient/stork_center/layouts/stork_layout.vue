@@ -118,8 +118,8 @@
                     action: 'mdi-mother-nurse',
 
                     items: [
-                        { title: 'Incoming',url:'stork_incoming_patient' },
-                        { title: 'Staying',url:'stork_in_patient_list' },
+                        { title: 'Admission request',url:'stork_incoming_patient' },
+                        { title: 'Staying',url:'stork_patient_list' },
                         { title: 'Overview &report',url:'' },
                     ],
                     title: 'In-Patient ',

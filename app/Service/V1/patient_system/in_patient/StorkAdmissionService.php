@@ -1,0 +1,52 @@
+<?php
+
+
+namespace App\Service\V1\patient_system\in_patient;
+
+
+use App\Models\StorkAdmission;
+
+class StorkAdmissionService
+{
+    private function _fillData($src)
+    {
+        return [
+            'new_request'=>$src->new_request,
+            'changes_made'=>$src->changes_made,
+            'patient_id'=>$src->patient_id,
+            'admission_id'=>$src->admission_id,
+            'admission_date'=>$src->admission_date,
+            'admission_time'=>$src->admission_time,
+            'service_id'=>$src->service_id,
+            'bed_id'=>$src->bed_id,
+            'level_of_care'=>$src->level_of_care,
+            'admission_diagnosis'=>$src->admission_diagnosis,
+            'type_of_stay'=>$src->type_of_stay,
+            'infection_control_referred_patient'=>$src->infection_control_referred_patient,
+            'infection_control_facility_place'=>$src->infection_control_facility_place,
+            'infection_control_facility_val'=>$src->infection_control_facility_val,
+            'infection_control_facility_type'=>$src->infection_control_facility_type,
+            'infection_control_reason_of_hospitalisation'=>$src->infection_control_reason_of_hospitalisation,
+            'infection_control_reason_of_transfer'=>$src->infection_control_reason_of_transfer,
+            "estimated_stay_length"=>$src->estimated_stay_length,
+            "estimated_stay_length_type"=>$src->estimated_stay_length_type,
+            'temp'=>$src->temp,
+            'pulse'=>$src->pulse,
+            'weight'=>$src->weight,
+            'bp'=>$src->bp,
+            'spo2'=>$src->spo2,
+            "anesthesia_required"=>$src->anesthesia_required,
+            "anesthesia_type"=>$src->anesthesia_type,
+            "mobilisation_status"=>$src->mobilisation_status,
+            "type"=>$src->type,
+            "mom"=>$src->mom,
+            "meal"=>$src->meal,
+            "unpaid_amount"=>$src->unpaid_amount,
+        ];
+    }
+    public function store($request){
+        StorkAdmission::create($this->_fillData($request));
+        return response()->json(['success'=>true]);
+        //update the admission status (Done)
+    }
+}

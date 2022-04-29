@@ -135,10 +135,12 @@ Route::prefix('/v1')->group(function(){
                 return \App\Models\Service::where('category_id',$id)->get();
             });
             Route::get('bed/{service_id}',function($id){
-                return \App\Models\Service::where('category_id',$id)->get();
+                return \App\Models\Bed::where('service_id',$id)->where('occupied',false)->get();
             });
+
             //Stork center
             Route::group(['prefix'=>'stork'],function(){
+                route::resource('admission',\App\Http\Controllers\V1\patient_system\in_patient\stork_center\StorkAdmissionController::class);
                 route::get('/fetch_patient_data/{patient_id}',[\App\Http\Controllers\V1\patient_system\maternity\MaternityAdmissionController::class,'fetch_patient_data']);
                 route::get('/last_code',[\App\Http\Controllers\V1\patient_system\maternity\MaternityAdmissionController::class,'last_code']);
                 route::get('/last_birth_code',[\App\Http\Controllers\V1\patient_system\maternity\BirthRegistrationController::class,'last_birth_code']);

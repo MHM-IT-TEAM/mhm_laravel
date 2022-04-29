@@ -37,6 +37,13 @@ import obstetrics_overview from "./views/medical/overview/obstetrics_overview";
     import stork_layout from "./views/medical/in_patient/stork_center/layouts/stork_layout";
     import stork_admission from "./views/medical/in_patient/stork_center/stork_admission";
     import stork_incoming_patient from "./views/medical/in_patient/stork_center/stork_incoming_patient";
+    import stork_patient_list from "./views/medical/in_patient/stork_center/stork_patient_list";
+    import pregnancy_checkup_form from "./views/medical/in_patient/stork_center/pregnancy_checkup_form";
+    import balance_sheet from "./views/medical/in_patient/stork_center/balance_sheet";
+    import stork_vital_signs from "./views/medical/in_patient/stork_center/stork_vital_signs";
+    import stork_give_medicine from "./views/medical/in_patient/stork_center/stork_give_medicine";
+    import stork_internal_consultation from "./views/medical/in_patient/stork_center/stork_internal_consultation";
+    import stork_external_consultation from "./views/medical/in_patient/stork_center/stork_external_consultation";
 // import maternity_layout from "./views/medical/maternity/layouts/maternity_layout"
 // import maternity_admission from "./views/medical/maternity/maternity_admission";
 // import delivery_registration from "./views/medical/maternity/delivery/delivery_registration";
@@ -452,6 +459,44 @@ const routes = [
                 path:'incoming_patient',
                 name:'stork_incoming_patient',
                 component: stork_incoming_patient
+            },
+            {
+                path:'patient_list',
+                name:'stork_patient_list',
+                component: stork_patient_list
+            },
+            //diagnostic
+                //Pregnancy checkup form
+            {
+                path:'diagnostic/pregnancy_checkup',
+                name:'stork_diagnostic_pregnancy_checkup',
+                component: pregnancy_checkup_form
+            },
+            {
+                path:'diagnostic/balance',
+                name:'stork_diagnostic_balance',
+                component: balance_sheet
+            },
+            {
+                path:'diagnostic/vital_signs',
+                name:'stork_vital_signs',
+                component: stork_vital_signs
+            },
+            //treatment
+            {
+                path:'treatment/medicines',
+                name:'stork_give_medicine',
+                component: stork_give_medicine
+            },
+            {
+                path:'treatment/internal_consulation',
+                name:'stork_internal_consultation',
+                component: stork_internal_consultation
+            },
+            {
+                path:'treatment/external_consultation',
+                name:'stork_external_consultation',
+                component: stork_external_consultation
             },
 
 
