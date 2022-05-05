@@ -4,7 +4,10 @@
 namespace App\Service\V1\patient_system\in_patient;
 
 
+use App\Models\Admission;
+use App\Models\Bed;
 use App\Models\StorkAdmission;
+use Illuminate\Support\Facades\DB;
 
 class StorkAdmissionService
 {
@@ -45,8 +48,19 @@ class StorkAdmissionService
         ];
     }
     public function store($request){
-        StorkAdmission::create($this->_fillData($request));
-        return response()->json(['success'=>true]);
-        //update the admission status (Done)
+        DB::transaction(function() use($request) {
+            StorkAdmission::create($this->_fillData($request));
+            //update the admission status (Done)
+            $admission= Admission::find($request->admission_id);
+            $admission->status='DONE';
+            $admission->save();
+            //update the bed
+            $bed= Bed::find($request->bed_id);
+            $bed->occupied=true;
+            $bed->save();
+//            return response()->json(['success'=>true]);
+        });
+
+
     }
 }

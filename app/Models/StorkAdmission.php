@@ -17,4 +17,11 @@ class StorkAdmission extends Model
     public function patient(){
         return $this->belongsTo(Patient::class);
     }
+    public function balances(){
+        return $this->hasMany(StorkBalance::class);
+    }
+    public function pregnancy_checkups(){
+        return $this->hasMany(StorkPregnancyCheckup::class);
+    }
+
 }

@@ -39,6 +39,7 @@ import obstetrics_overview from "./views/medical/overview/obstetrics_overview";
     import stork_incoming_patient from "./views/medical/in_patient/stork_center/stork_incoming_patient";
     import stork_patient_list from "./views/medical/in_patient/stork_center/stork_patient_list";
     import pregnancy_checkup_form from "./views/medical/in_patient/stork_center/pregnancy_checkup_form";
+    import stork_balance_list from "./views/medical/in_patient/stork_center/stork_balance_list";
     import balance_sheet from "./views/medical/in_patient/stork_center/balance_sheet";
     import stork_vital_signs from "./views/medical/in_patient/stork_center/stork_vital_signs";
     import stork_give_medicine from "./views/medical/in_patient/stork_center/stork_give_medicine";
@@ -471,6 +472,11 @@ const routes = [
                 path:'diagnostic/pregnancy_checkup',
                 name:'stork_diagnostic_pregnancy_checkup',
                 component: pregnancy_checkup_form
+            },
+            {
+                path:'diagnostic/balance_list',
+                name:'stork_diagnostic_balance_list',
+                component: stork_balance_list
             },
             {
                 path:'diagnostic/balance',

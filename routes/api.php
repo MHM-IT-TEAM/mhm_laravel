@@ -141,16 +141,23 @@ Route::prefix('/v1')->group(function(){
             //Stork center
             Route::group(['prefix'=>'stork'],function(){
                 route::resource('admission',\App\Http\Controllers\V1\patient_system\in_patient\stork_center\StorkAdmissionController::class);
-                route::get('/fetch_patient_data/{patient_id}',[\App\Http\Controllers\V1\patient_system\maternity\MaternityAdmissionController::class,'fetch_patient_data']);
-                route::get('/last_code',[\App\Http\Controllers\V1\patient_system\maternity\MaternityAdmissionController::class,'last_code']);
-                route::get('/last_birth_code',[\App\Http\Controllers\V1\patient_system\maternity\BirthRegistrationController::class,'last_birth_code']);
-                route::post('/upload_files',[\App\Http\Controllers\V1\patient_system\maternity\MaternityAdmissionController::class,'upload_files']);
-                route::put('/delivery_registration/birth_certificate/{id}',[\App\Http\Controllers\V1\patient_system\maternity\BirthRegistrationController::class,'birth_certificate']);
-                route::resource('/delivery_registration',\App\Http\Controllers\V1\patient_system\maternity\BirthRegistrationController::class);
-                route::resource('/maternity_admission',\App\Http\Controllers\V1\patient_system\maternity\MaternityAdmissionController::class);
-                route::resource('/actions',\App\Http\Controllers\V1\patient_system\maternity\MaternityActionController::class);
-                route::resource('/medical_appreciation',\App\Http\Controllers\V1\patient_system\maternity\MedicalAppreciationController::class);
-                route::resource('/medical_appreciation_comment',\App\Http\Controllers\V1\patient_system\maternity\MedicalAppreciationCommentController::class);
+                route::resource('balance',\App\Http\Controllers\V1\patient_system\in_patient\stork_center\StorkBalanceController::class);
+                route::get('balance/stork_admission_id/{stork_admission_id}',[\App\Http\Controllers\V1\patient_system\in_patient\stork_center\StorkBalanceController::class,'stork_balance_where_admission_id']);
+                route::post('store_balance_in',[\App\Http\Controllers\V1\patient_system\in_patient\stork_center\StorkBalanceController::class,'store_in']);
+                route::post('store_balance_out',[\App\Http\Controllers\V1\patient_system\in_patient\stork_center\StorkBalanceController::class,'store_out']);
+                route::post('close_balance',[\App\Http\Controllers\V1\patient_system\in_patient\stork_center\StorkBalanceController::class,'close_balance']);
+                route::resource('pregnancy_checkup',\App\Http\Controllers\V1\patient_system\in_patient\stork_center\StorkPregnancyCheckupController::class);
+                route::get('pregnancy_checkup/stork_admission_id/{stork_admission_id}',[\App\Http\Controllers\V1\patient_system\in_patient\stork_center\StorkPregnancyCheckupController::class,'where_stork_admission_id']);
+//                route::get('/fetch_patient_data/{patient_id}',[\App\Http\Controllers\V1\patient_system\maternity\MaternityAdmissionController::class,'fetch_patient_data']);
+//                route::get('/last_code',[\App\Http\Controllers\V1\patient_system\maternity\MaternityAdmissionController::class,'last_code']);
+//                route::get('/last_birth_code',[\App\Http\Controllers\V1\patient_system\maternity\BirthRegistrationController::class,'last_birth_code']);
+//                route::post('/upload_files',[\App\Http\Controllers\V1\patient_system\maternity\MaternityAdmissionController::class,'upload_files']);
+//                route::put('/delivery_registration/birth_certificate/{id}',[\App\Http\Controllers\V1\patient_system\maternity\BirthRegistrationController::class,'birth_certificate']);
+//                route::resource('/delivery_registration',\App\Http\Controllers\V1\patient_system\maternity\BirthRegistrationController::class);
+//                route::resource('/maternity_admission',\App\Http\Controllers\V1\patient_system\maternity\MaternityAdmissionController::class);
+//                route::resource('/actions',\App\Http\Controllers\V1\patient_system\maternity\MaternityActionController::class);
+//                route::resource('/medical_appreciation',\App\Http\Controllers\V1\patient_system\maternity\MedicalAppreciationController::class);
+//                route::resource('/medical_appreciation_comment',\App\Http\Controllers\V1\patient_system\maternity\MedicalAppreciationCommentController::class);
 
             });
         });

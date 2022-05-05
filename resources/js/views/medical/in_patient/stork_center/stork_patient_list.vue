@@ -136,45 +136,15 @@ export default {
     name: "stork_patient_list",
     data: () => ({
         start_list:[],
-        rooms:[
-            {
-                room:'red',
-                color:'red',
-                beds:[
-                    {code:'R1',patient_id:10900,occupied:true,fullName:'Dimby Tiavina Idealisoa Princy',diagnosis:'Prenatal Checkup',date_in:'2022-04-02'},
-                    {code:'R2',patient_id:null,occupied:false,fullName:'',diagnosis:'',date_in:''},
-                    {code:'R3',patient_id:null,occupied:false,fullName:'',diagnosis:'',date_in:''},
-                    {code:'R4',patient_id:null,occupied:false,fullName:'',diagnosis:'',date_in:''},
-                ]
-            },
-            {
-                room:'yellow',
-                color:'yellow',
-                beds:[
-                    {code:'Y1',patient_id:10700,occupied:true,fullName:'RANJASON',diagnosis:'MARAR LOHA',date_in:''},
-                    {code:'Y2',patient_id:null,occupied:false,fullName:'',diagnosis:'',date_in:''},
-                    {code:'Y3',patient_id:null,occupied:false,fullName:'',diagnosis:'',date_in:''},
-                    {code:'Y4',patient_id:null,occupied:false,fullName:'',diagnosis:'',date_in:''},
-                ]
-            },
-            {
-                room:'Recovery',
-                color:'blue',
-                beds:[
-                    {code:'R1',patient_id:10700,occupied:true,fullName:'RANJASON',diagnosis:'MARAR LOHA',date_in:''},
-                    {code:'R2',patient_id:null,occupied:false,fullName:'',diagnosis:'',date_in:''},
-                ]
-            },
-
-        ],
         dialog_menu:false,
+        chosen_patient:null,
         dropdown: [
             {
                 text: 'Diagnostic',
                 icon: 'mdi-clock',
                 active:false,
                 children:[
-                    {text:'Balance Sheet',url:'stork_diagnostic_balance'},
+                    {text:'Balance Sheet',url:'stork_diagnostic_balance_list'},
                     {text:'Pregnancy checkup',url:'stork_diagnostic_pregnancy_checkup'},
                     {text:'Weekly measurments',url:''},
                     {text:'Excretion',url:''},
@@ -225,9 +195,10 @@ export default {
         },
         open_menu(bed){
             this.dialog_menu=true
+            this.chosen_patient=bed
         },
         process_option(item){
-            this.$router.push({name:item.url})
+            this.$router.push({name:item.url,params:{stork_admission:this.chosen_patient}})
         }
     },
     computed:{
