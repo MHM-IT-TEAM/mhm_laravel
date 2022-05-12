@@ -100,3 +100,9 @@ Route::group(['prefix'=>'stork','middleware'=>'auth'],function(){
         return view("medical/stork/home");
     })->name('maternity_home')->where('any','.*');
 });
+
+Route::group(['prefix'=>'delivery','middleware'=>'auth'],function(){
+    Route::get('/{any}',function(){
+        return view("medical/stork/home");
+    })->name('maternity_home')->where('any','.*');
+});

@@ -32,6 +32,8 @@ Route::prefix('/v1')->group(function(){
             Route::get('/with_due_sum/{id}',[\App\Http\Controllers\v1\patient_system\patient\PatientController::class,'with_due_sum']);
             Route::resource('patient',\App\Http\Controllers\v1\patient_system\patient\PatientController::class);
         });
+        //Vital sign
+        Route::resource('vital_sign',\App\Http\Controllers\V1\patient_system\vital_sign\VitalSignController::class);
         //Admission
         Route::group(['prefix'=>'admission'],function(){
             Route::resource('priority',\App\Http\Controllers\V1\patient_system\consultation\AdmissionPriorityController::class);
@@ -148,6 +150,7 @@ Route::prefix('/v1')->group(function(){
                 route::post('close_balance',[\App\Http\Controllers\V1\patient_system\in_patient\stork_center\StorkBalanceController::class,'close_balance']);
                 route::resource('pregnancy_checkup',\App\Http\Controllers\V1\patient_system\in_patient\stork_center\StorkPregnancyCheckupController::class);
                 route::get('pregnancy_checkup/stork_admission_id/{stork_admission_id}',[\App\Http\Controllers\V1\patient_system\in_patient\stork_center\StorkPregnancyCheckupController::class,'where_stork_admission_id']);
+                route::resource('dismissal',\App\Http\Controllers\V1\patient_system\in_patient\stork_center\StorkDismissalController::class);
 //                route::get('/fetch_patient_data/{patient_id}',[\App\Http\Controllers\V1\patient_system\maternity\MaternityAdmissionController::class,'fetch_patient_data']);
 //                route::get('/last_code',[\App\Http\Controllers\V1\patient_system\maternity\MaternityAdmissionController::class,'last_code']);
 //                route::get('/last_birth_code',[\App\Http\Controllers\V1\patient_system\maternity\BirthRegistrationController::class,'last_birth_code']);

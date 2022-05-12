@@ -7,6 +7,7 @@ namespace App\Service\V1\patient_system\in_patient;
 use App\Models\Admission;
 use App\Models\Bed;
 use App\Models\StorkAdmission;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class StorkAdmissionService
@@ -48,18 +49,29 @@ class StorkAdmissionService
         ];
     }
     public function store($request){
-        DB::transaction(function() use($request) {
-            StorkAdmission::create($this->_fillData($request));
-            //update the admission status (Done)
-            $admission= Admission::find($request->admission_id);
-            $admission->status='DONE';
-            $admission->save();
-            //update the bed
-            $bed= Bed::find($request->bed_id);
-            $bed->occupied=true;
-            $bed->save();
-//            return response()->json(['success'=>true]);
-        });
+        //check if the data is already in the system
+        $check= StorkAdmission::where('patient_id',$request->patient_id)->whereDate('created_at',Carbon::today())->first();
+        if($check->exists())
+        {
+            return response()->json(['success'=>false,"message"=>'the patient is already saved in the system on the same date, risk of duplicate data']);
+        }
+        else
+        {
+            DB::transaction(function() use($request) {
+                StorkAdmission::create($this->_fillData($request));
+                //update the admission status (Done)
+                $admission= Admission::find($request->admission_id);
+                $admission->status='DONE';
+                $admission->save();
+                //update the bed
+                $bed= Bed::find($request->bed_id);
+                $bed->occupied=true;
+                $bed->save();
+            });
+            return response()->json(['success'=>true]);
+        }
+
+
 
 
     }

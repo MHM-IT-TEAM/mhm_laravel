@@ -45,6 +45,9 @@ import obstetrics_overview from "./views/medical/overview/obstetrics_overview";
     import stork_give_medicine from "./views/medical/in_patient/stork_center/stork_give_medicine";
     import stork_internal_consultation from "./views/medical/in_patient/stork_center/stork_internal_consultation";
     import stork_external_consultation from "./views/medical/in_patient/stork_center/stork_external_consultation";
+    import stork_dismissal from "./views/medical/in_patient/stork_center/stork_dismissal";
+    //Delivery
+    import delivery_registration from "./views/medical/in_patient/deliveries/delivery_registration";
 // import maternity_layout from "./views/medical/maternity/layouts/maternity_layout"
 // import maternity_admission from "./views/medical/maternity/maternity_admission";
 // import delivery_registration from "./views/medical/maternity/delivery/delivery_registration";
@@ -504,11 +507,35 @@ const routes = [
                 name:'stork_external_consultation',
                 component: stork_external_consultation
             },
+            {
+                path:'dismissal',
+                name:'stork_dismissal',
+                component: stork_dismissal
+            },
 
 
 
         ]
     },
+
+    /**
+     |-----------------------------
+     | Delivery
+     |-----------------------------
+     */
+    {
+        path:'/delivery',
+        name:'delivery_layout',
+        component:stork_layout,
+        children:[
+            {
+                path:'registration',
+                name:'delivery_registration',
+                component: delivery_registration
+            },
+        ]
+    },
+
     /**
      |-----------------------------
      | Generalist

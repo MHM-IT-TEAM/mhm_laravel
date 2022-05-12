@@ -403,6 +403,10 @@ const {
                 axios.post("/api/v1/patient_system/in_patient/stork/admission",this.formData).then(
                     response=>{
                         if(response.data.success) this.$router.push("patient_list")
+                        else{
+                            this.$toast.open({message:response.data.message,type:"error"})
+                            this.$router.push("patient_list")
+                        }
                     }
                 )
 

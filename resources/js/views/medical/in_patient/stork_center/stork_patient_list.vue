@@ -113,6 +113,7 @@
                            </v-list-item-icon>
                        </v-list-item>
                    </v-list-group>
+
                </v-list>
                <v-card-actions>
                    <v-spacer></v-spacer>
@@ -184,6 +185,15 @@ export default {
                     {text:'external',url:''},
                 ]
             },
+            {
+                text: 'Dismiss/refer',
+                icon: 'mdi-flag',
+                active:false ,
+                children:[
+                    {text:'Dismiss',url:'stork_dismissal'},
+                    {text:'Refer',url:''},
+                ]
+            },
         ],
     }),
     created(){
@@ -198,7 +208,7 @@ export default {
             this.chosen_patient=bed
         },
         process_option(item){
-            this.$router.push({name:item.url,params:{stork_admission:this.chosen_patient}})
+            this.$router.push({name:item.url,params:{stork_admission:this.chosen_patient,admission_id:this.chosen_patient.admission_id}})
         }
     },
     computed:{
