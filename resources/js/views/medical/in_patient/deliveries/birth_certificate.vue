@@ -84,7 +84,7 @@
                     </tr>
                     <tr>
                         <td>
-                            Daty sy toerana nahaterahana: &nbsp <input type="date" v-model="formData.dad_dob" /> &nbsp <input type="text" style="width:30%" v-model="formData.dad_pob"/>
+                            Daty sy toerana nahaterahana: &nbsp <input type="text" v-model="formData.dad_dob" /> &nbsp <input type="text" style="width:30%" v-model="formData.dad_pob"/>
                         </td>
                     </tr>
                     <tr>
@@ -111,7 +111,7 @@
                     </tr>
                     <tr>
                         <td>
-                            Daty sy toerana nahaterahana: &nbsp <input type="date" v-model="formData.mom_dob" /> &nbsp <input type="text" style="width:40%" v-model="formData.mom_pob"/>
+                            Daty sy toerana nahaterahana: &nbsp <input type="text" v-model="formData.mom_dob" /> &nbsp <input type="text" style="width:40%" v-model="formData.mom_pob"/>
                         </td>
                     </tr>
                     <tr>
@@ -136,7 +136,7 @@
                     </tr>
                     <tr>
                         <td>
-                            Daty sy toerana nahaterahana: &nbsp <input type="date" v-model="formData.declarant_dob" :class="{'error':$v.formData.declarant_dob.$error}" /> &nbsp <input type="text" style="width:40%" v-model="formData.declarant_pob" :class="{'error':$v.formData.declarant_pob.$error}"/>
+                            Daty sy toerana nahaterahana: &nbsp <input type="text" v-model="formData.declarant_dob" :class="{'error':$v.formData.declarant_dob.$error}" /> &nbsp <input type="text" style="width:40%" v-model="formData.declarant_pob" :class="{'error':$v.formData.declarant_pob.$error}"/>
                         </td>
                     </tr>
                     <tr>
@@ -164,13 +164,13 @@
                     <tr>
                         <td ></td>
                         <td></td>
-                        <td style="width:30%; font-style: italic">
+                        <td style="width:30%; font-style: italic;font-size: 10px">
                             " Hita sy voamarina fa teraka teto amin'ny
                             TOBIM-PAHASALAMANA iadidiako marina io zaza io)"
                         </td>
                     </tr>
                 </table>
-                <hr>
+<!--                <hr>-->
             <p class="footer">
                 VOARAY TETO AMIN'NY COMMUNE, Androany faha...............................................................................................
                 (Sonia sy fitomboky ny tompon'andraikitra)
@@ -200,6 +200,7 @@ export default {
                 birth_date:'',
                 birth_time:'',
                 baby_gender:'',
+                mom_id:'',
                 mom_firstName:'',
                 mom_lastName:'',
                 mom_dob:'',
@@ -260,14 +261,16 @@ export default {
             }
         },
         async fetchData(){
-            await axios.get('/api/maternity/delivery_registration/'+this.formData.code).then(response=>{
+            await axios.get('/api/v1/patient_system/delivery/birth_certificate/'+this.formData.code).then(response=>{
                 let src= response.data
                 this.formData= Object.assign(this.formData,src.birth_admin_data[0])
                 this.formData.birth_date=src.birth_date
                 this.formData.birth_time=src.birth_time
+                this.formData.mom_id= src.patient.id
                 this.formData.mom_firstName= src.patient.firstName
                 this.formData.mom_lastName= src.patient.lastName
                 this.formData.mom_dob= src.patient.birthDate
+                this.formData.baby_id=src.birth_medical_data_babies[0].patient_id
             })
         },
         make_dad_declarant(){
@@ -284,7 +287,7 @@ export default {
         async submit(){
             this.$v.$touch()
             if (!this.$v.$invalid) {
-                await axios.put('/api/maternity/delivery_registration/birth_certificate/'+this.formData.id, this.formData)
+                await axios.put('/api/v1/patient_system/delivery/birth_certificate/'+this.formData.id, this.formData)
                 .then(response=>{
                     if(response.data.success){
                         this.reset_form()
@@ -350,10 +353,10 @@ export default {
 @media print{
 
     .certificate_container{
-        margin-top: -75px;
-        height:439mm;
+        margin-top: -60px;
+        height:405mm;
         width:312mm ;
-        margin-left: -260px;
+        /*margin-left: -260px;*/
     }
     .header td{
         font-size: 22px;

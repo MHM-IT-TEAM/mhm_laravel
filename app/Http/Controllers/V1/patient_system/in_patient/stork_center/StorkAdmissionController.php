@@ -86,4 +86,7 @@ class StorkAdmissionController extends Controller
     {
         //
     }
+    public function in_patient_book(){
+        return StorkAdmission::with(['patient','stork_dismissal','service'])->get();
+    }
 }

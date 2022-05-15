@@ -22,7 +22,7 @@
         @media print{
             body{
                 background-color: white;
-                border:green solid 1px;
+                /*border:green solid 1px;*/
             }
             * {
                 box-sizing: border-box;

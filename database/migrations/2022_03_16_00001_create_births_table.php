@@ -23,10 +23,13 @@ class CreateBirthsTable extends Migration
             $table->string('external_delivery',10)->nullable();
             $table->foreignId('patient_id');
             $table->bigInteger('cpn_admission_id')->nullable();
-            $table->string('midwives',200)->nullable();
-            $table->string('surgeons',200)->nullable();
+            $table->boolean('induction')->nullable();
+            $table->string('responsible_midwives',200)->nullable();
+            $table->string('senior_midwives',200)->nullable();
+            $table->string('assistant_midwives',200)->nullable();
             $table->string('anesthetists',200)->nullable();
-            $table->string('nurses',200)->nullable();
+            $table->string('doctors',200)->nullable();
+            $table->string('trainee',200)->nullable();
         });
     }
 

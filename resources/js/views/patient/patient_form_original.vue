@@ -10,11 +10,11 @@
                   autocomplete="off"
               >
                   <div class="patient_container p-4">
-                      <h4>Informations personelles</h4>
+                      <h4>Personal</h4>
                       <hr />
                       <div class="row perso_detail">
                           <div class="col-sm-4">
-                              <label for="firstName" class="pb-0 col-form-label">Nom</label
+                              <label for="firstName" class="pb-0 col-form-label">First Name</label
                               ><span class="text-danger">*</span>
                               <div class="row">
                                   <div
@@ -45,7 +45,7 @@
                                       </div>
                                   </div>
                               </div>
-                              <label for="lastName" class="pb-0 col-form-label">Prenom</label
+                              <label for="lastName" class="pb-0 col-form-label">Last Name</label
                               ><span class="text-danger">*</span>
                               <div class="row mb-0">
                                   <div class="col-sm-12">
@@ -66,7 +66,7 @@
                                       </div>
                                   </div>
                               </div>
-                              <label for="gender" class="pb-0 pt-0 col-form-label">Sexe</label
+                              <label for="gender" class="pb-0 pt-0 col-form-label">Gender</label
                               ><span class="text-danger">*</span>
                               <div class="row">
                                   <div class="col-sm-12">
@@ -92,7 +92,7 @@
                               </div>
                               <div class="row mt-0">
                                   <div class="col-sm-6 pt-0">
-                                      <label for="dob" class="pb-0 col-form-label">Date de naissance</label
+                                      <label for="dob" class="pb-0 col-form-label">DOB</label
                                       ><span class="text-danger">*</span>
                                       <date-picker v-model="patient.birthDate"
                                                    name="dob"
@@ -118,7 +118,7 @@
                                       </div>
                                   </div>
                                   <div class="col-sm-6 pt-0">
-                                      <label for="dob" class="pb-0 col-form-label ">Taille</label
+                                      <label for="dob" class="pb-0 col-form-label ">Height</label
                                       >
                                       <input
                                           type="number"
@@ -133,7 +133,7 @@
 
                           <div class="col-sm-2">
                               <label for="martialStatus" class="pb-0 col-form-label"
-                              >Statut matrimonial</label
+                              >Martial Status</label
                               >
                               <div class="row">
                                   <div class="col-sm-12">
@@ -156,7 +156,7 @@
                                   </div>
                               </div>
                               <label for="bloodGroup" class="pb-0 col-form-label"
-                              >Groupe sanguin</label
+                              >Blood Group</label
                               >
                               <div class="row">
                                   <div class="col-sm-12">
@@ -182,7 +182,7 @@
                                   </div>
                               </div>
                               <label for="education" class="pb-0 col-form-label"
-                              >Education</label
+                              >Education Level</label
                               >
                               <div class="row">
                                   <div class="col-sm-12">
@@ -206,7 +206,7 @@
                               <div class="row">
                                   <div class="col-12">
                                       <label for="Nationality" class="pb-0 col-form-label"
-                                      >Nationalité</label
+                                      >Nationality</label
                                       >
                                       <div class="row">
                                           <div class="col-sm-12">
@@ -222,7 +222,7 @@
                                               </multiselect>
                                           </div>
                                       </div>
-                                      <label for="idCard" class="pb-0 col-form-label">CIN</label>
+                                      <label for="idCard" class="pb-0 col-form-label">ID card</label>
                                       <div class="row">
                                           <div class="col-sm-12">
                                               <input
@@ -234,7 +234,7 @@
                                               <span class="text-white bg-danger" v-if="$v.patient.cin_no.$error">ID Card required</span>
                                           </div>
                                       </div>
-                                      <label for="idDate" class="pb-0 col-form-label">Date</label>
+                                      <label for="idDate" class="pb-0 col-form-label">ID Date</label>
                                       <div class="row">
                                           <div class="col-sm-12">
                                               <date-picker v-model="patient.cin_date"
@@ -255,7 +255,7 @@
                                           </div>
                                       </div>
                                       <label for="idPlace" class="pb-0 col-form-label"
-                                      >Lieu</label
+                                      >ID Place</label
                                       >
                                       <div class="row">
                                           <div class="col-sm-12">
@@ -311,7 +311,7 @@
                       </div>
                       <!--personal detail-->
                       <br />
-                      <h4>Corespondance</h4>
+                      <h4>Communication Details</h4>
                       <hr />
                       <div class="row">
                           <div class="col-4">
@@ -367,14 +367,14 @@
                           </div>
                       </div>
                       <br />
-                      <h4>Contact Famille</h4>
+                      <h4>Relatives Contact</h4>
                       <hr />
                       <div class="row">
                           <table class="table w-100 table-borderless">
                               <thead>
                               <tr>
-                                  <th>Mere</th>
-                                  <th>Pere</th>
+                                  <th>Mom</th>
+                                  <th>Dad</th>
                               </tr>
                               </thead>
                               <tbody>
@@ -404,7 +404,7 @@
                       <div class="">
                           <div class="row">
                               <div class="col-10">
-                                  <h4 class="text-danger">Contact Urgence</h4>
+                                  <h4 class="text-danger">Emergency Contact</h4>
                               </div>
                               <div class="col-2">
                                   <!--                            <button class="btn btn-sm btn-primary float-right" @click="add_row()" type="button"><i class="fa fa-plus"></i></button>-->

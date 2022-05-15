@@ -82,7 +82,7 @@ export default {
     },
     methods:{
         async init(){
-            await axios.get('/api/maternity/delivery_registration/').then(response=>{
+            await axios.get('/api/v1/patient_system/delivery/book').then(response=>{
                 this.list=response.data
             })
         },

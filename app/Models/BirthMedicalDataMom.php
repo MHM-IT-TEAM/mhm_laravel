@@ -11,13 +11,13 @@ class BirthMedicalDataMom extends Model
     protected $guarded=[];
 
     public static function fill_data($request,$birth_id){
-        $complications='';
-        if(count($request['complications'])>0){
-            foreach($request['complications'] as $compl){
-                $complications.= $compl.',';
-            }
-            $complications= rtrim($complications,',');
-        }
+//        $complications='';
+//        if(count($request['complications'])>0){
+//            foreach($request['complications'] as $compl){
+//                $complications.= $compl.',';
+//            }
+//            $complications= rtrim($complications,',');
+//        }
         return [
             'birth_id'=>$birth_id,
             'position'=>$request['position'],
@@ -31,7 +31,7 @@ class BirthMedicalDataMom extends Model
             'placenta_curetage'=>$request['placenta_curetage'],
             'supervision_needed'=>$request['supervision_needed'],
             'ctg'=>$request['ctg'],
-            'complications'=>$complications,
+            'complications'=>$request['complications'],
             'remarks'=>$request['remarks']
         ];
     }

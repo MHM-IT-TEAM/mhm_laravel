@@ -36,6 +36,16 @@
 
                         </v-list-item-content>
                     </v-list-item>
+                    <v-list-item>
+                        <v-list-item-icon>
+                            <v-icon>mdi-animation</v-icon>
+                        </v-list-item-icon>
+                        <v-list-item-content>
+                            <!--                            <v-list-item-title ><router-link :to="{name:'maternity_admission'}" class="link">Admission</router-link></v-list-item-title>-->
+                            <v-list-item-title ><router-link :to="{name:'stork_pregnancy_card_search'}" class="link">Pregnancy Card</router-link></v-list-item-title>
+
+                        </v-list-item-content>
+                    </v-list-item>
 
                     <v-list-group
                         v-for="item in items"
@@ -119,26 +129,26 @@
 
                     items: [
                         { title: 'Admission request',url:'stork_incoming_patient' },
-                        { title: 'Staying',url:'stork_patient_list' },
-                        { title: 'Overview &report',url:'' },
+                        { title: 'Currently in patients',url:'stork_patient_list' },
+                        { title: 'Overview &report',url:'in_patient_book' },
                     ],
                     title: 'In-Patient ',
                 },
-                {
-                    action: 'mdi-truck-delivery',
-                    items: [
-                        { title: 'Internal referral',url:'internal_referral' },
-                        { title: 'External referral',url:'external_referral' },
-                        { title: 'Discharge',url:'maternity_discharge' },
-                    ],
-                    title: 'Referral & Discharge ',
-                },
-                {
-                    action: 'mdi-chemical-weapon',
-                    items: [{ title: 'Request',url:'maternity_labwork' },{title:'Lab result',url:''},{title:'overview',url:''}],
-                    title: 'Lab Works',
-
-                },
+                // {
+                //     action: 'mdi-truck-delivery',
+                //     items: [
+                //         { title: 'Internal referral',url:'internal_referral' },
+                //         { title: 'External referral',url:'external_referral' },
+                //         { title: 'Discharge',url:'maternity_discharge' },
+                //     ],
+                //     title: 'Referral & Discharge ',
+                // },
+                // {
+                //     action: 'mdi-chemical-weapon',
+                //     items: [{ title: 'Request',url:'maternity_labwork' },{title:'Lab result',url:''},{title:'overview',url:''}],
+                //     title: 'Lab Works',
+                //
+                // },
                 {
                     action: 'mdi-warehouse',
                     items: [{ title: 'Order request',url:'' },{title:'report',url:''}],

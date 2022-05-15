@@ -15,12 +15,13 @@ class BirthTypeSeeder extends Seeder
     public function run()
     {
         BirthType::insert([
-            ['name'=>'vaginally'],
+            ['name'=>'spontaneous'],
             ['name'=>'Kiwi'],
-            ['name'=>'forceps'],
-            ['name'=>'C-section'],
-            ['name'=>'Curretage'],
-            ['name'=>'Cytotec']
+            ['name'=>'C-section-primary'],
+            ['name'=>'C-section-secondary'],
+            ['name'=>'C-section-urgent'],
+            ['name'=>'C-section-emergency'],
+
         ]);
     }
 }

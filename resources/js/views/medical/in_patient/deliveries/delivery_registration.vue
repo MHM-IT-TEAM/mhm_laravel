@@ -1,9 +1,8 @@
 <template>
    <div class="container">
-       <form @submit.prevent="submit">
-           <div class="registration-container">
+       <div class="registration-container">
                <div class="p-2 title">
-                   <h2 style="display: inline-block">Birth Registration</h2>
+                   <h2 style="display: inline-block">Declaration de naissance</h2>
                    <v-btn class="float-right d-print-none"><v-icon>mdi-printer</v-icon></v-btn>
                </div>
                <v-row>
@@ -42,14 +41,20 @@
 
                                </tr>
                                <tr>
-                                   <td> cpn ref:</td>
-                                   <td><a href="#">{{formData.cpn_admission_id}}</a></td>
+                                   <td> cpn ref: &nbsp <v-btn text dark color="blue" @click="view_pregnancy_card">{{formData.cpn_admission_id}}</v-btn></td>
                                    <td> GA: &nbsp <input v-model="formData.GA" type="text" :class="{'error':$v.formData.GA.$error}"/></td>
                                    <td>
                                        Twin?
                                        <input type="checkbox" v-model="twin"/> &nbsp &nbsp
                                        <span v-if="twin">count of babies </span>&nbsp
                                        <input type="number" max="3" v-model="count_twin" @change="insert_twin" v-if="twin"/>
+                                   </td>
+                                   <td>
+                                       induction?
+                                       <select v-model.number="formData.induction" :class="{'error':$v.formData.induction.$error}" >
+                                           <option value="1">Yes</option>
+                                           <option value="0">No</option>
+                                       </select>
                                    </td>
                                </tr>
                                <tr>
@@ -65,12 +70,16 @@
                                            <option v-for="i in ctg">{{i}}</option>
                                        </select>
                                    </td>
-                                   <td colspan="2">
-                                       <multiselect :options="birth_complications"
+                                   <td colspan="3">
+<!--                                       <multiselect :options="birth_complications"-->
 
-                                                    v-model="formData.complications"
-                                                    :multiple="true"
-                                                    placeholder="Complications"/>
+<!--                                                    v-model="formData.complications"-->
+<!--                                                    :multiple="true"-->
+<!--                                                    placeholder="Complications"/>-->
+                                       <div class="form-group">
+                                           <label>Complication</label>
+                                           <textarea class="form-control form-control-sm" v-model="formData.complications"/>
+                                       </div>
                                    </td>
                                </tr>
                                <tr>
@@ -324,53 +333,58 @@
                                        <td colspan="5">
                                            <span :class="{ 'error': v.baby_not_crying.$error }">Did the baby cry?</span>
                                            <div class="custom-control custom-radio custom-control-inline">
-                                               <input  type="radio" :id="'new_born_crying_1'+index" name="'new_born_crying" value="yes" class="custom-control-input" v-model="baby.baby_not_crying">
+                                               <input  type="radio" :id="'new_born_crying_1'+index" :name="'new_born_crying'+index" value="yes" class="custom-control-input" v-model="baby.baby_not_crying">
                                                <label class="custom-control-label" :for="'new_born_crying_1'+index">yes</label>
                                            </div>
                                            <div class="custom-control custom-radio custom-control-inline">
-                                               <input  type="radio" :id="'new_born_crying_2'+index" name="'new_born_crying" value="no" class="custom-control-input" v-model="baby.baby_not_crying">
+                                               <input  type="radio" :id="'new_born_crying_2'+index" :name="'new_born_crying'+index" value="no" class="custom-control-input" v-model="baby.baby_not_crying">
                                                <label class="custom-control-label" :for="'new_born_crying_2'+index">no</label>
                                            </div>
                                            <span :class="{ 'error': v.risk_of_cerebral_palsy.$error }">Risk of cerebral palsy and/or jaundice?</span>
                                            <div class="custom-control custom-radio custom-control-inline">
-                                               <input  type="radio" :id="'new_bron_risk_1'+index" name="new_bron_risk" value="yes" class="custom-control-input" v-model="baby.risk_of_cerebral_palsy">
+                                               <input  type="radio" :id="'new_bron_risk_1'+index" :name="'new_bron_risk'+index" value="yes" class="custom-control-input" v-model="baby.risk_of_cerebral_palsy">
                                                <label class="custom-control-label" :for="'new_bron_risk_1'+index">yes</label>
                                            </div>
                                            <div class="custom-control custom-radio custom-control-inline">
-                                               <input  type="radio" :id="'new_bron_risk_2'+index" name="new_bron_risk" value="no" class="custom-control-input" v-model="baby.risk_of_cerebral_palsy">
+                                               <input  type="radio" :id="'new_bron_risk_2'+index" :name="'new_bron_risk'+index" value="no" class="custom-control-input" v-model="baby.risk_of_cerebral_palsy">
                                                <label class="custom-control-label" :for="'new_bron_risk_2'+index">no</label>
                                            </div>
                                            &nbsp infection:
                                            <input type="text" style="width:350px" v-model="baby.infection" class="text-danger"/>
+                                           &nbsp pelvimetry:
+                                           <select v-model="baby.pelvimetry" :class="{ 'error': v.pelvimetry.$error }">
+                                               <option value="normal">Normal</option>
+                                               <option value="pathological">Pathological</option>
+                                           </select>
                                        </td>
                                    </tr>
                                    <tr>
                                        <td colspan="5">
                                            <span :class="{ 'error': v.cpa_needed.$error }">CPA needed?</span>
                                            <div class="custom-control custom-radio custom-control-inline">
-                                               <input  type="radio" :id="'cpa_needed_1'+index" name="cpa_needed" value="yes" class="custom-control-input" v-model="baby.cpa_needed">
+                                               <input  type="radio" :id="'cpa_needed_1'+index" :name="'cpa_needed'+index" value="yes" class="custom-control-input" v-model="baby.cpa_needed">
                                                <label class="custom-control-label" :for="'cpa_needed_1'+index">yes</label>
                                            </div>
                                            <div class="custom-control custom-radio custom-control-inline">
-                                               <input  type="radio" :id="'cpa_needed_2'+index" name="cpa_needed" value="no" class="custom-control-input" v-model="baby.cpa_needed">
+                                               <input  type="radio" :id="'cpa_needed_2'+index" :name="'cpa_needed'+index" value="no" class="custom-control-input" v-model="baby.cpa_needed">
                                                <label class="custom-control-label" :for="'cpa_needed_2'+index">no</label>
                                            </div> &nbsp &nbsp
                                            <span :class="{ 'error': v.extra_supervision_needed.$error }">Extra supervision needed?</span>
                                            <div class="custom-control custom-radio custom-control-inline">
-                                               <input  type="radio" :id="'extra_supervision_1'+index" name="extra_supervision" value="yes" class="custom-control-input" v-model="baby.extra_supervision_needed">
+                                               <input  type="radio" :id="'extra_supervision_1'+index" :name="'extra_supervision'+index" value="yes" class="custom-control-input" v-model="baby.extra_supervision_needed">
                                                <label class="custom-control-label" :for="'extra_supervision_1'+index">yes</label>
                                            </div>
                                            <div class="custom-control custom-radio custom-control-inline">
-                                               <input  type="radio" :id="'extra_supervision_2'+index" name="extra_supervision" value="no" class="custom-control-input" v-model="baby.extra_supervision_needed">
+                                               <input  type="radio" :id="'extra_supervision_2'+index" :name="'extra_supervision'+index" value="no" class="custom-control-input" v-model="baby.extra_supervision_needed">
                                                <label class="custom-control-label" :for="'extra_supervision_2'+index">no</label>
                                            </div> &nbsp &nbsp
                                            <span :class="{ 'error': v.swobs_taken.$error }">Swobs taken?</span>
                                            <div class="custom-control custom-radio custom-control-inline">
-                                               <input  type="radio" :id="'swobs_taken_1'+index" name="swobs_taken" value="yes" class="custom-control-input" v-model="baby.swobs_taken">
+                                               <input  type="radio" :id="'swobs_taken_1'+index" :name="'swobs_taken'+index" value="yes" class="custom-control-input" v-model="baby.swobs_taken">
                                                <label class="custom-control-label" :for="'swobs_taken_1'+index">yes</label>
                                            </div>
                                            <div class="custom-control custom-radio custom-control-inline">
-                                               <input  type="radio" :id="'swobs_taken_2'+index" name="swobs_taken" value="no" class="custom-control-input" v-model="baby.swobs_taken">
+                                               <input  type="radio" :id="'swobs_taken_2'+index" :name="'swobs_taken'+index" value="no" class="custom-control-input" v-model="baby.swobs_taken">
                                                <label class="custom-control-label" :for="'swobs_taken_2'+index">no</label>
                                            </div>
 
@@ -389,15 +403,27 @@
                            <v-card-title>Medical Team</v-card-title>
                            <table class="table medical-team">
                                <tr>
-                                   <td>Midwvives</td>
+                                   <td>Responsible Midwives</td>
                                    <td colspan="5">
-                                       <input type="text" v-model="formData.midwives" :class="{ 'error': $v.formData.midwives.$error }"/>
+                                       <input type="text" v-model="formData.responsible_midwives" />
                                    </td>
                                </tr>
                                <tr>
-                                   <td>Nurse</td>
+                                   <td>Trainee</td>
                                    <td colspan="5">
-                                       <input type="text" v-model="formData.nurses"/>
+                                       <input type="text" v-model="formData.trainee"/>
+                                   </td>
+                               </tr>
+                               <tr>
+                                   <td>Senior if present</td>
+                                   <td colspan="5">
+                                       <input type="text" v-model="formData.senior_midwives"/>
+                                   </td>
+                               </tr>
+                               <tr>
+                                   <td>Midwife assistant</td>
+                                   <td colspan="5">
+                                       <input type="text" v-model="formData.assistant_midwives"/>
                                    </td>
                                </tr>
                                <tr>
@@ -407,9 +433,9 @@
                                    </td>
                                </tr>
                                <tr>
-                                   <td>Surgeon</td>
+                                   <td>Doctor if present</td>
                                    <td colspan="5">
-                                       <input type="text" v-model="formData.surgeons"/>
+                                       <input type="text" v-model="formData.doctors"/>
                                    </td>
                                </tr>
                            </table>
@@ -418,11 +444,10 @@
                </v-row>
                <v-row justify="center">
                    <v-col cols="2">
-                       <button type="submit" class="btn" id="submit">Submit</button>
+                       <button type="submit" class="btn" id="submit" @click="submit">Submit</button>
                    </v-col>
                </v-row>
            </div>
-       </form>
    </div>
 
 </template>
@@ -472,12 +497,14 @@ export default {
                         risk_of_cerebral_palsy:'',
                         cpa_needed:'',
                         extra_supervision_needed:'',
-                        swobs_taken:''
+                        swobs_taken:'',
+                        pelvimetry:''
                     }
                 ],
                 position:'',
+                induction:'',
                 ctg:'',
-                complications:[],
+                complications:'',
                 placenta_time:'',
                 placenta_complete:'',
                 placenta_spontaneous:'',
@@ -490,9 +517,11 @@ export default {
                 sterilisation_package:'',
                 medicines_used:[],
                 remarks:'',
-                midwives:'',
-                nurses:'',
-                surgeons:'',
+                trainee:'',
+                responsible_midwives:'',
+                senior_midwives:'',
+                assistant_midwives:'',
+                doctors:'',
                 anesthetists:''
             },
             birth_complications:[
@@ -546,7 +575,8 @@ export default {
                     quantity:''
                 },
                 temp_list:[],
-                add_med:false
+                add_med:false,
+                cpn_admission:null
             }
 
         }
@@ -555,6 +585,7 @@ export default {
         formData:{
             patient_id:{required},
             GA:{required},
+            induction:{required},
             birth_date:{required},
             birth_time:{required},
             position:{required},
@@ -586,9 +617,10 @@ export default {
                     cpa_needed:{required},
                     extra_supervision_needed:{required},
                     swobs_taken:{required},
+                    pelvimetry:{required}
+
                 }
             },
-            midwives:{required}
         }
     },
     created(){
@@ -596,19 +628,20 @@ export default {
     },
     methods:{
         async init(){
-            await axios.get('/api/birth_type').then(response=>this.modus=response.data)
+            await axios.get('/api/v1/extra/birth_type').then(response=>this.modus=response.data)
             this.fetch_last_code()
         },
         async fetch_last_code(){
-            await axios.get('/api/maternity/last_birth_code').then(response=>this.formData.code=response.data)
+            await axios.get('/api/v1/patient_system/delivery/last_code').then(response=>this.formData.code=response.data)
         },
         async changePat(){
-            await axios.get(`/api/maternity/fetch_patient_data/${this.formData.patient_id}`).then(response=>{
-                this.patient_fullname= response.data.patient_data.firstName + ' '+ response.data.patient_data.lastName
+            await axios.get(`/api/v1/patient_system/delivery/patient_data/${this.formData.patient_id}`).then(response=>{
+                this.patient_fullname= this.nullToStr(response.data.patient_data.firstName) + ' '+ this.nullToStr(response.data.patient_data.lastName)
                 this.patient_adress=response.data.patient_data.adress
                 this.patient_birthDate=response.data.patient_data.birthDate
                 this.formData.cpn_admission_id= response.data.patient_data.cpn_admissions[0]?.id
                 this.formData.GA=response.data.ga
+                this.accessory.cpn_admission=response.data.patient_data.cpn_admissions[0]
 
             })
         },
@@ -622,9 +655,11 @@ export default {
             this.$v.$touch()
             if(!this.$v.$invalid){
                 this.formData.code= this.new_code
-                await axios.post('/api/maternity/delivery_registration',this.formData).then(response=>{
+                await axios.post('/api/v1/patient_system/delivery/register_birth',this.formData).then(response=>{
                     if(response.data.success){
+                        this.$toast.open("data saved")
                         this.$router.push({name:'birth_certificate',code:response.data.id})
+
                     }
                 })
             }
@@ -658,6 +693,12 @@ export default {
                 this.accessory.search.quantity = "";
                 this.accessory.edit = true;
             }
+        },
+        nullToStr(text){
+            return text===null?'':text
+        },
+        view_pregnancy_card(){
+            this.$router.push({name:'delivery_pregnancy_card',params:{data:this.accessory.cpn_admission}})
         }
     },
     computed:{

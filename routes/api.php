@@ -151,6 +151,7 @@ Route::prefix('/v1')->group(function(){
                 route::resource('pregnancy_checkup',\App\Http\Controllers\V1\patient_system\in_patient\stork_center\StorkPregnancyCheckupController::class);
                 route::get('pregnancy_checkup/stork_admission_id/{stork_admission_id}',[\App\Http\Controllers\V1\patient_system\in_patient\stork_center\StorkPregnancyCheckupController::class,'where_stork_admission_id']);
                 route::resource('dismissal',\App\Http\Controllers\V1\patient_system\in_patient\stork_center\StorkDismissalController::class);
+                route::get('in_patient_book',[\App\Http\Controllers\V1\patient_system\in_patient\stork_center\StorkAdmissionController::class,'in_patient_book']);
 //                route::get('/fetch_patient_data/{patient_id}',[\App\Http\Controllers\V1\patient_system\maternity\MaternityAdmissionController::class,'fetch_patient_data']);
 //                route::get('/last_code',[\App\Http\Controllers\V1\patient_system\maternity\MaternityAdmissionController::class,'last_code']);
 //                route::get('/last_birth_code',[\App\Http\Controllers\V1\patient_system\maternity\BirthRegistrationController::class,'last_birth_code']);
@@ -163,6 +164,15 @@ Route::prefix('/v1')->group(function(){
 //                route::resource('/medical_appreciation_comment',\App\Http\Controllers\V1\patient_system\maternity\MedicalAppreciationCommentController::class);
 
             });
+        });
+        // Delivery
+        Route::group(['prefix'=>'delivery'],function(){
+            route::get('last_code',[\App\Http\Controllers\V1\patient_system\delivery\BirthRegistrationController::class,'last_birth_code']);
+            route::get('patient_data/{patient_id}',[\App\Http\Controllers\V1\patient_system\delivery\BirthRegistrationController::class,'fetch_patient_data']);
+            route::post('register_birth',[\App\Http\Controllers\V1\patient_system\delivery\BirthRegistrationController::class,'register_birth']);
+            route::get('birth_certificate/{code}',[\App\Http\Controllers\V1\patient_system\delivery\BirthRegistrationController::class,'show']);
+            route::put('birth_certificate/{code}',[\App\Http\Controllers\V1\patient_system\delivery\BirthRegistrationController::class,'birth_certificate']);
+            route::get('book',[\App\Http\Controllers\V1\patient_system\delivery\BirthRegistrationController::class,'book']);
         });
         //System
         Route::group(['prefix'=>'system'],function(){

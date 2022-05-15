@@ -46,8 +46,13 @@ import obstetrics_overview from "./views/medical/overview/obstetrics_overview";
     import stork_internal_consultation from "./views/medical/in_patient/stork_center/stork_internal_consultation";
     import stork_external_consultation from "./views/medical/in_patient/stork_center/stork_external_consultation";
     import stork_dismissal from "./views/medical/in_patient/stork_center/stork_dismissal";
+    import stork_pregnancy_card_search from "./views/medical/in_patient/stork_center/stork_pregnancy_card_search";
+    import stork_patient_list_of_cpn from "./views/medical/in_patient/stork_center/stork_patient_list_of_cpn";
+    import in_patient_book from "./views/medical/in_patient/in_patient_book";
     //Delivery
     import delivery_registration from "./views/medical/in_patient/deliveries/delivery_registration";
+    import birth_certificate from "./views/medical/in_patient/deliveries/birth_certificate";
+    import delivery_book from "./views/medical/in_patient/deliveries/delivery_book";
 // import maternity_layout from "./views/medical/maternity/layouts/maternity_layout"
 // import maternity_admission from "./views/medical/maternity/maternity_admission";
 // import delivery_registration from "./views/medical/maternity/delivery/delivery_registration";
@@ -512,6 +517,12 @@ const routes = [
                 name:'stork_dismissal',
                 component: stork_dismissal
             },
+            {
+                path:'in_patient_book',
+                name:'in_patient_book',
+                component: in_patient_book
+            },
+
 
 
 
@@ -533,6 +544,31 @@ const routes = [
                 name:'delivery_registration',
                 component: delivery_registration
             },
+            {
+                path:'certificate',
+                name:'birth_certificate',
+                component: birth_certificate
+            },
+            {
+                path:'pregnancy_card',
+                name:'delivery_pregnancy_card',
+                component:pregnancy_card
+            },
+            {
+                path:'pregnancy_card_search',
+                name:'stork_pregnancy_card_search',
+                component:stork_pregnancy_card_search
+            },
+            {
+                path:'cpn_list',
+                name:'stork_patient_list_of_cpn',
+                component:stork_patient_list_of_cpn
+            },
+            {
+                path:'delivery_book',
+                name:'delivery_book',
+                component:delivery_book
+            }
         ]
     },
 

@@ -29,12 +29,15 @@ class Birth extends Model
     }
 
     public static function createBirth($request){
-            //register the main Data to Births table
-            $data= $request->only(['patient_id','birth_date','birth_time','external_delivery','cpn_admission_id','code','GA','midwives','nurses','surgeons','anesthetists']);
-            $birth= Birth::create($data);
+            //get the code
+            $digit= intval(substr($request->code,-3));
             //register  the infos about the baby
-            $baby_patient_number=[];
             foreach($request->babies as $data){
+                $code=str_pad($digit+1,3,"0",STR_PAD_LEFT);
+                //register the main Data to Births table
+                $src= $request->only(['patient_id','birth_date','birth_time','external_delivery','cpn_admission_id','code','GA','induction','responsible_midwives','trainee','doctors','anesthetists','assistant_midwives','senior_midwives']);
+                $src['code']=date("Y").'-'.$code;
+                $birth= Birth::create($src);
                 //register the babies into the patient table
                 $patient= new Patient();
                 $patient->fill(
@@ -48,9 +51,9 @@ class Birth extends Model
                         'birth_id'=>$birth->id
                     ]
                 )->save();
-                $baby_patient_number[]=$patient->id;
+
                 BirthMedicalDataBaby::create_birth_medical_data($data,$birth->id,$patient->id);
-                //insert the infos about the baby to the admin table
+//                //insert the infos about the baby to the admin table
                 BirthAdminData::create(
                     [
                         'baby_firstName'=>$data['firstName'],
@@ -59,23 +62,24 @@ class Birth extends Model
                         'birth_id'=>$birth->id
                     ]
                 );
-            }
-            //register the infos about the mom
-            BirthMedicalDataMom::create_medical_data($request,$birth->id);
-            //register the used medicines and launch inventories operations
-            if(count($request->medicines_used)>0){
-                foreach($request->medicines_used as $med){
-                    BirthUsedMedicine::create([
-                        'birth_id'=>$birth->id,
-                        'item_id'=>$med['item']['id'],
-                        'quantity'=>$med['quantity']
-                    ]);
+//                //register the infos about the mom
+                BirthMedicalDataMom::create_medical_data($request,$birth->id);
+//                //register the used medicines and launch inventories operations
+                if(count($request->medicines_used)>0){
+                    foreach($request->medicines_used as $med){
+                        BirthUsedMedicine::create([
+                            'birth_id'=>$birth->id,
+                            'item_id'=>$med['item']['id'],
+                            'quantity'=>$med['quantity']
+                        ]);
+                    }
                 }
+                $digit++;
             }
+
             return response()->json([
                 'success'=>true,
                 'msg'=>'Birth Data successfully saved',
-                $birth
             ]);
     }
 

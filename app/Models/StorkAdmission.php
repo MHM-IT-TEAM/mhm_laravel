@@ -23,5 +23,11 @@ class StorkAdmission extends Model
     public function pregnancy_checkups(){
         return $this->hasMany(StorkPregnancyCheckup::class);
     }
+    public function stork_dismissal(){
+        return $this->hasOne(StorkDismissal::class);
+    }
+    public function service(){
+        return $this->belongsTo(Service::class);
+    }
 
 }
