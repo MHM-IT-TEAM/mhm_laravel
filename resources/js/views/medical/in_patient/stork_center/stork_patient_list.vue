@@ -151,6 +151,7 @@ export default {
                     {text:'Excretion',url:''},
                     {text:'Post partum checkup',url:''},
                     {text:'Vital signs',url:'stork_vital_signs'},
+                    {text:'diagnoses',url:'stork_diagnose'},
                 ]
             },
             {
@@ -159,10 +160,10 @@ export default {
                 active:false ,
                 children:[
                     {text:"Medicines",url:'stork_give_medicine'},
-                    {text:"Woundcare",url:''},
-                    {text:"Mobilisation",url:''},
-                    {text:"Body-care/Mobilisation help",url:''},
-                    {text:"Breast Care",url:''},
+                    {text:"Woundcare",url:'stork_wound_care'},
+                    {text:"Mobilisation",url:'stork_mobilisation'},
+                    {text:"Body-care",url:'stork_body_care'},
+                    {text:"Medical care",url:'stork_medical_care'},
                     {text:"Feeding report baby",url:''},
                     {text:"Bladder training",url:''},
                 ]
@@ -181,7 +182,7 @@ export default {
                 icon: 'mdi-flag',
                 active:false ,
                 children:[
-                    {text:'internal',url:''},
+                    {text:'internal',url:'stork_internal_lab'},
                     {text:'external',url:''},
                 ]
             },
@@ -191,7 +192,8 @@ export default {
                 active:false ,
                 children:[
                     {text:'Dismiss',url:'stork_dismissal'},
-                    {text:'Refer',url:''},
+                    {text:'External Referral',url:'stork_external_referral'},
+                    {text:'Internal Referral',url:'stork_internal_referral'},
                 ]
             },
         ],
@@ -215,17 +217,17 @@ export default {
         patient_list(){
             return [
                 {
-                    room:'red',
+                    room:'Red room',
                     color:'red',
                     beds:this.start_list.filter(list=>list.bed.room==='red')
                 },
                 {
-                    room:'yellow',
+                    room:'Yellow room',
                     color:'yellow',
                     beds:this.start_list.filter(list=>list.bed.room==='yellow')
                 },
                 {
-                    room:'Recovery',
+                    room:'Recovery room',
                     color:'blue',
                     beds:this.start_list.filter(list=>list.bed.room==='recovery')
                 },

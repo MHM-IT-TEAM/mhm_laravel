@@ -66,4 +66,7 @@ class ItemController extends Controller
         $diff=intval($inventory->get('general')) - intval($request->quantity);
        return ($diff<0) ? ['id'=>$item->id,'diff'=>$diff]:null;
     }
+    public function where_authorized_service($service_name){
+        return Item::where($service_name,1)->get();
+    }
 }

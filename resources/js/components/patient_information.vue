@@ -1,6 +1,6 @@
 <template>
     <div>
-        <table class="table table-sm table-borderless">
+        <table class="table table-sm ">
             <tr>
                 <th class="table-title" colspan="3"><v-icon class="text-white">mdi-account-circle</v-icon> &nbsp A) Personal information </th>
             </tr>
@@ -50,7 +50,7 @@ export default {
           patient:{}
         }
     },
-    mounted(){
+    created(){
         this.init()
     },
     methods:{

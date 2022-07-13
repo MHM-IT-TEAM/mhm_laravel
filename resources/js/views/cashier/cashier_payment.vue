@@ -190,7 +190,7 @@ export default {
                to_pay:'',
                paid:null,
                nature:'',
-               new_debt:''
+               new_debt:0
             },
             former_transactions:[],
             patient_dues:[],
@@ -286,7 +286,7 @@ export default {
             return null_to_empty(this.admission.patient.firstName)+ " "+ null_to_empty(this.admission.patient.lastName)
         },
         new_debt(){
-            return this.formData.to_pay- this.formData.paid
+            return this.formData.to_pay- this.formData.paid || 0
         },
         unpaid_treatments(){
             return this.admission.admission_care_details.filter(care => care.payment_Status === 0)

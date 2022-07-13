@@ -93,7 +93,7 @@ Route::group(['prefix'=>'obstetrics','middleware'=>'auth'],function(){
 Route::group(['prefix'=>'ultrasound','middleware'=>'auth'],function(){
     Route::get('/{any}',[App\Http\Controllers\V1\patient_system\out_patient\obstetrical\CpnAdmissionController::class, 'index'])->where('any','.*');
 });
-//Maternity
+//Stork center
 
 Route::group(['prefix'=>'stork','middleware'=>'auth'],function(){
     Route::get('/{any}',function(){
@@ -105,4 +105,11 @@ Route::group(['prefix'=>'delivery','middleware'=>'auth'],function(){
     Route::get('/{any}',function(){
         return view("medical/stork/home");
     })->name('maternity_home')->where('any','.*');
+});
+//surgery
+Route::group(['prefix'=>'surgery','middleware'=>'auth'],function(){
+    Route::get('/export', [\App\Http\Controllers\v1\patient_system\surgery\SurgeryController::class, 'export']);
+    Route::get('/{any}',function(){
+        return view("medical/stork/home");
+    })->name('surgery_home')->where('any','.*');
 });

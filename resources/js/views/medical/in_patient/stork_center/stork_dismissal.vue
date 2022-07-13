@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <patient_information patient_id="10900"/>
+        <patient_information :patient_id="$route.params.stork_admission.patient_id"/>
         <h5>Quick overview</h5>
         <div class="table-responsive">
             <table class="table table-sm">

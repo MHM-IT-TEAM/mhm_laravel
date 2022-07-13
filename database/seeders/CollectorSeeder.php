@@ -17,6 +17,7 @@ class CollectorSeeder extends Seeder
         Collector::insert([
             ['name'=>'Saholy','department_id'=>1],
             ['name'=>'Tianasoa','department_id'=>4],
+            ['name'=>'Hasina','department_id'=>2],
 
         ]);
     }

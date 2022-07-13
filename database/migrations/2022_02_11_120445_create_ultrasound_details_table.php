@@ -40,13 +40,14 @@ class CreateUltrasoundDetailsTable extends Migration
             $table->string('presentation_of_baby',10)->nullable();
             $table->string('suspicion_for_malformation',10)->nullable();
             $table->text('malformation_explanation')->nullable();
-            $table->date('calculated_ga')->nullable();
-            $table->date('ultrasound_ga')->nullable();
-            $table->date('corrected_ga')->nullable();
+            $table->string('calculated_ga')->nullable();
+            $table->string('ultrasound_ga')->nullable();
+            $table->string('corrected_ga')->nullable();
             $table->integer('user_id');
             $table->string('medical_staff', 250)->nullable();
             $table->string('ultrasound_type', 20)->nullable();
             $table->text('extra_checkup_reason')->nullable();
+            $table->foreignId('ultrasound_admission_id')->nullable();
         });
     }
 

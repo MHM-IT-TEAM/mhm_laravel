@@ -18,4 +18,13 @@ class ExternalReferral extends Model
             'ref'=>Carbon::now()->year."/".$ref->id
         ]);
     }
+    public function admission(){
+        return $this->belongsTo(Admission::class);
+    }
+    public function car(){
+        return $this->belongsTo(Car::class);
+    }
+    public function medical_center(){
+        return $this->belongsTo(MedicalCenter::class);
+    }
 }

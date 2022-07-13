@@ -49,10 +49,28 @@ import obstetrics_overview from "./views/medical/overview/obstetrics_overview";
     import stork_pregnancy_card_search from "./views/medical/in_patient/stork_center/stork_pregnancy_card_search";
     import stork_patient_list_of_cpn from "./views/medical/in_patient/stork_center/stork_patient_list_of_cpn";
     import in_patient_book from "./views/medical/in_patient/in_patient_book";
-    //Delivery
+    import stork_order from "./views/medical/in_patient/stork_center/stork_order";
+    import stork_internal_labwork from "./views/medical/in_patient/stork_center/stork_internal_labwork";
+    import stork_diagnose from "./views/medical/in_patient/stork_center/stork_diagnose";
+    import stork_external_referal from "./views/medical/in_patient/stork_center/referral/stork_external_referal";
+    import stork_internal_referral from "./views/medical/in_patient/stork_center/referral/stork_internal_referral";
+    import external_referral_book from "./views/medical/in_patient/stork_center/referral/external_referral_book";
+    import stork_wound_care from "./views/medical/in_patient/stork_center/stork_wound_care";
+    import stork_mobilisation from "./views/medical/in_patient/stork_center/stork_mobilisation";
+    import stork_body_care from "./views/medical/in_patient/stork_center/stork_body_care";
+    import stork_medical_care from "./views/medical/in_patient/stork_center/stork_medical_care";
+
+//Delivery
     import delivery_registration from "./views/medical/in_patient/deliveries/delivery_registration";
     import birth_certificate from "./views/medical/in_patient/deliveries/birth_certificate";
     import delivery_book from "./views/medical/in_patient/deliveries/delivery_book";
+// Surgery
+    import surgery_layout from "./views/medical/surgery/surgery_layout";
+    import pre_surgery_list from "./views/medical/surgery/pre_surgery_list";
+    import surgery_list from "./views/medical/surgery/surgery_list";
+    import pre_surgery_form from "./views/medical/surgery/pre_surgery_form";
+    import surgery_form from "./views/medical/surgery/surgery_form";
+
 // import maternity_layout from "./views/medical/maternity/layouts/maternity_layout"
 // import maternity_admission from "./views/medical/maternity/maternity_admission";
 // import delivery_registration from "./views/medical/maternity/delivery/delivery_registration";
@@ -138,6 +156,7 @@ import family_planning_form from "./views/medical/obstetrics/family_planning/fam
 import item_order_obstetrics from "./views/medical/obstetrics/item_order_obstetrics";
 //report Pink statistics
 import pink_statistics from "./views/medical/obstetrics/report/pink_statistics";
+
 
 Vue.use(VueRouter);
 
@@ -482,6 +501,11 @@ const routes = [
                 component: pregnancy_checkup_form
             },
             {
+                path:'diagnose',
+                name:'stork_diagnose',
+                component: stork_diagnose
+            },
+            {
                 path:'diagnostic/balance_list',
                 name:'stork_diagnostic_balance_list',
                 component: stork_balance_list
@@ -503,6 +527,26 @@ const routes = [
                 component: stork_give_medicine
             },
             {
+                path:'treatment/wound_care',
+                name:'stork_wound_care',
+                component: stork_wound_care
+            },
+            {
+                path:'treatment/mobilisation',
+                name:'stork_mobilisation',
+                component: stork_mobilisation
+            },
+            {
+                path:'treatment/body_care',
+                name:'stork_body_care',
+                component: stork_body_care
+            },
+            {
+                path:'treatment/medical_care',
+                name:'stork_medical_care',
+                component: stork_medical_care
+            },
+            {
                 path:'treatment/internal_consulation',
                 name:'stork_internal_consultation',
                 component: stork_internal_consultation
@@ -518,13 +562,87 @@ const routes = [
                 component: stork_dismissal
             },
             {
+                path:'external_referral',
+                name:'stork_external_referral',
+                component: stork_external_referal
+            },
+            {
+                path:'internal_referral',
+                name:'stork_internal_referral',
+                component: stork_internal_referral
+            },
+            {
+                path:'external_referral_book',
+                name:'stork_external_referral_book',
+                component: external_referral_book
+            },
+            {
                 path:'in_patient_book',
                 name:'in_patient_book',
                 component: in_patient_book
             },
+            {
+                path:'order',
+                name:'stork_order',
+                component: stork_order
+            },
+            {
+                path:'internal_lab',
+                name:'stork_internal_lab',
+                component: stork_internal_labwork
+            },
 
 
 
+
+        ]
+    },
+    /**
+     |-----------------------------
+     | Surgery
+     |-----------------------------
+     */
+    {
+        path:'/surgery',
+        name:'surgery_layout',
+        component: surgery_layout,
+        children:[
+            {
+                path:'pre_list',
+                name:'pre_surgery_list',
+                component:pre_surgery_list
+
+            },
+            {
+                path:'pre_surgery_form',
+                name:'pre_surgery_form',
+                component:pre_surgery_form
+
+            },
+            {
+                path:'form',
+                name:'surgery_form',
+                component:surgery_form
+
+            },
+            {
+                path:'form/:id',
+                name:'surgery_form_edit',
+                component:surgery_form
+
+            },
+            {
+                path:'pre_surgery_form/:id',
+                name:'pre_surgery_form',
+                component:pre_surgery_form
+
+            },
+            {
+                path:'list',
+                name:'surgery_list',
+                component:surgery_list
+
+            },
 
         ]
     },
@@ -731,7 +849,7 @@ const routes = [
                 path:'order',
                 name:'item_order_ultrasound',
                 component:item_order_ultrasound
-            }
+            },
         ]
     },
 

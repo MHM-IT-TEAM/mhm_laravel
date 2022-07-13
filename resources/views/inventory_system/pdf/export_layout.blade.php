@@ -26,6 +26,9 @@
             position: absolute;
             left: 400px;
         }
+        body{
+            transform: rotate(15deg);
+        }
     </style>
     @yield('custom_style')
 </head>

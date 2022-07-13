@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <h2>IN PATIENT BOOK</h2>
+        <h2 class="title">IN PATIENT BOOK</h2>
         <div class="table-responsive">
             <v-text-field
                 v-model="search"
@@ -84,5 +84,8 @@ export default {
 </script>
 
 <style scoped>
-
+.title{
+    font-weight: bold;
+    color:#1390c6;
+}
 </style>

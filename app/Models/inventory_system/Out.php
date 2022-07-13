@@ -44,7 +44,7 @@ class Out extends Model
             $out->fill(self::_fillHeader($request))->save();
             OutDetail::where('out_id',$id)->delete();
             self::_createDetails($request->order_details,$out->id);
-            self::_deliver($request->order_details);
+            self::_deliver($request->order_details,$request->orderer_id);
             $out->status=2;
             $out->save();
         });
@@ -75,11 +75,14 @@ class Out extends Model
             $details->fill(self::_fillDetails($line,$id))->save();
         }
     }
-    private static function _deliver($details){
+    private static function _deliver($details,$orderer_id){
+        $orderer =\App\Models\Orderer::find($orderer_id);
+
         foreach($details as $line){
             $inventory= Inventory::where('item_id',$line['item']['id'])->first();
             $new_qty= $inventory->general-$line['quantity'];
             $inventory->general=$new_qty;
+            $inventory[$orderer->name]=$inventory[$orderer->name]+$line['quantity'];
             $inventory->save();
         }
 

@@ -15,7 +15,7 @@ class PageSeeder extends Seeder
     public function run()
     {
         Page::insert([
-            ['description'=>'joyCenter','link'=>'joyCenter/consultation'],
+            ['description'=>'joyCenter','link'=>'joyCenter/admission'],
             ['description'=>'GraceCenter','link'=>'grace_center/patient_list'],
             ['description'=>'Obstetrics','link'=>'obstetrics/ultrasound_list'],
             ['description'=>'Cashier','link'=>'cashier/admission_list'],

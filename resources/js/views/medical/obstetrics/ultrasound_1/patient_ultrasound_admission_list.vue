@@ -44,6 +44,7 @@
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <a class="dropdown-item" href="#" @click="process(adm)" v-if="adm.status==='open'">Process</a>
                             <a class="dropdown-item" href="#" @click="close_exam(adm)" v-if="adm.status==='open'">Close exam</a>
+                            <a class="dropdown-item" href="#" @click="view_history(adm)" v-if="adm.status==='closed'">View</a>
                             <a class="dropdown-item" href="#">Delete exam</a>
                         </div>
                     </div>
@@ -131,7 +132,7 @@ export default {
         },
         continue_to_exam(){
             this.temp_data.type_of_ultrasound_data= this.formData
-            this.$router.push({name:'ultrasound_exam_crud',params:{ultrasound_admission:this.temp_data,patient:this.patient}})
+            this.$router.push({name:'ultrasound_exam_crud',params:{ultrasound_admission:this.temp_data,patient:this.patient,admission_id:this.$route.params.admission.id}})
 
         },
         boot_list(){
@@ -147,7 +148,12 @@ export default {
             axios.put(`/api/v1/patient_system/out_patient/obstetrical/ultrasound/close_exam/${admission.id}`).then(response=>{
                 if(response.data.success) this.boot_list()
             })
+        },
+        view_history(admission){
+            this.temp_data=admission
+            this.$router.push({name:'ultrasound_exam_crud',params:{ultrasound_admission:this.temp_data,patient:this.patient}})
         }
+
     }
 }
 </script>

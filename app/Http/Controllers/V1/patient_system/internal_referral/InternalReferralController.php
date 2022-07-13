@@ -37,7 +37,7 @@ class InternalReferralController extends Controller
     public function store(Request $request)
     {
         $transfert= new InternalReferralService();
-        return $transfert->store($request);
+        $transfert->store($request);
     }
 
     /**

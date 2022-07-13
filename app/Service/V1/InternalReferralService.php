@@ -33,6 +33,6 @@ class InternalReferralService
             'user_id'=>$request->user['id'],
             'reason_for_transfer'=>$request->reason_for_transfer
         ]);
-        return response()->json(['success'=>true]);
+        return response()->json(['success'=>true,'data'=>$adm]);
     }
 }

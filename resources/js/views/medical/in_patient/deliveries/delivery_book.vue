@@ -1,32 +1,30 @@
 <template>
-<div>
-    <div class="table-responsive">
-        <v-text-field
-            v-model="search"
-            append-icon="mdi-magnify"
-            label="Search"
-            single-line
-            hide-details
-        ></v-text-field>
-        <v-data-table
-            class="mt-6 table"
-            :headers="headers"
-            :items="list"
-            :search="search"
-            height="90vh"
-            multi-sort
-        >
-            <template v-slot:item.baby.weight="{ item }">
-                <v-chip
-                    :color="check_weight(item.baby.weight)"
-                    dark
-                >
-                    {{ item.baby.weight }}
-                </v-chip>
-            </template>
+<div class="container-fluid">
+    <h1 class="title">Delivery Book</h1>
+    <v-text-field
+        v-model="search"
+        append-icon="mdi-magnify"
+        label="Search"
+        single-line
+        hide-details
+    ></v-text-field>
+    <v-data-table
+        :headers="headers"
+        :items="list"
+        :search="search"
+        height="90vh"
+        multi-sort
+    >
+        <template v-slot:item.baby.weight="{ item }">
+            <v-chip
+                :color="check_weight(item.baby.weight)"
+                dark
+            >
+                {{ item.baby.weight }}
+            </v-chip>
+        </template>
 
-        </v-data-table>
-    </div>
+    </v-data-table>
 </div>
 </template>
 
@@ -105,5 +103,9 @@ export default {
 <style scoped>
 .table{
     max-width: 80vw;
+}
+.title{
+    font-weight: bold;
+    color:#1390c6;
 }
 </style>

@@ -71,4 +71,4 @@ INSERT INTO service_activities(id,created_at,updated_at,name,joyCenter,service_i
 INSERT INTO service_activities(id,created_at,updated_at,name,joyCenter,service_id) VALUES (71,NULL,NULL,'Medical',1,60);
 INSERT INTO service_activities(id,created_at,updated_at,name,joyCenter,service_id) VALUES (72,NULL,NULL,'Social',1,61);
 INSERT INTO service_activities(id,created_at,updated_at,name,joyCenter,service_id) VALUES (73,NULL,NULL,'Technical',1,62);
-INSERT INTO service_activities(id,created_at,updated_at,name,joyCenter,service_id) VALUES (16,NULL,NULL,'Family planning',1,8);
+INSERT INTO service_activities(id,created_at,updated_at,name,joyCenter,service_id) VALUES (74,NULL,NULL,'Family planning',1,8);

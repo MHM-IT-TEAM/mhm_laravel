@@ -2,7 +2,7 @@
     <div class="container-fluid vh-100">
         <div class="d-inline mb-2" v-if="!is_overview">
             <span class="font-weight-bold"  > ({{patient.id}})-{{patient.firstName}} {{patient.lastName}}</span>
-            <v-btn class="float-right" x-small dark color="purple" @click="dialog=true">New Data</v-btn>
+            <v-btn class="float-right" x-small dark color="purple" @click="dialog=true" v-if="editable">New Data</v-btn>
         </div>
         <v-tabs
             v-model="tab"
@@ -109,7 +109,7 @@
                 </v-card-title>
 
                 <v-card-text>
-                   <ultrasound_form_new :admission="$route.params.ultrasound_admission" @success="form_submitted"/>
+                   <ultrasound_form_new :admission="$route.params.ultrasound_admission" :admission_id="admission_id" @success="form_submitted"/>
                 </v-card-text>
             </v-card>
         </v-dialog>
@@ -126,14 +126,16 @@ export default {
     data(){
         return{
             tab:null,
-          patient:{},
-          admission:null,
-          ultrasound_exam_list:[
-              {
-                  fetus_id:'',
-                  exams:[]
-              }
-          ],
+            editable:false,
+            patient:{},
+            admission:null,
+            admission_id:'',
+            ultrasound_exam_list:[
+                  {
+                      fetus_id:'',
+                      exams:[]
+                  }
+            ],
           dialog:false
         }
     },
@@ -146,6 +148,12 @@ export default {
                 this.patient=this.$route.params.patient
                 this.populate_exam_list(this.$route.params.ultrasound_admission.ultrasound_details)
             }
+            if(this.$route.params.ultrasound_admission!==undefined){
+                if(this.$route.params.ultrasound_admission.status==='open'){
+                    this.editable=true
+                }
+            }
+            this.admission_id= this.$route.params.admission_id ?? ''
             if(this.is_overview){
                 axios.get(`/api/v1/patient_system/out_patient/obstetrical/ultrasound/details/${this.ultrasound_admission_id}`).then(response=>{
                     this.populate_exam_list(response.data.ultrasound_details)

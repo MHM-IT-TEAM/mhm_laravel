@@ -26,16 +26,16 @@
                 <v-divider></v-divider>
 
                 <v-list >
-                    <v-list-item>
-                        <v-list-item-icon>
-                            <v-icon>mdi-home</v-icon>
-                        </v-list-item-icon>
-                        <v-list-item-content>
-<!--                            <v-list-item-title ><router-link :to="{name:'maternity_admission'}" class="link">Admission</router-link></v-list-item-title>-->
-                            <v-list-item-title ><router-link :to="{name:'maternity_list'}" class="link">Admission</router-link></v-list-item-title>
+<!--                    <v-list-item>-->
+<!--                        <v-list-item-icon>-->
+<!--                            <v-icon>mdi-home</v-icon>-->
+<!--                        </v-list-item-icon>-->
+<!--                        <v-list-item-content>-->
+<!--&lt;!&ndash;                            <v-list-item-title ><router-link :to="{name:'maternity_admission'}" class="link">Admission</router-link></v-list-item-title>&ndash;&gt;-->
+<!--                            <v-list-item-title ><router-link :to="{name:'maternity_list'}" class="link">Admission</router-link></v-list-item-title>-->
 
-                        </v-list-item-content>
-                    </v-list-item>
+<!--                        </v-list-item-content>-->
+<!--                    </v-list-item>-->
                     <v-list-item>
                         <v-list-item-icon>
                             <v-icon>mdi-animation</v-icon>
@@ -90,6 +90,7 @@
                     <span class="title">IN PATIENT</span>
                 </v-toolbar-title>
                 <v-spacer></v-spacer>
+                <v-icon medium @click="logout" class="text-white"> mdi-exit-to-app</v-icon>
             </v-app-bar>
 
             <v-main>
@@ -130,7 +131,8 @@
                     items: [
                         { title: 'Admission request',url:'stork_incoming_patient' },
                         { title: 'Currently in patients',url:'stork_patient_list' },
-                        { title: 'Overview &report',url:'in_patient_book' },
+                        { title: 'In Patient Book',url:'in_patient_book' },
+                        { title: 'External Referral Book',url:'stork_external_referral_book' },
                     ],
                     title: 'In-Patient ',
                 },
@@ -151,7 +153,7 @@
                 // },
                 {
                     action: 'mdi-warehouse',
-                    items: [{ title: 'Order request',url:'' },{title:'report',url:''}],
+                    items: [{ title: 'Order',url:'stork_order' },{title:'report',url:''}],
                     title: 'Inventory',
 
                 },
@@ -166,6 +168,12 @@
             // this.$vuetify.theme.dark = true
             this.user= window.auth.user
         },
+        methods:{
+            async logout() {
+                await axios.post("/logout").then((resp) => console.log(resp));
+                window.location.href = "/login";
+            },
+        }
     }
 </script>
 

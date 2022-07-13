@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class reateBirthMedicalDataTable extends Migration
+class CreateStorkActionGroupsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,11 @@ class reateBirthMedicalDataTable extends Migration
      */
     public function up()
     {
-        Schema::create('birth_medical_data', function (Blueprint $table) {
+        Schema::create('stork_action_groups', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->integer('birth_weight');
-            $table->integer('length');
-            $table->integer('arm');
-            $table->integer('head');
-            $table->foreignId('birth_id')->constrained();
+            $table->string('description');
+            $table->string('type');
         });
     }
 
@@ -31,6 +28,6 @@ class reateBirthMedicalDataTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('birth_medical_data');
+        Schema::dropIfExists('stork_action_groups');
     }
 }

@@ -5,7 +5,7 @@
                 Ultrasound Admission
             </v-card-title>
             <v-card-text>
-                <patient_information :patient_id="10900"/>
+                <patient_information :patient_id="$route.params.admission.patient_id"/>
                 <p class="title"><v-icon class="text-white">mdi-stethoscope</v-icon> B) Medical Data</p>
                 <div class="form-group w-25">
                     <label>Is the patient pregnant</label>

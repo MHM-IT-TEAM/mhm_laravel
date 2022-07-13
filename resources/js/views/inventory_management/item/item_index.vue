@@ -121,7 +121,6 @@
         </thead>
         <tbody>
           <tr v-for="(item,index) in filtered_list">
-<!--            <td><input type="checkbox" v-model="item.checked" /></td>-->
             <td>{{ item.code }}</td>
             <td>{{ item.description }}</td>
             <td><small>{{ item.item_type.name }}</small></td>
@@ -251,7 +250,7 @@ export default {
     ...mapActions('item',['fetch_items_list']),
     ...mapActions('department',['fetch_orderers']),
     async fetchData() {
-      await axios
+        axios
         .get("/api/v1/inventory_system/item?page=" + this.accessory.pages.active,{params:{category:this.accessory.category_filter.id,search_text:this.accessory.search_text}})
         .then((response) => {
           this.items = response.data.data;
@@ -334,12 +333,14 @@ export default {
     filtered_list() {
       let filter = this.accessory.filter;
       const filter_keys = Object.keys(filter);
-      return this.items.filter((item) => {
-        return filter_keys.every((key) => {
-          if (!filter[key].length) return true;
-          return item[key].toLowerCase().includes(filter[key].toLowerCase());
-        });
-      });
+      if(this.items.length){
+          return this.items.filter((item) => {
+              return filter_keys.every((key) => {
+                  if (!filter[key].length) return true;
+                  return item[key].toLowerCase().includes(filter[key].toLowerCase());
+              });
+          });
+      }
     },
   },
 };

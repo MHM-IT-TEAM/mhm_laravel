@@ -50,6 +50,7 @@ class ServicePriceController extends Controller
             $prices=ActivityPrice::where('service_activity_id',$service_activity_id);
         switch ($patient_category){
             case 0:
+            case 2:
                 $prices=$prices->get(['id','name','out_sector as price']);
 
              break;

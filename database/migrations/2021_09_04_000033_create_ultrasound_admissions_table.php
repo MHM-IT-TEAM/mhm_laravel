@@ -35,6 +35,8 @@ class CreateUltrasoundAdmissionsTable extends Migration
             $table->integer('user_id')->nullable();
             $table->string('medical_staff', 100)->nullable();
             $table->string('status', 20)->nullable();
+            $table->text('remark_when_patient_not_pregnant')->nullable();
+            $table->integer('count_of_fetus')->nullable();
         });
     }
 

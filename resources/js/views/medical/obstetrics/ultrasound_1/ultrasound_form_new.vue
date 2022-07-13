@@ -234,7 +234,7 @@ import moment from 'moment'
 export default {
     name: "ultrasound_form_new",
     components: {GestationalAge},
-    props:['admission'],
+    props:['admission','admission_id'],
     data(){
         return{
             formData:[],
@@ -342,7 +342,9 @@ export default {
                 data.calculated_ga=this.accessory.calculated_ga
                 data.ultrasound_ga=this.accessory.ultrasound_ga
                 data.corrected_ga=this.accessory.corrected_ga
+                data.admission_id=this.admission_id
             })
+
             axios.post("/api/v1/patient_system/out_patient/obstetrical/ultrasound/details",this.formData).then(response=>{
                 if(response.data.success) {
                     this.$emit("success")

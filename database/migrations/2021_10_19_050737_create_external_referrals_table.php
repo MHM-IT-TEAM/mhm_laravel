@@ -17,28 +17,23 @@ class CreateExternalReferralsTable extends Migration
             $table->id();
             $table->timestamps();
             $table->foreignId('admission_id');
+            $table->string('departure_date')->nullable();
+            $table->string('departure_time')->nullable();
             $table->string('medical_center_id');
-            $table->string('other_medical_center')->nullable();
-            $table->string('service');
+//            $table->string('service');
             $table->string('reason');
-            $table->string('patient_condition')->nullable();
+            $table->string('category');
             $table->foreignId('car_id');
-            $table->string('departure_mhm')->nullable();
-            $table->string('departure_destination')->nullable();
-            $table->string('arrival_mhm')->nullable();
-            $table->string('arrival_destination')->nullable();
-            $table->integer('driver');
-            $table->integer('midwife')->nullable();
-            $table->integer('midwife_1')->nullable();
-            $table->integer('anesthetist')->nullable();
-            $table->integer('nurse')->nullable();
-            $table->boolean('oxigen_needed')->nullable();
+            $table->string('patient_condition')->nullable();
+            $table->boolean('oxygen_needed')->nullable();
             $table->boolean('extra_supervision_needed')->nullable();
             $table->string('extra_supervision_details')->nullable();
             $table->text('events')->nullable();
+            $table->string('driver')->nullable();
+            $table->integer('medical_team');
             $table->text('remark')->nullable();
-            $table->string('patient_condition_at_discharge')->nullable();
-            $table->foreignId('user_id');
+            $table->foreignId('user_id')->nullable();
+            $table->foreignId('user_id')->nullable();
         });
     }
 

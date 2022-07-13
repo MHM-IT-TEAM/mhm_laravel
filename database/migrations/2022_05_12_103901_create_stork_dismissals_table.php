@@ -26,6 +26,8 @@ class CreateStorkDismissalsTable extends Migration
             $table->integer('spo2')->nullable();
             $table->string('temp')->nullable();
             $table->integer('weight',)->nullable();
+            $table->boolean('is_referred',)->nullable();
+            $table->foreignId('external_referral_id',)->nullable();
         });
     }
 

@@ -69,7 +69,7 @@ class PatientService
      //check emContact data
      $validate= $patient->emContacts()->get();
      if(count($validate)>0){
-        DB::connection("patSyst")->table('em_contacts')->where('patient_id', $id)->delete();
+        DB::table('em_contacts')->where('patient_id', $id)->delete();
      }
      if(isset($this->em_data)){
          $this->storeEmData();
@@ -98,7 +98,7 @@ class PatientService
     public function storeEmData(){
         if(count($this->em_data)>0){
             foreach ($this->em_data as $data) {
-                DB::connection('patSyst')->table('em_contacts')->insert(['tel'=>$data->tel,'name'=>$data->name,'patient_id'=>$this->patId]);
+                DB::table('em_contacts')->insert(['tel'=>$data->tel,'name'=>$data->name,'patient_id'=>$this->patId]);
             }
         }
     }

@@ -221,8 +221,6 @@ export default {
 
     created(){
         if(this.$route.params.request){
-
-            console.log(this.$route.params.request)
             this.accessory.admission=this.$route.params.request.admission
             this.accessory.results= this.$route.params.request.internal_lab_results
             this.accessory.form_type='result'

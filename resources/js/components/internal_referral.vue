@@ -87,13 +87,13 @@ export default {
             reason_for_transfer:{required}
         }
     },
-    mounted(){
+    created(){
         this.init()
     },
     methods:{
         init(){
             axios.get('/api/v1/patient_system/system/category').then(response=>this.accessory.categories=response.data)
-            this.formData.admission=this.admission
+
         },
         async changeCategory(){
             this.accessory.service_activities=[]
@@ -141,6 +141,7 @@ export default {
                 return true;
             }
             this.formData.user= window.auth.user
+            this.formData.admission=this.admission
             axios.post('/api/v1/patient_system/internal_referral',this.formData).then(response=>{
                 this.accessory.data_submitted=!! response.data.success
             })

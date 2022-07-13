@@ -38,7 +38,7 @@
                     <v-card-text>
                         <v-data-table :headers="headers" :items="items" :search="search" :loading="loading">
                             <template v-slot:item.actions="{ item }">
-                                <v-icon small class="mr-2" @click="$emit('edit', item)" v-if="item.status!=='DONE'">
+                                <v-icon small class="mr-2" @click="$emit('edit', item)" v-if="item.status==='RUNNING' ">
                                     mdi-pencil
                                 </v-icon>
                             </template>
@@ -68,7 +68,8 @@ export default {
         service_id:'',
         service_activity_id:'',
         headers: Array,
-        title:''
+        title:'',
+        refresh:Boolean
     },
     data(){
         return{
@@ -89,6 +90,11 @@ export default {
     created(){
         this.fetch()
     },
+    watch:{
+        refresh:function(val){
+            if(val)this.fetch()
+        }
+    },
     methods:{
         async fetch(){
             this.loading = true;
@@ -99,12 +105,10 @@ export default {
             this.consultation_id=data.id
             this.items=data.data
         },
-        search_by_date(){
-
-        },
         getColor(status) {
             if (status === "RUNNING") return "blue";
             else if (status === "DONE") return "green";
+            else if (status === "CANCELLED") return "red";
             else return "green";
         },
         getTypeColor(code) {

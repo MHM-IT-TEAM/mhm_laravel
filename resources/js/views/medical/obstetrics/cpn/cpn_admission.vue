@@ -1323,7 +1323,9 @@ export default {
         if (response.data.ultrasound) {
           this.set_ultrasound_data(response.data.ultrasound);
         } else {
-          this.set_legacy_edd_data(response.data.legacy_edd);
+          // this.set_legacy_edd_data(response.data.legacy_edd);
+            this.set_legacy_edd_data(response.data);
+
         }
       }
     },
@@ -1474,6 +1476,9 @@ export default {
             ultrasound_ga:data.ultrasound_ga,
             corrected_ga:data.corrected_ga,
         }
+    },
+    nullToString(txt){
+        return txt===null ? '' : txt
     }
   },
   computed: {
@@ -1494,7 +1499,7 @@ export default {
     },
     fullName() {
       return (
-        this.patient_details.firstName + " " + this.patient_details.lastName
+        this.nullToString(this.patient_details.firstName) + " " + this.nullToString(this.patient_details.lastName)
       );
     },
     age() {

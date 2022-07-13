@@ -10,7 +10,6 @@
                         <input class="form-check-input" type="checkbox" id="newRequest" v-model="formData.new_request" :disabled="formData.changes_made">
                         <label class="form-check-label" for="newRequest">New Request</label>
                     </div>
-                    <label class="form-check-label mr-2">Or </label>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="checkbox" id="updateRequest" v-model="formData.changes_made" :disabled="formData.new_request">
                         <label class="form-check-label" for="updateRequest">Changes Made</label>
@@ -42,12 +41,11 @@
                     </table>
                     <table class="table table-sm" id="admission_details">
                         <tr >
-                            <td colspan="9" class="table_title">Admission's Details</td>
+                            <td colspan="11" class="table_title">Admission's Details</td>
                         </tr>
                         <tr>
-                            <td :class="{'text-danger':$v.formData.admission_date.$error}">Admission Date</td>
                             <td >
-<!--                                <input type="date":class="{'text-danger':$v.formData.admission_date.$error}" v-model="formData.admission_date"/>-->
+                                Admission Date
                                 <date-picker
                                     v-model=" formData.admission_date"
                                     mode="date"
@@ -76,22 +74,24 @@
                                     </template>
                                 </date-picker>
                             </td>
-                            <td :class="{'text-danger':$v.formData.admission_time.$error}">Admission Time</td>
-                            <td><input type="time" v-model="formData.admission_time" :class="{'text-danger':$v.formData.admission_time.$error}" /></td>
-                            <td :class="{'text-danger':$v.formData.service_id.$error}">Service</td>
                             <td>
+                                Time: &nbsp
+                                <input type="time" v-model="formData.admission_time" :class="{'text-danger':$v.formData.admission_time.$error}" />
+                            </td>
+                            <td>
+                                Service: &nbsp
                                 <select v-model="formData.service_id" class="border" :class="{'text-danger':$v.formData.service_id.$error}">
                                     <option v-for="services in accessories.services" :value="services.id">{{services.name}}</option>
                                 </select>
                             </td>
                             <td>
-                                <span>Type</span>
+                                Type: &nbsp
                                 <select v-model="formData.type" class="border" :disabled="formData.service_id!==14">
                                     <option v-for="type in accessories.in_patient_service_type" >{{type}}</option>
                                 </select>
                             </td>
                             <td>
-                                <span>Reason</span>
+                                Reason :&nbsp
                                 <select v-model="formData.reason" class="border" :disabled="formData.service_id!==14">
                                     <option v-for="reason in accessories.in_patient_mom_baby" >{{reason}}</option>
                                 </select>
@@ -108,22 +108,24 @@
                                     <label class="custom-control-label"  for="type_of_stay_2" >Overnight Patient</label>
                                 </div>
                             </td>
-                            <td>Estimated length of stay:</td>
                             <td  colspan="2">
+                                Estimated length of stay: <br>
                                 <input type="number" style="width: 45px" class="border"  v-model="formData.estimated_stay_length"/>
                                 <select v-model="formData.estimated_stay_length_type" class="border">
                                     <option value="">Choose</option>
                                     <option v-for="day in accessories.date_range" :value="day.id">{{day.text}}</option>
                                 </select>
                             </td>
-                            <td :class="{'text-danger':$v.formData.mobilisation_status.$error}">Mobilisation Status</td>
+<!--                            <td :class="{'text-danger':$v.formData.mobilisation_status.$error}">Mobilisation Status</td>-->
                             <td>
+                                Mobilisation Status:
                                 <select class="border" v-model="formData.mobilisation_status" :class="{'text-danger':$v.formData.mobilisation_status.$error}">
                                     <option v-for="mob in accessories.mobilisation_status">{{mob}}</option>
                                 </select>
                             </td>
-                            <td :class="{'text-danger':$v.formData.level_of_care.$error}">Level of care</td>
+<!--                            <td :class="{'text-danger':$v.formData.level_of_care.$error}">Level of care</td>-->
                             <td>
+                                Level of care:
                                 <select class="border" v-model="formData.level_of_care" :class="{'text-danger':$v.formData.level_of_care.$error}">
                                     <option v-for="level in accessories.level_of_care">{{level}}</option>
                                 </select>
@@ -194,7 +196,7 @@
                             <td class="border">weight:</td>
                             <td class="border"><input type="number" v-model="formData.weight"/></td>
                             <td class="border">B.P</td>
-                            <td class="border"><input type="number" v-model="formData.bp"/></td>
+                            <td class="border"><input type="text" v-model="formData.bp"/></td>
                             <td class="border">Pulse</td>
                             <td class="border"><input type="number" v-model="formData.pulse"/></td>
                             <td class="border">spo2</td>

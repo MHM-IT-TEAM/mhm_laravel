@@ -15,26 +15,26 @@
                 </tr>
                  <tr v-for="(line,i) in formData.transaction.grace_csb_transaction_detail">
                      <td>
-<!--                         [ &nbsp {{line.item.code}} &nbsp] {{line.item.description}}-->
-                         <multiselect
-                             v-model="line.item"
-                             label="description"
-                             track-by="description"
-                             :id="'multiSelect'"
-                             open-direction="above"
-                             :options="accessory.medicines_temp_list"
-                             :searchable="true"
-                             :internal-search="false"
-                             :clear-on-select="true"
-                             :close-on-select="true"
-                             :show-no-results="false"
-                             :hide-selected="true"
-                             @search-change="fetchMedicine"
-                             class="multiSelect"
-                             autocomplete="off"
-                             :disabled="formData.transaction.done===1"
-                         >
-                         </multiselect>
+                         <span>[ &nbsp {{line.item.code}} &nbsp] {{line.item.description}}</span>
+<!--                         <multiselect-->
+<!--                             v-model="line.item"-->
+<!--                             label="description"-->
+<!--                             track-by="description"-->
+<!--                             :id="'multiSelect'"-->
+<!--                             open-direction="above"-->
+<!--                             :options="accessory.medicines_temp_list"-->
+<!--                             :searchable="true"-->
+<!--                             :internal-search="false"-->
+<!--                             :clear-on-select="true"-->
+<!--                             :close-on-select="true"-->
+<!--                             :show-no-results="false"-->
+<!--                             :hide-selected="true"-->
+<!--                             @search-change="fetchMedicine"-->
+<!--                             class="multiSelect"-->
+<!--                             autocomplete="off"-->
+<!--                             :disabled="formData.transaction.done===1"-->
+<!--                         >-->
+<!--                         </multiselect>-->
                      </td>
                      <td>{{line.breakfast}}</td>
                      <td>{{line.lunch}}</td>
@@ -94,6 +94,7 @@ export default {
         async init(){
             if(this.$route.params.transaction){
                 this.formData.transaction=this.$route.params.transaction
+                this.formData.transaction.grace_csb_transaction_detail.forEach(item=>item.is_edit=false)
             }
         },
         async submit(){
@@ -126,7 +127,20 @@ export default {
                     url: '/api/v1/inventory_system/item',
                     params: {search_text: code},
                 }).then((response) => {
-                    this.accessory.medicines_temp_list = response.data.data
+                    // this.accessory.medicines_temp_list = response.data.data
+                    let data=response.data.data
+                    data.forEach(item=>{
+                        this.accessory.medicines_temp_list.push({
+                            label:`[${item.code}] ${item.description}`,
+                            description:item.description,
+                            value:{
+                                id:item.id,
+                                code:item.code,
+                                description:item.description,
+                                in_stock: item.inventory !==null?item.inventory.grace:0
+                            }
+                        })
+                    })
                 });
             }
         },

@@ -50,8 +50,8 @@ class StorkAdmissionService
     }
     public function store($request){
         //check if the data is already in the system
-        $check= StorkAdmission::where('patient_id',$request->patient_id)->whereDate('created_at',Carbon::today())->first();
-        if($check->exists())
+        $check= StorkAdmission::where('patient_id',$request->patient_id)->whereDate('created_at',Carbon::today())->exists();
+        if($check)
         {
             return response()->json(['success'=>false,"message"=>'the patient is already saved in the system on the same date, risk of duplicate data']);
         }

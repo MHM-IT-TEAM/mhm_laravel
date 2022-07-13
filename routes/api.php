@@ -148,6 +148,15 @@ Route::prefix('/v1')->group(function(){
                 route::post('store_balance_in',[\App\Http\Controllers\V1\patient_system\in_patient\stork_center\StorkBalanceController::class,'store_in']);
                 route::post('store_balance_out',[\App\Http\Controllers\V1\patient_system\in_patient\stork_center\StorkBalanceController::class,'store_out']);
                 route::post('close_balance',[\App\Http\Controllers\V1\patient_system\in_patient\stork_center\StorkBalanceController::class,'close_balance']);
+                route::post('give_medicine',[\App\Http\Controllers\V1\patient_system\in_patient\stork_center\StorkMedicineController::class,'give_medicine']);
+                route::post('store_diagnose',[\App\Http\Controllers\V1\patient_system\in_patient\stork_center\StorkDiagnoseController::class,'store']);
+                route::get('show_diagnose/{stork_admission_id}',[\App\Http\Controllers\V1\patient_system\in_patient\stork_center\StorkDiagnoseController::class,'show']);
+                route::post('store_wound_care',[\App\Http\Controllers\V1\patient_system\in_patient\stork_center\StorkWoundCareController::class,'store']);
+                route::get('show_wound_care/{stork_admission_id}',[\App\Http\Controllers\V1\patient_system\in_patient\stork_center\StorkWoundCareController::class,'show']);
+                route::post('store_action',[\App\Http\Controllers\V1\patient_system\in_patient\stork_center\StorkActionController::class,'store']);
+                route::get('show_action/{stork_admission_type}/{action_type}',[\App\Http\Controllers\V1\patient_system\in_patient\stork_center\StorkActionController::class,'show']);
+                route::post('ext_ref_update_stork_admission',[\App\Http\Controllers\V1\patient_system\in_patient\stork_center\StorkExternalReferralController::class,'update_stork_admission']);
+                route::get('show_medicine/{stork_admission_id}',[\App\Http\Controllers\V1\patient_system\in_patient\stork_center\StorkMedicineController::class,'show']);
                 route::resource('pregnancy_checkup',\App\Http\Controllers\V1\patient_system\in_patient\stork_center\StorkPregnancyCheckupController::class);
                 route::get('pregnancy_checkup/stork_admission_id/{stork_admission_id}',[\App\Http\Controllers\V1\patient_system\in_patient\stork_center\StorkPregnancyCheckupController::class,'where_stork_admission_id']);
                 route::resource('dismissal',\App\Http\Controllers\V1\patient_system\in_patient\stork_center\StorkDismissalController::class);
@@ -173,6 +182,11 @@ Route::prefix('/v1')->group(function(){
             route::get('birth_certificate/{code}',[\App\Http\Controllers\V1\patient_system\delivery\BirthRegistrationController::class,'show']);
             route::put('birth_certificate/{code}',[\App\Http\Controllers\V1\patient_system\delivery\BirthRegistrationController::class,'birth_certificate']);
             route::get('book',[\App\Http\Controllers\V1\patient_system\delivery\BirthRegistrationController::class,'book']);
+        });
+        // Surgery
+        Route::group(['prefix'=>'surgery'],function(){
+            Route::post('cancel',[\App\Http\Controllers\v1\patient_system\surgery\SurgeryController::class,'cancel']);
+            Route::resource('resource',\App\Http\Controllers\v1\patient_system\surgery\SurgeryController::class);
         });
         //System
         Route::group(['prefix'=>'system'],function(){
@@ -230,6 +244,7 @@ Route::prefix('/v1')->group(function(){
         Route::post('/item/inventory/update',[\App\Http\Controllers\V1\inventory_system\item\ItemController::class,'update_inventory']);
         Route::get('/item/count_per_type',[\App\Http\Controllers\V1\inventory_system\item\ItemController::class,'count_per_type']);
         Route::get('item/code',[\App\Http\Controllers\V1\inventory_system\item\ItemController::class,'getCode']);
+        Route::get('/item/authorized_service/{service_name}',[\App\Http\Controllers\V1\inventory_system\item\ItemController::class,'where_authorized_service']);
         Route::resource('item',\App\Http\Controllers\V1\inventory_system\item\ItemController::class);
         Route::post('/item/stock_check',[\App\Http\Controllers\V1\inventory_system\item\ItemController::class,'check_stock_avalaibility']);
         //Cart
@@ -327,6 +342,10 @@ Route::prefix('/v1')->group(function(){
         //Cervix consistency
         Route::get('cervix_consistency',function(){
             return \App\Models\CervixConsistency::all();
+        });
+        //stork actions
+        Route::get('stork_action_group',function(){
+            return \App\Models\StorkActionGroup::all();
         });
 
     });

@@ -2,7 +2,7 @@
    <div class="container">
        <div class="registration-container">
                <div class="p-2 title">
-                   <h2 style="display: inline-block">Declaration de naissance</h2>
+                   <h2 style="display: inline-block">Birth registration</h2>
                    <v-btn class="float-right d-print-none"><v-icon>mdi-printer</v-icon></v-btn>
                </div>
                <v-row>

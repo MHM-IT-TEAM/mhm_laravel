@@ -16,7 +16,9 @@ class ExternalReferralController extends Controller
      */
     public function index()
     {
-        //
+        return ExternalReferral::with(['admission'=>function($adm){
+            return $adm->with('patient')->get();
+        },'car','medical_center'])->get();
     }
 
     /**
@@ -37,7 +39,8 @@ class ExternalReferralController extends Controller
      */
     public function store(ExternalReferralRequest $request)
     {
-        return ExternalReferral::store($request->validated());
+        $data=ExternalReferral::create($request->validated());
+        return response()->success($data);
     }
 
     /**
