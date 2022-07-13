@@ -68,7 +68,8 @@ class SurgeryService
             SurgeryUsedMedicine::create([
                 'surgery_id'=>$surgery_id,
                 'medicine'=>$data['medicine'],
-                'dosage'=>$data['dosage']
+                'dosage'=>$data['dosage'],
+                'time'=>$data['time']
             ]);
         }
     }

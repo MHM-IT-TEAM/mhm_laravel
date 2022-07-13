@@ -154,6 +154,7 @@
                            <table class="table table-sm">
                                <tr>
                                    <td>Medicament</td>
+                                   <td>Time</td>
                                    <td>Dosage</td>
                                    <td></td>
                                </tr>
@@ -162,12 +163,15 @@
                                        <input type="text" class="form-control" v-model="temp_med.medicine"/>
                                    </td>
                                    <td>
+                                       <input type="time" class="form-control" v-model="temp_med.time"/>
+                                   </td>
+                                   <td>
                                        <input type="text" class="form-control" v-model="temp_med.dosage" @keypress.enter="push_row"/>
                                    </td>
-                                   <td></td>
                                </tr>
                                <tr v-for="(row,i) in formData.surgery_used_medicines">
                                    <td>{{row.medicine}}</td>
+                                   <td>{{row.time}}</td>
                                    <td>{{row.dosage}}</td>
                                    <td>
                                        <v-btn x-small  @click="remove_row(i)">
@@ -376,7 +380,7 @@ export default {
                 },
             },
             type_of_surgery:['plastic'],
-            temp_med:{medicine:'', dosage:''}
+            temp_med:{medicine:'', dosage:'',time:''}
         }
     },
     validations:{

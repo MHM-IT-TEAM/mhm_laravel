@@ -19,6 +19,7 @@ class CreateSurgeryUsedMedicinesTable extends Migration
             $table->foreignId('surgery_id');
             $table->string('medicine');
             $table->string('dosage');
+            $table->string('time');
         });
     }
 
