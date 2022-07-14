@@ -3,7 +3,19 @@
         <v-card>
             <v-card-title>PRE SURGERY FORM</v-card-title>
             <v-card-text>
-                <patient_information :patient_id="formData.patient_id "  v-if="formData.patient_id !==''"/>
+               <v-row>
+                   <v-col cols="10">
+                       <patient_information :patient_id="formData.patient_id "  v-if="formData.patient_id !==''"/>
+                   </v-col>
+                   <v-col cols="2">
+                       <v-img
+                           max-height="150"
+                           max-width="250"
+                           v-if="avatar!==''"
+                           :src="'/storage/assets/media/images/patients/avatar/'+avatar"
+                       ></v-img>
+                   </v-col>
+               </v-row>
             </v-card-text>
         </v-card>
         <v-card class="mt-2">
@@ -381,7 +393,8 @@ export default {
             },
             type_of_surgery:['plastic'],
             temp_med:{medicine:'', dosage:'',time:''},
-            loading:false
+            loading:false,
+            avatar:''
         }
     },
     validations:{
@@ -423,7 +436,10 @@ export default {
         },
         fetch_surgery(id){
             axios.get(`/api/v1/patient_system/surgery/resource/${id}`).then(
-                response=>this.formData=_.omit(response.data,['admission'])
+                response=>{
+                    this.avatar=response.data.admission.patient.avatar
+                    this.formData=_.omit(response.data,['admission'])
+                }
             )
         },
         push_row(){

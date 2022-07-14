@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid p-4">
       <div class="row">
-          <div class="col-8">
+          <div class="col-md-8 col-sm-6">
               <form
                   id="patientForm"
                   enctype="multipart/form-data"
@@ -281,7 +281,10 @@
                                       class="file"
                                       @change="avatar_change"
                                   />
-                                  <div class="border" id="avatar_container"></div>
+
+                                  <div class="border" id="avatar_container">
+                                      <img :src="'/storage/assets/media/images/patients/avatar/'+patient.avatar" alt="profile" class="img-fluid">
+                                  </div>
                                   <!-- <input type="file" id="avat" />	 -->
                               </div>
                               <!-- <div class="col-6 avatar">
@@ -455,7 +458,7 @@
                   </div>
               </form>
           </div>
-          <div class="col-4">
+          <div class="col-md-4 col-sm-6">
               <v-simple-table>
                   <template v-slot:default>
                       <thead>

@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid bg-white">
+  <div class="container-fluid bg-white mt-4">
     <h3 class="text-center">PATIENT DATABASE</h3>
     <form onsubmit="return false;">
       <input
@@ -58,9 +58,9 @@ export default {
 </script>
 
 <style scoped>
-.container-fluid {
-  margin-top: 40px;
-  padding-top: 40px;
-  width: 75vw;
-}
+/*.container-fluid {*/
+/*  margin-top: 40px;*/
+/*  padding-top: 40px;*/
+/*  width: 75vw;*/
+/*}*/
 </style>
