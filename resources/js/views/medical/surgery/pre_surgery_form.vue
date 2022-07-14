@@ -110,7 +110,7 @@
                         ></v-textarea>
                     </v-col>
                 </v-row>
-                <v-btn depressed color="primary" @click="submit">Submit</v-btn>
+                <v-btn depressed color="primary" @click="submit" :loading="loading">Submit</v-btn>
             </v-card-text>
         </v-card>
     </div>
@@ -152,7 +152,8 @@ export default {
                     input: 'DD/MMM/YYYY',
                 },
             },
-            type_of_surgery:['plastic']
+            type_of_surgery:['plastic'],
+            loading:false
         }
     },
     validations:{
@@ -177,16 +178,18 @@ export default {
         }
     },
     methods:{
-        submit(){
+        async submit(){
             this.$v.formData.$touch();
             if (this.$v.$invalid) {
                 return true;
             }
             this.formData.status='CONFIRMED'
-            axios.post('/api/v1/patient_system/surgery/resource',this.formData).then(response=>{
+            this.loading=true
+            await axios.post('/api/v1/patient_system/surgery/resource',this.formData).then(response=>{
                 this.$toast.open('Data saved')
                 this.$router.push({name:'pre_surgery_list'})
             })
+            this.loading=false
         },
     }
 }

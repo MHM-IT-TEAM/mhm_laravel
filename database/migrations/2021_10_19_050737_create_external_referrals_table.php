@@ -33,7 +33,6 @@ class CreateExternalReferralsTable extends Migration
             $table->integer('medical_team');
             $table->text('remark')->nullable();
             $table->foreignId('user_id')->nullable();
-            $table->foreignId('user_id')->nullable();
         });
     }
 

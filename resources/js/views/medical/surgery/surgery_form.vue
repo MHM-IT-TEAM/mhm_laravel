@@ -320,7 +320,7 @@
                         <v-text-field label="Other people present"  v-model="formData.other_people"/>
                     </v-col>
                 </v-row>
-                <v-btn depressed color="primary" @click="submit" class="mt-2">Submit</v-btn>
+                <v-btn depressed color="primary" @click="submit" class="mt-2" :loading="loading">Submit</v-btn>
             </v-card-text>
         </v-card>
     </div>
@@ -380,7 +380,8 @@ export default {
                 },
             },
             type_of_surgery:['plastic'],
-            temp_med:{medicine:'', dosage:'',time:''}
+            temp_med:{medicine:'', dosage:'',time:''},
+            loading:false
         }
     },
     validations:{
@@ -407,16 +408,18 @@ export default {
         }
     },
     methods:{
-        submit(){
+       async submit(){
             this.$v.formData.$touch();
             if (this.$v.$invalid) {
                 return true;
             }
             this.formData.status='DONE'
-            axios.put(`/api/v1/patient_system/surgery/resource/${this.formData.id}`,this.formData).then(response=>{
+           this.loading=true
+            await axios.put(`/api/v1/patient_system/surgery/resource/${this.formData.id}`,this.formData).then(response=>{
                 this.$toast.open('Data saved')
                 this.$router.push({name:'surgery_list'})
             })
+           this.loading=false
         },
         fetch_surgery(id){
             axios.get(`/api/v1/patient_system/surgery/resource/${id}`).then(
