@@ -3,7 +3,19 @@
         <v-card>
             <v-card-title>PRE SURGERY FORM</v-card-title>
             <v-card-text>
-                <patient_information :patient_id="formData.patient_id " />
+                <v-row>
+                    <v-col cols="10">
+                        <patient_information :patient_id="formData.patient_id "  v-if="formData.patient_id !==''"/>
+                    </v-col>
+                    <v-col cols="2">
+                        <v-img
+                            max-height="150"
+                            max-width="250"
+                            v-if="avatar!==''"
+                            :src="'/storage/assets/media/images/patients/avatar/'+avatar"
+                        ></v-img>
+                    </v-col>
+                </v-row>
             </v-card-text>
         </v-card>
         <v-card class="mt-2">
@@ -153,7 +165,8 @@ export default {
                 },
             },
             type_of_surgery:['plastic'],
-            loading:false
+            loading:false,
+            avatar:''
         }
     },
     validations:{
@@ -166,6 +179,7 @@ export default {
     created(){
         const SRC=this.$route.params.admission
         if(SRC){
+            this.avatar=SRC.patient.avatar
             this.formData.patient_id= SRC.patient_id
             this.formData.admission_id= SRC.id
             this.formData.temp=SRC.temp

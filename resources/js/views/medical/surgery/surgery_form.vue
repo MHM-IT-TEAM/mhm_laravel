@@ -3,19 +3,7 @@
         <v-card>
             <v-card-title>PRE SURGERY FORM</v-card-title>
             <v-card-text>
-               <v-row>
-                   <v-col cols="10">
-                       <patient_information :patient_id="formData.patient_id "  v-if="formData.patient_id !==''"/>
-                   </v-col>
-                   <v-col cols="2">
-                       <v-img
-                           max-height="150"
-                           max-width="250"
-                           v-if="avatar!==''"
-                           :src="'/storage/assets/media/images/patients/avatar/'+avatar"
-                       ></v-img>
-                   </v-col>
-               </v-row>
+
             </v-card-text>
         </v-card>
         <v-card class="mt-2">
