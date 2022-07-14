@@ -21,7 +21,7 @@ class CreatePatientsTable extends Migration
             $table->string('birthDate',100);
             $table->string('birthPlace',40)->nullable();
             $table->string('cin_no',20)->nullable();
-            $table->string('cin_date',10)->nullable();
+            $table->string('cin_date',50)->nullable();
             $table->string('cin_place',50)->nullable();
             $table->string('job',20)->nullable();
             $table->string('mom_name',50)->nullable();

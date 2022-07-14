@@ -71,6 +71,7 @@
                 <v-icon
                     class="mx-4 white--text"
                     large
+
                 >
                     mdi-mother-nurse
                 </v-icon>

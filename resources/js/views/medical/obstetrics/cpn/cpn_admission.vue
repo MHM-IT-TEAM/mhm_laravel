@@ -1593,11 +1593,11 @@ export default {
       return ga_weeks + "+" + ga_days;
     },
     planned_oc_min_date() {
-      const edd = new Date(this.ultrasound_data.selected_edd);
+      const edd = new Date(this.ultrasound_data.edd_method);
       return new Date(edd.setDate(edd.getDate() - 4 * 7));
     },
     planned_oc_default_date() {
-      const edd = new Date(this.ultrasound_data.selected_edd);
+      const edd = new Date(this.ultrasound_data.edd_method);
       return new Date(edd.setDate(edd.getDate() - 2 * 7));
     },
     current_gestational_age(){
