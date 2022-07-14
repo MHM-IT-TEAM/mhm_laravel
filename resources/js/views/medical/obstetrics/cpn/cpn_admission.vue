@@ -469,7 +469,6 @@
                           mode="date"
                           :model-config="accessory.dateConfig"
                           :masks="accessory.dateConfig.masks"
-                          :min-date="planned_oc_min_date"
                           :popover="{ visibility: canEdit ? 'click' : 'hidden' }"
                       >
                           <template v-slot="{ inputValue, inputEvents }">
@@ -1592,14 +1591,14 @@ export default {
 
       return ga_weeks + "+" + ga_days;
     },
-    planned_oc_min_date() {
-      const edd = new Date(this.ultrasound_data.edd_method);
-      return new Date(edd.setDate(edd.getDate() - 4 * 7));
-    },
-    planned_oc_default_date() {
-      const edd = new Date(this.ultrasound_data.edd_method);
-      return new Date(edd.setDate(edd.getDate() - 2 * 7));
-    },
+    // planned_oc_min_date() {
+    //   const edd = new Date(this.ultrasound_data.edd_method);
+    //   return new Date(edd.setDate(edd.getDate() - 4 * 7));
+    // },
+    // planned_oc_default_date() {
+    //   const edd = new Date(this.ultrasound_data.edd_method);
+    //   return new Date(edd.setDate(edd.getDate() - 2 * 7));
+    // },
     current_gestational_age(){
         let src_ga, src_date
         switch (this.ultrasound_data.edd_method){
