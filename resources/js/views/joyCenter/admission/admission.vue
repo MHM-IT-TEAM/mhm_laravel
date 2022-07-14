@@ -1,5 +1,5 @@
-435<template>
-  <div class="container w-75">
+<template>
+  <div class="container">
     <v-app>
       <h1 class="text-center form-title">PATIENT ADMISSION</h1>
       <div class="inline mb-4">

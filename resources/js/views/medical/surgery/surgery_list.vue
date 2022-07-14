@@ -1,5 +1,5 @@
 <template>
-    <div class="container w-75">
+    <div class="container">
        <v-card>
            <v-card-title>
                LIST OF CONFIRMED SURGERY

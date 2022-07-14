@@ -1,9 +1,22 @@
 <template>
     <div class="container-fluid">
         <v-card>
-            <v-card-title>PRE SURGERY FORM</v-card-title>
+            <v-card-title>SURGERY FORM</v-card-title>
             <v-card-text>
-
+                <v-row>
+                    <v-col cols="10">
+                        <patient_information :patient_id="formData.patient_id "  v-if="formData.patient_id !==''"/>
+                    </v-col>
+                    <v-col cols="2">
+                        <v-img
+                            max-height="150"
+                            max-width="250"
+                            v-if="avatar!=='' && avatar!== null"
+                            :src="'/storage/assets/media/images/patients/avatar/'+avatar"
+                            lazy-src="https://i.pravatar.cc/300"
+                        ></v-img>
+                    </v-col>
+                </v-row>
             </v-card-text>
         </v-card>
         <v-card class="mt-2">
@@ -123,6 +136,20 @@
                 </v-expansion-panels>
 
                 <span class="badge badge-warning mt-4">Timeframe</span>
+                <v-row>
+                    <v-col>
+                        <div class="form-group">
+                            Time beginning of Anesthesia
+                            <input type="time" class="form-control" v-model="formData.time_anesthesia" />
+                        </div>
+                    </v-col>
+                    <v-col>
+                        <div class="form-group">
+                            Time End of Anesthesia
+                            <input type="time" class="form-control" v-model="formData.time_is_anesthesia_finished" />
+                        </div>
+                    </v-col>
+                </v-row>
                 <v-row>
                     <v-col>
                         <div class="form-group">
@@ -351,6 +378,8 @@ export default {
                 date_of_surgery:'',
                 time_surgery:'',
                 time_is_surgery_finished:'',
+                time_anesthesia:'',
+                time_is_anesthesia_finished:'',
                 reason_for_surgery:'',
                 type_of_surgery:'',
                 comment:'',

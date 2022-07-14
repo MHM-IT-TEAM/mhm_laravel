@@ -1,5 +1,5 @@
 <template>
-    <div class="container w-75">
+    <div class="container">
         <v-app>
             <v-data-table
                 :headers="headers"

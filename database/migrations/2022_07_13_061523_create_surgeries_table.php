@@ -20,6 +20,8 @@ class CreateSurgeriesTable extends Migration
             $table->foreignId('patient_id');
             $table->string('date_of_surgery');
             $table->string('time_surgery')->nullable();
+            $table->string('time_anesthesia')->nullable();
+            $table->string('time_is_anesthesia_finished')->nullable();
             $table->string('time_is_surgery_finished')->nullable();
             $table->string('start_time_no_food');
             $table->string('reason_for_surgery');

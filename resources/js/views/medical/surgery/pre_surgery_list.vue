@@ -1,5 +1,5 @@
 <template>
-    <div class="container w-75">
+    <div class="container">
         <patient_list :service_id="34" :service_activity_id="45" :headers="headers" @edit="show_modal" title="PRE SURGERY LIST" :refresh="refresh_list" />
         <v-dialog
             v-model="modal"

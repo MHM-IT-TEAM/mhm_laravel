@@ -11,8 +11,9 @@
                         <v-img
                             max-height="150"
                             max-width="250"
-                            v-if="avatar!==''"
+                            v-if="avatar!=='' && avatar!== null"
                             :src="'/storage/assets/media/images/patients/avatar/'+avatar"
+                            lazy-src="https://i.pravatar.cc/300"
                         ></v-img>
                     </v-col>
                 </v-row>
@@ -189,6 +190,7 @@ export default {
             this.formData.spo2=SRC.spo2
             this.formData.pulse=SRC.pulse
             this.formData.reason_for_surgery=SRC.remark
+            this.formData.created_at=SRC.created_at
         }
     },
     methods:{

@@ -33,6 +33,8 @@ class SurgeryService
             'patient_id'=>$request->patient_id,
             'date_of_surgery'=>$request->date_of_surgery,
             'time_surgery'=>$request->time_surgery,
+            'time_anesthesia'=>$request->time_anesthesia,
+            'time_is_anesthesia_finished'=>$request->time_is_anesthesia_finished,
             'time_is_surgery_finished'=>$request->time_is_surgery_finished,
             'type_of_surgery'=>$request->type_of_surgery,
             'reason_for_surgery'=>$request->reason_for_surgery,
