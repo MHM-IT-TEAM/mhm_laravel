@@ -20,6 +20,7 @@ class CreateBirthMedicalDataMomsTable extends Migration
             $table->string('injuries',50)->nullable();
             $table->string('blood_loss',10)->nullable();
             $table->string('stiches',200)->nullable();
+            $table->string('anesthesia',200)->nullable();
             $table->string('placenta_time',10)->nullable();
             $table->string('placenta_complete',10)->nullable();
             $table->string('placenta_spontaneous',10)->nullable();
@@ -27,7 +28,8 @@ class CreateBirthMedicalDataMomsTable extends Migration
             $table->string('placenta_curetage',10)->nullable();
             $table->string('supervision_needed',10)->nullable();
             $table->string('ctg',50)->nullable();
-            $table->string('complications',250)->nullable();
+            $table->string('complication_mom_before_birth',250)->nullable();
+            $table->string('complication_mom_after_birth',250)->nullable();
             $table->string('position',50)->nullable();
             $table->text('remarks')->nullable();
             $table->string('sterilisation_package',100)->nullable();

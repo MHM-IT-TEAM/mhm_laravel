@@ -92,12 +92,15 @@ class BirthRegistrationController extends Controller
                 return $data->latest('created_at')->first();
             }])->find($ref);
             $ga= $admission->followups[0]["gestational_age"];//28+2
-            $ga_date= $admission->followups[0]["created_at"];//2021/07/14
-            $diff_in_days=Carbon::now()->floatDiffInWeeks(Carbon::parse($ga_date));
-            $int_value=floor($diff_in_days);//1
-            $decimal= (($diff_in_days-$int_value)*6); // question: why is this *6 ? 5.4
-            $split= explode('+',$ga);//28,2
-            $ga=$this->calculate($int_value,$split[0],$decimal,$split[1]);
+            if($ga !==""){
+                $ga_date= $admission->followups[0]["created_at"];//2021/07/14
+                $diff_in_days=Carbon::now()->floatDiffInWeeks(Carbon::parse($ga_date));
+                $int_value=floor($diff_in_days);//1
+                $decimal= (($diff_in_days-$int_value)*6); // question: why is this *6 ? 5.4
+                $split= explode('+',$ga);//28,2
+                $ga=$this->calculate($int_value,$split[0],$decimal,$split[1]);
+            }
+
         }
 
         return response()->json([

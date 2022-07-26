@@ -216,6 +216,7 @@
                         <v-radio-group
                             v-model="formData.dismissal_outcome"
                             :error="$v.formData.dismissal_outcome.$error"
+                            :readonly="formData.is_edit"
                             row
                         >
                             <v-radio
@@ -398,7 +399,7 @@ export default {
                 anesthetists:'',
                 midwives:'',
                 other_people:'',
-                surgery_used_medicines:[]
+                surgery_used_medicines:[],
             },
             is_edit:false,
             dateConfig: {
@@ -427,25 +428,27 @@ export default {
             next_surgery:{required},
         }
     },
-    created(){
+    async created(){
         const SRC=this.$route.params.surgery
         if(SRC){
             this.formData= _.omit(SRC,['admission'])
         }
         if(this.$route.params.id){
+           await this.fetch_surgery(this.$route.params.id)
             this.is_edit=true
-            this.fetch_surgery(this.$route.params.id)
+
         }
     },
     methods:{
        async submit(){
-            this.$v.formData.$touch();
-            if (this.$v.$invalid) {
+           this.$v.formData.$touch();
+           if (this.$v.$invalid) {
                 return true;
             }
-            this.formData.status='DONE'
-           this.loading=true
+           this.formData.status='DONE'
+           this.formData.is_edit=this.is_edit
             await axios.put(`/api/v1/patient_system/surgery/resource/${this.formData.id}`,this.formData).then(response=>{
+                this.loading=true
                 this.$toast.open('Data saved')
                 this.$router.push({name:'surgery_list'})
             })

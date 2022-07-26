@@ -56,6 +56,12 @@
                                            <option value="0">No</option>
                                        </select>
                                    </td>
+                                   <td v-if="formData.induction===1">
+                                       induction method
+                                       <select v-model.number="formData.induction_method" >
+                                           <option v-for="meth in induction_method">{{meth}}</option>
+                                       </select>
+                                   </td>
                                </tr>
                                <tr>
                                    <td>
@@ -70,15 +76,21 @@
                                            <option v-for="i in ctg">{{i}}</option>
                                        </select>
                                    </td>
-                                   <td colspan="3">
+                                   <td>
 <!--                                       <multiselect :options="birth_complications"-->
 
 <!--                                                    v-model="formData.complications"-->
 <!--                                                    :multiple="true"-->
 <!--                                                    placeholder="Complications"/>-->
                                        <div class="form-group">
-                                           <label>Complication</label>
-                                           <textarea class="form-control form-control-sm" v-model="formData.complications"/>
+                                           <label>Complication Before birth</label>
+                                           <textarea class="form-control form-control-sm" v-model="formData.complication_mom_before_birth"/>
+                                       </div>
+                                   </td>
+                                   <td>
+                                       <div class="form-group">
+                                           <label>Complication After birth</label>
+                                           <textarea class="form-control form-control-sm" v-model="formData.complication_mom_after_birth"/>
                                        </div>
                                    </td>
                                </tr>
@@ -111,7 +123,7 @@
                                        </div>
                                    </td>
                                    <td>
-                                       <span :class="{'error':$v.formData.placenta_manual_delivery.$error}">Placenta Manual Delivery</span> &nbsp
+                                       <span :class="{'error':$v.formData.placenta_manual_delivery.$error}">Placenta Manual Revision</span> &nbsp
                                        <div class="custom-control custom-radio custom-control-inline">
                                            <input  type="radio" id="placenta_manual_del_1" name="placenta_manual_del" value="yes" class="custom-control-input" v-model="formData.placenta_manual_delivery">
                                            <label class="custom-control-label" for="placenta_manual_del_1">yes</label>
@@ -133,10 +145,83 @@
                                        </div>
                                    </td>
                                </tr>
-                               <tr>
-                                   <td colspan="2">
-                                       Injuries: &nbsp <input type="text" v-model="formData.injuries" style="width:80%" class="text-danger"/>
+<!--                               <tr>-->
+<!--                                   <td colspan="2">-->
+<!--                                       Injuries: &nbsp <input type="text" v-model="formData.injuries" style="width:80%" class="text-danger"/>-->
+<!--                                       <select v-model="formData.injuries">-->
+<!--                                           <option></option>-->
+<!--                                       </select>-->
+<!--                                   </td>-->
+<!--                                   <td>-->
+<!--                                       Blood Loss &nbsp-->
+<!--                                       <select v-model="formData.blood_loss">-->
+<!--                                           <option v-for="b in blood_loss">{{b}}</option>-->
+<!--                                       </select>-->
+<!--                                   </td>-->
+<!--                                   <td>-->
+<!--                                       Stiches &nbsp-->
+<!--                                       <input type="text" v-model="formData.stiches" class="text-danger"/>-->
+<!--                                   </td>-->
+<!--                               </tr>-->
+                               <tr class="input-table">
+                                   <td colspan="5" class="font-weight-bold pr-2">
+                                       Injuries
+                                       <v-btn
+                                           x-small
+                                           color="secondary"
+                                           icon
+                                           @click="formData.birth_injury = ! formData.birth_injury"
+                                       >
+                                           <v-icon>mdi-plus</v-icon>
+                                       </v-btn>
                                    </td>
+                               </tr>
+                               <tr v-if="formData.birth_injury">
+                                  <td colspan="2">
+                                      <select class="form-control form-control-sm" v-model="temp_injury.where">
+                                          <option value="">Where</option>
+                                          <option v-for="where in injury_where">{{where}}</option>
+                                      </select>
+                                  </td>
+                                   <td>
+                                       <select class="form-control form-control-sm"  v-model="temp_injury.position">
+                                           <option value="">Position</option>
+                                           <option v-for="position in injury_position">{{position}}</option>
+                                       </select>
+                                   </td>
+                                   <td>
+                                       <select class="form-control form-control-sm"  v-model="temp_injury.degree">
+                                           <option value="">Degree</option>
+                                           <option v-for="degree in injury_degree">{{degree}}</option>
+                                       </select>
+                                   </td>
+                                   <td>
+                                       <v-btn
+                                           x-small
+                                           color="success"
+                                           icon
+                                           @click="push_injury"
+                                       >
+                                           <v-icon>mdi-check</v-icon>
+                                       </v-btn>
+                                   </td>
+                               </tr>
+                                <tr v-for="(row,i) in formData.injuries">
+                                    <td colspan="2">{{row.where}}</td>
+                                    <td>{{row.position}}</td>
+                                    <td>{{row.degree}}</td>
+                                    <td>
+                                        <v-btn
+                                            x-small
+                                            color="red"
+                                            icon
+                                            @click="delete_injury(i)"
+                                        >
+                                            <v-icon>mdi-delete</v-icon>
+                                        </v-btn>
+                                    </td>
+                                </tr>
+                               <tr>
                                    <td>
                                        Blood Loss &nbsp
                                        <select v-model="formData.blood_loss">
@@ -146,6 +231,12 @@
                                    <td>
                                        Stiches &nbsp
                                        <input type="text" v-model="formData.stiches" class="text-danger"/>
+                                   </td>
+                                   <td>
+                                       Anesthesia &nbsp
+                                       <select v-model="formData.anesthesia"  :class="{'border-danger':$v.formData.anesthesia.$error}">
+                                           <option v-for="type in anesthesia">{{type}}</option>
+                                       </select>
                                    </td>
                                </tr>
                                <tr>
@@ -293,7 +384,7 @@
                                        <td>
                                            Vit K
                                            <select v-model="baby.vit_k" :class="{ 'error': v.vit_k.$error }">
-                                               <option>Choose</option>
+                                               <option v-for="opt in vit_k">{{opt}}</option>
                                            </select>
                                        </td>
                                    </tr>
@@ -389,6 +480,20 @@
                                            </div>
 
 
+                                       </td>
+                                   </tr>
+                                   <tr>
+                                       <td>
+                                           <div class="form-group">
+                                               <label>Complication Before birth</label>
+                                               <textarea class="form-control form-control-sm" v-model="baby.complication_before_birth"/>
+                                           </div>
+                                       </td>
+                                       <td>
+                                           <div class="form-group">
+                                               <label>Complication After birth</label>
+                                               <textarea class="form-control form-control-sm" v-model="baby.complication_after_birth"/>
+                                           </div>
                                        </td>
                                    </tr>
                                </table>
@@ -498,22 +603,31 @@ export default {
                         cpa_needed:'',
                         extra_supervision_needed:'',
                         swobs_taken:'',
-                        pelvimetry:''
+                        pelvimetry:'',
+                        complication_before_birth:'',
+                        complication_after_birth:'',
                     }
                 ],
                 position:'',
                 induction:'',
+                induction_method:"",
                 ctg:'',
-                complications:'',
+                complication_mom_before_birth:'',
+                complication_mom_after_birth:'',
                 placenta_time:'',
                 placenta_complete:'',
                 placenta_spontaneous:'',
                 placenta_manual_delivery:'',
                 placenta_curetage:'',
-                injuries:'',
+                birth_injury:false,
+                injuries:[],
+                injury_where:'',
+                injury_position:'',
+                injury_degree:'',
                 injuries_description:'',
                 blood_loss:'',
                 stiches:'',
+                anesthesia:'',
                 sterilisation_package:'',
                 medicines_used:[],
                 remarks:'',
@@ -541,6 +655,11 @@ export default {
             modus:[],
             patient_fullname:'',patient_adress:'',patient_birthDate:'',
             twin:false,count_twin:1,
+            induction_method:["Ballon","Cytotec","Oxytocin","Opening of membranes"],
+            injury_where:['Perineum','Vagina','Labia','Clitoris','Anus','Cervix'],
+            injury_position:["Left","right"],
+            injury_degree:["I","II","III","IV"],
+            anesthesia:["no","Local","General","Spinal"],
             baby_element:{
                 id:'',
                 firstName:'',
@@ -577,6 +696,12 @@ export default {
                 temp_list:[],
                 add_med:false,
                 cpn_admission:null
+            },
+            vit_k:["no","orally","IV"],
+            temp_injury:{
+                where:'',
+                position:'',
+                degree:''
             }
 
         }
@@ -595,6 +720,7 @@ export default {
             placenta_spontaneous:{required},
             placenta_manual_delivery:{required},
             placenta_curetage:{required},
+            anesthesia:{required},
             babies:{
                 $each:{
                     firstName:{required},
@@ -699,6 +825,20 @@ export default {
         },
         view_pregnancy_card(){
             this.$router.push({name:'delivery_pregnancy_card',params:{data:this.accessory.cpn_admission}})
+        },
+        push_injury(){
+            console.log("here")
+            if(this.temp_injury.where!==''&& this.temp_injury.position!==''&& this.temp_injury.degree!==''){
+                this.formData.injuries.push(this.temp_injury)
+                this.temp_injury={
+                    where:'',
+                    position:'',
+                    degree:''
+                }
+            }
+        },
+        delete_injury(i){
+            this.formData.injuries.splice(i,1)
         }
     },
     computed:{
@@ -734,6 +874,14 @@ input[type=number]{
 #submit{
     background-color:#bc51cf;
     color:white;
+}
+.input-table{
+    padding:0px 10px 0px !important;
+    height:2px;
+}
+.input-table>td{
+    padding:0px 10px 0px !important;
+    margin:0px 10px 0px;
 }
 @media print{
     .registration-container{

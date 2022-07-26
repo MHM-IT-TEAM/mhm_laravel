@@ -33,7 +33,7 @@
                                    <v-card class="mt-2" elevation="2">
                                        <v-card-title v-text="bed.code"></v-card-title>
                                        <div class="border h-75 position-relative">
-                                           <h6 class="text-center"><span class="font-weight-bold font-italic">{{(bed.patient_id)}}</span>-{{  bed.patient.firstName + bed.patient.lastName }}</h6>
+                                           <h6 class="text-center"><span class="font-weight-bold font-italic">{{(bed.patient_id)}}</span>-{{  null_to_str(bed.patient.firstName) + null_to_str(bed.patient.lastName) }}</h6>
                                            <v-list-item two-line >
                                                <v-list-item-content>
                                                    <v-list-item-title>Diagnose</v-list-item-title>
@@ -211,6 +211,9 @@ export default {
         },
         process_option(item){
             this.$router.push({name:item.url,params:{stork_admission:this.chosen_patient,admission_id:this.chosen_patient.admission_id}})
+        },
+        null_to_str(str){
+            return str? str:""
         }
     },
     computed:{

@@ -34,6 +34,7 @@ class BirthMedicalDataBaby extends Model
             'vit_k'=>$request['vit_k'],
             'E1'=>$request['E1'],
             'malformation'=>$request['malformation'],
+            'position'=>$request['position'],
             'infection'=>$request['infection'],
             'correlation'=>$request['correlation'],
             'extra_supervision_needed'=>$request['extra_supervision_needed'],
@@ -42,7 +43,9 @@ class BirthMedicalDataBaby extends Model
             'baby_not_crying'=>$request['baby_not_crying'],
             'risk_of_cerebral_palsy'=>$request['risk_of_cerebral_palsy'],
             'alive'=>$request['alive'],
-            'death_explanation'=>$request['death_explanation']
+            'death_explanation'=>$request['death_explanation'],
+            "complication_before_birth"=>$request[ "complication_before_birth"],
+            "complication_after_birth"=>$request[ "complication_after_birth"],
         ];
     }
 }

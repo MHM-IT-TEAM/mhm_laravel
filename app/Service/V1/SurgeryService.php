@@ -25,6 +25,16 @@ class SurgeryService
         $surgery->update($this->_fillData($request));
         SurgeryUsedMedicine::where('surgery_id',$id)->delete();
         $this->_save_medicines_data($request->surgery_used_medicines,$id);
+        if($request->dismissal_outcome==='stay' && ! $request->has('is_edit')){
+            $admission= Admission::find($request->admission_id);
+            $new_admission= $admission->replicate()->fill([
+                'service_activity_id'=>45,
+                'admission_type_id'=>2,
+                'status'=>'RUNNING',
+                'payment_status'=>'PAID'
+            ]);
+            $new_admission->save();
+        }
     }
 
     private function _fillData($request){

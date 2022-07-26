@@ -24,6 +24,7 @@ class CreateBirthsTable extends Migration
             $table->foreignId('patient_id');
             $table->bigInteger('cpn_admission_id')->nullable();
             $table->boolean('induction')->nullable();
+            $table->string('induction_method',80)->nullable();
             $table->string('responsible_midwives',200)->nullable();
             $table->string('senior_midwives',200)->nullable();
             $table->string('assistant_midwives',200)->nullable();

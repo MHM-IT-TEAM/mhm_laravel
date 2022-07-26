@@ -93,11 +93,14 @@ export default {
         },
         date_format(date){
             return moment(date).format("MMM Do YY");
+        },
+        null_to_str(str){
+            return str?str:""
         }
     },
     computed:{
         fullName(){
-            return this.$route.params.stork_admission.patient.firstName +" "+ this.$route.params.stork_admission.patient.lastName
+            return this.null_to_str(this.$route.params.stork_admission.patient.firstName) +" "+ this.null_to_str(this.$route.params.stork_admission.patient.lastName)
         }
     }
 }

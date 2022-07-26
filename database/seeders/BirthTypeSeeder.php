@@ -17,10 +17,20 @@ class BirthTypeSeeder extends Seeder
         BirthType::insert([
             ['name'=>'spontaneous'],
             ['name'=>'Kiwi'],
+            ['name'=>'Vaccum'],
+            ['name'=>'Forceps'],
+            ['name'=>'Fundal pressure'],
             ['name'=>'C-section-primary'],
-            ['name'=>'C-section-secondary'],
-            ['name'=>'C-section-urgent'],
+            ['name'=>'C-section-primary+sterilization'],
+            ['name'=>'C-section-secondary-normal'],
+            ['name'=>'C-section-secondary-urgent'],
             ['name'=>'C-section-emergency'],
+            ['name'=>'Re-C-section-primary'],
+            ['name'=>'Re-C-section-secondary-normal'],
+            ['name'=>'Re-C-section-secondary-urgent'],
+            ['name'=>'Re-C-section-secondary-emergency'],
+            ['name'=>'Re-re-re-C-section-primary'],
+
 
         ]);
     }

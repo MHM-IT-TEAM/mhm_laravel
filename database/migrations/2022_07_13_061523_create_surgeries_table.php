@@ -29,7 +29,7 @@ class CreateSurgeriesTable extends Migration
             $table->text('comment')->nullable();
             $table->string('emla_on')->nullable();
             $table->string('emla_off')->nullable();
-            $table->integer('weight')->nullable();
+            $table->double('weight',8,2)->nullable();
             $table->string('temp')->nullable();
             $table->integer('pulse')->nullable();
             $table->integer('taDia')->nullable();

@@ -66,7 +66,7 @@ export default {
     name: "patient_list",
     props:{
         service_id:'',
-        service_activity_id:'',
+        service_activity_id:Array,
         headers: Array,
         title:'',
         refresh:Boolean

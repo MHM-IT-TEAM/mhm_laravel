@@ -259,15 +259,15 @@
                         <tr>
                             <td class="table_title" colspan="11">Money flow tracking</td>
                         </tr>
-                        <tr>
-                            <td colspan="3">
-                                <span class="mr-2">Outstanding debt:</span>
-                                <input class="border" v-model="formData.unpaid_amount"/>
-                            </td>
-                            <td colspan="2">
-                                <button class="btn btn-sm d-print-none btn-secondary">View Payment history</button>
-                            </td>
-                        </tr>
+<!--                        <tr>-->
+<!--                            <td colspan="3">-->
+<!--                                <span class="mr-2">Outstanding debt:</span>-->
+<!--                                <input class="border" v-model="formData.unpaid_amount"/>-->
+<!--                            </td>-->
+<!--                            <td colspan="2">-->
+<!--                                <button class="btn btn-sm d-print-none btn-secondary">View Payment history</button>-->
+<!--                            </td>-->
+<!--                        </tr>-->
                         <hr>
                         <tr class="d-none d-print-block">
                             <td colspan="5">MHM's signature:</td>
@@ -384,11 +384,17 @@ const {
                 let response= await axios.get('/api/v1/patient_system/in_patient/service/7')
                 this.accessories.services.push(...response.data)
                await axios.get('/api/v1/patient_system/in_patient/bed/14').then(response=>{this.accessories.beds=response.data})
-
                let src=this.$route.params.admission
                if(src){
                    this.formData.patient=src.patient
                    this.formData.admission_id=src.id
+                   this.formData.temp=src.temp
+                   this.formData.pulse=src.pulse
+                   this.formData.bp= src.taDia+"/"+src.taSysto
+                   this.formData.spo2=src.spo2
+                   this.formData.weight=src.weight
+                   this.formData.service_id=src.service_id
+                   this.formData.new_request=true
                }
             },
             async change_divisions(){

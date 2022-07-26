@@ -1,6 +1,6 @@
 <template>
     <div class="container w-75">
-        <patient-list :service_id="14" :service_activity_id="25" :headers="headers" @edit="editItem" title="admission request"></patient-list>
+        <patient-list  :service_activity_id="service_activities" :headers="headers" @edit="editItem" title="admission request"></patient-list>
     </div>
 </template>
 
@@ -15,9 +15,12 @@ export default {
                 { text: "Id", value: "patient_id" },
                 { text: "First Name", value: "patient.firstName" },
                 { text: "Last Name", value: "patient.lastName" },
+                { text: "Type of admission", value:"admission_type.code", sortable: false },
+                {text:"nature",value:"service_activity.name"},
                 { text: "Status", value: "status" },
                 { text: "Actions", value: "actions", sortable: false },
-            ]
+            ],
+            service_activities:[23,24,25,26,27,28,29,45]
         }
     },
     methods:{

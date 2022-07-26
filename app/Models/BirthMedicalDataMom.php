@@ -21,8 +21,8 @@ class BirthMedicalDataMom extends Model
         return [
             'birth_id'=>$birth_id,
             'position'=>$request['position'],
-            'injuries'=>$request['injuries'],
             'blood_loss'=>$request['blood_loss'],
+            'anesthesia'=>$request['anesthesia'],
             'stiches'=>$request['stiches'],
             'placenta_time'=>$request['placenta_time'],
             'placenta_complete'=>$request['placenta_complete'],
@@ -31,7 +31,8 @@ class BirthMedicalDataMom extends Model
             'placenta_curetage'=>$request['placenta_curetage'],
             'supervision_needed'=>$request['supervision_needed'],
             'ctg'=>$request['ctg'],
-            'complications'=>$request['complications'],
+            'complication_mom_before_birth'=>$request['complication_mom_before_birth'],
+            'complication_mom_after_birth'=>$request['complication_mom_after_birth'],
             'remarks'=>$request['remarks']
         ];
     }
