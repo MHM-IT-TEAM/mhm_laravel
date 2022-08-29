@@ -28,6 +28,24 @@ class CreateItemsTable extends Migration
             $table->string('status',30)->nullable();
             $table->text('purpose_of_use')->nullable();
             $table->string('dci',100)->nullable();
+            $table->smallInteger('stork')->nullable();
+            $table->smallInteger('glDoctor')->nullable();
+            $table->smallInteger('midMob')->nullable();
+            $table->smallInteger('dentMob')->nullable();
+            $table->smallInteger('ambulance')->nullable();
+            $table->smallInteger('yuck_room')->nullable();
+            $table->smallInteger('graceCenter')->nullable();
+            $table->smallInteger('joyCenter')->nullable();
+            $table->smallInteger('laboratory')->nullable();
+            $table->smallInteger('dentDoctor')->nullable();
+            $table->smallInteger('midPink')->nullable();
+            $table->smallInteger('ultrasound')->nullable();
+            $table->smallInteger('pf')->nullable();
+            $table->smallInteger('pediatric_out_patient')->nullable();
+            $table->smallInteger('pediatric_in_patient')->nullable();
+            $table->smallInteger('delivery')->nullable();
+            $table->smallInteger('bloc')->nullable();
+            $table->smallInteger('sterilisation')->nullable();
             $table->softDeletes();
         });
     }
