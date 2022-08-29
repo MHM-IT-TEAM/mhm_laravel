@@ -79,4 +79,9 @@ class PatientController extends Controller
     public function with_due_sum($id){
         return Patient::with(['patient_due'])->find($id);
     }
+    public function update_category($patient_id,$category_id){
+        $patient= Patient::find($patient_id);
+        $patient->patient_category_id=$category_id;
+        $patient->save();
+    }
 }

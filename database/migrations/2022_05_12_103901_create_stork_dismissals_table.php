@@ -28,6 +28,8 @@ class CreateStorkDismissalsTable extends Migration
             $table->integer('weight',)->nullable();
             $table->boolean('is_referred',)->nullable();
             $table->foreignId('external_referral_id',)->nullable();
+            $table->integer("user_id")->nullable();
+
         });
     }
 

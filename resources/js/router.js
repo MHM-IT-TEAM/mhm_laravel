@@ -59,11 +59,21 @@ import obstetrics_overview from "./views/medical/overview/obstetrics_overview";
     import stork_mobilisation from "./views/medical/in_patient/stork_center/stork_mobilisation";
     import stork_body_care from "./views/medical/in_patient/stork_center/stork_body_care";
     import stork_medical_care from "./views/medical/in_patient/stork_center/stork_medical_care";
+    import stork_weekly_measurments from "./views/medical/in_patient/stork_center/stork_weekly_measurments";
+    import stork_internal_lab_list from "./views/medical/in_patient/stork_center/stork_internal_lab_list";
+    import stork_view_internal_lab_result from "./views/medical/in_patient/stork_center/stork_view_internal_lab_result";
+    import stork_supply_list from "./views/medical/in_patient/stork_center/stork_supply_list";
 
 //Delivery
-    import delivery_registration from "./views/medical/in_patient/deliveries/delivery_registration";
-    import birth_certificate from "./views/medical/in_patient/deliveries/birth_certificate";
-    import delivery_book from "./views/medical/in_patient/deliveries/delivery_book";
+    import delivery_layout from "./views/medical/delivery/layouts/delivery_layout";
+    import delivery_registration from "./views/medical/delivery/delivery_registration";
+    import birth_certificate from "./views/medical/delivery/birth_certificate";
+    import delivery_book from "./views/medical/delivery/delivery_book";
+    import delivery_decision_request from "./views/medical/delivery/delivery_decision_request";
+    import delivery_pregnancy_card_search from "./views/medical/delivery/delivery_pregnancy_card_search";
+    import delivery_patient_list_of_cpn from "./views/medical/delivery/delivery_patient_list_of_cpn";
+    import delivery_order from "./views/medical/delivery/delivery_order";
+    import delivery_supply_list from "./views/medical/delivery/delivery_supply_list";
 // Surgery
     import surgery_layout from "./views/medical/surgery/surgery_layout";
     import pre_surgery_list from "./views/medical/surgery/pre_surgery_list";
@@ -116,6 +126,7 @@ import cart_form from "./views/inventory_management/cart/cart_form";
 import in_list from "./views/inventory_management/IN/in_list";
 import in_form from "./views/inventory_management/IN/in_form";
 import inventory_book from "./views/inventory_management/inventory/inventory_book";
+import item_authorization from "./views/inventory_management/item/item_authorization";
 import labwork_list from "./views/medical/nurse_station/labwork_list";
 import internal_lab from "./views/medical/labwork/internal/internal_lab";
 import nurse_view_internal_lab_result from "./views/medical/nurse_station/nurse_view_internal_lab_result";
@@ -312,6 +323,11 @@ const routes = [
                 name:'low_stock',
                 component:low_stock,
             },
+            {
+                path:'item/authorization',
+                name:'item_authorization',
+                component:item_authorization,
+            },
             //out
             {
                 path:'out/create',
@@ -484,8 +500,8 @@ const routes = [
                 component: stork_admission
             },
             {
-                path:'incoming_patient',
-                name:'stork_incoming_patient',
+                path:'request',
+                name:'stork_request',
                 component: stork_incoming_patient
             },
             {
@@ -591,6 +607,27 @@ const routes = [
                 name:'stork_internal_lab',
                 component: stork_internal_labwork
             },
+            {
+                path:'weekly_measurments',
+                name:'stork_weekly_measurments',
+                component: stork_weekly_measurments
+            },
+            {
+                path:'internal_lab_list',
+                name:'stork_internal_lab_list',
+                component:stork_internal_lab_list
+            },
+            {
+                path:'internal_lab_result',
+                name:'stork_view_internal_lab_result',
+                component:stork_view_internal_lab_result
+            },
+            {
+                path:'supply_list',
+                name:'stork_supply_list',
+                component:stork_supply_list
+            }
+
 
 
 
@@ -655,7 +692,7 @@ const routes = [
     {
         path:'/delivery',
         name:'delivery_layout',
-        component:stork_layout,
+        component:delivery_layout,
         children:[
             {
                 path:'registration',
@@ -673,21 +710,37 @@ const routes = [
                 component:pregnancy_card
             },
             {
-                path:'pregnancy_card_search',
-                name:'stork_pregnancy_card_search',
-                component:stork_pregnancy_card_search
-            },
-            {
                 path:'cpn_list',
-                name:'stork_patient_list_of_cpn',
-                component:stork_patient_list_of_cpn
+                name:'delivery_patient_list_of_cpn',
+                 component:delivery_patient_list_of_cpn
             },
             {
                 path:'delivery_book',
                 name:'delivery_book',
                 component:delivery_book
+            },
+            {
+                path:'decision_request',
+                name:'delivery_decision_request',
+                component:delivery_decision_request
+            },
+            {
+                path:'delivery_pregnancy_card',
+                name:'delivery_pregnancy_card_search',
+                component:delivery_pregnancy_card_search
+            },
+            {
+                path:'supplies',
+                name:'delivery_supply_order',
+                component:delivery_order
+            },
+            {
+                path:'supply_list',
+                name:'delivery_supply_list',
+                component:delivery_supply_list
             }
-        ]
+
+        ],
     },
 
     /**

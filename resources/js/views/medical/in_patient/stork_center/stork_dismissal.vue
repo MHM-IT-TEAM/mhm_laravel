@@ -9,12 +9,14 @@
                     <th>Time of Entry</th>
                     <th>Level of Care</th>
                     <th>Mobilisation Status</th>
+                    <th>Diagnostic of entry</th>
                 </tr>
                 <tr>
                     <td>{{moment(stork_admission.admission_date).format("MMM Do YY")}}</td>
                     <td>{{stork_admission.admission_time}}</td>
                     <td>{{stork_admission.level_of_care}}</td>
                     <td>{{stork_admission.mobilisation_status}}</td>
+                    <td>{{stork_admission.admission_diagnosis}}</td>
                 </tr>
             </table>
             <h5>Form</h5>
@@ -161,6 +163,8 @@ export default {
             this.$v.$touch();
             if (this.$v.$invalid)return
             this.formData.stork_admission_id= this.stork_admission.id
+            this.formData.bed_id =this.stork_admission.bed_id
+            this.formData.user_id=window.auth.user.id
             axios.post('/api/v1/patient_system/in_patient/stork/dismissal',this.formData).then(response=>{
                 if(response.data.success){
                     this.$router.push('patient_list')

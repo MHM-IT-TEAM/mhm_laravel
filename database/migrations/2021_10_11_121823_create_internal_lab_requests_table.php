@@ -21,11 +21,13 @@ class CreateInternalLabRequestsTable extends Migration
             $table->integer('status')->nullable();
             $table->smallInteger('blood_covid')->nullable();
             $table->smallInteger('blood_hiv')->nullable();
+            $table->smallInteger('blood_crp')->nullable();
             $table->smallInteger('blood_malaria')->nullable();
             $table->smallInteger('blood_syphilis')->nullable();
             $table->smallInteger('blood_bg')->nullable();
             $table->smallInteger('blood_bilirubin')->nullable();
             $table->smallInteger('blood_crp')->nullable();
+            $table->smallInteger('blood_epoc')->nullable();
             $table->smallInteger('blood_glycemia')->nullable();
             $table->smallInteger('blood_hb')->nullable();
             $table->smallInteger('blood_ogtt')->nullable();
@@ -43,6 +45,7 @@ class CreateInternalLabRequestsTable extends Migration
             $table->smallInteger('urine_big_bilirubin')->nullable();
             $table->smallInteger('urine_big_glucose')->nullable();
             $table->text('remark')->nullable();
+            $table->string('user',50)->nullable();
         });
     }
 

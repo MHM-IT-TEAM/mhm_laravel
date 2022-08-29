@@ -18,6 +18,7 @@ class LabWorkStepSeeder extends Seeder
             ['code'=>'RO','description'=>'request opened'],
             ['code'=>'P','description'=>'processing'],
             ['code'=>'RA','description'=>'result avalaible'],
+            ['code'=>'W','description'=>'Waiting'],
         ]);
     }
 }

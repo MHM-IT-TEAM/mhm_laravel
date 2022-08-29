@@ -9,6 +9,10 @@ class InternalLabResult extends Model
 {
     use HasFactory;
     protected $guarded=[];
+    protected $casts = [
+        'created_at' => 'datetime:d-M-Y',
+    ];
+
     public function internalLabRequest(){
         return $this->belongsTo(InternalLabRequest::class);
     }

@@ -40,6 +40,7 @@ class StorkDismissalController extends Controller
         return StorkDismissalService::store($request);
     }
 
+
     /**
      * Display the specified resource.
      *

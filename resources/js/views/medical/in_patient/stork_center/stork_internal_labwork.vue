@@ -36,9 +36,9 @@ export default {
     },
     methods:{
         async init(){
+            this.admission=this.$route.params.stork_admission.admission
             axios.get(`/api/v1/patient_system/admission/admission/${this.$route.params.stork_admission.admission_id}`).then(response=>{
                 this.patient=response.data.patient
-                this.admission
             })
         }
     }

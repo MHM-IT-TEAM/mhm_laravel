@@ -26,6 +26,7 @@ class CreateExternalConsultationsTable extends Migration
             $table->integer('km_end')->nullable();
             $table->string('reason');
             $table->text('remark')->nullable();
+            $table->string('user',50)->nullable();
         });
     }
 

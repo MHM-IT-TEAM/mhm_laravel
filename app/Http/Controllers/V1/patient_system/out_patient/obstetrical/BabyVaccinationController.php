@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\V1\patient_system\out_patient\obstetrical;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admission;
 use App\Models\Consultation;
 use App\Models\VaccinActiveResearch;
 use App\Models\VaccinAppointment;
@@ -52,6 +53,9 @@ class BabyVaccinationController extends Controller
             $appoint->patient_id= $request->patient['id'];
             if($date['date']!==null) $appoint->fill($date)->save();
         }
+        $admission= Admission::find($request->admission_id);
+        $admission->status='DONE';
+        $admission->save();
         return ['success'=>true];
     }
     private function fill_data($data){

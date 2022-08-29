@@ -13,7 +13,7 @@
                         <input type="text" class="form-control" placeholder="Value/Remark" v-model="formData.value"/>
                     </td>
                     <td>
-                        <v-btn @click="submit" color="indigo" dark>Submit</v-btn>
+                        <v-btn @click="submit" color="indigo" dark :loading="form_is_submitting">Submit</v-btn>
                     </td>
                 </tr>
             </table>
@@ -70,7 +70,9 @@ export default {
                     text:'Value/remark',
                     value:'value'
                 },
-            ]
+                {text:'User',value:'user'}
+            ],
+            form_is_submitting:false
         }
     },
     methods:{
@@ -78,6 +80,7 @@ export default {
             axios.get('/api/v1/extra/stork_action_group').then(response=>this.raw_result=response.data)
         },
         load_data_in_system(){
+            this.data_in_system=[]
             axios.get(`/api/v1/patient_system/in_patient/stork/show_action/${this.stork_admission_id}/${this.action_type}`).then(response=>{
 
                response.data.forEach(data=>{
@@ -92,6 +95,8 @@ export default {
         submit(){
             if(this.formData.stork_action_group_id!==''){
                 this.formData.stork_admission_id= this.stork_admission_id
+                this.form_is_submitting=true
+                this.formData.user = window.auth.user.name
                 axios.post('/api/v1/patient_system/in_patient/stork/store_action',this.formData).then(response=>{
                     if(response.data.success){
                         this.formData={
@@ -101,6 +106,7 @@ export default {
                             remark:''
                         }
                         this.load_data_in_system()
+                        this.form_is_submitting=false
                     }
                 })
             }

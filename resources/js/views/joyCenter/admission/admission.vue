@@ -496,6 +496,9 @@ export default {
             adress.forEach((ad) => {
               if (this.accessory.fokontany.indexOf(ad) !== -1) {
                 check = true;
+                axios.get(`/api/v1/patient_system/patient/update_category/${this.formData.patient.id}/1`)
+              }else{
+                  axios.get(`/api/v1/patient_system/patient/update_category/${this.formData.patient.id}/0`)
               }
             });
             this.formData.patient.sector = check;

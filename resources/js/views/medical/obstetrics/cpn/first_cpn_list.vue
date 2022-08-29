@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid vh-100">
       <v-app>
-          <patient-list :headers="headers" @edit="editItem" :service_id="8" :service_activity_id="12" title="First CPN Checkup"></patient-list>
+          <patient-list :headers="headers" @edit="editItem" :service_activity_id="service_activities"  title="First CPN Checkup"></patient-list>
       </v-app>
   </div>
 </template>
@@ -19,7 +19,8 @@ export default {
         { text: "Last Name", value: "patient.lastName" },
         { text: "Status", value: "status" },
         { text: "Actions", value: "actions", sortable: false },
-      ]
+      ],
+        service_activities:[12]
     };
   },
   methods: {

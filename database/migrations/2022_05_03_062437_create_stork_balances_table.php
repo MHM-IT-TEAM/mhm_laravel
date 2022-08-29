@@ -22,6 +22,8 @@ class CreateStorkBalancesTable extends Migration
             $table->string('date_end')->nullable();
             $table->integer('number_of_hours')->nullable();
             $table->string('status',40);
+            $table->string("user")->nullable();
+
         });
     }
 

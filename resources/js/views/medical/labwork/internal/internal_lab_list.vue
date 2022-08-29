@@ -36,20 +36,20 @@
 <script>
 export default {
     name: "internal_lab_list",
-    props:['is_admin','service_id'],
+    props:['is_admin','service_id','headers'],
     data(){
         return{
             search:'',
             loading:false,
             list:[],
-            headers:[
-                { text: "Id", value: "admission.patient_id" },
-                { text: "First Name", value: "admission.patient.firstName" },
-                { text: "Last Name", value: "admission.patient.lastName" },
-                { text: "Orderer", value: "orderer" },
-                { text: "Status", value: "lab_work_step.description" },
-                { text: "Actions", value: "actions", sortable: false },
-            ]
+            // headers:[
+            //     { text: "Id", value: "admission.patient_id" },
+            //     { text: "First Name", value: "admission.patient.firstName" },
+            //     { text: "Last Name", value: "admission.patient.lastName" },
+            //     { text: "Orderer", value: "orderer" },
+            //     { text: "Status", value: "lab_work_step.description" },
+            //     { text: "Actions", value: "actions", sortable: false },
+            // ]
 
         }
     },

@@ -93,6 +93,8 @@ export default {
     methods:{
         init(){
             axios.get('/api/v1/patient_system/system/category').then(response=>this.accessory.categories=response.data)
+            this.formData.admission=this.admission
+            this.formData.patient=this.formData.admission.patient//new line inserted
 
         },
         async changeCategory(){
@@ -144,6 +146,7 @@ export default {
             this.formData.admission=this.admission
             axios.post('/api/v1/patient_system/internal_referral',this.formData).then(response=>{
                 this.accessory.data_submitted=!! response.data.success
+                this.$emit('form_submitted',this.formData)
             })
         }
     }

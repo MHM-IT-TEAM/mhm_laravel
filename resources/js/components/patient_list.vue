@@ -1,63 +1,61 @@
 <template>
-   <div>
-        <div class="container">
-            <v-app >
-                <v-card class="p-4">
-                    <v-row>
-                        <v-container>
-                            <h1 class="title">{{title}}</h1>
-                            Filter by date
-                            <date-picker
-                                v-model="today"
-                                mode="date"
-                                :model-config="dateConfig"
-                                :masks="dateConfig.masks"
-                                @input="fetch"
-                            >
-                                <template v-slot="{ inputValue, inputEvents }">
-                                    <input
-                                        class="bg-white border px-2 py-1 rounded"
-                                        :value="inputValue"
-                                        v-on="inputEvents"
-                                    />
-                                </template>
-                            </date-picker>
-                        </v-container>
-                    </v-row>
-                    <v-card-title>
-                        Patients
-                        <v-spacer></v-spacer>
-                        <v-text-field
-                            v-model="search"
-                            append-icon="mdi-magnify"
-                            label="Search"
-                            single-line
-                            hide-details
-                        ></v-text-field>
-                    </v-card-title>
-                    <v-card-text>
-                        <v-data-table :headers="headers" :items="items" :search="search" :loading="loading">
-                            <template v-slot:item.actions="{ item }">
-                                <v-icon small class="mr-2" @click="$emit('edit', item)" v-if="item.status==='RUNNING' ">
-                                    mdi-pencil
-                                </v-icon>
-                            </template>
-                            <template v-slot:item.status="{ item }">
-                                <v-chip :color="getColor(item.status)" dark x-small>
-                                    {{ item.status }}
-                                </v-chip>
-                            </template>
-                            <template v-slot:item.admission_type.code="{ item }">
-                                <v-chip :color="getTypeColor(item.admission_type.code)" dark x-small>
-                                    {{ item.admission_type.code }}
-                                </v-chip>
-                            </template>
-                        </v-data-table>
-                    </v-card-text>
-                </v-card>
-            </v-app>
-        </div>
-   </div>
+    <div class="container">
+      <v-app>
+          <v-card class="p-2">
+              <v-row>
+                  <v-container>
+                      <h1 class="title">{{title}}</h1>
+                      Filter by date
+                      <date-picker
+                          v-model="today"
+                          mode="date"
+                          :model-config="dateConfig"
+                          :masks="dateConfig.masks"
+                          @input="fetch"
+                      >
+                          <template v-slot="{ inputValue, inputEvents }">
+                              <input
+                                  class="bg-white border px-2 py-1 rounded"
+                                  :value="inputValue"
+                                  v-on="inputEvents"
+                              />
+                          </template>
+                      </date-picker>
+                  </v-container>
+              </v-row>
+              <v-card-title>
+                  Patients
+                  <v-spacer></v-spacer>
+                  <v-text-field
+                      v-model="search"
+                      append-icon="mdi-magnify"
+                      label="Search"
+                      single-line
+                      hide-details
+                  ></v-text-field>
+              </v-card-title>
+              <v-card-text>
+                  <v-data-table :headers="headers" :items="items" :search="search" :loading="loading">
+                      <template v-slot:item.actions="{ item }">
+                          <v-icon small class="mr-2" @click="$emit('edit', item)" v-if="item.status==='RUNNING' ">
+                              mdi-pencil
+                          </v-icon>
+                      </template>
+                      <template v-slot:item.status="{ item }">
+                          <v-chip :color="getColor(item.status)" dark x-small>
+                              {{ item.status }}
+                          </v-chip>
+                      </template>
+                      <template v-slot:item.admission_type.code="{ item }">
+                          <v-chip :color="getTypeColor(item.admission_type.code)" dark x-small>
+                              {{ item.admission_type.code }}
+                          </v-chip>
+                      </template>
+                  </v-data-table>
+              </v-card-text>
+          </v-card>
+      </v-app>
+    </div>
 </template>
 
 <script>

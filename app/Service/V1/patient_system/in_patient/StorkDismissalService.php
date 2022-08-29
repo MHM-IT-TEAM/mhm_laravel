@@ -4,6 +4,7 @@
 namespace App\Service\V1\patient_system\in_patient;
 
 
+use App\Models\Bed;
 use App\Models\StorkAdmission;
 use App\Models\StorkDismissal;
 use Illuminate\Database\Eloquent\Model;
@@ -19,6 +20,10 @@ class StorkDismissalService
             $admission= StorkAdmission::find($request->stork_admission_id);
             $admission->dismissed=true;
             $admission->save();
+            // the bed should be free again
+            $bed= Bed::find($request->bed_id);
+            $bed->occupied= 0;
+            $bed->save();
         });
         return response()->json(['success'=>true]);
     }
@@ -35,6 +40,7 @@ class StorkDismissalService
           'weight'=>$data->weight,
           'temp'=>$data->temp,
           'spo2'=>$data->spo2,
+            'user_id'=>$data->user_id
         ];
     }
 }

@@ -25,11 +25,14 @@ class CreateBirthMedicalDataBabiesTable extends Migration
             $table->string('chest',15)->nullable();
             $table->string('arm',15)->nullable();
             $table->string('length',15)->nullable();
-            $table->string('apgar',15)->nullable();
+            $table->string('apgar_1',15)->nullable();
+            $table->string('apgar_2',15)->nullable();
+            $table->string('apgar_3',15)->nullable();
             $table->string('vit_k',15)->nullable();
             $table->string('E1',15)->nullable();
             $table->string('spo2',15)->nullable();
-            $table->string('malformation',200)->nullable();
+            $table->string('malformation',20)->nullable();
+            $table->string('malformation_explanation',200)->nullable();
             $table->string('position',200)->nullable();
             $table->string('infection',200)->nullable();
             $table->string('correlation',10)->nullable();
@@ -40,6 +43,8 @@ class CreateBirthMedicalDataBabiesTable extends Migration
             $table->string('risk_of_cerebral_palsy',10)->nullable();
             $table->string('alive',10)->nullable();
             $table->text('death_explanation')->nullable();
+            $table->text('complication_before_birth')->nullable();
+            $table->text('complication_after_birth')->nullable();
         });
     }
 

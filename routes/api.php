@@ -27,6 +27,7 @@ Route::prefix('/v1')->group(function(){
             Route::get('/category',function(){
                 return \App\Models\PatientCategory::all();
             });
+            Route::get('update_category/{patient_id}/{category_id}',[\App\Http\Controllers\v1\patient_system\patient\PatientController::class,'update_category']);
             //patient quick search
             Route::get('/search',[\App\Http\Controllers\v1\patient_system\patient\PatientController::class,'search']);
             Route::get('/with_due_sum/{id}',[\App\Http\Controllers\v1\patient_system\patient\PatientController::class,'with_due_sum']);
@@ -161,6 +162,10 @@ Route::prefix('/v1')->group(function(){
                 route::get('pregnancy_checkup/stork_admission_id/{stork_admission_id}',[\App\Http\Controllers\V1\patient_system\in_patient\stork_center\StorkPregnancyCheckupController::class,'where_stork_admission_id']);
                 route::resource('dismissal',\App\Http\Controllers\V1\patient_system\in_patient\stork_center\StorkDismissalController::class);
                 route::get('in_patient_book',[\App\Http\Controllers\V1\patient_system\in_patient\stork_center\StorkAdmissionController::class,'in_patient_book']);
+                route::get('weekly_measurments/show_list/{stork_admission_id}',[\App\Http\Controllers\V1\patient_system\in_patient\stork_center\StorkWeeklyMeasurmentController::class,'show_list']);
+                route::resource('weekly_measurments',\App\Http\Controllers\V1\patient_system\in_patient\stork_center\StorkWeeklyMeasurmentController::class);
+                route::post('change_bed',[\App\Http\Controllers\V1\patient_system\in_patient\stork_center\StorkAdmissionController::class,'change_bed']);
+                route::post('update_admission_by_ir',[\App\Http\Controllers\V1\patient_system\in_patient\stork_center\StorkAdmissionController::class,'update_admission_by_ir']);
 //                route::get('/fetch_patient_data/{patient_id}',[\App\Http\Controllers\V1\patient_system\maternity\MaternityAdmissionController::class,'fetch_patient_data']);
 //                route::get('/last_code',[\App\Http\Controllers\V1\patient_system\maternity\MaternityAdmissionController::class,'last_code']);
 //                route::get('/last_birth_code',[\App\Http\Controllers\V1\patient_system\maternity\BirthRegistrationController::class,'last_birth_code']);
@@ -236,11 +241,13 @@ Route::prefix('/v1')->group(function(){
         Route::middleware('auth:api')->get('/user', function (Request $request) {
             return $request->user();
         });
+        Route::get('/out/show_by_service_id/{service_id}',[\App\Http\Controllers\V1\inventory_system\out\OutController::class,'show_by_service_id']);
         //low_stock
         Route::get('low_stock',[\App\Http\Controllers\V1\inventory_system\low_stock\LowStockController::class,'list']);
         //inventory_service
         //Route::get('/item/count_low_stock',[\App\Http\Controllers\V1\inventory_system\item\ItemController::class,'count_low_stock']);
         //item
+        Route::post('/item/update_auth',[\App\Http\Controllers\V1\inventory_system\item\ItemController::class,'update_auth']);
         Route::post('/item/inventory/update',[\App\Http\Controllers\V1\inventory_system\item\ItemController::class,'update_inventory']);
         Route::get('/item/count_per_type',[\App\Http\Controllers\V1\inventory_system\item\ItemController::class,'count_per_type']);
         Route::get('item/code',[\App\Http\Controllers\V1\inventory_system\item\ItemController::class,'getCode']);
@@ -346,6 +353,10 @@ Route::prefix('/v1')->group(function(){
         //stork actions
         Route::get('stork_action_group',function(){
             return \App\Models\StorkActionGroup::all();
+        });
+        //Bed
+        Route::get('bed/{occupied}',function($occupied){
+            return \App\Models\Bed::where('occupied',$occupied)->get();
         });
 
     });

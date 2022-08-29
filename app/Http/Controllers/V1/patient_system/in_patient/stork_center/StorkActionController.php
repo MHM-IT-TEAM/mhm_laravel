@@ -12,13 +12,14 @@ class StorkActionController extends Controller
         StorkAction::create([
             'stork_admission_id'=>$request->stork_admission_id,
             'stork_action_group_id'=>$request->stork_action_group_id,
-            'value'=>$request->value
+            'value'=>$request->value,
+            'user'=>$request->user,
         ]);
         return response()->success();
     }
     public function show($stork_admission_id,$action_type){
       return StorkAction::where('stork_admission_id',$stork_admission_id)->with(['storkActionGroup'=>function($query) use($action_type){
           return $query->where('type',$action_type)->get();
-      }])->get();
+      }])->orderBy('created_at','desc')->get();
     }
 }

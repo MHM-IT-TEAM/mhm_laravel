@@ -1,6 +1,6 @@
 <template>
    <div class="container">
-       <internal_referral :admission="admission"/>
+       <internal_referral :admission="admission" @form_submitted="update_stork_admission"/>
    </div>
 </template>
 
@@ -16,11 +16,13 @@ export default {
         }
     },
     created(){
-        this.get_admission()
+       this.admission=this.$route.params.admission
+        this.admission.patient=this.$route.params.stork_admission.patient
     },
     methods:{
-        get_admission(){
-            axios.get(`/api/v1/patient_system/admission/admission/${this.$route.params.admission_id}`).then(response=>this.admission=response.data)
+        update_stork_admission(admission){
+            axios.post(`/api/v1/patient_system/in_patient/stork/update_admission_by_ir`,admission)
+            this.$router.push({name:'stork_patient_list'})
         }
     }
 }

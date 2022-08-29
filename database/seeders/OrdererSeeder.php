@@ -16,7 +16,7 @@ class OrdererSeeder extends Seeder
     {
         Orderer::insert([
             ['name'=>'graceCenter'],
-            ['name'=>'storkCenter'],
+            ['name'=>'stork'],
             ['name'=>'bloc'],
             ['name'=>'midPink'],
             ['name'=>'pediatric'],

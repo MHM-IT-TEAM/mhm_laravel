@@ -33,6 +33,7 @@ class CreateBirthMedicalDataMomsTable extends Migration
             $table->string('position',50)->nullable();
             $table->text('remarks')->nullable();
             $table->string('sterilisation_package',100)->nullable();
+
         });
     }
 

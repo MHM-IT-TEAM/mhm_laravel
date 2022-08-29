@@ -1,142 +1,144 @@
 <template>
-    <div class="container-fluid">
-        <h6 class="text-center mt-2 form-title" v-if="accessory.form_type==='result'">Internal lab-work</h6>
-        <h6 class="text-center mt-2 title" v-if="accessory.form_type !=='result'">C.1 Internal lab-work</h6>
-        <patient_information :patient_id="accessory.admission.patient_id" v-if="accessory.form_type==='result'"></patient_information>
-        <hr>
-        <p class="title pl-2" v-if="accessory.form_type==='result'"> <v-icon class="text-white" >mdi-stethoscope</v-icon> &nbsp B) Today's actions</p>
-        <div class="form-group row">
-           <div class="col-2">
-               <label>Date</label>
-               <date-picker v-model="formData.date"
-                            name="idDate"
-                            id="idDate"
-                            :input-debounce="500" mode="date"
-                            :model-config="accessory.dateConfig" :masks="accessory.dateConfig.masks"
-               >
-                   <template v-slot="{ inputValue, inputEvents }">
-                       <input
-                           class="bg-white form-control form-control-sm px-2 py-1 rounded"
-                           :value="inputValue"
-                           v-on="inputEvents"
-                           :disabled="accessory.form_read_only"
-                       />
-                   </template>
-               </date-picker>
-           </div>
-        </div>
-        <div class="row">
-            <div class="col-6 border">
-                <h6 class="text-center subtitle">BLOOD</h6>
-                <div class="row">
-                    <div class="col-6">
-                        <table class="table table-sm">
-                            <thead>
-                                <tr>
-                                    <th colspan="2">Test</th>
-                                    <th v-if="accessory.form_type==='result'">Result</th>
-                                </tr>
-                            </thead>
-                            <tr v-for="test in formData.blood_test.pos_neg">
-                                <td>
-                                    {{test.label}}
-                                </td>
-                                <td>
-                                    <input type="checkbox" class="form-check-input" v-model="test.checked" :disabled="accessory.form_submitted || accessory.form_type==='result'"/>
+    <div class="container">
+      <v-app>
+          <h6 class="text-center mt-2 form-title" v-if="accessory.form_type==='result'">Internal lab-work</h6>
+          <h6 class="text-center mt-2 title" v-if="accessory.form_type !=='result'">C.1 Internal lab-work</h6>
+          <patient_information :patient_id="accessory.admission.patient_id" v-if="accessory.form_type==='result'"></patient_information>
+          <hr>
+          <p class="title pl-2" v-if="accessory.form_type==='result'"> <v-icon class="text-white" >mdi-stethoscope</v-icon> &nbsp B) Today's actions</p>
+          <div class="row form-group">
+              <div class="col-2">
+                  <label>Date</label>
+                  <date-picker v-model="formData.date"
+                               name="idDate"
+                               id="idDate"
+                               :input-debounce="500" mode="date"
+                               :model-config="accessory.dateConfig" :masks="accessory.dateConfig.masks"
+                  >
+                      <template v-slot="{ inputValue, inputEvents }">
+                          <input
+                              class="bg-white form-control form-control-sm px-2 py-1 rounded"
+                              :value="inputValue"
+                              v-on="inputEvents"
+                              :disabled="accessory.form_read_only"
+                          />
+                      </template>
+                  </date-picker>
+              </div>
+          </div>
+          <div class="row bg-white">
+              <div class="col-6 border">
+                  <h6 class="text-center subtitle">BLOOD</h6>
+                  <div class="row">
+                      <div class="col-6">
+                          <table class="table table-sm">
+                              <thead>
+                              <tr>
+                                  <th colspan="2">Test</th>
+                                  <th v-if="accessory.form_type==='result'">Result</th>
+                              </tr>
+                              </thead>
+                              <tr v-for="test in formData.blood_test.pos_neg">
+                                  <td>
+                                      {{test.label}}
+                                  </td>
+                                  <td>
+                                      <input type="checkbox" class="form-check-input" v-model="test.checked" :disabled="accessory.form_submitted || accessory.form_type==='result'"/>
 
-                                </td>
-                                <td v-if="test.checked && accessory.form_type==='result'">
-                                    <select class="form-control form-control-sm" v-model="test.result" :disabled="!test.checked || accessory.form_read_only">
-                                        <option value=""></option>
-                                        <option v-for="item in formData.pos_neg">{{item}}</option>
-                                    </select>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div class="col-6">
-                       <div class="table-responsive">
-                           <table class="table table-sm">
-                               <thead>
-                               <tr>
-                                   <th colspan="2">Test</th>
-                                   <th v-if="accessory.form_type==='result'">Result</th>
-                               </tr>
-                               </thead>
-                               <tr v-for="test in formData.blood_test.result">
-                                   <td>
-                                       {{test.label}}
-                                   </td>
-                                   <td>
-                                       <input type="checkbox" class="form-check-input" v-model="test.checked" :disabled="accessory.form_submitted || accessory.form_type==='result'"/>
+                                  </td>
+                                  <td v-if="test.checked && accessory.form_type==='result'">
+                                      <select class="form-control form-control-sm" v-model="test.result" :disabled="!test.checked || accessory.form_read_only">
+                                          <option value=""></option>
+                                          <option v-for="item in formData.pos_neg">{{item}}</option>
+                                      </select>
+                                  </td>
+                              </tr>
+                          </table>
+                      </div>
+                      <div class="col-6">
+                          <div class="table-responsive">
+                              <table class="table table-sm">
+                                  <thead>
+                                  <tr>
+                                      <th colspan="2">Test</th>
+                                      <th v-if="accessory.form_type==='result'">Result</th>
+                                  </tr>
+                                  </thead>
+                                  <tr v-for="test in formData.blood_test.result">
+                                      <td>
+                                          {{test.label}}
+                                      </td>
+                                      <td>
+                                          <input type="checkbox" class="form-check-input" v-model="test.checked" :disabled="accessory.form_submitted || accessory.form_type==='result'"/>
 
-                                   </td>
-                                   <td v-if="test.checked && accessory.form_type==='result'">
-                                       <select class="form-control form-control-sm result" v-model="test.result" v-if="test.items!==null" :disabled="!test.checked || accessory.form_read_only">
-                                           <option value=""></option>
-                                           <option v-for="i in test.items">{{i}}</option>
-                                       </select>
-                                       <input class="form-control form-control-sm result" type="text" v-model="test.result" v-if="test.items===null" :disabled="!test.checked || accessory.form_read_only"/>
-                                   </td>
-                               </tr>
-                           </table>
-                       </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-6 border">
-                <h6 class="text-center subtitle">URINE</h6>
-                <div class="row">
-                    <div class="col-4" v-for="test in formData.urine_test">
-                        <div class="text-center font-weight-bold">
-                            {{test.category}} &nbsp
-                            <input type="checkbox" v-model="test.checked" @click="check_all(test)"/>
-                        </div>
-                        <div class="table-responsive">
-                            <table class="table table-sm">
-                                <tr>
-                                    <th colspan="2">Test</th>
-                                    <th v-if="accessory.form_type==='result'">Result</th>
-                                </tr>
-                                <tr v-for="child in test.children">
-                                    <td>
-                                        {{child.label}}
-                                    </td>
-                                    <td>
-                                        <input type="checkbox" class="form-check-input" v-model="child.checked" :disabled="accessory.form_submitted || accessory.form_type==='result'"/>
-                                    </td>
-                                    <td v-if="child.checked && accessory.form_type==='result'">
-                                        <select class="form-control form-control-sm result" v-model="child.result" :disabled="!child.checked || accessory.form_read_only" v-if="child.items!==null">
-                                            <option value=""></option>
-                                            <option v-for="i in child.items">{{i}}</option>
-                                        </select>
-                                        <input class="form-control form-control-sm result" type="text" v-model="child.result" v-if="child.items===null" :disabled="!child.checked || accessory.form_read_only"/>
+                                      </td>
+                                      <td v-if="test.checked && accessory.form_type==='result'">
+                                          <select class="form-control form-control-sm result" v-model="test.result" v-if="test.items!==null" :disabled="!test.checked || accessory.form_read_only">
+                                              <option value=""></option>
+                                              <option v-for="i in test.items">{{i}}</option>
+                                          </select>
+                                          <input class="form-control form-control-sm result" type="text" v-model="test.result" v-if="test.items===null" :disabled="!test.checked || accessory.form_read_only"/>
+                                      </td>
+                                  </tr>
+                              </table>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-6 border">
+                  <h6 class="text-center subtitle">URINE</h6>
+                  <div class="row">
+                      <div class="col-4" v-for="test in formData.urine_test">
+                          <div class="text-center font-weight-bold">
+                              {{test.category}} &nbsp
+                              <input type="checkbox" v-model="test.checked" @click="check_all(test)"/>
+                          </div>
+                          <div class="table-responsive">
+                              <table class="table table-sm">
+                                  <tr>
+                                      <th colspan="2">Test</th>
+                                      <th v-if="accessory.form_type==='result'">Result</th>
+                                  </tr>
+                                  <tr v-for="child in test.children">
+                                      <td>
+                                          {{child.label}}
+                                      </td>
+                                      <td>
+                                          <input type="checkbox" class="form-check-input" v-model="child.checked" :disabled="accessory.form_submitted || accessory.form_type==='result'"/>
+                                      </td>
+                                      <td v-if="child.checked && accessory.form_type==='result'">
+                                          <select class="form-control form-control-sm result" v-model="child.result" :disabled="!child.checked || accessory.form_read_only" v-if="child.items!==null">
+                                              <option value=""></option>
+                                              <option v-for="i in child.items">{{i}}</option>
+                                          </select>
+                                          <input class="form-control form-control-sm result" type="text" v-model="child.result" v-if="child.items===null" :disabled="!child.checked || accessory.form_read_only"/>
 
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12 form-group">
-                <label>Remark</label>
-                <textarea class="form-control form-control-sm" v-model="formData.remark" :disabled="accessory.form_submitted || accessory.form_read_only"></textarea>
-            </div>
-        </div>
-        <div class="text-right">
-            <v-btn
-                @click="submit"
-                color="warning"
-                x-small
-                :disabled="accessory.form_submitted || accessory.form_read_only"
-            >
-                <span v-if="!accessory.form_submitted">Submit</span>
-                <span v-if="accessory.form_submitted">Submitted</span>
-            </v-btn>
-        </div>
+                                      </td>
+                                  </tr>
+                              </table>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-12 form-group">
+                  <label>Remark</label>
+                  <textarea class="form-control form-control-sm" v-model="formData.remark" :disabled="accessory.form_submitted || accessory.form_read_only"></textarea>
+              </div>
+          </div>
+          <div class="text-right">
+              <v-btn
+                  @click="submit"
+                  color="warning"
+                  x-small
+                  :disabled="accessory.form_submitted || accessory.form_read_only"
+              >
+                  <span v-if="!accessory.form_submitted">Submit</span>
+                  <span v-if="accessory.form_submitted">Submitted</span>
+              </v-btn>
+          </div>
+      </v-app>
 
     </div>
 </template>
@@ -154,18 +156,20 @@ export default {
                 pos_neg:['pos','neg'],
                 blood_test:{
                     pos_neg:[
-                        {db_name:'blood_covid',label:'COVID',checked:false,result:''},
-                        {db_name:'blood_hiv',label:'HIV',checked:false,result:''},
                         {db_name:'blood_malaria',label:'Malaria',checked:false,result:''},
+                        {db_name:'blood_covid',label:'COVID',checked:false,result:''},
+                        {db_name:'blood_crp',label:'CRP',checked:false,result:''},
+                        {db_name:'blood_hiv',label:'HIV',checked:false,result:''},
                         {db_name:'blood_syphilis',label:'Syphilis',checked:false,result:''},
                     ],
                     result:[
                         {db_name:'blood_bg',label:'BG',checked:false,result:'',items:['A','B','O','AB','pos','neg']},
-                        {db_name:'blood_bilirubin',label:'Bilirubin',checked:false,result:'',items:null},
-                        {db_name:'blood_crp',label:'CRP',checked:false,result:'',items:['neg','[10-40]','[40-80]','>80']},
-                        {db_name:'blood_glycemia',label:'Glycemia',checked:false,result:'',items:null},
                         {db_name:'blood_hb',label:'HB',checked:false,result:'',items:null},
+                        {db_name:'blood_bilirubin',label:'Bilirubin',checked:false,result:'',items:null},
+                        {db_name:'blood_glycemia',label:'Glycemia',checked:false,result:'',items:null},
                         {db_name:'blood_ogtt',label:'OGTT',checked:false,result:'',items:['neg','suspicious','pos']},
+                        {db_name:'blood_crp',label:'CRP',checked:false,result:'',items:['neg','[10-40]','[40-80]','>80']},
+                        {db_name:'blood_epoc',label:'epc',checked:false,result:'',items:['neg','[10-40]','[40-80]','>80']},
                     ]
                 },
                 urine_test:[
@@ -260,6 +264,7 @@ export default {
         async submit(){
             if(this.accessory.form_type!=='result'){
                 this.formData.admission_id= this.admission.id
+                this.formData.user_id=window.auth.user.id
                 axios.post("/api/v1/patient_system/internal_lab/resource",this.formData).then(response=>{
                     this.accessory.form_submitted=true
                 })

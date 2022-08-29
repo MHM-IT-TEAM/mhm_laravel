@@ -91,6 +91,7 @@ export default {
                 return true;
             }
             this.formData.admission_id=this.admission.id
+            this.formData.user = window.auth.user.name
             axios.post('/api/v1/patient_system/internal_consultation',this.formData).then(response=>{
                 this.accessory.data_submitted= !!response.data.success
             })

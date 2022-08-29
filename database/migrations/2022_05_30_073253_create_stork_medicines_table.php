@@ -18,7 +18,10 @@ class CreateStorkMedicinesTable extends Migration
             $table->timestamps();
             $table->foreignId('stork_admission_id');
             $table->foreignId('item_id');
+            $table->string('time',50)->nullable();
             $table->string('qty');
+            $table->string("user")->nullable();
+
         });
     }
 

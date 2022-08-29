@@ -11,6 +11,7 @@
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item "><router-link :to="{name:'inventory_dashboard'}" class="nav-link" >Dashboard</router-link></li>
                         <li class="nav-item "><router-link :to="{name:'item_index'}" class="nav-link" >Items</router-link></li>
+                        <li class="nav-item "><router-link :to="{name:'item_authorization'}" class="nav-link" >Authorization</router-link></li>
                         <li class="nav-item "><router-link :to="{name:'in_list'}" class="nav-link" >In</router-link></li>
                         <li class="nav-item "><router-link :to="{name:'out_list'}" class="nav-link" >Out</router-link></li>
                         <li class="nav-item "><router-link :to="{name:'cart_list'}" class="nav-link" >Shopping List</router-link></li>

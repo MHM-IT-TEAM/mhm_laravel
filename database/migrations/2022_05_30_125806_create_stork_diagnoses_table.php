@@ -19,6 +19,9 @@ class CreateStorkDiagnosesTable extends Migration
             $table->foreignId('stork_admission_id');
             $table->text('diagnose');
             $table->string('type',20);
+            $table->string('time',20);
+            $table->string("user")->nullable();
+
         });
     }
 

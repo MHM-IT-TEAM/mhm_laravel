@@ -22,6 +22,7 @@ class CreateInternalLabResultsTable extends Migration
             $table->string('blood_malaria')->nullable();
             $table->string('blood_syphilis')->nullable();
             $table->string('blood_bg')->nullable();
+            $table->string('blood_epoc')->nullable();
             $table->string('blood_bilirubin')->nullable();
             $table->string('blood_crp')->nullable();
             $table->string('blood_glycemia')->nullable();

@@ -110,7 +110,7 @@ const {
 } = require("vuelidate/lib/validators");
 export default {
     name: "item_order",
-    props:['orderer_id'],
+    props:['orderer_id','is_overview','data_src'],
     mixins: [validationMixin],
     data(){
         return{

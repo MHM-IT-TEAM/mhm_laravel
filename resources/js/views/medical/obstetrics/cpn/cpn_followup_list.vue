@@ -2,7 +2,7 @@
   <div class="container-fluid vh-100">
       <v-app>
           <Loading :active.sync="isLoading"></Loading>
-          <patient-list :headers="headers" @edit="editItem" :service_id="8" :service_activity_id="13" title="cpn followup"></patient-list>
+          <patient-list :headers="headers" @edit="editItem"  :service_activity_id="service_activities" title="cpn followup"></patient-list>
           <v-dialog
               content-class="h-100"
               v-model="is_existing_cpn_admission_dialog_open"
@@ -73,7 +73,8 @@ export default {
           { text: "Actions", value: "actions", sortable: false },
       ],
       existing_cpn_admissions: [],
-      existing_cpn_admission_patient: null
+      existing_cpn_admission_patient: null,
+        service_activities:[13]
     };
   },
   methods: {

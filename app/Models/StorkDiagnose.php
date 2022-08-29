@@ -9,4 +9,7 @@ class StorkDiagnose extends Model
 {
     use HasFactory;
     protected $guarded=[];
+    public function storkAdmission(){
+        return $this->belongsTo(StorkAdmission::class);
+}
 }

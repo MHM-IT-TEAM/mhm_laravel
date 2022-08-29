@@ -29,5 +29,12 @@ class StorkAdmission extends Model
     public function service(){
         return $this->belongsTo(Service::class);
     }
+    public function admission(){
+        return $this->belongsTo(Admission::class);
+
+    }
+    public function stork_diagnoses(){
+        return $this->hasMany(StorkDiagnose::class);
+    }
 
 }

@@ -22,6 +22,8 @@ class CreateStorkBalanceOutsTable extends Migration
             $table->string('value');
             $table->boolean('p')->nullable();
             $table->boolean('k')->nullable();
+            $table->string("user")->nullable();
+
         });
     }
 

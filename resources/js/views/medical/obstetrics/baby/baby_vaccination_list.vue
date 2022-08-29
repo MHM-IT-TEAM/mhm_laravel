@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <patient-list :headers="headers" @edit="editItem" :service_id="9" :service_activity_id="17" title="Pediatric vaccination"></patient-list>
+        <patient-list :headers="headers" @edit="editItem" :service_activity_id="service_activities" title="Pediatric vaccination"></patient-list>
     </div>
 </template>
 
@@ -20,7 +20,8 @@ export default {
                 { text: "Last Name", value: "patient.lastName" },
                 { text: "Status", value: "status" },
                 { text: "Actions", value: "actions", sortable: false },
-            ]
+            ],
+            service_activities:[17]
         }
     },
     methods:{

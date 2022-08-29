@@ -24,7 +24,9 @@ class InternalReferralService
             'pulse'=>$request->admission['pulse'],
             'spo2'=>$request->admission['spo2'],
             'status'=>'RUNNING',
+            'payment_status'=>'PAID',//to bypass the cash system
             'admission_type_id'=>2,
+            'remark'=>$request->remark
         ]);
         //insert to internalReferral table
         InternalReferral::create([
@@ -33,6 +35,10 @@ class InternalReferralService
             'user_id'=>$request->user['id'],
             'reason_for_transfer'=>$request->reason_for_transfer
         ]);
+        //set the sending admission as Done
+        $admission=Admission::find($request->admission['id']);
+        $admission->status='DONE';
+        $admission->save();
         return response()->json(['success'=>true,'data'=>$adm]);
     }
 }

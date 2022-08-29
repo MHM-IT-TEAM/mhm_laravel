@@ -23,6 +23,8 @@ class CreateStorkPregnancyCheckupsTable extends Migration
             $table->integer('hu')->nullable();
             $table->integer('weight')->nullable();
             $table->text('remark')->nullable();
+            $table->string("user")->nullable();
+
         });
     }
 

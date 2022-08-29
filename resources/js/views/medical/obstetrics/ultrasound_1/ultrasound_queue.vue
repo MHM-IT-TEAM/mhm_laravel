@@ -1,6 +1,6 @@
 <template>
     <div class="container-fluid vh-100">
-        <patient_list :service_id="8" :service_activity_id="11" :headers="headers" @edit="process_consultation" title="ultrasound"/>
+        <patient_list  :service_activity_id="service_activities" :headers="headers" @edit="process_consultation" title="ultrasound"/>
     </div>
 </template>
 
@@ -19,6 +19,7 @@ export default {
                 { text: "Status", value: "status" },
                 { text: "Actions", value: "actions", sortable: false },
             ],
+            service_activities:[11]
         };
     },
     methods:{

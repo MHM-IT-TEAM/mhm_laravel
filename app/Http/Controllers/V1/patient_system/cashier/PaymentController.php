@@ -47,6 +47,6 @@ class PaymentController extends Controller
         return PaymentService::pay_previous_transaction($request);
     }
     public function patient_due($patient_id){
-        return PatientCashFlow::where('patient_id',$patient_id)->sum('new_debt');
+        return PatientCashFlow::where('patient_id',$patient_id)->latest('created_at')->first()->new_debt ?? 0;
     }
 }

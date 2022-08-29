@@ -24,6 +24,7 @@ class StorkAdmissionService
             'service_id'=>$src->service_id,
             'bed_id'=>$src->bed_id,
             'level_of_care'=>$src->level_of_care,
+            'category'=>$src->category,
             'admission_diagnosis'=>$src->admission_diagnosis,
             'type_of_stay'=>$src->type_of_stay,
             'infection_control_referred_patient'=>$src->infection_control_referred_patient,
@@ -46,6 +47,7 @@ class StorkAdmissionService
             "mom"=>$src->mom,
             "meal"=>$src->meal,
             "unpaid_amount"=>$src->unpaid_amount,
+            "user_id"=>$src->user_id
         ];
     }
     public function store($request){

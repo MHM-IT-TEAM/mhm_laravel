@@ -437,14 +437,14 @@
                   <td>
                       <yes-or-no
                           row
-                          v-model="formData.preeclampsia_needed"
+                          v-model.number="formData.preeclampsia_needed"
                           :disabled="!canEdit"
                       />
                   </td>
                   <td>
                       <yes-or-no
                           row
-                          v-model="formData.high_frequency_prenatal_care"
+                          v-model.number="formData.high_frequency_prenatal_care"
                           :disabled="!canEdit"
                       />
                   </td>

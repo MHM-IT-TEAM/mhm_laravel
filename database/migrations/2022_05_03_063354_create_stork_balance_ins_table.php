@@ -20,6 +20,8 @@ class CreateStorkBalanceInsTable extends Migration
             $table->string('time');
             $table->string('what');
             $table->string('value');
+            $table->string("user")->nullable();
+
         });
     }
 

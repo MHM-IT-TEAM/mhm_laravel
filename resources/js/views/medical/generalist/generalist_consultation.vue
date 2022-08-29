@@ -181,20 +181,34 @@
                    <tr>
                        <td class="pl-4 text-decoration-underline"  colspan="2">4.1. Medication:</td>
                        <td colspan="4">
+<!--                           <multiselect-->
+<!--                               v-model="accessory.medication.item"-->
+<!--                               label="description"-->
+<!--                               track-by="description"-->
+<!--                               :id="'multiSelect'"-->
+<!--                               open-direction="above"-->
+<!--                               :options="accessory.medicines_temp_list"-->
+<!--                               :searchable="true"-->
+<!--                               :internal-search="false"-->
+<!--                               :clear-on-select="true"-->
+<!--                               :close-on-select="true"-->
+<!--                               :show-no-results="false"-->
+<!--                               :hide-selected="true"-->
+<!--                               @search-change="fetchItem"-->
+<!--                               class="multiSelect"-->
+<!--                               autocomplete="off"-->
+<!--                           >-->
+<!--                           </multiselect>-->
                            <multiselect
                                v-model="accessory.medication.item"
-                               label="description"
+                               :custom-label="nameWithCode"
                                track-by="description"
                                :id="'multiSelect'"
-                               open-direction="above"
-                               :options="accessory.medicines_temp_list"
-                               :searchable="true"
-                               :internal-search="false"
+                               placeholder="search medicines here"
+                               :options="accessory.avalaible_medicines"
                                :clear-on-select="true"
                                :close-on-select="true"
-                               :show-no-results="false"
                                :hide-selected="true"
-                               @search-change="fetchItem"
                                class="multiSelect"
                                autocomplete="off"
                            >
@@ -494,7 +508,8 @@ export default {
                 show_external_consultation:false,
                 show_internal_referral:false,
                 show_external_referral:false,
-                show_external_lab:false
+                show_external_lab:false,
+                avalaible_medicines:[]
             }
         }
     },
@@ -512,6 +527,7 @@ export default {
     methods: {
         async init() {
             await axios.get('/api/v1/patient_system/out_patient/generalist/diag_codes').then(response => this.accessory.diag_code_list = response.data)
+            await this.load_medicines()
         },
         async fetchItem(code) {
             this.accessory.medicines_temp_list = [];
@@ -524,6 +540,11 @@ export default {
                     this.accessory.medicines_temp_list = response.data.data
                 });
             }
+        },
+        async load_medicines(){
+            await axios.get('/api/v1/inventory_system/item/authorized_service/graceCenter').then(response=>{
+                this.accessory.avalaible_medicines=response.data
+            })
         },
         add_medication() {
             let valid=false
@@ -611,7 +632,10 @@ export default {
         },
         delete_diag_code(i){
             this.formData.diag_codes.splice(i,1)
-        }
+        },
+        nameWithCode ({ code, description }) {
+            return `${code} — [${description}]`
+        },
     }
 }
 </script>

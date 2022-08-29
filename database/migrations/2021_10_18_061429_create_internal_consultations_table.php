@@ -20,6 +20,7 @@ class CreateInternalConsultationsTable extends Migration
             $table->foreignId('internal_consultation_type_id');
             $table->text('reason')->nullable();
             $table->string('status')->nullable();
+            $table->string('user')->nullable();
 
         });
     }

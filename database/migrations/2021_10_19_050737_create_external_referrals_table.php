@@ -20,7 +20,7 @@ class CreateExternalReferralsTable extends Migration
             $table->string('departure_date')->nullable();
             $table->string('departure_time')->nullable();
             $table->string('medical_center_id');
-//            $table->string('service');
+            $table->string('service');
             $table->string('reason');
             $table->string('category');
             $table->foreignId('car_id');

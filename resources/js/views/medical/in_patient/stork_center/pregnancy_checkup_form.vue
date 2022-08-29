@@ -56,18 +56,22 @@
             <tr>
                 <td>Date</td>
                 <td>BDCF</td>
+                <td>CTG</td>
                 <td>Belly size</td>
                 <td>HU</td>
                 <td>Weight</td>
                 <td>Remark</td>
+                <td>User</td>
             </tr>
             <tr v-for="row in list">
                 <td>{{row.created_at}}</td>
                 <td>{{row.bdcf}}</td>
+                <td>{{row.ctg}}</td>
                 <td>{{row.belly_size}}</td>
                 <td>{{row.hu}}</td>
                 <td>{{row.weight}}</td>
                 <td>{{row.remark}}</td>
+                <td>{{row.user}}</td>
             </tr>
         </table>
     </div>
@@ -99,6 +103,7 @@ export default {
         },
         submit(){
             this.formData.stork_admission_id = this.$route.params.stork_admission.id
+            this.formData.user = window.auth.user.name
             axios.post("/api/v1/patient_system/in_patient/stork/pregnancy_checkup",this.formData).then(
                 response=>{
                     this.list=response.data

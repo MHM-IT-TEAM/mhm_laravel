@@ -232,9 +232,8 @@
                 </tbody>
             </table>
 
-                <button type="submit"  class="btn btn-primary" >Submit </button>
-
-
+<!--                <button type="submit"  class="btn btn-primary" >Submit </button>-->
+            <v-btn @click="submit" :loading="accessory.form_is_submitting" color="primary">Submit</v-btn>
         </form>
     </div>
 </template>
@@ -288,7 +287,7 @@ export default {
                 rota2:false,
                 active_research:[],
                 appointment:[],
-                consultation_id:''
+                admission_id:''
 
             },
             defaultData:{
@@ -329,7 +328,8 @@ export default {
                 max_td_length:16,
                 active_research_result:[],
                 appointment_result:[],
-                active_research_code:[1,2,3]
+                active_research_code:[1,2,3],
+                form_is_submitting:false
             }
         }
     },
@@ -379,6 +379,7 @@ export default {
             this.formData.mom.adress=patData.data.patient.adress
         },
         async submit(){
+            this.accessory.form_is_submitting=true
             await axios.post('/api/v1/patient_system/out_patient/obstetrical/baby/vaccination',this.formData)
             .then(response=>{
                 if(response.data.success===true){
@@ -389,6 +390,7 @@ export default {
                     this.formData=Object.assign({},this.defaultData)
                     this.accessory.active_research_result=[]
                     this.accessory.appointment_result=[]
+                    this.accessory.form_is_submitting=false
                 }
             })
         },
@@ -426,7 +428,7 @@ export default {
         },
         init(){
             this.formData.patient.id= this.$route.params.patient_id
-            this.formData.consultation_id=this.$route.params.consultation_id
+            this.formData.admission_id=this.$route.params.consultation_id
             this.changePat()
         }
 

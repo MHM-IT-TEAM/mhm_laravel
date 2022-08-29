@@ -69,4 +69,9 @@ class ItemController extends Controller
     public function where_authorized_service($service_name){
         return Item::where($service_name,1)->get();
     }
+    public function update_auth(Request $request){
+        $item=Item::find($request->item['id']);
+        $item[$request->orderer['name']]=$request->item[$request->orderer['name']];
+        $item->save();
+    }
 }

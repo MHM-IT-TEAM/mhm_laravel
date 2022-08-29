@@ -14,8 +14,10 @@ class StorkMedicineController extends Controller
             $med->create(
                 [
                     'stork_admission_id'=>$request->stork_admission_id,
+                    'time'=>$list['time'],
                     'item_id'=>$list['item']['id'],
-                    'qty'=>$list['given']
+                    'qty'=>$list['given'],
+                    'user'=>$request->user
                 ]
             );
         }

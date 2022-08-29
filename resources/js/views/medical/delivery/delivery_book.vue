@@ -1,30 +1,32 @@
 <template>
 <div class="container-fluid">
-    <h1 class="title">Delivery Book</h1>
-    <v-text-field
-        v-model="search"
-        append-icon="mdi-magnify"
-        label="Search"
-        single-line
-        hide-details
-    ></v-text-field>
-    <v-data-table
-        :headers="headers"
-        :items="list"
-        :search="search"
-        height="90vh"
-        multi-sort
-    >
-        <template v-slot:item.baby.weight="{ item }">
-            <v-chip
-                :color="check_weight(item.baby.weight)"
-                dark
-            >
-                {{ item.baby.weight }}
-            </v-chip>
-        </template>
+ <v-app>
+     <h1 class="title">Delivery Book</h1>
+     <v-text-field
+         v-model="search"
+         append-icon="mdi-magnify"
+         label="Search"
+         single-line
+         hide-details
+     ></v-text-field>
+     <v-data-table
+         :headers="headers"
+         :items="list"
+         :search="search"
+         height="90vh"
+         multi-sort
+     >
+         <template v-slot:item.baby.weight="{ item }">
+             <v-chip
+                 :color="check_weight(item.baby.weight)"
+                 dark
+             >
+                 {{ item.baby.weight }}
+             </v-chip>
+         </template>
 
-    </v-data-table>
+     </v-data-table>
+ </v-app>
 </div>
 </template>
 
@@ -102,7 +104,7 @@ export default {
         check_weight(val){
             if(val<2500) return 'orange'
             if(val<2000) return 'red'
-            return 'grey'
+            return 'green'
         }
     },
 

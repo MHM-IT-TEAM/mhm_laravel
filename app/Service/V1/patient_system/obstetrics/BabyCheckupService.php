@@ -4,6 +4,7 @@
 namespace App\Service\V1\patient_system\obstetrics;
 
 
+use App\Models\Admission;
 use App\Models\BabyCheckup;
 use App\Models\GraceCsbTransactionDetail;
 use App\Models\inventory_system\GraceCsbTransaction;
@@ -17,6 +18,9 @@ class BabyCheckupService
         if(count(collect($request->medication))>0){
             $this->_medicines_transaction($request->medication,$request->admission_id);
         }
+        $admission= Admission::find($request->admission_id);
+        $admission->status='DONE';
+        $admission->save();
     }
     private function _medicines_transaction($request,$admission_id){
         $transaction= new GraceCsbTransaction();

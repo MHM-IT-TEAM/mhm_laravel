@@ -32,13 +32,23 @@ class Birth extends Model
     }
 
     public static function createBirth($request){
+            $patients=[];
             //get the code
             $digit= intval(substr($request->code,-3));
             //register  the infos about the baby
             foreach($request->babies as $data){
                 $code=str_pad($digit+1,3,"0",STR_PAD_LEFT);
+                //update the latest cpn_admission
+                $cpn= CpnAdmission::where('patient_id',$request->patient_id)->latest()->first();
+                if($cpn !== null){
+                    $cpn->parity =intval($cpn->parity)+1;
+                    if($data->alive==='yes'){
+                        $cpn->ev=intval($cpn->ev)+1;
+                    }
+                    $cpn->save();
+                }
                 //register the main Data to Births table
-                $src= $request->only(['patient_id','birth_date','birth_time','external_delivery','cpn_admission_id','code','GA','induction','induction_method','responsible_midwives','trainee','doctors','anesthetists','assistant_midwives','senior_midwives']);
+                $src= $request->only(['patient_id','birth_date','birth_time','external_delivery','cpn_admission_id','code','GA','induction','induction_method','induction_reason','responsible_midwives','trainee','doctors','anesthetists','assistant_midwives','senior_midwives','user_id']);
                 $src['code']=date("Y").'-'.$code;
                 $birth= Birth::create($src);
                 //register the babies into the patient table
@@ -54,6 +64,7 @@ class Birth extends Model
                         'birth_id'=>$birth->id
                     ]
                 )->save();
+                $patients[]=['firstName'=>$patient->firstName,'id'=>$patient->id];
                 //if there is birth injury
                 if(count($request->injuries)>0){
                     foreach ($request->injuries as $injury){
@@ -78,12 +89,28 @@ class Birth extends Model
 //                //register the infos about the mom
                 BirthMedicalDataMom::create_medical_data($request,$birth->id);
 //                //register the used medicines and launch inventories operations
-                if(count($request->medicines_used)>0){
-                    foreach($request->medicines_used as $med){
-                        BirthUsedMedicine::create([
+                if(count($request->medicines_used_during)>0){
+                    foreach($request->medicines_used_during as $med){
+//                        BirthUsedMedicine::create([
+//                            'birth_id'=>$birth->id,
+//                            'item_id'=>$med['item'],
+//                            'quantity'=>$med['quantity']
+//                        ]);
+                        BirthUsedMedicineDuring::create([
                             'birth_id'=>$birth->id,
-                            'item_id'=>$med['item']['id'],
-                            'quantity'=>$med['quantity']
+                            'medicine'=>$med['item'],
+                            'quantity'=>$med['quantity'],
+                            'time'=>$med['time']
+                        ]);
+                    }
+                }
+                if(count($request->medicines_used_after)>0){
+                    foreach($request->medicines_used_after as $med){
+                        BirthUsedMedicineAfter::create([
+                            'birth_id'=>$birth->id,
+                            'medicine'=>$med['item'],
+                            'quantity'=>$med['quantity'],
+                            'time'=>$med['time']
                         ]);
                     }
                 }
@@ -93,6 +120,7 @@ class Birth extends Model
             return response()->json([
                 'success'=>true,
                 'msg'=>'Birth Data successfully saved',
+                'patients'=>$patients
             ]);
     }
 
@@ -144,7 +172,7 @@ class Birth extends Model
                         'head'=>$birth->birthMedicalDataBabies[0]['head'],
                         'chest'=>$birth->birthMedicalDataBabies[0]['chest'],
                         'arm'=>$birth->birthMedicalDataBabies[0]['arm'],
-                        'apgar'=>$birth->birthMedicalDataBabies[0]['apgar'],
+                        'apgar'=>$birth->birthMedicalDataBabies[0]['apgar_1']."/".$birth->birthMedicalDataBabies[0]['apgar_2']."/".$birth->birthMedicalDataBabies[0]['apgar_3'],
                         'vit_k'=>$birth->birthMedicalDataBabies[0]['vit_k'],
                         'E1'=>$birth->birthMedicalDataBabies[0]['E1'],
                         'correlation'=>$birth->birthMedicalDataBabies[0]['correlation'],

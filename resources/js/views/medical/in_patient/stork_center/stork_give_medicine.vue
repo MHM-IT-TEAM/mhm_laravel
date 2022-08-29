@@ -10,6 +10,9 @@
                            {{moment().format("MMM Do YY")}}
                         </td>
                         <td>
+                            <input class="form-control" type="time" v-model="accessory.medication.time"/>
+                        </td>
+                        <td>
                             <multiselect
                                 v-model="accessory.medication.item"
                                 :custom-label="nameWithCode"
@@ -35,6 +38,9 @@
                     <tr v-for="row in formData.list">
                         <td>
                             {{row.date}}
+                        </td>
+                        <td>
+                            {{row.time}}
                         </td>
                         <td>
                             {{`${row.item.code} - [${row.item.description}]`}}
@@ -71,6 +77,7 @@ export default {
                     item: null,
                     given:null,
                     date:moment().format("MMM Do YY, h:mm:ss a"),
+                    time:''
                 },
                 data_in_system: [],
                 avalaible_medicines:[]
@@ -82,8 +89,10 @@ export default {
                     sortable: false,
                     value: 'created_at',
                 },
+                {text:'Time',value:'time'},
                 { text: 'Medicine', value: 'item.description' },
                 { text: 'Quantity', value: 'qty' },
+                {text:'User',value:'user'}
             ],
         }
     },
@@ -108,6 +117,7 @@ export default {
                 this.formData.list.push(this.accessory.medication)
                 this.accessory.medication = {
                     item: null,
+                    time:"",
                     given:null,
                     date:moment().format("MMM Do YY, h:mm:ss a")
             }
@@ -137,6 +147,7 @@ export default {
         },
         submit(){
             this.formData.stork_admission_id= this.$route.params.admission_id
+            this.formData.user = window.auth.user.name
             axios.post('/api/v1/patient_system/in_patient/stork/give_medicine',this.formData).then(()=>{
                 this.load_data_in_system()
                 this.formData.list=[]

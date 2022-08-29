@@ -99,18 +99,6 @@
                                        Placenta Time &nbsp
                                        <input type="time" v-model="formData.placenta_time" :class="{'error':$v.formData.placenta_time.$error}" />
                                    </td>
-
-                                   <td>
-                                       <span :class="{'error':$v.formData.placenta_complete.$error}">Placenta Complete</span> &nbsp
-                                       <div class="custom-control custom-radio custom-control-inline">
-                                           <input  type="radio" id="placenta_complete_1" name="placenta_complete" value="yes" class="custom-control-input" v-model="formData.placenta_complete">
-                                           <label class="custom-control-label" for="placenta_complete_1">yes</label>
-                                       </div>
-                                       <div class="custom-control custom-radio custom-control-inline">
-                                           <input  type="radio" id="placenta_complete_2" name="placenta_complete" value="no" class="custom-control-input" v-model="formData.placenta_complete">
-                                           <label class="custom-control-label" for="placenta_complete_2">no</label>
-                                       </div>
-                                   </td>
                                    <td>
                                        <span :class="{'error':$v.formData.placenta_spontaneous.$error}">Placenta Spontaneous</span> &nbsp
                                        <div class="custom-control custom-radio custom-control-inline">
@@ -123,6 +111,18 @@
                                        </div>
                                    </td>
                                    <td>
+                                       <span :class="{'error':$v.formData.placenta_complete.$error}">Placenta Complete</span> &nbsp
+                                       <div class="custom-control custom-radio custom-control-inline">
+                                           <input  type="radio" id="placenta_complete_1" name="placenta_complete" value="yes" class="custom-control-input" v-model="formData.placenta_complete">
+                                           <label class="custom-control-label" for="placenta_complete_1">yes</label>
+                                       </div>
+                                       <div class="custom-control custom-radio custom-control-inline">
+                                           <input  type="radio" id="placenta_complete_2" name="placenta_complete" value="no" class="custom-control-input" v-model="formData.placenta_complete">
+                                           <label class="custom-control-label" for="placenta_complete_2">no</label>
+                                       </div>
+                                   </td>
+
+                                   <td>
                                        <span :class="{'error':$v.formData.placenta_manual_delivery.$error}">Placenta Manual Revision</span> &nbsp
                                        <div class="custom-control custom-radio custom-control-inline">
                                            <input  type="radio" id="placenta_manual_del_1" name="placenta_manual_del" value="yes" class="custom-control-input" v-model="formData.placenta_manual_delivery">
@@ -134,7 +134,7 @@
                                        </div>
                                    </td>
                                    <td>
-                                       <span :class="{'error':$v.formData.placenta_curetage.$error}">Placenta Curetage</span> &nbsp
+                                       <span :class="{'error':$v.formData.placenta_curetage.$error}">Curetage</span> &nbsp
                                        <div class="custom-control custom-radio custom-control-inline">
                                            <input  type="radio" id="placenta_curetage_1" name="placenta_curetage" value="yes" class="custom-control-input" v-model="formData.placenta_curetage">
                                            <label class="custom-control-label" for="placenta_curetage_1">yes</label>
@@ -318,9 +318,6 @@
                                        Lastname
                                        <input type="text" v-model="baby.lastName" style="width:350px" :class="{ 'error': v.lastName.$error }"/>
                                    </v-col>
-
-
-
                                </v-row>
                            </v-card-subtitle>
                            <v-card-text>
@@ -883,18 +880,18 @@ input[type=number]{
     padding:0px 10px 0px !important;
     margin:0px 10px 0px;
 }
-@media print{
-    .registration-container{
-        margin-left: -250px !important;
-        /*width: 210mm;*/
-        /*height: 297mm;*/
-        size:A4;
-        padding: 50px;
-    }
-}
-@media screen and (max-width: 1480px){
-    .registration-container{
-        transform: scale(0.9);
-    }
-}
+/*@media print{*/
+/*    .registration-container{*/
+/*        margin-left: -250px !important;*/
+/*        !*width: 210mm;*!*/
+/*        !*height: 297mm;*!*/
+/*        size:A4;*/
+/*        padding: 50px;*/
+/*    }*/
+/*}*/
+/*@media screen and (max-width: 1480px){*/
+/*    .registration-container{*/
+/*        transform: scale(0.9);*/
+/*    }*/
+/*}*/
 </style>

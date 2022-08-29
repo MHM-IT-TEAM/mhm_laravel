@@ -25,6 +25,7 @@ class CreateStorkAdmissionsTable extends Migration
             $table->foreignId('service_id');
             $table->foreignId('bed_id');
             $table->string('level_of_care',50);
+            $table->string('category',50);
             $table->text('admission_diagnosis')->nullable();
             $table->string('type_of_stay')->nullable();
             $table->boolean('infection_control_referred_patient')->nullable();
@@ -48,6 +49,7 @@ class CreateStorkAdmissionsTable extends Migration
             $table->boolean("meal")->nullable();
             $table->integer("unpaid_amount")->nullable();
             $table->boolean("dismissed")->nullable();
+            $table->string("user_id")->nullable();
 
         });
     }

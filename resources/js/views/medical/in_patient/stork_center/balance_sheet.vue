@@ -36,6 +36,7 @@
                             <td>What</td>
                             <td>ml</td>
                             <td></td>
+                            <td></td>
                         </tr>
                         <tr>
                             <td>
@@ -64,6 +65,9 @@
                             </td>
                             <td>
                                 <input type="number" readonly :value="row.value" class="form-control form-control-sm"/>
+                            </td>
+                            <td>
+                                {{row.user}}
                             </td>
                             <td></td>
                         </tr>
@@ -123,6 +127,9 @@
                             </td>
                             <td>
                                 <input type="checkbox" disabled v-model="row.k" class="form-control form-control-sm"/>
+                            </td>
+                            <td>
+                                {{row.user}}
                             </td>
                             <td></td>
                         </tr>
@@ -223,22 +230,26 @@ export default {
            return text===null?'':text
         },
         submit_in(){
+            console.log(window.auth.user.name)
             this.$v.$touch();
             if (!this.$v.$invalid){
                 this.formData_in.stork_balance_id=this.stork_balance.id
+                this.formData_in.user = window.auth.user.name
                 axios.post("/api/v1/patient_system/in_patient/stork/store_balance_in",this.formData_in)
                 this.list.in.push(this.formData_in)
                 this.formData_in={
                     time:'',
                     what:'',
                     value:'',
-                    stork_balance_id:''
+                    stork_balance_id:'',
+
                 }
             }
         },
         submit_out(){
             if(this.formData_out.value !==''){
                 this.formData_out.stork_balance_id=this.stork_balance.id
+                this.formData_out.user = window.auth.user.name
                 axios.post("/api/v1/patient_system/in_patient/stork/store_balance_out",this.formData_out)
                 this.list.out.push(this.formData_out)
                 this.formData_out={

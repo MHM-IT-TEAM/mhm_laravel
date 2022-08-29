@@ -17,11 +17,14 @@ class CreateVitalSignsTable extends Migration
             $table->id();
             $table->timestamps();
             $table->foreignId('admission_id');
+            $table->string('time',50)->nullable();
             $table->string('bp_l',10)->nullable();
             $table->string('bp_r',10)->nullable();
             $table->integer('pulse')->nullable();
             $table->integer('spo2')->nullable();
             $table->string('temp',10)->nullable();
+            $table->string("user")->nullable();
+
         });
     }
 

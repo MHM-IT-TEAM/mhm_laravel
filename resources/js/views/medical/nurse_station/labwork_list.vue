@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <internal_lab_list :is_admin="true" @open="open_request"/>
+        <internal_lab_list :headers="headers" :is_admin="true" @open="open_request"/>
     </div>
 </template>
 
@@ -16,6 +16,7 @@ export default {
             loading:false,
             list:[],
             headers:[
+                {text:"Date",value:"created_at"},
                 { text: "Id", value: "admission.patient_id" },
                 { text: "First Name", value: "admission.patient.firstName" },
                 { text: "Last Name", value: "admission.patient.lastName" },

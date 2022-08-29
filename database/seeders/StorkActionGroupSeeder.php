@@ -31,10 +31,10 @@ class StorkActionGroupSeeder extends Seeder
                 'description'=>'Assistance Sleeping',
                 'type'=>'mobilisation'
             ],
-            [
-                'description'=>'External manoeuver',
-                'type'=>'mobilisation'
-            ],
+//            [
+//                'description'=>'External manoeuver',
+//                'type'=>'mobilisation'
+//            ],
             [
                 'description'=>'Washing',
                 'type'=>'body_care'
@@ -44,10 +44,10 @@ class StorkActionGroupSeeder extends Seeder
                 'type'=>'body_care'
             ],
 
-            [
-                'description'=>'Blood transfusion',
-                'type'=>'body_care'
-            ],
+//            [
+//                'description'=>'Blood transfusion',
+//                'type'=>'body_care'
+//            ],
             [
                 'description'=>'Breast massage',
                 'type'=>'breast_care'
@@ -85,15 +85,15 @@ class StorkActionGroupSeeder extends Seeder
                 'type'=>'medical_care'
             ],
             [
-                'description'=>'Weighting Talia',
+                'description'=>'Weighting maternity pads',
                 'type'=>'medical_care'
             ],
             [
-                'description'=>'Talia In',
+                'description'=>'Maternity pads In',
                 'type'=>'medical_care'
             ],
             [
-                'description'=>'Talia Out',
+                'description'=>'Maternity pads Out',
                 'type'=>'medical_care'
             ],
             [
@@ -131,7 +131,31 @@ class StorkActionGroupSeeder extends Seeder
             [
                 'description'=>'Ballon catheter out',
                 'type'=>'medical_care'
-            ]
+            ],
+            [
+                'description'=>'Drainage In',
+                'type'=>'medical_care'
+            ],
+            [
+                'description'=>'Drainage Out',
+                'type'=>'medical_care'
+            ],
+            [
+                'description'=>'Weight before',
+                'type'=>'medical_care'
+            ],
+            [
+                'description'=>'Weight after',
+                'type'=>'medical_care'
+            ],
+            [
+                'description'=>'Milk drunk',
+                'type'=>'medical_care'
+            ],
+            [
+                'description'=>'Add milk',
+                'type'=>'medical_care'
+            ],
 
 
         ]);

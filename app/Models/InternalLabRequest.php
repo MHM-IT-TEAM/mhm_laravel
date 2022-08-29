@@ -9,6 +9,9 @@ class InternalLabRequest extends Model
 {
     use HasFactory;
     protected $guarded=[];
+    protected $casts = [
+        'created_at' => 'datetime:d-M-Y',
+    ];
 
     public function admission(){
         return $this->belongsTo(Admission::class);
@@ -36,6 +39,7 @@ class InternalLabRequest extends Model
         $this->admission_id=$request->admission_id;
         $this->remark=$request->remark;
         $this->lab_work_step_id=4;
+        $this->user_id=$request->user_id;
         $this->save();
     }
 }

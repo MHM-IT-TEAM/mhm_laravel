@@ -18,6 +18,8 @@ class CreateStorkWoundCaresTable extends Migration
             $table->timestamps();
             $table->foreignId('stork_admission_id');
             $table->text('description');
+            $table->string("user")->nullable();
+
         });
     }
 

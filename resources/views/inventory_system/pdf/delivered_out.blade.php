@@ -37,7 +37,7 @@
             @endforeach
         </table>
         <div class="responsible">
-            <p>Tsiferana RAKOTOARISOA</p>
+            <p>Andry</p>
             Operation responsible
         </div>
     </div>

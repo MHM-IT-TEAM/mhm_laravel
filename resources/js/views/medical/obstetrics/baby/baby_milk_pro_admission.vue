@@ -13,6 +13,7 @@
                        placeholder="ID of the mom"
                        :class="{'is-invalid':$v.formData.mom_id.$error}"
                        v-model="formData.mom_id"
+                       v-if="formData.mom_is_patient"
                 />
                 <div class="invalid-feedback" v-if="$v.formData.mom_id.$error">
                     You must add a write the Id of the mom

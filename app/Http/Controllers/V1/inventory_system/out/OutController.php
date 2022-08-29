@@ -38,7 +38,11 @@ class OutController extends Controller
 
     public function show($id)
     {
-        //
+        return Out::with(['out_details'=>function($data){
+            return $data->with(['item'=>function($src){
+                return $src->with(['inventory'])->get();
+            }])->get();
+        }])->find($id);
     }
     public function edit($id)
     {
@@ -60,6 +64,10 @@ class OutController extends Controller
     public function lastCode(){
         $code=Out::latest()->first();
         if($code!==null)return $code->code;
+    }
+    public function show_by_service_id($id){
+        return  Out::with(['collector','out_details.item'])->where('orderer_id',$id)->get();
+
     }
 
 }

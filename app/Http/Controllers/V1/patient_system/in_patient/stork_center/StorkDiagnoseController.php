@@ -12,7 +12,9 @@ class StorkDiagnoseController extends Controller
         StorkDiagnose::create([
             'stork_admission_id'=>$request->stork_admission_id,
             'type'=>$request->type,
-            'diagnose'=>$request->diagnose
+            'time'=>$request->time,
+            'diagnose'=>$request->diagnose,
+            'user'=>$request->user
         ]);
         return response()->success();
     }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\V1\patient_system\in_patient\stork_center;
 
 use App\Http\Controllers\Controller;
+use App\Models\Bed;
 use App\Models\StorkAdmission;
 use App\Service\V1\patient_system\in_patient\StorkAdmissionService;
 use Illuminate\Http\Request;
@@ -16,7 +17,7 @@ class StorkAdmissionController extends Controller
      */
     public function index()
     {
-        return StorkAdmission::with(['bed','patient'])->whereNull('dismissed')->get();
+        return StorkAdmission::with(['bed','patient','admission','stork_diagnoses'])->whereNull('dismissed')->get();
 
     }
 
@@ -88,5 +89,25 @@ class StorkAdmissionController extends Controller
     }
     public function in_patient_book(){
         return StorkAdmission::with(['patient','stork_dismissal','service'])->get();
+    }
+    public function change_bed(Request $request){
+        $stork_admission= StorkAdmission::find($request->stork_admission_id);
+        $stork_admission->bed_id= $request->destination_bed;
+        $stork_admission->save();
+        $bed_free= Bed::find($request->source_bed);
+        $bed_free->occupied=0;
+        $bed_free->save();
+        $bed_occupied=Bed::find($request->destination_bed);
+        $bed_occupied->occupied=1;
+        $bed_occupied->save();
+        return response()->json(['success'=>true]);
+    }
+    public function update_admission_by_ir(Request $request){
+
+        $stork_admission= StorkAdmission::where('admission_id',$request->admission['id'])->first();
+        $stork_admission->update(['dismissed'=>1]);
+        $bed= Bed::find($stork_admission->bed_id);
+        $bed->occupied=0;
+        $bed->save();
     }
 }

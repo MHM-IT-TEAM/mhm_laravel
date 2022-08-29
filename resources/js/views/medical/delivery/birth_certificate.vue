@@ -351,16 +351,32 @@ export default {
     color:#006bb3;
 }
 @media print{
-
+    html, body {
+        width: 210mm;
+        height: 297mm;
+    }
     .certificate_container{
-        margin-top: -60px;
-        height:405mm;
-        width:312mm ;
-        /*margin-left: -260px;*/
+        margin: 0;
+        border: initial;
+        border-radius: initial;
+        width: initial;
+        min-height: initial;
+        box-shadow: initial;
+        background: initial;
+        page-break-after: always;
+        line-height: 1.3;
     }
-    .header td{
-        font-size: 22px;
-    }
+
+    /*.certificate_container{*/
+    /*    margin-top: -60px;*/
+    /*    height:350mm;*/
+    /*    overflow: ;*/
+    /*    width:280mm ;*/
+    /*    margin-left: -40px;*/
+    /*}*/
+    /*.header td{*/
+    /*    font-size: 22px;*/
+    /*}*/
 }
 @media screen{
     .certificate_container{

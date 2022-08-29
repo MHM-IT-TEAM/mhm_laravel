@@ -25,11 +25,13 @@ class VitalSignRequest extends FormRequest
     {
         return [
             'admission_id'=>'required',
+            'time'=>'nullable',
             'bp_l'=>'nullable',
             'bp_r'=>'nullable',
             'pulse'=>'nullable',
             'spo2'=>'nullable',
             'temp'=>'nullable',
+            'user'=>'nullable'
         ];
     }
 }

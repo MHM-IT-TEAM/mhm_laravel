@@ -49,7 +49,7 @@ export default {
                 { text: 'LastName', value: 'patient.lastName' },
                 { text: 'Service', value: 'service.name' },
                 { text: 'Level of care', value: 'level_of_care' },
-                { text: 'Admission diagnosis', value: 'admission_time' },
+                { text: 'Admission diagnosis', value: 'admission_diagnosis' },
                 { text: 'Date of dismissal', value: 'stork_dismissal.dismissal_date' },
 
             ]
