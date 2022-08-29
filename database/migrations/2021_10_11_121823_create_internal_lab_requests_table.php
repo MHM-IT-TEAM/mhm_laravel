@@ -26,7 +26,6 @@ class CreateInternalLabRequestsTable extends Migration
             $table->smallInteger('blood_syphilis')->nullable();
             $table->smallInteger('blood_bg')->nullable();
             $table->smallInteger('blood_bilirubin')->nullable();
-            $table->smallInteger('blood_crp')->nullable();
             $table->smallInteger('blood_epoc')->nullable();
             $table->smallInteger('blood_glycemia')->nullable();
             $table->smallInteger('blood_hb')->nullable();
