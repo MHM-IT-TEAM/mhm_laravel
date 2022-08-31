@@ -37,19 +37,19 @@ class Birth extends Model
             $digit= intval(substr($request->code,-3));
             //register  the infos about the baby
             foreach($request->babies as $data){
-                $code=str_pad($digit+1,3,"0",STR_PAD_LEFT);
+//                $code=str_pad($digit+1,3,"0",STR_PAD_LEFT);
                 //update the latest cpn_admission
                 $cpn= CpnAdmission::where('patient_id',$request->patient_id)->latest()->first();
                 if($cpn !== null){
                     $cpn->parity =intval($cpn->parity)+1;
-                    if($data->alive==='yes'){
+                    if($data['alive']==='yes'){
                         $cpn->ev=intval($cpn->ev)+1;
                     }
                     $cpn->save();
                 }
                 //register the main Data to Births table
                 $src= $request->only(['patient_id','birth_date','birth_time','external_delivery','cpn_admission_id','code','GA','induction','induction_method','induction_reason','responsible_midwives','trainee','doctors','anesthetists','assistant_midwives','senior_midwives','user_id']);
-                $src['code']=date("Y").'-'.$code;
+//                $src['code']=date("Y").'-'.$code;
                 $birth= Birth::create($src);
                 //register the babies into the patient table
                 $patient= new Patient();
