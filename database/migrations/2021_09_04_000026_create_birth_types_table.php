@@ -16,7 +16,7 @@ class CreateBirthTypesTable extends Migration
         Schema::create('birth_types', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('name',20);
+            $table->string('name');
 
         });
     }
