@@ -46,10 +46,8 @@ class DatabaseSeeder extends Seeder
             CarSeeder::class,
             MedicalCenterSeeder::class,
             AppointmentStatusSeeder::class,
-            BirthTypeSeeder::class
-
-
-
+            BirthTypeSeeder::class,
+            BedSeeder::class
         ]);
     }
 }
