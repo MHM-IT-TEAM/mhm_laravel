@@ -47,7 +47,8 @@ class DatabaseSeeder extends Seeder
             MedicalCenterSeeder::class,
             AppointmentStatusSeeder::class,
             BirthTypeSeeder::class,
-            BedSeeder::class
+            BedSeeder::class,
+            StorkActionGroupSeeder::class
         ]);
     }
 }

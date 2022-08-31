@@ -796,8 +796,8 @@ export default {
                 'Long Pushing'
             ],
             position_mom:['laying on her back','laying on her side','sitting','standing','4 paws','kneeing'],
-            position_baby:['occiput anterior left','occiput anterior right','occiput posterior left','occiput posterior right','face presentation','cheen anterior','brrech','full knee','one foot','full feet','Oblic'],
-            ctg:['twin','induction','cross rightline','bad BDCF with doppler','long pushing'],
+            position_baby:['occiput anterior left','occiput anterior right','occiput posterior left','occiput posterior right','face presentation','cheen anterior','breech','full knee','one foot','full feet','Oblic'],
+            ctg:['normal','pathological','suspicious'],
             blood_loss:['<250','250-500','500-750','750-1000','1000-1500','1500-2000','2000-2500','>2500'],
             correlation:['<','=','>'],
             maturity:['immature','premature','mature','post EDD'],

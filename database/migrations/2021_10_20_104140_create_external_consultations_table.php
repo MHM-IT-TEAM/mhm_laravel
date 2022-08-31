@@ -19,7 +19,7 @@ class CreateExternalConsultationsTable extends Migration
             $table->foreignId('admission_id');
             $table->foreignId('user_id');
             $table->foreignId('medical_center_id');
-            $table->foreignId('service');
+            $table->string('service');
             $table->foreignId('car_id')->nullable();
             $table->boolean('transport_needed')->nullable();
             $table->integer('km_start')->nullable();

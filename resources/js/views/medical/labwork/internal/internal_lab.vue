@@ -197,7 +197,7 @@ export default {
                             {db_name:'urine_big_ph',label:'PH',checked:false,result:'',items:['5.0','6.0','6.5','7.0','7.5','8.0','8+5']},
                             {db_name:'urine_big_blood',label:'Blood',checked:false,result:'',items:['neg','trace','small','moderate','large']},
                             {db_name:'urine_big_sp_gravity',label:'SP gravity',checked:false,result:'',items:['1.000','1.005','1.010','1.015','1.020','1.025','1.030']},
-                            {db_name:'urine_big_ketane',label:'Ketane',checked:false,result:'',items:['neg','pos','trace','small','moderate','large']},
+                            {db_name:'urine_big_ketane',label:'Ketone',checked:false,result:'',items:['neg','pos','trace','small','moderate','large']},
                             {db_name:'urine_big_bilirubin',label:'Bilirubin',checked:false,result:'',items:['neg','pos','trace','small','moderate','large']},
                             {db_name:'urine_big_glucose',label:'Glucose',checked:false,result:'',items:['neg','trace','+','++','+++','++++']},
                         ]
