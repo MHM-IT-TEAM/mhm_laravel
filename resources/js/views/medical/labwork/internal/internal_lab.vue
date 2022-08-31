@@ -169,7 +169,7 @@ export default {
                         {db_name:'blood_glycemia',label:'Glycemia',checked:false,result:'',items:null},
                         {db_name:'blood_ogtt',label:'OGTT',checked:false,result:'',items:['neg','suspicious','pos']},
                         {db_name:'blood_crp',label:'CRP',checked:false,result:'',items:['neg','[10-40]','[40-80]','>80']},
-                        {db_name:'blood_epoc',label:'epc',checked:false,result:'',items:['neg','[10-40]','[40-80]','>80']},
+                        {db_name:'blood_epoc',label:'Epoc',checked:false,result:'',items:['neg','[10-40]','[40-80]','>80']},
                     ]
                 },
                 urine_test:[

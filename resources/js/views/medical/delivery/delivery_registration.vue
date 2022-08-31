@@ -278,7 +278,7 @@
                                 </div>
                                 <div class="col">
                                     <div class="form-group">
-                                        <label>Stiches</label>
+                                        <label>Stitches</label>
                                         <input type="text" class="form-control form-control-sm text-danger" v-model="formData.stiches"/>
                                     </div>
                                 </div>
@@ -296,6 +296,12 @@
                                     <div class="form-group">
                                         <label>Sterlisation package</label>
                                         <input type="text" v-model="formData.sterilisation_package" class="form-control form-control-sm"/>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-6">
+                                    <div class="form-group">
+                                        <label>Stitches package</label>
+                                        <input type="text" v-model="formData.stitches_package" class="form-control form-control-sm"/>
                                     </div>
                                 </div>
                             </div>
@@ -675,7 +681,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>Doctor if present</td>
+                                <td>Doctor</td>
                                 <td colspan="5">
                                     <input type="text" v-model="formData.doctors"/>
                                 </td>
@@ -770,6 +776,7 @@ export default {
                 stiches:'',
                 anesthesia:'',
                 sterilisation_package:'',
+                stitches_package:'',
                 medicines_used_during:[],
                 medicines_used_after:[],
                 remarks:'',
@@ -811,7 +818,7 @@ export default {
             injury_degree:["I","II","III","IV"],
             anesthesia:["no","Local","General","Spinal"],
             medicines_used_during: ["Buscopan","SSI","SGI","RL","Ampicilline","Loxen","Cytotec","Partusisten","Oxyto","Meptid"],
-            medicines_used_after: ["Oxyto 5UI/IV","Cytotec 800ug IR","Oxyto 20UI","Exacyl","Ampicilline","Ubiprofene","Paracetamol","Ibu","SSI"],
+            medicines_used_after: ["Oxyto","Cytotec IR","Exacyl","Ampicilline","Ibuprofene","Paracetamol","SSI","Cell gauz","SGI","RL"],
             baby_element:{
                 id:'',
                 firstName:'',

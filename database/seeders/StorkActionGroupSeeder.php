@@ -16,7 +16,7 @@ class StorkActionGroupSeeder extends Seeder
     {
         StorkActionGroup::insert([
             [
-                'description'=>'Assistance Urine',
+                'description'=>'Assistance Pee',
                 'type'=>'mobilisation'
             ],
             [
@@ -31,16 +31,25 @@ class StorkActionGroupSeeder extends Seeder
                 'description'=>'Assistance Sleeping',
                 'type'=>'mobilisation'
             ],
-//            [
-//                'description'=>'External manoeuver',
-//                'type'=>'mobilisation'
-//            ],
+            [
+                'description'=>'Catheter out',
+                'type'=>'mobilisation'
+            ],
+            [
+                'description'=>'First mobilisation',
+                'type'=>'mobilisation'
+            ],
+
             [
                 'description'=>'Washing',
                 'type'=>'body_care'
             ],
             [
                 'description'=>'Shower',
+                'type'=>'body_care'
+            ],
+            [
+                'description'=>'Shaving',
                 'type'=>'body_care'
             ],
 

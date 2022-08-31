@@ -33,7 +33,9 @@ class BirthMedicalDataMom extends Model
             'ctg'=>$request['ctg'],
             'complication_mom_before_birth'=>$request['complication_mom_before_birth'],
             'complication_mom_after_birth'=>$request['complication_mom_after_birth'],
-            'remarks'=>$request['remarks']
+            'remarks'=>$request['remarks'],
+            'sterilisation_package'=>$request['sterilisation_package'],
+            'stitches_package'=>$request['stitches_package'],
         ];
     }
     public static function create_medical_data($request,$birth_id){

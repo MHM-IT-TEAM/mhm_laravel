@@ -21,6 +21,8 @@ class PageSeeder extends Seeder
             ['description'=>'Cashier','link'=>'cashier/admission_list'],
             ['description'=>'Generalist','link'=>'generalist/patient_list'],
             ['description'=>'Dentist','link'=>'dentist/patient_list'],
+            ['description'=>'Delivery','link'=>'delivery/registration'],
+            ['description'=>'StorkCenter','link'=>'stork/admission'],
         ]);
     }
 }

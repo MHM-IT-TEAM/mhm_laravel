@@ -14,7 +14,10 @@
                 CTG:
             </div>
             <div class="col-4">
-                <input type="text" class="form-control form-control-sm" v-model="formData.ctg"/>
+<!--                <input type="text" class="form-control form-control-sm" v-model="formData.ctg"/>-->
+                <select class="form-control form-control-sm " v-model="formData.ctg">
+                    <option v-for="ct in ctg">{{ct}}</option>
+                </select>
             </div>
         </div>
         <div class="row">
@@ -92,6 +95,7 @@ export default {
                 remark:''
             },
             list:[],
+            ctg:["good","suspicious","patological"]
         }
     },
     created(){

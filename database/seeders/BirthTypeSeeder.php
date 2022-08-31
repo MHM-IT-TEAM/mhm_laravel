@@ -29,7 +29,6 @@ class BirthTypeSeeder extends Seeder
             ['name'=>'Re-C-section-secondary-normal'],
             ['name'=>'Re-C-section-secondary-urgent'],
             ['name'=>'Re-C-section-secondary-emergency'],
-            ['name'=>'Re-re-re-C-section-primary'],
 
 
         ]);
