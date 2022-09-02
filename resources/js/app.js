@@ -24,6 +24,7 @@ import Multiselect from 'vue-multiselect'
 import Pagination from 'vue-pagination-2';
 import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
+import VueBarcodeScanner from 'vue-barcode-scanner'
 
 
 
@@ -41,6 +42,7 @@ Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.component('pagination', Pagination);
 Vue.use(VueHtmlToPaper)
 Vue.use(VueSweetalert2)
+Vue.use(VueBarcodeScanner)
 Vue.prototype.moment = moment
 //api routes shortening
 Vue.prototype.CONSULTATION ='/api/v1/patient_system/out_patient/consultation'

@@ -156,8 +156,8 @@ export default {
                     {url:'baby_checkup_list',title:'Checkup'},
                     {url:'baby_vaccination_list',title:'Vaccination'},
                     {url:'',title:'Sickness'},
-                    {url:'',title:'Injury'},
-                    {url:'',title:'Wound care'},
+                    // {url:'',title:'Injury'},
+                    // {url:'',title:'Wound care'},
                 ]
             },
             {

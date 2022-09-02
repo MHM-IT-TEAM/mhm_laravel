@@ -245,6 +245,7 @@ export default {
   },
   created() {
       this.fetch_orderers()
+      this.$barcodeScanner.init(this.onBarcodeScanned)
   },
   methods: {
     ...mapActions('item',['fetch_items_list']),
@@ -323,6 +324,19 @@ export default {
       orderer_name(id){
         if(this.orderer_list.length>0 && isInt(this.orderer_id) ) return this.orderer_list.find(orderer=>orderer.id===id).name
           else return ''
+      },
+      fetch_by_barcode(barcode){
+        axios.get(`/api/v1/inventory_system/item/get_by_barcode/${barcode}`).then(response)
+      },
+      onBarcodeScanned (barcode) {
+          axios.get(`/api/v1/inventory_system/item/get_by_barcode/${barcode}`).then(response=>{
+              this.items = response.data.data;
+              this.accessory.current_page = response.data.current_page;
+              this.accessory.from = response.data.from;
+              this.accessory.to = response.data.to;
+              this.accessory.total = response.data.total;
+              this.accessory.perPage = response.data.per_page;
+          })
 
       },
   },

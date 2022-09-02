@@ -74,4 +74,8 @@ class ItemController extends Controller
         $item[$request->orderer['name']]=$request->item[$request->orderer['name']];
         $item->save();
     }
+    public function get_by_barcode($barcode){
+        return Item::with(['item_type','item_unit','item_administration','location','inventory','minStock'])->where('barcode',$barcode)->paginate(20);
+
+    }
 }

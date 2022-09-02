@@ -251,6 +251,7 @@ Route::prefix('/v1')->group(function(){
         Route::post('/item/inventory/update',[\App\Http\Controllers\V1\inventory_system\item\ItemController::class,'update_inventory']);
         Route::get('/item/count_per_type',[\App\Http\Controllers\V1\inventory_system\item\ItemController::class,'count_per_type']);
         Route::get('item/code',[\App\Http\Controllers\V1\inventory_system\item\ItemController::class,'getCode']);
+        Route::get('item/get_by_barcode/{barcode}',[\App\Http\Controllers\V1\inventory_system\item\ItemController::class,'get_by_barcode']);
         Route::get('/item/authorized_service/{service_name}',[\App\Http\Controllers\V1\inventory_system\item\ItemController::class,'where_authorized_service']);
         Route::resource('item',\App\Http\Controllers\V1\inventory_system\item\ItemController::class);
         Route::post('/item/stock_check',[\App\Http\Controllers\V1\inventory_system\item\ItemController::class,'check_stock_avalaibility']);

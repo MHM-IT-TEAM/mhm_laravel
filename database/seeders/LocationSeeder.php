@@ -15,16 +15,18 @@ class LocationSeeder extends Seeder
     public function run()
     {
         Location::insert([
-            ['name'=>'A1'],//1
-            ['name'=>'A2'],//2
-            ['name'=>'A3'],//3
-            ['name'=>'A4'],//4
-            ['name'=>'B'],//5
-            ['name'=>'B'],//6
-            ['name'=>'C'],//7
-            ['name'=>'Anesthesia self'],//8
-            ['name'=>'Cream drawer'],//9
-            ['name'=>'Dental drawer'],//10
+            ['name'=>'Antiseptic Shelf'],//1
+            ['name'=>'Mucocutaneous shelf'],//2
+            ['name'=>'Enteral shelf'],//3
+            ['name'=>'Parenteral shelf'],//4
+            ['name'=>'Syrup shelf'],//5
+            ['name'=>'Dental drawer'],//6
+            ['name'=>'Anesthetist shelf'],//7
+            ['name'=>'Fridge'],//8
+            ['name'=>'PF Shelf L1'],//9
+            ['name'=>'PF Shelf M1'],//9
+            ['name'=>'Serum shelf'],//10
+            ['name'=>'Nursie shelf B1'],//10
 
         ]);
     }

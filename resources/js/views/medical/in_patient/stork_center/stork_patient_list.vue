@@ -13,9 +13,7 @@
 
                   <v-spacer></v-spacer>
 
-                  <v-btn icon>
-                      <v-icon>mdi-magnify</v-icon>
-                  </v-btn>
+                 {{patient_list.length}}
               </v-toolbar>
 
               <v-container fluid>
@@ -32,7 +30,7 @@
 
                               <v-row dense>
                                   <v-col v-for="bed in card.beds" :key="bed.code" >
-                                      <v-card class="mt-2" elevation="2">
+                                      <v-card class="mt-2" elevation="2" min-width="250px">
                                           <v-card-title >{{bed.bed.code}} <v-spacer/><span class="font-weight-bold font-italic">{{(bed.patient_id)}}</span>-{{  null_to_str(bed.patient.firstName) + null_to_str(bed.patient.lastName) }}</v-card-title>
                                           <div class="border h-75 position-relative">
 <!--                                              <h6 class="text-center"><span class="font-weight-bold font-italic">{{(bed.patient_id)}}</span>-{{  null_to_str(bed.patient.firstName) + null_to_str(bed.patient.lastName) }}</h6>-->

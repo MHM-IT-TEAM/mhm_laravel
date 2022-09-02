@@ -47,16 +47,17 @@
         "chart.js": "^2.9.4",
         "moment": "^2.29.1",
         "v-calendar": "^2.3.2",
+        "vue-barcode-scanner": "^0.8.1",
         "vue-html-to-paper": "^1.4.3",
         "vue-loading-overlay": "^3.4.2",
         "vue-multiselect": "^2.1.6",
         "vue-pagination-2": "^3.0.91",
         "vue-router": "^3.5.1",
+        "vue-sweetalert2": "^4.3.1",
         "vue-toast-notification": "^0.6.1",
         "vuelidate": "^0.7.6",
         "vuetify": "^2.4.4",
         "vuetify-loader": "^1.7.2",
-        "vuex": "^3.6.2",
-        "vue-sweetalert2": "^4.3.1"
+        "vuex": "^3.6.2"
     }
 }

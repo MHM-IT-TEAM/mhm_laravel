@@ -162,9 +162,9 @@ export default {
     },
     methods:{
         init(){
+            this.$barcodeScanner.init(this.onBarcodeScanned)
             //check if the route has edit params
             let id= this.$route.params.id
-            console.log(id)
             if(id !==null && id !== undefined){
                 this.accessory.edit=true
                 this.fetchData(id )
@@ -203,6 +203,19 @@ export default {
 
                 })
             }
+        },
+        async onBarcodeScanned(barcode){
+            axios.get(`/api/v1/inventory_system/item/get_by_barcode/${barcode}`).then(response=>{
+                if(response.data.data.length>0){
+                    this.$toast.open({
+                        message:"This product code is already in the database",
+                        type:"error",
+                        position:"top-right"
+                    })
+                }else{
+                    this.formData.barcode=barcode
+                }
+            })
         }
 
     },
