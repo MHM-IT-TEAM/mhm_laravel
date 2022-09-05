@@ -598,7 +598,7 @@ export default {
     },
   },
   computed: {
-    ...mapGetters("patient", ["selectedPatient"]),
+    ...mapGetters("patient", ["selectedPatient","createdPatient"]),
       check_age(){
           return moment().diff(moment(this.patient.birthDate,"YYYY-MM-DD-"), 'years')
       },
@@ -695,15 +695,17 @@ export default {
         formData.append("_method", "PUT");
         await this.updatePatient(formData);
         this.$toast.open({
-          message: "Patient updated",
+          message: `Patient updated `,
           position: "top-right",
+
         });
       } else {
         await this.addPatient(formData);
         // e.target.reset();
         this.$toast.open({
-          message: "Patient created",
+          message: `Id: ${this.createdPatient.id} `,
           position: "top-right",
+            duration:0
         });
       }
       this.resetForm();

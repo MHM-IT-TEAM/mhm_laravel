@@ -39,7 +39,7 @@
 <script>
 export default {
     name: "stork_actions_form",
-    props:['action_type','stork_admission_id'],
+    props:['action_type','stork_admission_id','category'],
     created(){
         this.init()
         this.load_data_in_system()
@@ -113,8 +113,10 @@ export default {
         }
     },
     computed:{
+
         filtered_actions(){
-            return this.raw_result.filter(result=>result.type===this.action_type)
+            return this.raw_result.filter(result=>result.type===this.action_type && result.category !== this.category )
+
         }
     }
 }

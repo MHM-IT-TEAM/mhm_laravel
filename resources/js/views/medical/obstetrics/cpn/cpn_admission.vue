@@ -132,27 +132,20 @@
               <td colspan="">
                 <span
                   >EDD<small>(DPA)</small>
-                  <date-picker
-                    :value="ultrasound_data.selected_edd"
-                    mode="date"
-                    :style="{
-                      visibility: ultrasound_data.selected_edd
-                        ? 'visible'
-                        : 'hidden',
-                    }"
-                    :popover="{ visibility: 'hidden' }"
-                    :model-config="accessory.dateConfig"
-                    :masks="accessory.dateConfig.masks"
-                  >
-                    <template v-slot="{ inputValue, inputEvents }">
-                      <input
-                        class="bg-white border px-2 py-1 rounded"
-                        :value="inputValue"
-                        v-on="inputEvents"
-                        readonly
-                      />
-                    </template>
-                  </date-picker>
+<!--                  <date-picker-->
+<!--                    :value="ultrasound_data.selected_edd"-->
+<!--                    mode="date"-->
+<!--                    :model-config="accessory.dateConfig"-->
+<!--                    :masks="accessory.dateConfig.masks"-->
+<!--                  >-->
+<!--                    <template v-slot="{ inputValue, inputEvents }">-->
+<!--                      <input-->
+<!--                        class="bg-white border px-2 py-1 rounded"-->
+<!--                        :value="inputValue"-->
+<!--                        v-on="inputEvents"-->
+<!--                      />-->
+<!--                    </template>-->
+<!--                  </date-picker>-->
                 </span>
               </td>
               <td class="narrow">G</td>
@@ -176,7 +169,6 @@
                     type="checkbox"
                     name="unknown_ddr"
                     v-model="ultrasound_data.unknown_lpd"
-                    disabled
                   />
                 </div>
                   <br>
@@ -185,7 +177,6 @@
                   v-if="!ultrasound_data.unknown_lpd"
                   :input-debounce="500"
                   mode="date"
-                  :popover="{ visibility: 'hidden' }"
                   :model-config="accessory.dateConfig"
                   :masks="accessory.dateConfig.masks"
                 >
@@ -205,7 +196,7 @@
               <td colspan="" class="border" style="width: 250px !important">
                 <label>To be used</label>
                 [&nbsp;
-                <select v-model="ultrasound_data.edd_method" disabled>
+                <select v-model="ultrasound_data.edd_method">
                   <option value="calc">calc</option>
                   <option value="us">US</option>
                   <option value="corrected">corrected</option>
@@ -232,12 +223,6 @@
                     mode="date"
                     :model-config="accessory.dateConfig"
                     :masks="accessory.dateConfig.masks"
-                    :popover="{ visibility: 'hidden' }"
-                    :style="{
-                      visibility: !ultrasound_data.unknown_lpd
-                        ? 'visible'
-                        : 'hidden',
-                    }"
                   >
                     <template v-slot="{ inputValue, inputEvents }">
                       <input
@@ -250,8 +235,6 @@
                         "
                         :value="inputValue"
                         v-on="inputEvents"
-                        readonly
-                        disabled
                         :class="{
                           'text-success': formData.edd_method === 'calc',
                         }"
@@ -275,7 +258,6 @@
                     mode="date"
                     :model-config="accessory.dateConfig"
                     :masks="accessory.dateConfig.masks"
-                    :popover="{ visibility: 'hidden' }"
                   >
                     <template v-slot="{ inputValue, inputEvents }">
                       <input
@@ -288,8 +270,6 @@
                         "
                         :value="inputValue"
                         v-on="inputEvents"
-                        readonly
-                        disabled
                         :class="{
                           'text-success': ultrasound_data.edd_method === 'us',
                         }"
@@ -311,7 +291,6 @@
                     mode="date"
                     :model-config="accessory.dateConfig"
                     :masks="accessory.dateConfig.masks"
-                    :popover="{ visibility: 'hidden' }"
                   >
                     <template v-slot="{ inputValue, inputEvents }">
                       <input
@@ -324,8 +303,6 @@
                         "
                         :value="inputValue"
                         v-on="inputEvents"
-                        readonly
-                        disabled
                         :class="{
                           'text-success':
                             ultrasound_data.edd_method === 'corrected',
@@ -1084,6 +1061,7 @@
 
 <script>
 import { validationMixin } from "vuelidate";
+import moment from "moment"
 import gestationalAge from "../../../../components/gestational_age_control";
 import seniorAuthDialog from "../../../../components/senior_auth_dialog";
 const {
@@ -1463,10 +1441,10 @@ export default {
         this.ultrasound_data={
             id:data.id,
             created_at:data.created_at,
-            ddr:data.last_period_date,
-            edd_calc:data.edd_calculated,
-            edd_corrected:data.edd_corrected,
-            edd_ultrasound:data.edd_ultrasound,
+            ddr:moment(data.last_period_date,"YYYY-MM-DD HH:mm").toISOString(),
+            edd_calc:moment(data.edd_calculated,"YYYY-MM-DD HH:mm").toISOString(),
+            edd_corrected:moment(data.edd_corrected,"YYYY-MM-DD HH:mm").toISOString(),
+            edd_ultrasound:moment(data.edd_ultrasound,"YYYY-MM-DD HH:mm").toISOString(),
             gestational_age:'',
             edd_method:data.edd_method,
             selected_edd:'',
@@ -1614,6 +1592,7 @@ export default {
             default:
                 return "0+0"
         }
+        if (src_ga===null) return "0+0"
         src_date= this.ultrasound_data.created_at
         const diff = new Date()- new Date(src_date);
         const diff_in_days = Math.round(diff / 1000 / 60 / 60 / 24);

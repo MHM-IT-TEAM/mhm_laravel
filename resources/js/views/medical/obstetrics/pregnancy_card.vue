@@ -5,7 +5,7 @@
     <div class="m-4">
         ULTRASOUND
     </div>
-    <ultrasound_exam_crud :is_overview="true" :ultrasound_admission_id="ultrasound_admission_id"/>
+    <ultrasound_exam_crud :is_overview="true" :ultrasound_admission_id="ultrasound_admission_id" v-if="ultrasound_admission_id!==''"/>
 </div>
 </template>
 
@@ -28,14 +28,15 @@ export default {
         this.init()
     },
     methods:{
-        init(){
+       async init(){
             let data=this.$route.params.data
             if(data !==undefined){
                 this.cpn_admission_id=data.id
-                this.ultrasound_admission_id=data.ultrasound_admission_id
-
             }
-        }
+           axios.get(`/api/v1/patient_system/out_patient/obstetrical/ultrasound/patient/${this.$route.params.data.patient_id}`).then(response=>{
+               this.ultrasound_admission_id= response.data
+           })
+        },
     }
 }
 </script>

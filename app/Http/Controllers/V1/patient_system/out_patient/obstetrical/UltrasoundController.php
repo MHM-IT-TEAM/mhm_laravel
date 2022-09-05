@@ -49,4 +49,7 @@ class UltrasoundController extends Controller
     public function get_details($id){
         return UltrasoundAdmission::with('fetuses','ultrasoundDetails')->find($id);
     }
+    public function where_patient_id($patient_id){
+        return UltrasoundAdmission::where('patient_id',$patient_id)->latest()->first()->id;
+    }
 }

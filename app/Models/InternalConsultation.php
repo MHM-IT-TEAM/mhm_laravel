@@ -15,6 +15,7 @@ class InternalConsultation extends Model
     }
     public static function store($request){
         self::create($request->all());
+        //create a new admission
         return response()->json(['success'=>true,'msg'=>'data submitted']);
     }
 }

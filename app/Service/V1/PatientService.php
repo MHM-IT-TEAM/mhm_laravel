@@ -58,7 +58,7 @@ class PatientService
         $patient->fill($this->patientData)->save();
         $this->patId= $patient->id;
         $this->storeEmData();
-        $this->returnAll();
+        return $patient;
     }
     /**
      * update a patient;
@@ -102,11 +102,6 @@ class PatientService
             }
         }
     }
-    /***
-     * return all records
-     */
-    public function returnAll(){
-        return Patient::all();
-    }
+
 
 }

@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class StorkActionGroup extends Model
 {
     use HasFactory;
+
 }

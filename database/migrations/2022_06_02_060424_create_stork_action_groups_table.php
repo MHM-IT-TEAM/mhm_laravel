@@ -18,6 +18,7 @@ class CreateStorkActionGroupsTable extends Migration
             $table->timestamps();
             $table->string('description');
             $table->string('type');
+            $table->string('category');
         });
     }
 

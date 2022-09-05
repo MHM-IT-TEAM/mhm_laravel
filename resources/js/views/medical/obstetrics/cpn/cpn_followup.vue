@@ -38,7 +38,7 @@
                             vertical
                             v-if="!is_overview"
                         ></v-divider>
-                        <v-btn color="primary" @click="navigateToOverview"  v-if="!is_overview" small>View overview</v-btn>
+<!--                        <v-btn color="primary" @click="navigateToOverview"  v-if="!is_overview" small>View overview</v-btn>-->
                         <v-divider
                             class="mx-4"
                             inset
@@ -978,7 +978,7 @@ const {
                 this.accessory.isLoading = false;
             },
             async navigateToOverview(){
-                let response= await axios.get(`/api/v1/patient_system/out_patient/obstetrical/cpn/admission/${this.$route.params?.cpn_admission?.id}`)
+                let response= await axios.get(`/api/v1/patient_system/out_patient/obstetrical/cpn/admission/${this.$route.params?.cpn_admission?.patient_id}`)
                 this.$router.push({
                     name:"pregnancy_card",
                     params:{

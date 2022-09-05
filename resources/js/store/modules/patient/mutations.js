@@ -13,8 +13,9 @@ export default {
     },
 
     [types.ADD_PATIENT] (state, data) {
-        //state.patients.push(data)
-        Object.assign(state.patients,data)
+        state.patients.push(data)
+        state.created_patient=data
+        // Object.assign(state.patients,data)
     },
 
     [types.UPDATE_PATIENT] (state, data) {

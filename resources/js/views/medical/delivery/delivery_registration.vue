@@ -806,7 +806,7 @@ export default {
             patient_fullname:'',patient_adress:'',patient_birthDate:'',
             twin:false,count_twin:1,
             induction_method:["Ballon","Cytotec","Oxytocin","Opening of membranes"],
-            induction_reason:["Gestational diabetes","High blood pressure","Short lady","MFIU","Pre eclampsia","suspicious CTG","To avoid C-section","IUGR"],
+            induction_reason:["Gestational diabetes","High blood pressure","Short lady","MFIU","Pre eclampsia","suspicious CTG","To avoid C-section","IUGR","sign of infection","broken membranes >= 12h"],
             injury_where:['Perineum','Vagina','Labia','Clitoris','Anus','Cervix'],
             complication_mom_before_birth: ['Gestational diabetes','Prolaps of the umbilical cord','polyhydramnion','Olygohydramnion',
                 'suspicion of COVID','Stagnation of Dilatation','long labor','long pushing',

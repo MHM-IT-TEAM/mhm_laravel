@@ -113,6 +113,7 @@ Route::prefix('/v1')->group(function(){
                     Route::get("details/{ultrasound_admission_id}",[\App\Http\Controllers\V1\patient_system\out_patient\obstetrical\UltrasoundController::class,'get_details']);
                     Route::post("patient_search",[\App\Http\Controllers\V1\patient_system\out_patient\obstetrical\UltrasoundController::class,'patient_search']);
                     Route::put("close_exam/{ultrasound_admission_id}",[\App\Http\Controllers\V1\patient_system\out_patient\obstetrical\UltrasoundController::class,'close_exam']);
+                    Route::get("patient/{patient_id}",[\App\Http\Controllers\V1\patient_system\out_patient\obstetrical\UltrasoundController::class,'where_patient_id']);
                 });
                 // Baby Checkup
                     Route::group(['prefix'=>'baby'],function(){
