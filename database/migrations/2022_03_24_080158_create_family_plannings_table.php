@@ -18,7 +18,8 @@ class CreateFamilyPlanningsTable extends Migration
             $table->timestamps();
             $table->foreignId('patient_id');
             $table->foreignId('admission_id');
-            $table->string('method',100);
+            $table->string('used_method',100);
+            $table->string('new_user',100)->nullable();
             $table->integer('qty');
             $table->text('remark')->nullable();
             $table->integer('user_id')->nullable();
