@@ -21,6 +21,7 @@ class CreateBirthsTable extends Migration
             $table->timestamps();
             $table->string('GA',10)->nullable();
             $table->string('external_delivery',10)->nullable();
+            $table->string('external_delivery_place',100)->nullable();
             $table->foreignId('patient_id');
             $table->bigInteger('cpn_admission_id')->nullable();
             $table->boolean('induction')->nullable();

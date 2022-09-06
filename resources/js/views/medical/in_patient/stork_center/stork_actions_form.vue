@@ -10,6 +10,10 @@
                         </select>
                     </td>
                     <td>
+                        <input type="time" class="form-control"  v-model="formData.time"/>
+
+                    </td>
+                    <td>
                         <input type="text" class="form-control" placeholder="Value/Remark" v-model="formData.value"/>
                     </td>
                     <td>
@@ -52,6 +56,7 @@ export default {
                 stork_admission_id:'',
                 stork_action_group_id:'',
                 value:'',
+                time:'',
                 remark:''
             },
             search:'',
@@ -61,6 +66,10 @@ export default {
                     align: 'start',
                     sortable: false,
                     value: 'created_at',
+                },
+                {
+                    text:'time',
+                    value:'time'
                 },
                 {
                     text:'Actions',
@@ -103,6 +112,7 @@ export default {
                             stork_admission_id:'',
                             stork_action_group_id:'',
                             value:'',
+                            time:'',
                             remark:''
                         }
                         this.load_data_in_system()

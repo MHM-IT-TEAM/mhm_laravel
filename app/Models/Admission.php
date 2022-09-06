@@ -31,4 +31,7 @@ class Admission extends Model
     public function admission_type(){
         return $this->belongsTo(AdmissionType::class);
     }
+    public function babySicknesses(){
+        return $this->hasMany(BabySickness::class);
+    }
 }

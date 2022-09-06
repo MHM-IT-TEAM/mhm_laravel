@@ -211,6 +211,34 @@ class BedSeeder extends Seeder
                 'occupied'=>0,
                 'room'=>'TQU',
             ],
+            [
+                'code'=>'PINK 1',
+                'description'=>'Pink 1',
+                'service_id'=>'14',
+                'occupied'=>0,
+                'room'=>'PINK',
+            ],
+            [
+                'code'=>'PINK 1+',
+                'description'=>'Pink 1+',
+                'service_id'=>'14',
+                'occupied'=>0,
+                'room'=>'PINK',
+            ],
+            [
+                'code'=>'PINK 2',
+                'description'=>'Pink 2',
+                'service_id'=>'14',
+                'occupied'=>0,
+                'room'=>'PINK',
+            ],
+            [
+                'code'=>'PINK 2+',
+                'description'=>'Pink 2+',
+                'service_id'=>'14',
+                'occupied'=>0,
+                'room'=>'PINK',
+            ],
         ]);
     }
 }

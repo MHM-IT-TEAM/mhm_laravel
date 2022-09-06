@@ -150,12 +150,21 @@ export default {
                 ]
             },
             {
+                title:'Postpartum',
+                active:false,
+                icon:'mdi-apps',
+                children:[
+                    {url:'postpartum_list',title:'List'},
+                    {url:'postpartum_form',title:'Form'},
+                ]
+            },
+            {
                 title:'Babies',
                 active:false,
                 children:[
                     {url:'baby_checkup_list',title:'Checkup'},
                     {url:'baby_vaccination_list',title:'Vaccination'},
-                    {url:'',title:'Sickness'},
+                    {url:'baby_sickness_list',title:'Sickness'},
                     // {url:'',title:'Injury'},
                     // {url:'',title:'Wound care'},
                 ]
@@ -174,13 +183,13 @@ export default {
                     {url:'item_order_obstetrics',title:'Order'},
                 ]
             },
-            {
-                title:'Report',
-                active:false,
-                children:[
-                    {url:'pink_statistics',title:'General overview'},
-                ]
-            },
+            // {
+            //     title:'Report',
+            //     active:false,
+            //     children:[
+            //         {url:'pink_statistics',title:'General overview'},
+            //     ]
+            // },
         ],
         user:{
             id:'',

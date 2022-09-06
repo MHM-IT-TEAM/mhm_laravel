@@ -75,6 +75,9 @@ class CreateCpnAdmissionsTable extends Migration
             $table->String('edd_ultrasound',50)->nullable();
             $table->String('edd_calc',50)->nullable();
             $table->String('selected_edd',50)->nullable();
+            $table->String('dpa',50)->nullable();
+            $table->String('dpa_ultrasound',50)->nullable();
+            $table->String('dpa_echo',50)->nullable();
         });
     }
 

@@ -30,6 +30,12 @@
                                         <label class="custom-control-label" for="external_delivery_2">no</label>
                                     </div>
                                 </div>
+                                <div class="form-group" v-if="formData.external_delivery==='yes'">
+                                    <label>Where</label>
+                                    <select class="form-control-sm form-control" v-model="formData.external_delivery_place">
+                                        <option v-for="opt in delivery_place">{{opt}}</option>
+                                    </select>
+                                </div>
                             </div>
                         </v-card-text>
                     </v-card>
@@ -252,6 +258,9 @@
                             <div class="row" v-for="(row,i) in formData.injuries" >
                                 <div class="col">
                                     {{row.where}}
+                                </div>
+                                <div class="col">
+                                    {{row.position}}
                                 </div>
                                 <div class="col">
                                     {{row.degree}}
@@ -718,6 +727,7 @@ export default {
                 birth_time:'',
                 GA:'',
                 external_delivery:'',
+                external_delivery_place:'',
                 babies:[
                     {   id:'',
                         firstName:'',
@@ -788,6 +798,7 @@ export default {
                 anesthetists:'',
 
             },
+            delivery_place:["at home","On the road","In the ambulance"],
             birth_complications:[
                 'Long labour',
                 'eclampsia',
@@ -1009,7 +1020,7 @@ export default {
         },
         push_injury(){
             console.log("here")
-            if(this.temp_injury.where!==''&& this.temp_injury.position!==''&& this.temp_injury.degree!==''){
+            if(this.temp_injury.where!==''){
                 this.formData.injuries.push(this.temp_injury)
                 this.temp_injury={
                     where:'',

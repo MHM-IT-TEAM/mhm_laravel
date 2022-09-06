@@ -290,6 +290,11 @@ export default {
                     color:'cyan',
                     beds:this.start_list.filter(list=>list.bed.room==='TQU')
                 },
+                {
+                    room:'Pink',
+                    color:'pink',
+                    beds:this.start_list.filter(list=>list.bed.room==='PINK')
+                },
             ]
         }
 

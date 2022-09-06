@@ -151,6 +151,9 @@ import patient_list_of_cpn from "./views/medical/obstetrics/cpn/patient_list_of_
 import cpn_followup from "./views/medical/obstetrics/cpn/cpn_followup";
 import first_cpn_list from "./views/medical/obstetrics/cpn/first_cpn_list";
 import cpn_followup_list from "./views/medical/obstetrics/cpn/cpn_followup_list";
+// POSTPARTUM
+import postpartum_list from "./views/medical/obstetrics/postpartum/postpartum_list";
+import postpartum_form from "./views/medical/obstetrics/postpartum/postpartum_form";
 //Baby
 import weight_overview from "./views/medical/obstetrics/baby/weight_overview";
 import baby_checkup from "./views/medical/obstetrics/baby/baby_checkup";
@@ -160,6 +163,8 @@ import baby_vaccination_list from "./views/medical/obstetrics/baby/baby_vaccinat
 import baby_milk_pro_admission from "./views/medical/obstetrics/baby/baby_milk_pro_admission";
 import baby_milk_pro_followup from "./views/medical/obstetrics/baby/baby_milk_pro_followup";
 import baby_milk_pro_list from "./views/medical/obstetrics/baby/baby_milk_pro_list";
+import baby_sickness from "./views/medical/obstetrics/baby/baby_sickness";
+import baby_sickness_list from "./views/medical/obstetrics/baby/baby_sickness_list";
 //Family planning
 import family_planning_list from "./views/medical/obstetrics/family_planning/family_planning_list";
 import family_planning_form from "./views/medical/obstetrics/family_planning/family_planning_form";
@@ -433,6 +438,17 @@ const routes = [
                 component:baby_checkup
             },
             {
+                path: 'baby_sickness_list',
+                name: 'baby_sickness_list',
+                component:baby_sickness_list
+            },
+            {
+                path: 'baby_sickness',
+                name: 'baby_sickness',
+                component:baby_sickness
+            },
+
+            {
                 path: 'baby_vaccination_list',
                 name: 'baby_vaccination_list',
                 component:baby_vaccination_list,
@@ -480,6 +496,17 @@ const routes = [
                 path:'report',
                 name:'pink_statistics',
                 component:pink_statistics
+            },
+            //postpartum
+            {
+                path:'postpartum_list',
+                name:'postpartum_list',
+                component:postpartum_list
+            },
+            {
+                path:'postpartum_form',
+                name:'postpartum_form',
+                component:postpartum_form
             }
         ]
     },

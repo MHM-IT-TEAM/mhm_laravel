@@ -18,6 +18,7 @@ class CreateStorkActionsTable extends Migration
             $table->timestamps();
             $table->foreignId('stork_admission_id');
             $table->foreignId('stork_action_group_id');
+            $table->string('time')->nullable();
             $table->string('value')->nullable();
             $table->string("user")->nullable();
 

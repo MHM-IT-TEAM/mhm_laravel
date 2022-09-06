@@ -56,6 +56,7 @@ class CreateCpnFollowupsTable extends Migration
             $table->text('ctg_explanation')->nullable();
             $table->text('us_explanation')->nullable();
             $table->string('discharge')->nullable();
+            $table->string('week_of_pregnancy')->nullable();
         });
     }
 

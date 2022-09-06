@@ -48,7 +48,7 @@ class Birth extends Model
                     $cpn->save();
                 }
                 //register the main Data to Births table
-                $src= $request->only(['patient_id','birth_date','birth_time','external_delivery','cpn_admission_id','code','GA','induction','induction_method','induction_reason','responsible_midwives','trainee','doctors','anesthetists','assistant_midwives','senior_midwives','user_id']);
+                $src= $request->only(['patient_id','birth_date','birth_time','external_delivery','external_delivery_place','cpn_admission_id','code','GA','induction','induction_method','induction_reason','responsible_midwives','trainee','doctors','anesthetists','assistant_midwives','senior_midwives','user_id']);
 //                $src['code']=date("Y").'-'.$code;
                 $birth= Birth::create($src);
                 //register the babies into the patient table

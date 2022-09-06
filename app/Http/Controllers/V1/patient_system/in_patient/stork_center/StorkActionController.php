@@ -12,6 +12,7 @@ class StorkActionController extends Controller
         StorkAction::create([
             'stork_admission_id'=>$request->stork_admission_id,
             'stork_action_group_id'=>$request->stork_action_group_id,
+            'time'=>$request->time,
             'value'=>$request->value,
             'user'=>$request->user,
         ]);

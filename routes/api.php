@@ -119,7 +119,10 @@ Route::prefix('/v1')->group(function(){
                     Route::group(['prefix'=>'baby'],function(){
                         Route::resource('checkup',\App\Http\Controllers\V1\patient_system\out_patient\obstetrical\BabyCheckupController::class);
                         Route::resource('vaccination',\App\Http\Controllers\V1\patient_system\out_patient\obstetrical\BabyVaccinationController::class);
+                        //sickness
+                        Route::resource('sickness',\App\Http\Controllers\V1\patient_system\out_patient\obstetrical\BabySicknessController::class);
                     });
+
                 //Milk program
                     Route::group(['prefix'=>'milkPro'],function(){
                         Route::resource('main',\App\Http\Controllers\V1\patient_system\out_patient\obstetrical\BabyMilkProgramController::class);
@@ -130,6 +133,8 @@ Route::prefix('/v1')->group(function(){
                 Route::group(['prefix'=>'family_planning'],function(){
                     Route::resource('main',\App\Http\Controllers\V1\patient_system\out_patient\obstetrical\FamilyPlanningController::class);
                 });
+                //POSTPARTUM
+                Route::resource('postpartum',\App\Http\Controllers\V1\patient_system\out_patient\obstetrical\PostPartController::class);
 
             });
         });
