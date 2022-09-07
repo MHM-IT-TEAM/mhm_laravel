@@ -568,6 +568,9 @@ export default {
           if (response.data.length > 0) {
             this.formData.admission_care_details = response.data[0];
           }
+            if(this.formData.service_activity_id===10){
+                this.formData.admission_care_details = response.data[4];
+            }
         });
     },
     add_care_line() {
