@@ -25,6 +25,7 @@ import Pagination from 'vue-pagination-2';
 import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 import VueBarcodeScanner from 'vue-barcode-scanner'
+import auto_logout from "./components/auto_logout";
 
 
 
@@ -39,6 +40,7 @@ Vue.component('calendar', Calendar)
 Vue.component('date-picker', DatePicker)
 Vue.component('yes-or-no', YesOrNo)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
+Vue.component('auto_logout',auto_logout)
 Vue.component('pagination', Pagination);
 Vue.use(VueHtmlToPaper)
 Vue.use(VueSweetalert2)

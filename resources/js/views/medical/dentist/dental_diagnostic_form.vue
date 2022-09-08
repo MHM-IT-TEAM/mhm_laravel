@@ -12,7 +12,7 @@
 <!--                     <th class="table-title" colspan="16"> <v-icon class="text-white">mdi-stethoscope</v-icon> &nbsp B) Today's actions</th>-->
 <!--                 </tr>-->
                  <tr>
-                     <td v-for="tooth in first_row"  class="border font-weight-bold text-center" :class="td_color(tooth.diagnostic.value)">
+                     <td v-for="tooth in first_row"  class="border font-weight-bold text-center" :class="td_color(tooth.diagnostic.symbol)">
                          {{tooth.diagnostic.symbol}}
 
                      </td>
@@ -25,7 +25,7 @@
                  <tr>
                      <td  v-for="(tooth,i) in first_row" class="text-center">
                          <v-btn  x-small :disabled="tooth.diagnostic.symbol==='X'"
-                                 @click="process(tooth,i,1)" :class="td_color(tooth.diagnostic.value)"
+                                 @click="process(tooth,i,1)" :class="td_color(tooth.diagnostic.symbol)"
                                  v-if="!accessory.today_operation_paid"
                          >
                              <v-icon>

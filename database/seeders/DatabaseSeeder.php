@@ -48,7 +48,13 @@ class DatabaseSeeder extends Seeder
             AppointmentStatusSeeder::class,
             BirthTypeSeeder::class,
             BedSeeder::class,
-            StorkActionGroupSeeder::class
+            StorkActionGroupSeeder::class,
+            lpiSeeder::class,
+            lpiiSeeder::class,
+            lpiiiSeeder::class,
+            cervixPositionSeeder::class,
+            cervixOpeningSeeder::class,
+            cervixLengthSeeder::class,
         ]);
     }
 }

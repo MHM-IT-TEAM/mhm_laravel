@@ -48,8 +48,11 @@
 <body>
 <div id="app">
         @yield('content')
+    @auth
+        <auto_logout/>
+    @endauth
 
 </div>
 </body>
 </html>
-<?php
+
