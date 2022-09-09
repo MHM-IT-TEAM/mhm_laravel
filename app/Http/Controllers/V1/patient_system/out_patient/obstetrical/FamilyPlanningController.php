@@ -5,6 +5,7 @@ namespace App\Http\Controllers\V1\patient_system\out_patient\obstetrical;
 use App\Http\Controllers\Controller;
 use App\Models\FamilyPlanning;
 use App\Models\Patient;
+use App\Service\V1\patient_system\obstetrics\PlanningFamilyService;
 use Illuminate\Http\Request;
 
 class FamilyPlanningController extends Controller
@@ -37,16 +38,8 @@ class FamilyPlanningController extends Controller
      */
     public function store(Request $request)
     {
-        FamilyPlanning::create(
-            [
-                'admission_id'=>$request->admission_id,
-                'patient_id'=>$request->patient_id,
-                'used_method'=>$request->used_method,
-                'qty'=>$request->qty,
-                'remark'=>$request->remark,
-                'new_user'=>$request->new_user
-            ]
-        );
+        $pf= new PlanningFamilyService();
+        $pf->store($request);
         return $this->show($request->patient_id);
     }
 

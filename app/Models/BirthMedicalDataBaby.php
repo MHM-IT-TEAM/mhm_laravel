@@ -38,6 +38,7 @@ class BirthMedicalDataBaby extends Model
             'malformation'=>$request['malformation'],
             'malformation_explanation'=>$request['malformation_explanation'],
             'position'=>$request['position'],
+            'presentation'=>$request['presentation'],
             'infection'=>$request['infection'],
             'correlation'=>$request['correlation'],
             'extra_supervision_needed'=>$request['extra_supervision_needed'],

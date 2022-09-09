@@ -25,6 +25,11 @@
                                 <input type="number" class="form-control form-control-sm" v-model="formData.qty"/>
                             </td>
                         </tr>
+                        <tr>
+                            <td colspan="3">
+                                <give_medicine @get_value="get_medicines" :reset="reset_medication_list"/>
+                            </td>
+                        </tr>
                         <tr class="table-borderless">
                             <td colspan="3">
                                 <textarea class="form-control form-control-sm" placeholder="remark" v-model="formData.remark"></textarea>
@@ -62,9 +67,10 @@
 <script>
 import Patient_information from "../../../../components/patient_information";
 import moment from "moment"
+import Give_medicine from "../../../../components/give_medicine";
 export default {
     name: "family_planning_form",
-    components: {Patient_information},
+    components: {Give_medicine, Patient_information},
     data(){
         return{
             list:[],
@@ -76,7 +82,8 @@ export default {
                 remark:'',
                 new_user:false
             },
-            methods:['Microgynon','Microlut','DMPA-IM','DMPA-SC','Male condom','Female condom','Implanon NXT']
+            methods:['Microgynon','Microlut','DMPA-IM','DMPA-SC','Male condom','Female condom','Implanon NXT'],
+            reset_medication_list:false,
         }
     },
     created(){
@@ -114,7 +121,10 @@ export default {
                 //check whether new_user or old
                 this.formData.new_user=(this.list.length>0)?0:1
             })
-        }
+        },
+        get_medicines(data){
+            this.formData.medication=data
+        },
 
     }
 }

@@ -34,6 +34,7 @@ class CreateBirthMedicalDataBabiesTable extends Migration
             $table->string('malformation',20)->nullable();
             $table->string('malformation_explanation',200)->nullable();
             $table->string('position',200)->nullable();
+            $table->string('presentation',200)->nullable();
             $table->string('infection',200)->nullable();
             $table->string('correlation',10)->nullable();
             $table->string('extra_supervision_needed',10)->nullable();

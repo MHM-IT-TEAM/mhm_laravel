@@ -15,8 +15,12 @@ class cervixOpeningSeeder extends Seeder
     public function run()
     {
         CervixOpening::insert([
-            ['name'=>'tough'],
-            ['name'=>'soft'],
+            ['name'=>'1cm'],
+            ['name'=>'2cm'],
+            ['name'=>'3cm'],
+            ['name'=>'4cm'],
+            ['name'=>'5cm'],
+            ['name'=>'closed'],
         ]);
     }
 }

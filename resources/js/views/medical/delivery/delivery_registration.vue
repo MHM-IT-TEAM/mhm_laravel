@@ -468,9 +468,17 @@
                                 </div>
                                 <div class="col-sm-6 col-md-2">
                                     <div class="form-group">
-                                        <label>Position of the baby</label>
+                                        <label>Position</label>
                                         <select v-model="baby.position" :class="{ 'error': v.position.$error }" class="form-control form-control-sm">
                                             <option v-for="pb in position_baby">{{pb}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-2">
+                                    <div class="form-group">
+                                        <label>Presentation </label>
+                                        <select v-model="baby.presentation"  class="form-control form-control-sm">
+                                            <option v-for="pb in presentation_baby">{{pb}}</option>
                                         </select>
                                     </div>
                                 </div>
@@ -738,6 +746,7 @@ export default {
                         death_type:'',
                         modus:'',
                         position:'',
+                        presentation:'',
                         correlation:'',
                         maturity:'',
                         vit_k:'',
@@ -806,8 +815,9 @@ export default {
                 'High Blood pressure',
                 'Long Pushing'
             ],
-            position_mom:['laying on her back','laying on her side','sitting','standing','4 paws','kneeing'],
-            position_baby:['occiput anterior left','occiput anterior right','occiput posterior left','occiput posterior right','face presentation','cheen anterior','breech','full knee','one foot','full feet','Oblic'],
+            position_mom:['laying on her back','laying on her side','sitting','standing','all fours','kneeing'],
+            position_baby:['occiput anterior left','occiput anterior right','occiput posterior left','occiput posterior right','occiput sacre','cheen anterior','full knee','one foot','full feet','Oblic'],
+            presentation_baby:['Cephalic','Breech','face','transversal'],
             ctg:['normal','pathological','suspicious'],
             blood_loss:['<250','250-500','500-750','750-1000','1000-1500','1500-2000','2000-2500','>2500'],
             correlation:['<','=','>'],
@@ -817,14 +827,16 @@ export default {
             patient_fullname:'',patient_adress:'',patient_birthDate:'',
             twin:false,count_twin:1,
             induction_method:["Ballon","Cytotec","Oxytocin","Opening of membranes"],
-            induction_reason:["Gestational diabetes","High blood pressure","Short lady","MFIU","Pre eclampsia","suspicious CTG","To avoid C-section","IUGR","sign of infection","broken membranes >= 12h"],
+            induction_reason:["Gestational diabetes","High blood pressure","Short lady","MFIU","Pre eclampsia","suspicious CTG","To avoid C-section","IUGR","sign of infection","broken membranes >= 12h",'to avoid re c-section','big EFW comparing to the body of the mom'],
             injury_where:['Perineum','Vagina','Labia','Clitoris','Anus','Cervix'],
             complication_mom_before_birth: ['Gestational diabetes','Prolaps of the umbilical cord','polyhydramnion','Olygohydramnion',
                 'suspicion of COVID','Stagnation of Dilatation','long labor','long pushing',
-                'DPF','pre-eclampsia','infection signs','AIS','Placenta praevia total','placenta praevia marginalis','early detachement of placenta','suspicious pelvic','high blood pressure'],
-            complication_mom_after_birth: ['Bleeding','Major tears','placenta Accreta','Hemorrhage','Curetage','Hysterectomie','Infection'],
-            complication_baby_before_birth:['bad CTG','Prolaps of the ubmilical cord','prolaps of the head','head wrong position','IUGR','SGA','Abnormal presentation'],
-            complication_baby_after_birth:['Umbilical cord wrap','Shoulder dystocia'],
+                'DFP','pre-eclampsia','infection signs','AIS','Placenta praevia total',
+                'placenta praevia marginalis','early detachement of placenta',
+                'suspicious pelvic','high blood pressure','epilepsia','sign of pre rupture of the uterus'],
+            complication_mom_after_birth: ['Bleeding','Major tears','placenta Accreta','Hemorrhage','Curetage','Hysterectomie','Infection','atonie uterine','rupture uterine','T cut section'],
+            complication_baby_before_birth:['bad CTG','Prolaps of the ubmilical cord','prolaps of the hand','head wrong position','IUGR','SGA','Abnormal presentation','macrosomia'],
+            complication_baby_after_birth:['Umbilical cord wrap','Shoulder dystocia','bad baby','infection signs'],
             injury_position:["Left","right"],
             injury_degree:["I","II","III","IV"],
             anesthesia:["no","Local","General","Spinal"],
@@ -840,6 +852,7 @@ export default {
                 death_type:'',
                 modus:'',
                 position:'',
+                presentation:'',
                 correlation:'',
                 maturity:'',
                 vit_k:'',
