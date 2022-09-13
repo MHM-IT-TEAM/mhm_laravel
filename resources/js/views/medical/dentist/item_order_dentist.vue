@@ -1,7 +1,7 @@
 <template>
     <div class="container w-75">
         <v-app>
-            <item_order :orderer_id="9"/>
+            <item_order :orderer_id="11"/>
         </v-app>
     </div>
 </template>

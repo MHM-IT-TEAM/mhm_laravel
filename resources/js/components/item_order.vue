@@ -190,7 +190,9 @@ export default {
         get_collector(){
             axios.get(`/api/v1/inventory_system/collector/${this.orderer_id}`).then(response=>{
                 this.accessory.collectors=response.data
-                if(this.accessory.collectors.length===1) this.formData.collector_id= this.accessory.collectors[0].id
+                if(this.accessory.collectors.length===1){
+                    this.formData.collector_id= this.accessory.collectors[0].id
+                }
             })
 
         }
