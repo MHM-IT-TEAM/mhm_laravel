@@ -28,7 +28,7 @@ export default {
             this.setTimer()
         },
         async log_user_out(){
-            alert('You have been inactive since 5 minutes')
+            alert('You have been inactive since 15 minutes')
             await axios.post("/logout").then((resp) => console.log(resp));
             window.location.href = "/login";
         }

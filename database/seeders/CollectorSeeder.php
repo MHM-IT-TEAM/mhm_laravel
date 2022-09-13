@@ -15,9 +15,16 @@ class CollectorSeeder extends Seeder
     public function run()
     {
         Collector::insert([
-            ['name'=>'Saholy','department_id'=>1],
-            ['name'=>'Tianasoa','department_id'=>4],
-            ['name'=>'Hasina','department_id'=>2],
+            ['name'=>'Vahatra','department_id'=>1,'orderer_id'=>1],
+            ['name'=>'Ando','department_id'=>2,'orderer_id'=>2],
+            ['name'=>'Hobilalaina','department_id'=>2,'orderer_id'=>2],
+            ['name'=>'Mampionona','department_id'=>2,'orderer_id'=>2],
+            ['name'=>'Tianasoa','department_id'=>4,'orderer_id'=>4],
+            ['name'=>'Tiavina','department_id'=>6,'orderer_id'=>6],
+            ['name'=>'Hianja','department_id'=>6,'orderer_id'=>6],
+            ['name'=>'Hasina','department_id'=>6,'orderer_id'=>6],
+            ['name'=>'Lanto','department_id'=>11,'orderer_id'=>11],
+            ['name'=>'Dr Norosoa','department_id'=>8,'orderer_id'=>8],
 
         ]);
     }

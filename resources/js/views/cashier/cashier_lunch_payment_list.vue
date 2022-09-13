@@ -92,12 +92,13 @@
                                <div class="form-group">
                                    <label>Value</label>
                                    <input type="text" class="form-control form-control-sm" v-model="editedItem.value" disabled/>
+
                                </div>
                            </div>
                            <div class="col">
                                <div class="form-group">
                                    <label>Paid</label>
-                                   <input type="text" class="form-control form-control-sm" v-model="editedItem.paid"/>
+                                   <input type="text" class="form-control form-control-sm" v-model="editedItem.paid" :class="{'border border-danger':$v.editedItem.paid.$error}" @keyup="$v.editedItem.$touch()" />
                                </div>
                            </div>
                        </div>
@@ -106,19 +107,11 @@
 
                     <v-card-actions>
                         <v-spacer></v-spacer>
-
-                        <v-btn
-                            color="green darken-1"
-                            text
-                            @click="dialog = false"
-                        >
-                            Disagree
-                        </v-btn>
-
                         <v-btn
                             color="green darken-1"
                             text
                             @click="submit_payment"
+                            v-if="! $v.editedItem.paid.$error"
                         >
                             Pay
                         </v-btn>
@@ -130,8 +123,13 @@
 </template>
 
 <script>
+import { validationMixin } from "vuelidate";
+const {
+    required, maxValue
+} = require("vuelidate/lib/validators");
 export default {
     name: "cashier_lunch_payment_list",
+    mixins: [validationMixin],
     data(){
         return{
             dialog: false,
@@ -146,21 +144,36 @@ export default {
                 { text: 'Actions', value: 'actions', sortable: false },
             ],
             list: [],
+            to_pay:'',
             editedIndex: -1,
             editedItem:{
-                lunch_menu:{}
+                lunch_menu:{},
+                paid:'',
+                value:''
             },
 
+
+        }
+    },
+    validations(){
+        return{
+            editedItem:{
+                paid:{
+                    maxValue:maxValue(this.editedItem.value)
+                }
+            }
         }
     },
     created(){
         this.initialize()
+
     },
     methods:{
         async initialize () {
             await axios.get('/api/v1/patient_system/cashier/lunch_orders').then(response=>{
                 this.list=response.data
             })
+            this.to_pay=this.editedItem.value
         },
 
         async pay (item) {
@@ -169,11 +182,15 @@ export default {
             // this.$router.push({name:'cashier_payment',params:{admission:item.admission,paid:check}})
         },
         async submit_payment(){
+            if (this.$v.$invalid) {
+                return true;
+            }
             await axios.post('/api/v1/patient_system/cashier/pay_lunch',this.editedItem).then(response=>{
                 if(response.data.success) {
                     this.initialize()
                     this.editedItem={
-                        lunch_menu:{}
+                        lunch_menu:{},
+                        paid:''
                     }
                     this.dialog=false
                 }

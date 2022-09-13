@@ -55,7 +55,10 @@ class DatabaseSeeder extends Seeder
             cervixPositionSeeder::class,
             cervixOpeningSeeder::class,
             cervixLengthSeeder::class,
-            LunchMenuSeeder::class
+            LunchMenuSeeder::class,
+            PlacentaTypeSeeder::class,
+            posBabySeeder::class,
+            PresentationOfBabySeeder::class,
         ]);
     }
 }
