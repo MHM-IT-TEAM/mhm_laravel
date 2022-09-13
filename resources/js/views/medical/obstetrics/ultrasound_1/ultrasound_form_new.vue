@@ -251,7 +251,9 @@ export default {
                 medical_staff:[
                     "Tanja",
                     "Tianasoa",
-                    "Manitra",
+                    "Sitraka",
+                    "Mihanta",
+                    "Marlies",
                     "Dr Martin",
                     "Dr Petra",
                     "Hobilalaina",

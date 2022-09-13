@@ -1,64 +1,68 @@
 <template>
     <div>
-        <h4>Treatment</h4>
-       <table class="table table-sm">
-               <tr>
-                   <td colspan="4">
-                       <multiselect
-                           v-model="accessory.medication.item"
-                           label="description"
-                           track-by="description"
-                           :id="'multiSelect'"
-                           open-direction="above"
-                           :options="accessory.medicines_temp_list"
-                           :searchable="true"
-                           :internal-search="false"
-                           :clear-on-select="true"
-                           :close-on-select="true"
-                           :show-no-results="false"
-                           :hide-selected="true"
-                           @search-change="fetchItem"
-                           class="multiSelect"
-                           autocomplete="off"
-                       >
-                       </multiselect>
-                   </td>
-                   <td>
-                       <input type="number" placeholder="Breakfast" class=" form-control " v-model="accessory.medication.breakfast"/>
-                   </td>
-                   <td>
-                       <input type="number" placeholder="Lunch" class=" form-control " v-model="accessory.medication.lunch"/>
-                   </td>
-                   <td>
-                       <input type="number" placeholder="Dinner" class=" form-control " v-model="accessory.medication.dinner"/>
-                   </td>
-                   <td>
-                       <input type="number" placeholder="Nb of days" class=" form-control " v-model="accessory.medication.nb_of_day"/>
-                   </td>
-                   <td>
-                       <v-btn x-small text @click="add_medication" class="table-title">Add</v-btn>
-                   </td>
-               </tr>
-               <tr v-for="(item,i) in formData" class="diag-code-list">
-                   <td colspan="4">{{item.item.description}}</td>
-                   <td class="text-center">{{item.breakfast}}</td>
-                   <td class="text-center">{{item.lunch}}</td>
-                   <td class="text-center">{{item.dinner}}</td>
-                   <td class="text-center">
-                       {{item.nb_of_day}} &nbsp
+       <v-app>
+           <h4>Treatment</h4>
+          <div class="table-responsive">
+              <table class="table table-sm">
+                  <tr>
+                      <td style="width: 50%">
+                          <multiselect
+                              v-model="accessory.medication.item"
+                              label="description"
+                              track-by="description"
+                              id="multiSelect"
+                              open-direction="above"
+                              :options="accessory.medicines_temp_list"
+                              :searchable="true"
+                              :internal-search="false"
+                              :clear-on-select="true"
+                              :close-on-select="true"
+                              :show-no-results="false"
+                              :hide-selected="true"
+                              @search-change="fetchItem"
+                              class="multiSelect"
+                              autocomplete="off"
+                          >
+                          </multiselect>
+                      </td>
+                      <td>
+                          <input type="number" placeholder="Breakfast" class=" form-control " v-model="accessory.medication.breakfast"/>
+                      </td>
+                      <td>
+                          <input type="number" placeholder="Lunch" class=" form-control " v-model="accessory.medication.lunch"/>
+                      </td>
+                      <td>
+                          <input type="number" placeholder="Dinner" class=" form-control " v-model="accessory.medication.dinner"/>
+                      </td>
+                      <td>
+                          <input type="number" placeholder="Nb of days" class=" form-control " v-model="accessory.medication.nb_of_day"/>
+                      </td>
+                      <td>
+                          <v-btn x-small  @click="add_medication" class="table-title"  color="cyan">Add</v-btn>
+                      </td>
+                  </tr>
+                  <tr v-for="(item,i) in formData" class="diag-code-list">
+                      <td>{{item.item.description}}</td>
+                      <td class="text-center">{{item.breakfast}}</td>
+                      <td class="text-center">{{item.lunch}}</td>
+                      <td class="text-center">{{item.dinner}}</td>
+                      <td class="text-center">
+                          {{item.nb_of_day}} &nbsp
 
-                       <v-btn
-                           class="float-right"
-                           x-small
-                           icon
-                           @click="delete_medication_line(i)"
-                       >
-                           <v-icon> mdi-delete</v-icon>
-                       </v-btn>
+                          <v-btn
+                              class="float-right"
+                              x-small
+                              icon
+                              @click="delete_medication_line(i)"
+                          >
+                              <v-icon> mdi-delete</v-icon>
+                          </v-btn>
 
-                   </td>
-               </tr>
-           </table>
+                      </td>
+                  </tr>
+              </table>
+          </div>
+       </v-app>
     </div>
 </template>
 
@@ -100,9 +104,8 @@ export default {
             let valid=false
             let arr=(Object.values(this.accessory.medication))
             valid = arr.indexOf(null) === -1;
-            console.log(valid)
             if(valid){
-                this.accessory.medication.to_give=(parseInt(this.accessory.medication.breakfast) + parseInt(this.accessory.medication.lunch) + parseInt(this.accessory.medication.dinner))* this.accessory.medication.nb_of_day
+                this.accessory.medication.to_give=(parseFloat(this.accessory.medication.breakfast) + parseFloat(this.accessory.medication.lunch) + parseFloat(this.accessory.medication.dinner))* this.accessory.medication.nb_of_day
                 this.formData.push(this.accessory.medication)
                 this.accessory.medication = {
                     item: null,
@@ -132,5 +135,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>

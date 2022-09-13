@@ -551,7 +551,7 @@ export default {
             let arr=(Object.values(this.accessory.medicines_temp_list))
             valid = arr.indexOf(null) === -1;
             if(valid){
-                this.accessory.medication.to_give=(parseInt(this.accessory.medication.breakfast) + parseInt(this.accessory.medication.lunch) + parseInt(this.accessory.medication.dinner))* this.accessory.medication.nb_of_day
+                this.accessory.medication.to_give=(parseFloat(this.accessory.medication.breakfast) + parseFloat(this.accessory.medication.lunch) + parseFloat(this.accessory.medication.dinner))* this.accessory.medication.nb_of_day
                 this.formData.medication.push(this.accessory.medication)
                 this.accessory.medication = {
                     item: null,

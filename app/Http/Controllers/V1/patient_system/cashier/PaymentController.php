@@ -4,6 +4,7 @@ namespace App\Http\Controllers\V1\patient_system\cashier;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admission;
+use App\Models\LunchOrder;
 use App\Models\Patient;
 use App\Models\PatientCashFlow;
 use App\Service\V1\PaymentService;
@@ -48,5 +49,12 @@ class PaymentController extends Controller
     }
     public function patient_due($patient_id){
         return PatientCashFlow::where('patient_id',$patient_id)->latest('created_at')->first()->new_debt ?? 0;
+    }
+    public function list_of_lunch_orders(){
+        return LunchOrder::with(['admission.patient','lunch_menu'])->where('status','NOTPAID')->get();
+    }
+    public function pay_lunch(Request $request){
+        $payment =new PaymentService();
+       return $payment->pay_lunch($request);
     }
 }

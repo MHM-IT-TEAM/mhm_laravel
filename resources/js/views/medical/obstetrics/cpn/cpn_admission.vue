@@ -1242,6 +1242,7 @@ export default {
               name: "cpn_followup",
               params: {
                 cpn_admission: response.data.cpn_admission,
+                  admission_id:this.$route.params.admission_id
               },
             });
           }

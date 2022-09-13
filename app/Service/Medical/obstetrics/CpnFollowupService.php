@@ -5,12 +5,17 @@ namespace App\Service\Medical\obstetrics;
 
 use App\Models\Admission;
 use App\Models\CpnFollowup;
+use App\Models\GraceCsbTransaction;
+use App\Models\GraceCsbTransactionDetail;
 use Illuminate\Database\Eloquent\Model;
 
 class CpnFollowupService
 {
  public function store($request){
     CpnFollowup::create($this->fill_data($request));
+     if(count(collect($request->medication))>0){
+         $this->_medicines_transaction($request->medication,$request->admission_id);
+     }
 
     if ($request->admission_id) {
         $admission = Admission::find($request->admission_id);
@@ -80,4 +85,15 @@ class CpnFollowupService
  public function delete($id){
      CpnFollowup::find($id)->delete();
  }
+    private function _medicines_transaction($request,$admission_id){
+        $transaction= new GraceCsbTransaction();
+
+        $transaction->admission_id=$admission_id;
+        $transaction->done=0;
+        $transaction->save();
+        foreach($request as $line){
+            $line['grace_csb_transaction_id']=$transaction->id;
+            GraceCsbTransactionDetail::create_detail($line,);
+        }
+    }
 }

@@ -25,6 +25,7 @@ import cashier_admission_list from "./views/cashier/cashier_admission_list";
 import cashier_payment from "./views/cashier/cashier_payment";
 
 
+
 //Obstetrics
 import cpn_admission from "./views/medical/obstetrics/cpn/cpn_admission";
 import obstetrics_layout from "./views/medical/obstetrics/layouts/obstetrics_layout";
@@ -63,6 +64,7 @@ import obstetrics_overview from "./views/medical/overview/obstetrics_overview";
     import stork_internal_lab_list from "./views/medical/in_patient/stork_center/stork_internal_lab_list";
     import stork_view_internal_lab_result from "./views/medical/in_patient/stork_center/stork_view_internal_lab_result";
     import stork_supply_list from "./views/medical/in_patient/stork_center/stork_supply_list";
+    import stork_pay_lunch from "./views/medical/in_patient/stork_center/stork_pay_lunch";
 
 //Delivery
     import delivery_layout from "./views/medical/delivery/layouts/delivery_layout";
@@ -172,6 +174,7 @@ import family_planning_form from "./views/medical/obstetrics/family_planning/fam
 import item_order_obstetrics from "./views/medical/obstetrics/item_order_obstetrics";
 //report Pink statistics
 import pink_statistics from "./views/medical/obstetrics/report/pink_statistics";
+import cashier_lunch_payment_list from "./views/cashier/cashier_lunch_payment_list";
 
 
 Vue.use(VueRouter);
@@ -296,7 +299,13 @@ const routes = [
                 name:'cashier_payment',
                 component: cashier_payment
 
-            }
+            },
+            {
+                path:'lunch_payment_list',
+                name:'cashier_lunch_payment_list',
+                component:cashier_lunch_payment_list
+            },
+
         ]
     },
     /**
@@ -653,6 +662,11 @@ const routes = [
                 path:'supply_list',
                 name:'stork_supply_list',
                 component:stork_supply_list
+            },
+            {
+                path:'lunch',
+                name:'stork_pay_lunch',
+                component:stork_pay_lunch
             }
 
 

@@ -4,6 +4,9 @@ namespace App\Http\Controllers\V1\patient_system\in_patient\stork_center;
 
 use App\Http\Controllers\Controller;
 use App\Models\Bed;
+use App\Models\LunchOrder;
+use App\Models\PatientCareCategoryHistory;
+use App\Models\PatientMobilisationHistory;
 use App\Models\StorkAdmission;
 use App\Service\V1\patient_system\in_patient\StorkAdmissionService;
 use Illuminate\Http\Request;
@@ -17,7 +20,7 @@ class StorkAdmissionController extends Controller
      */
     public function index()
     {
-        return StorkAdmission::with(['bed','patient','admission','stork_diagnoses'])->whereNull('dismissed')->get();
+        return StorkAdmission::with(['bed','patient','admission','stork_diagnoses','patient_care_category_histories','patient_mobilisation_histories'])->whereNull('dismissed')->get();
 
     }
 
@@ -110,4 +113,34 @@ class StorkAdmissionController extends Controller
         $bed->occupied=0;
         $bed->save();
     }
+    public function update_care_level(Request  $request){
+        PatientCareCategoryHistory::create([
+            'stork_admission_id'=>$request->stork_admission_id,
+            'category'=>$request->category
+        ]);
+        return response()->json(['success'=>true]);
+    }
+    public function update_mobilisation(Request  $request){
+        PatientMobilisationHistory::create([
+            'stork_admission_id'=>$request->stork_admission_id,
+            'mobilisation'=>$request->mobilisation
+        ]);
+        return response()->json(['success'=>true]);
+    }
+    public function pay_lunch(Request  $request){
+        LunchOrder::create([
+            'admission_id'=>$request->admission_id,
+            'patient_id'=>$request->patient_id,
+            'lunch_menu_id'=>$request->menu['id'],
+            'price'=>$request->menu['price'],
+            'qty'=>$request->qty,
+            'value'=>$request->menu['price']*$request->qty,
+            'status'=>'NOTPAID'
+        ]);
+        return response()->json(['success'=>true]);
+    }
+    public function lunch_list($admission_id){
+        return LunchOrder::with(['lunch_menu'])->where('admission_id',$admission_id)->get();
+    }
+
 }

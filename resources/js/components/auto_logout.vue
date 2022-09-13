@@ -1,6 +1,5 @@
 <template>
 <div class="container">
-    <p>Are you still here?</p>
 </div>
 </template>
 
@@ -22,7 +21,7 @@ export default {
     },
     methods:{
         setTimer(){
-            this.warning_timer=setTimeout(this.log_user_out,5*1000*60)
+            this.warning_timer=setTimeout(this.log_user_out,15*1000*60)
         },
         resetTimer(){
             clearTimeout(this.warning_timer)

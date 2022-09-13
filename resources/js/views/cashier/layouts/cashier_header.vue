@@ -28,12 +28,20 @@
                             >List of admissions</router-link
                             >
                         </li>
+<!--                        <li class="nav-item">-->
+<!--                            <router-link-->
+<!--                                :to="{ name: 'cashier_payment',params:{direct:true} }"-->
+<!--                                class="nav-link"-->
+<!--                                href=""-->
+<!--                            >Direct payment</router-link-->
+<!--                            >-->
+<!--                        </li>-->
                         <li class="nav-item">
                             <router-link
-                                :to="{ name: 'cashier_payment',params:{direct:true} }"
+                                :to="{ name: 'cashier_lunch_payment_list',params:{direct:true} }"
                                 class="nav-link"
                                 href=""
-                            >Direct payment</router-link
+                            >Lunch</router-link
                             >
                         </li>
 <!--                        <li class="nav-item dropdown">-->

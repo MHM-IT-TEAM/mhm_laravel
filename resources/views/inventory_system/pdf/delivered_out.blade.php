@@ -4,6 +4,7 @@
         .content-wrapper{
             margin-top:20px;
             position:relative;
+            width:100%;
         }
         .doc-title{
             font-weight: bold;

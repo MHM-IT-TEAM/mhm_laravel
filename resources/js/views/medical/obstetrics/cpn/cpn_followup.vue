@@ -518,8 +518,11 @@
                                         </v-row>
                                         <v-row>
                                             <v-col cols="12">
-                                                <v-textarea label="Remark" v-model="editedItem.remark"/>
+                                                <v-textarea label="Remark" v-model="editedItem.remark" rows="3"/>
                                             </v-col>
+                                        </v-row>
+                                        <v-row>
+                                            <give_medicine @get_value="get_medicines" :reset="reset_medication_list"/>
                                         </v-row>
                                     </v-container>
                                 </v-card-text>
@@ -608,6 +611,7 @@
 import { validationMixin } from "vuelidate";
 import gestationalAge from "../../../../components/gestational_age_control.vue"
 import seniorAuthDialog from "../../../../components/senior_auth_dialog.vue"
+import Give_medicine from "../../../../components/give_medicine";
 const {
     required,
     requiredIf,
@@ -619,7 +623,7 @@ const {
     export default {
         name: "cpn_followup",
         mixins: [validationMixin],
-        components: { gestationalAge, seniorAuthDialog },
+        components: {Give_medicine, gestationalAge, seniorAuthDialog },
         props:['is_overview','cpn_admission_id'],
         data: () => ({
             dialog: false,
@@ -788,7 +792,8 @@ const {
                     },
                 },
                 isLoading: false,
-            }
+            },
+            reset_medication_list:false
 
         }),
 
@@ -845,6 +850,9 @@ const {
                             .then(response => this.cervix_position = response.data)
                     ]
                 );
+            },
+            get_medicines(data){
+                this.editedItem.medication=data
             },
 
             requireAuthorization(action) {

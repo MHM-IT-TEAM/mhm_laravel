@@ -6,6 +6,7 @@ namespace App\Service\V1;
 
 use App\Models\Admission;
 use App\Models\AdmissionCareDetail;
+use App\Models\LunchOrder;
 use App\Models\PatientCashFlow;
 use App\Models\PatientDue;
 use App\Service\V1\Traits\ServiceResponseTrait;
@@ -118,5 +119,38 @@ class PaymentService
         }
 
         return $actual_price;
+    }
+    public function pay_lunch($request){
+        $patient_due= PatientDue::where('patient_id',$request->patient_id)->latest()->first()->amount ?? 0;
+        $new_debt=($patient_due+$request->value)-$request->paid;
+        PatientCashFlow::create([
+            'admission_id'=>$request->admission_id,
+            'patient_id'=>$request->patient_id,
+            'nature'=>'Lunch payment',
+            'last_due'=>$patient_due,
+            'to_pay'=>$request->value,
+            'paid'=>$request->paid,
+            'new_debt'=>$new_debt
+        ]);
+        $order = LunchOrder::find($request->id);
+        $order->status='PAID';
+        $order->save();
+        $check=PatientDue::where('patient_id',$request->patient_id)->latest()->first();
+        if($check){
+            $patient_due->update([
+                'amount'=>$request->new_debt
+            ]);
+        }else{
+            if($new_debt>0){
+                PatientDue::create(
+                    [
+                        'patient_id'=>$request->patient_id,
+                        'amount'=>$new_debt
+                    ]
+                );
+            }
+        }
+
+        return response()->json(['success'=>true]);
     }
 }

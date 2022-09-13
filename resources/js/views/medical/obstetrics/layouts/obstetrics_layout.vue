@@ -155,7 +155,6 @@ export default {
                 icon:'mdi-apps',
                 children:[
                     {url:'postpartum_list',title:'List'},
-                    {url:'postpartum_form',title:'Form'},
                 ]
             },
             {

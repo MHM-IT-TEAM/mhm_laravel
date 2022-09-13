@@ -4,6 +4,7 @@
 namespace App\Service\V1;
 
 
+use App\Events\PatientCreatedEvent;
 use App\Models\EmContact;
 use App\Models\Patient;
 use Illuminate\Http\Request;
@@ -58,6 +59,7 @@ class PatientService
         $patient->fill($this->patientData)->save();
         $this->patId= $patient->id;
         $this->storeEmData();
+        event(new PatientCreatedEvent($patient));
         return $patient;
     }
     /**

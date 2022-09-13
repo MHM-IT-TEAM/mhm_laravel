@@ -74,6 +74,8 @@ Route::prefix('/v1')->group(function(){
             Route::get('unpaid_today',[\App\Http\Controllers\V1\patient_system\cashier\PaymentController::class,'unpaid_today']);
             Route::post('pay',[\App\Http\Controllers\V1\patient_system\cashier\PaymentController::class,'pay']);
             Route::post('pay_previous_transaction',[\App\Http\Controllers\V1\patient_system\cashier\PaymentController::class,'pay_previous_transaction']);
+            Route::get('lunch_orders',[\App\Http\Controllers\V1\patient_system\cashier\PaymentController::class,'list_of_lunch_orders']);
+            Route::post('pay_lunch',[\App\Http\Controllers\V1\patient_system\cashier\PaymentController::class,'pay_lunch']);
         });
         //out patient
         Route::group(['prefix'=>'out_patient'],function(){
@@ -172,6 +174,10 @@ Route::prefix('/v1')->group(function(){
                 route::resource('weekly_measurments',\App\Http\Controllers\V1\patient_system\in_patient\stork_center\StorkWeeklyMeasurmentController::class);
                 route::post('change_bed',[\App\Http\Controllers\V1\patient_system\in_patient\stork_center\StorkAdmissionController::class,'change_bed']);
                 route::post('update_admission_by_ir',[\App\Http\Controllers\V1\patient_system\in_patient\stork_center\StorkAdmissionController::class,'update_admission_by_ir']);
+                route::post('update_care_level',[\App\Http\Controllers\V1\patient_system\in_patient\stork_center\StorkAdmissionController::class,'update_care_level']);
+                route::post('update_mobilisation',[\App\Http\Controllers\V1\patient_system\in_patient\stork_center\StorkAdmissionController::class,'update_mobilisation']);
+                route::post('pay_lunch',[\App\Http\Controllers\V1\patient_system\in_patient\stork_center\StorkAdmissionController::class,'pay_lunch']);
+                route::get('lunch_list/{admission_id}',[\App\Http\Controllers\V1\patient_system\in_patient\stork_center\StorkAdmissionController::class,'lunch_list']);
 //                route::get('/fetch_patient_data/{patient_id}',[\App\Http\Controllers\V1\patient_system\maternity\MaternityAdmissionController::class,'fetch_patient_data']);
 //                route::get('/last_code',[\App\Http\Controllers\V1\patient_system\maternity\MaternityAdmissionController::class,'last_code']);
 //                route::get('/last_birth_code',[\App\Http\Controllers\V1\patient_system\maternity\BirthRegistrationController::class,'last_birth_code']);
@@ -364,6 +370,10 @@ Route::prefix('/v1')->group(function(){
         //Bed
         Route::get('bed/{occupied}',function($occupied){
             return \App\Models\Bed::where('occupied',$occupied)->get();
+        });
+        //LunchMenu
+        Route::get('lunch_menu',function(){
+            return \App\Models\LunchMenu::all();
         });
 
     });

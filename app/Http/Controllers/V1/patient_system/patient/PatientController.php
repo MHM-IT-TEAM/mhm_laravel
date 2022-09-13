@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\v1\patient_system\patient;
 
+use App\Events\PatientCreatedEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\patientRequest;
 use App\Models\Patient;

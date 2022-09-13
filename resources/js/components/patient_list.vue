@@ -37,7 +37,7 @@
               <v-card-text>
                   <v-data-table :headers="headers" :items="items" :search="search" :loading="loading">
                       <template v-slot:item.actions="{ item }">
-                          <v-icon small class="mr-2" @click="$emit('edit', item)" >//v-if="item.status==='RUNNING' "
+                          <v-icon small class="mr-2" @click="$emit('edit', item)" >
                               mdi-pencil
                           </v-icon>
                       </template>

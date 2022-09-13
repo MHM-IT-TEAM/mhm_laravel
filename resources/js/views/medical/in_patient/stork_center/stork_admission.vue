@@ -297,7 +297,7 @@
                 </div>
 
             </form>
-            <button class="btn btn-outline-primary float-right" @click="submit" id="printBtn">Submit</button>
+            <button class="btn btn-outline-primary float-right" @click="submit" id="printBtn" v-if="!is_overview">Submit</button>
             <div id="footer">Date:{{today}}</div>
     </div>
 </template>
@@ -311,6 +311,10 @@ const {
 } = require("vuelidate/lib/validators");
     export default {
         name: "stork_admission",
+        props:{
+            is_overview:Boolean,
+            stork_admission:Object
+        },
         mixins: [validationMixin],
         data(){
             return{
@@ -447,6 +451,15 @@ const {
         computed:{
             today(){
                 return new Date().toLocaleDateString()
+            }
+        },
+        watch:{
+            stork_admission:{
+                handler(val){
+                    if(this.is_overview)this.formData=val
+                },
+                deep:true,
+                immediate:true
             }
         }
 
