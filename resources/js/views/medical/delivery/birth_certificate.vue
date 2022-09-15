@@ -91,7 +91,7 @@
                         <td>Asa atao: &nbsp <input type="text" style="width:70%" v-model="formData.dad_job"/> </td>
                     </tr>
                     <tr>
-                        <td>CIN: &nbsp <input type="text" v-model="formData.dad_cin_no"/> &nbsp tamin'ny <input type="date" v-model="formData.dad_cin_date"/> &nbsp  tao <input type="text" style="width:40%;" v-model="formData.dad_cin_place"/> </td>
+                        <td>CIN: &nbsp <input type="text" v-model="formData.dad_cin_no" class="ci_no"/> &nbsp tamin'ny <input type="date" v-model="formData.dad_cin_date" class="cin_date"/> tao <input type="text" style="width:40%;" v-model="formData.dad_cin_place"/> </td>
                     </tr>
                     <tr>
                         <td>Fonenana:&nbsp <input type="text" style="width:70%" v-model="formData.dad_address"/> </td>
@@ -143,7 +143,7 @@
                         <td>Asa atao: &nbsp <input type="text" style="width:70%" v-model="formData.declarant_job"/> </td>
                     </tr>
                     <tr>
-                        <td>CIN: &nbsp <input type="text" v-model="formData.declarant_cin_no" :class="{'error':$v.formData.declarant_cin_no.$error}"/> &nbsp tamin'ny <input type="date" v-model="formData.declarant_cin_date" :class="{'error':$v.formData.declarant_cin_date.$error}"/> &nbsp  tao <input type="text" style="width:40%;" v-model="formData.declarant_cin_place" :class="{'error':$v.formData.declarant_cin_place.$error}"/> </td>
+                        <td>CIN: &nbsp <input type="text" v-model="formData.declarant_cin_no" :class="{'error':$v.formData.declarant_cin_no.$error}" class="ci_no"/> &nbsp tamin'ny <input type="date" v-model="formData.declarant_cin_date" :class="{'error':$v.formData.declarant_cin_date.$error}" class="cin_date"/> tao <input type="text" style="width:40%;" v-model="formData.declarant_cin_place" :class="{'error':$v.formData.declarant_cin_place.$error}"/> </td>
                     </tr>
                     <tr>
                         <td>Fonenana:&nbsp <input type="text" style="width:70%" v-model="formData.declarant_address" :class="{'error':$v.formData.declarant_address.$error}"/> </td>
@@ -366,7 +366,12 @@ export default {
         page-break-after: always;
         line-height: 1.3;
     }
-
+    .ci_no{
+        max-width: 150px;
+    }
+    .cin_date{
+        max-width: 130px;
+    }
     /*.certificate_container{*/
     /*    margin-top: -60px;*/
     /*    height:350mm;*/

@@ -18,14 +18,14 @@
                 </div>
                 <div class="col">
                     <div class="form-group">
-                        <label>Legs</label>
-                        <input type="text" v-model="formData.legs" class="form-control form-control-sm"/>
+                        <label>Breast</label>
+                        <input type="text" v-model="formData.breast_size" class="form-control form-control-sm"/>
                     </div>
                 </div>
                 <div class="col">
                     <div class="form-group">
-                        <label>BP</label>
-                        <input type="text" v-model="formData.bp" class="form-control form-control-sm"/>
+                        <label>Uterus size</label>
+                        <input type="text" v-model="formData.uterus_size" class="form-control form-control-sm"/>
                     </div>
                 </div>
                 <div class="col">
@@ -36,14 +36,14 @@
                 </div>
                 <div class="col">
                     <div class="form-group">
-                        <label>Breast size</label>
-                        <input type="text" v-model="formData.breast_size" class="form-control form-control-sm"/>
+                        <label>Legs</label>
+                        <input type="text" v-model="formData.legs" class="form-control form-control-sm"/>
                     </div>
                 </div>
                 <div class="col">
                     <div class="form-group">
-                        <label>Uterus size</label>
-                        <input type="text" v-model="formData.uterus_size" class="form-control form-control-sm"/>
+                        <label>BP</label>
+                        <input type="text" v-model="formData.bp" class="form-control form-control-sm"/>
                     </div>
                 </div>
             </div>

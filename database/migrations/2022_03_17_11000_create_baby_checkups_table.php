@@ -20,7 +20,7 @@ class CreateBabyCheckupsTable extends Migration
             $table->string('gl_impression',20)->nullable();
             $table->string('umbilic',20)->nullable();
             $table->string('skin',20)->nullable();
-            $table->string('other',200)->nullable();
+            $table->string('temp',200)->nullable();
             $table->integer('weight');
             $table->string('temp')->nullable();
             $table->text('precautions')->nullable();

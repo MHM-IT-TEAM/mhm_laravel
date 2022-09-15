@@ -4,6 +4,7 @@
 namespace App\Service\V1\patient_system\obstetrics;
 
 
+use App\Models\Admission;
 use App\Models\MilkprogramFollowup;
 use App\Models\MilkprogramFollowupDetail;
 
@@ -18,6 +19,9 @@ class MilkProgramService
             $fup_det= new MilkprogramFollowupDetail();
             $fup_det->create($this->_fillFollowupDetail($milk,$fup->id));
         }
+        $admission =Admission::find($request->admission_id);
+        $admission->status='DONE';
+        $admission->save();
         return response()->json(
             ['success'=>true]
         );

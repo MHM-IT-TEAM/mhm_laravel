@@ -40,7 +40,7 @@ class BabyCheckupService
             'weight'=>$request->weight,
             'umbilic'=>$request->umbilic,
             'skin'=>$request->skin,
-            'other'=>$request->other,
+            'temp'=>$request->temp,
             'precautions'=>$request->precautions
         ];
     }

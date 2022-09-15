@@ -120,6 +120,7 @@ export default {
             formData:{
                 patient_id:'',
                 milkprogram_admission_id:'',
+                admission_id:'',
                 weight:null,
                 remark:'',
                 milk_given:[]
@@ -147,6 +148,7 @@ export default {
                 this.formData.patient_id=this.$route.params.patient_id
                 this.formData.milkprogram_admission_id=this.$route.params.milk_pro_admission.id
                 this.accessory.milk_pro_admission_data=this.$route.params.milk_pro_admission
+                this.formData.admission_id= this.$route.params.milk_pro_admission.admission_id
             }
             if(this.$route.params.followup_data){
                 this.accessory.milk_pro_admission_data=this.$route.params.followup_data

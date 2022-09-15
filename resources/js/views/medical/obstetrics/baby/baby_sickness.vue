@@ -5,7 +5,7 @@
             <v-card-text>
                 <h6>{{$route.params.fullName}}</h6>
                 <v-textarea
-                label= "diagnose" filled
+                label= "diagnose"
                 v-model="formData.diagnose"
                 :error="$v.formData.diagnose.$error"
                 ></v-textarea>

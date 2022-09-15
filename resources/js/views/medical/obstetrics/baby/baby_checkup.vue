@@ -17,6 +17,7 @@
                                        <tr>
                                            <th>Date</th>
                                            <th>Weight</th>
+                                           <th>Temp</th>
                                            <th>Skin</th>
                                            <th>Umbilic</th>
                                            <th>General impression</th>
@@ -27,6 +28,7 @@
                                        <tr v-for="row in baby_checkup_data.baby_checkups" :key="row.id">
                                            <td>{{row.created_at}}</td>
                                            <td>{{row.weight}}</td>
+                                           <td>{{row.temp}}</td>
                                            <td>{{row.skin}}</td>
                                            <td>{{row.umbilic}}</td>
                                            <td>{{row.gl_impression}}</td>
@@ -85,7 +87,7 @@
                                            ></v-select>
                                        </v-col>
                                        <v-col>
-                                           <v-text-field label="other" hide-details v-model="formData.other"></v-text-field>
+                                           <v-text-field label="Temp" hide-details v-model="formData.temp"></v-text-field>
                                        </v-col>
                                    </v-row>
                                    <v-row>
@@ -176,7 +178,7 @@ export default {
                 skin:'',
                 umbilic:'',
                 gl_impression:'',
-                other:'',
+                temp:'',
                 precautions:'',
                 medication:[]
             },
@@ -187,7 +189,7 @@ export default {
                 skin:'',
                 umbilic:'',
                 gl_impression:'',
-                other:'',
+                temp:'',
                 precautions:'',
                 medication:[]
             },

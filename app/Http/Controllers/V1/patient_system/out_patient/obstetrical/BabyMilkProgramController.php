@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\V1\patient_system\out_patient\obstetrical;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admission;
 use App\Models\MilkprogramAdmission;
 use App\Models\Patient;
 use App\Service\V1\patient_system\obstetrics\MilkProgramService;
@@ -46,6 +47,9 @@ class BabyMilkProgramController extends Controller
         $mp->mom_is_patient=$request->mom_is_patient;
         $mp->mhm_baby=$request->mhm_baby;
         $mp->save();
+        $admission =Admission::find($request->admission_id);
+        $admission->status='DONE';
+        $admission->save();
         return $mp;
     }
 
