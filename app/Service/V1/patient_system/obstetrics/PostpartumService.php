@@ -43,7 +43,7 @@ class PostpartumService
             'bp'=>$request->bp,
             'perineum'=>$request->perineum,
             'woundcare'=>$request->woundcare,
-            'breast_size'=>$request->breast_size,
+            'breast'=>$request->breast_size,
             'belly_size'=>$request->belly_size,
             'uterus_size'=>$request->belly_size,
             'bleeding'=>$request->bleeding,
