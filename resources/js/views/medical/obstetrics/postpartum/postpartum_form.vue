@@ -132,7 +132,6 @@ export default {
                 perineum:'',
                 woundcare:'',
                 breast:'',
-                belly_size:'',
                 uterus_size:'',
                 bleeding:'',
                 urine:'',
