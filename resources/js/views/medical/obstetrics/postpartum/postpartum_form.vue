@@ -19,7 +19,7 @@
                 <div class="col">
                     <div class="form-group">
                         <label>Breast</label>
-                        <input type="text" v-model="formData.breast_size" class="form-control form-control-sm"/>
+                        <input type="text" v-model="formData.breast" class="form-control form-control-sm"/>
                     </div>
                 </div>
                 <div class="col">
@@ -131,7 +131,7 @@ export default {
                 bp:'',
                 perineum:'',
                 woundcare:'',
-                breast_size:'',
+                breast:'',
                 belly_size:'',
                 uterus_size:'',
                 bleeding:'',
