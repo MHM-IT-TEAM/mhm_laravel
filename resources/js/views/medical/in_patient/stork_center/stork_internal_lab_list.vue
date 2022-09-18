@@ -1,5 +1,5 @@
 <template>
-    <internal_lab_list :headers="headers" @open="open_request" :service_id="14"/>
+    <internal_lab_list :headers="headers" @open="open_request" :service_id="services"/>
 </template>
 
 <script>
@@ -17,7 +17,8 @@ export default {
                 { text: "Orderer", value: "orderer" },
                 { text: "Status", value: "lab_work_step.description" },
                 { text: "Actions", value: "actions", sortable: false },
-            ]
+            ],
+            services:[12,13,14,15,16,17]
         }
     },
     methods:{

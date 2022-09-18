@@ -147,6 +147,8 @@ export default {
                     {url:'first_cpn_list',title:'First Checkup'},
                     {url:'cpn_followup_list',title:'Followup'},
                     {url:'patient_cpn_search',title:'Pregnancy Card'},
+                    {url:'cpn_internal_lab_list',title:'Internal lab List'},
+
                 ]
             },
             {
@@ -164,6 +166,7 @@ export default {
                     {url:'baby_checkup_list',title:'Checkup'},
                     {url:'baby_vaccination_list',title:'Vaccination'},
                     {url:'baby_sickness_list',title:'Sickness'},
+                    {url:'baby_internal_lab_list',title:'Internal lab'},
                     // {url:'',title:'Injury'},
                     // {url:'',title:'Wound care'},
                 ]
@@ -182,13 +185,6 @@ export default {
                     {url:'item_order_obstetrics',title:'Order'},
                 ]
             },
-            // {
-            //     title:'Report',
-            //     active:false,
-            //     children:[
-            //         {url:'pink_statistics',title:'General overview'},
-            //     ]
-            // },
         ],
         user:{
             id:'',

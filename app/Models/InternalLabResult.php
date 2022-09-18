@@ -25,6 +25,11 @@ class InternalLabResult extends Model
                 $this[$test['db_name']]=$test['result'];
             }
         }
+        foreach($request->epoc as $epoc){
+            foreach($epoc as $test){
+                $this[$test['db_name']]=$test['result'];
+            }
+        }
         foreach($request->urine_test as $ut){
             foreach($ut['children'] as $child){
                 $this[$child['db_name']]=$child['result'];

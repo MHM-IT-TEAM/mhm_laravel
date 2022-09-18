@@ -15,6 +15,7 @@ export default {
     data(){
         return{
             headers: [
+                {text:'Time',value:'time'},
                 { text: "Id", value: "patient_id" },
                 { text: "First Name", value: "patient.firstName" },
                 { text: "Last Name", value: "patient.lastName" },

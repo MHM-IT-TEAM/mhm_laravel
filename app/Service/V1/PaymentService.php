@@ -71,10 +71,16 @@ class PaymentService
         return view('cashier/invoices/payment')->with(['response'=>$data,'patient_due'=>$patient_due]);
     }
     public static function cash_receipt(){
-        $data= DB::select('SELECT service_activities.name as service, SUM(patient_cash_flows.paid) as value FROM `admissions`
-                                INNER JOIN service_activities on admissions.service_activity_id=service_activities.id INNER JOIN
+//        $data= DB::select('SELECT service_activities.name as service, SUM(patient_cash_flows.paid) as value FROM `admissions`
+//                                INNER JOIN service_activities on admissions.service_activity_id=service_activities.id INNER JOIN
+//                                patient_cash_flows on admissions.id= patient_cash_flows.admission_id
+//                                WHERE DATE(patient_cash_flows.created_at) = CURDATE() GROUP BY service_activities.name');
+        $data= DB::select('SELECT categories.name as category, services.name as service, SUM(patient_cash_flows.paid) as value FROM `admissions`
+                                INNER JOIN services on admissions.service_id=services.id INNER JOIN
                                 patient_cash_flows on admissions.id= patient_cash_flows.admission_id
-                                WHERE DATE(patient_cash_flows.created_at) = CURDATE() GROUP BY service_activities.name');
+                                INNER JOIN categories on admissions.category_id= categories.id
+                                WHERE DATE(patient_cash_flows.created_at) = CURDATE() GROUP BY categories.name, services.name ORDER BY categories.name');
+
         return view('cashier/invoices/cash_receipt',compact('data'));
     }
 

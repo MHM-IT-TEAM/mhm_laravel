@@ -79,6 +79,9 @@ class AdmissionController extends Controller
                 ->where('service_id',$request->service_id)
                 ->where('payment_status','PAID')
                 ->whereDate('created_at',date($request->date))->get();
+//            return response( $src->map(function($data){
+//               $data->time= $data->created_at->format('H:i:s');
+//            }));
     }
     public function list_service_activity_date(Request $request){
         $admission= Admission::with('patient','admission_type','admissionCareDetails','service_activity')

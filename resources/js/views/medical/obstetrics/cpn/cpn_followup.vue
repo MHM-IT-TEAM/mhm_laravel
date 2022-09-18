@@ -2,12 +2,43 @@
     <div class="container-fluid">
         <Loading :active.sync="accessory.isLoading"></Loading>
         <v-app>
-            <div>
-            <div class="mt-6 p-2" v-if="patient_details">
-                <h6>{{ patientFullName }}</h6>
-<!--                <span v-if="first_checkup.created_at">First checkup on {{formatDate(new Date(first_checkup.created_at))}}</span>-->
-            </div>
-            <v-data-table
+                <v-speed-dial
+                    v-model="speed_dial.fab"
+                    :top="true"
+                    :right="true"
+                    direction="bottom"
+                    :open-on-hover="speed_dial.hover"
+                    :transition="speed_dial.transition"
+                >
+                    <template v-slot:activator>
+                        <v-btn
+                            v-model="speed_dial.fab"
+                            color="blue darken-2"
+                            dark
+                            fab
+                        >
+                            <v-icon v-if="speed_dial.fab">
+                                mdi-close
+                            </v-icon>
+                            <v-icon v-else >
+                                mdi-briefcase-check
+                            </v-icon>
+                        </v-btn>
+                    </template>
+                    <v-btn
+                        fab
+                        dark
+                        small
+                        color="green"
+                        @click="accessory.show_internal_lab=true"
+                    >
+                        IL
+                    </v-btn>
+                </v-speed-dial>
+                <div class="mt-6 p-2" v-if="patient_details">
+                    <span>{{ patientFullName }}</span>
+                </div>
+                 <v-data-table
                 :headers="headers"
                 :items="cpn_data"
                 sort-by="created_at"
@@ -31,7 +62,7 @@
                                 v-if="!is_overview"
                             ></v-text-field>
                             <span v-if="noDataFound" class="text-white bg-danger">no data found</span>
-<!--                        <v-btn color="primary" @click="navigateToAdmission"  v-if="!is_overview" small>View first checkup</v-btn >-->
+                        <v-btn color="primary" @click="navigateToAdmission"  v-if="!is_overview" small>View first checkup</v-btn >
                         <v-divider
                             class="mx-4"
                             inset
@@ -39,13 +70,8 @@
                             v-if="!is_overview"
                         ></v-divider>
 <!--                        <v-btn color="primary" @click="navigateToOverview"  v-if="!is_overview" small>View overview</v-btn>-->
-                        <v-divider
-                            class="mx-4"
-                            inset
-                            vertical
-                            v-if="!is_overview"
-                        ></v-divider>
-                        <v-spacer></v-spacer>
+
+
                         <v-dialog
                             v-model="dialog"
                             max-width="100vw"
@@ -598,11 +624,20 @@
                 </template>
             </v-data-table>
 
-            <senior-auth-dialog
-                v-on:authorized="authorized"
-                v-model="auth_dialog"
-            />
-            </div>
+                <senior-auth-dialog
+                    v-on:authorized="authorized"
+                    v-model="auth_dialog"
+                />
+                <v-dialog
+                    v-model="accessory.show_internal_lab"
+                >
+                    <v-card>
+
+                        <v-card-text class="p-2">
+                            <internal_lab :form_type="'request'" :admission="$route.params.admission"/>
+                        </v-card-text>
+                    </v-card>
+                </v-dialog>
         </v-app>
     </div>
 </template>
@@ -612,6 +647,7 @@ import { validationMixin } from "vuelidate";
 import gestationalAge from "../../../../components/gestational_age_control.vue"
 import seniorAuthDialog from "../../../../components/senior_auth_dialog.vue"
 import Give_medicine from "../../../../components/give_medicine";
+import Internal_lab from "../../labwork/internal/internal_lab";
 const {
     required,
     requiredIf,
@@ -623,7 +659,7 @@ const {
     export default {
         name: "cpn_followup",
         mixins: [validationMixin],
-        components: {Give_medicine, gestationalAge, seniorAuthDialog },
+        components: {Internal_lab, Give_medicine, gestationalAge, seniorAuthDialog },
         props:['is_overview','cpn_admission_id'],
         data: () => ({
             dialog: false,
@@ -792,8 +828,21 @@ const {
                     },
                 },
                 isLoading: false,
+                show_internal_lab:false
             },
-            reset_medication_list:false
+            reset_medication_list:false,
+            speed_dial:{
+                direction: 'top',
+                fab: false,
+                fling: false,
+                hover: false,
+                tabs: null,
+                top: false,
+                right: true,
+                bottom: true,
+                left: false,
+                transition: 'slide-y-reverse-transition',
+            },
 
         }),
 
@@ -985,12 +1034,14 @@ const {
                 }
                 this.accessory.isLoading = false;
             },
-            async navigateToOverview(){
-                let response= await axios.get(`/api/v1/patient_system/out_patient/obstetrical/cpn/admission/${this.$route.params?.cpn_admission?.patient_id}`)
+            async navigateToAdmission(){
                 this.$router.push({
-                    name:"pregnancy_card",
+                    name:"cpn_admission",
                     params:{
-                        data:response.data.admission
+                        patient:this.$route.params.admission.patient,
+                        weight:this.$route.params.admission.weight,
+                        admission:this.$route.params.admission,
+                        admission_id:this.$route.params.admission.id,
                     }
                 })
             },
@@ -1029,5 +1080,12 @@ const {
 <style scoped>
 .search{
     max-width:250px;
+}
+.v-speed-dial {
+    position: absolute;
+}
+
+.v-btn--floating {
+    position: relative;
 }
 </style>

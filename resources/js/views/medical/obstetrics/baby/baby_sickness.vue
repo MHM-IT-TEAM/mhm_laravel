@@ -1,7 +1,42 @@
 <template>
     <div class="container">
         <v-card>
-            <v-card-title>Sickness Form</v-card-title>
+            <v-card-title>
+                Sickness Form
+                <v-speed-dial
+                    v-model="speed_dial.fab"
+                    :top="true"
+                    :right="true"
+                    direction="bottom"
+                    :open-on-hover="speed_dial.hover"
+                    :transition="speed_dial.transition"
+                >
+                    <template v-slot:activator>
+                        <v-btn
+                            v-model="speed_dial.fab"
+                            color="blue darken-2"
+                            dark
+                            fab
+                        >
+                            <v-icon v-if="speed_dial.fab">
+                                mdi-close
+                            </v-icon>
+                            <v-icon v-else >
+                                mdi-briefcase-check
+                            </v-icon>
+                        </v-btn>
+                    </template>
+                    <v-btn
+                        fab
+                        dark
+                        small
+                        color="green"
+                        @click="show_internal_lab=true"
+                    >
+                        IL
+                    </v-btn>
+                </v-speed-dial>
+            </v-card-title>
             <v-card-text>
                 <h6>{{$route.params.fullName}}</h6>
                 <v-textarea
@@ -101,12 +136,23 @@
 
             </v-card-text>
         </v-card>
+        <v-dialog
+            v-model="show_internal_lab"
+        >
+            <v-card>
+
+                <v-card-text class="p-2">
+                    <internal_lab :form_type="'request'" :admission="$route.params.admission"/>
+                </v-card-text>
+            </v-card>
+        </v-dialog>
     </div>
 </template>
 
 <script>
 import { validationMixin } from "vuelidate";
 import Give_medicine from "../../../../components/give_medicine";
+import Internal_lab from "../../labwork/internal/internal_lab";
 const {
     required,
     requiredIf,
@@ -114,7 +160,7 @@ const {
 export default {
     name: "baby_sickness",
     mixins: [validationMixin],
-    components: {Give_medicine},
+    components: {Internal_lab, Give_medicine},
     data(){
         return{
             formData:{
@@ -131,7 +177,20 @@ export default {
                 medication:[]
             },
             reset_medication_list:false,
-            data_in_system:[]
+            data_in_system:[],
+            speed_dial:{
+                direction: 'top',
+                fab: false,
+                fling: false,
+                hover: false,
+                tabs: null,
+                top: false,
+                right: true,
+                bottom: true,
+                left: false,
+                transition: 'slide-y-reverse-transition',
+            },
+            show_internal_lab:false
         }
     },
     validations:{
@@ -171,5 +230,11 @@ export default {
 </script>
 
 <style scoped>
+.v-speed-dial {
+    position: absolute;
+}
 
+.v-btn--floating {
+    position: relative;
+}
 </style>

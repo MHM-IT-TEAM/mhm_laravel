@@ -1,14 +1,14 @@
 <template>
     <div class="container">
-        <patient-list :service_activity_id="service_activities" :headers="headers" @edit="editItem" title="baby checkup"></patient-list>
+        <patient_list :service_activity_id="service_activities" :headers="headers" @edit="editItem" title="Wound care"/>
     </div>
 </template>
 
 <script>
-import PatientList from "../../../../components/patient_list";
+import Patient_list from "../../../components/patient_list";
 export default {
-    name: "baby_checkup_list",
-    components: {PatientList},
+    name: "woundcare_list",
+    components: {Patient_list},
     data(){
         return{
             headers: [
@@ -19,13 +19,13 @@ export default {
                 { text: "Status", value: "status" },
                 { text: "Actions", value: "actions", sortable: false },
             ],
-            service_activities:[18]
+            service_activities:[8]
         }
     },
     methods:{
         editItem(item) {
             this.$router.push({
-                name: "baby_checkup",
+                name: "wound_care_form",
                 params: {
                     patient_id: item.patient_id,
                     fullName:nullToString(item.patient.firstName) +" "+ nullToString(item.patient.lastName),

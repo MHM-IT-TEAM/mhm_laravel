@@ -121,6 +121,80 @@
                   </div>
               </div>
           </div>
+          <p class="text-center subtitle mt-4">EPOC</p>
+          <div class="row bg-white">
+              <div class="col-4">
+                  <h6 class="text-center">Gas</h6>
+                  <table class="table table-sm">
+                      <thead>
+                      <tr>
+                          <th colspan="2">Test</th>
+                          <th v-if="accessory.form_type==='result'">Result</th>
+                      </tr>
+                      </thead>
+                      <tr v-for="test in formData.epoc.gas">
+                          <td>
+                              {{test.label}}
+                          </td>
+                          <td>
+                              <input type="checkbox" class="form-check-input" v-model="test.checked" :disabled="accessory.form_submitted || accessory.form_type==='result'"/>
+
+                          </td>
+                          <td v-if="test.checked && accessory.form_type==='result'">
+                              <input type="text" class="form-control form-control-sm" v-model="test.result" :disabled="!test.checked || accessory.form_read_only"/>
+                          </td>
+                      </tr>
+                  </table>
+              </div>
+              <div class="col-4">
+                  <h6 class="text-center">Chem</h6>
+                  <table class="table table-sm">
+                      <thead>
+                      <tr>
+                          <th colspan="2">Test</th>
+                          <th v-if="accessory.form_type==='result'">Result</th>
+                      </tr>
+                      </thead>
+                      <tr v-for="test in formData.epoc.chem">
+                          <td>
+                              {{test.label}}
+                          </td>
+                          <td>
+                              <input type="checkbox" class="form-check-input" v-model="test.checked" :disabled="accessory.form_submitted || accessory.form_type==='result'"/>
+
+                          </td>
+                          <td v-if="test.checked && accessory.form_type==='result'">
+                              <input type="text" class="form-control form-control-sm" v-model="test.result" :disabled="!test.checked || accessory.form_read_only"/>
+
+                          </td>
+                      </tr>
+                  </table>
+              </div>
+              <div class="col-4">
+                  <h6 class="text-center">Meta</h6>
+                  <table class="table table-sm">
+                      <thead>
+                      <tr>
+                          <th colspan="2">Test</th>
+                          <th v-if="accessory.form_type==='result'">Result</th>
+                      </tr>
+                      </thead>
+                      <tr v-for="test in formData.epoc.meta">
+                          <td>
+                              {{test.label}}
+                          </td>
+                          <td>
+                              <input type="checkbox" class="form-check-input" v-model="test.checked" :disabled="accessory.form_submitted || accessory.form_type==='result'"/>
+
+                          </td>
+                          <td v-if="test.checked && accessory.form_type==='result'">
+                              <input type="text" class="form-control form-control-sm" v-model="test.result" :disabled="!test.checked || accessory.form_read_only"/>
+                          </td>
+                      </tr>
+                  </table>
+              </div>
+
+          </div>
           <div class="row">
               <div class="col-12 form-group">
                   <label>Remark</label>
@@ -158,12 +232,12 @@ export default {
                     pos_neg:[
                         {db_name:'blood_malaria',label:'Malaria',checked:false,result:''},
                         {db_name:'blood_covid',label:'COVID',checked:false,result:''},
-                        {db_name:'blood_crp',label:'CRP',checked:false,result:''},
+                        // {db_name:'blood_crp',label:'CRP',checked:false,result:''},
                         {db_name:'blood_hiv',label:'HIV',checked:false,result:''},
                         {db_name:'blood_syphilis',label:'Syphilis',checked:false,result:''},
                     ],
                     result:[
-                        {db_name:'blood_bg',label:'BG',checked:false,result:'',items:['A','B','O','AB','pos','neg']},
+                        {db_name:'blood_bg',label:'BG',checked:false,result:'',items:['A','B','O+','O-','AB','pos','neg']},
                         {db_name:'blood_hb',label:'HB',checked:false,result:'',items:null},
                         {db_name:'blood_bilirubin',label:'Bilirubin',checked:false,result:'',items:null},
                         {db_name:'blood_glycemia',label:'Glycemia',checked:false,result:'',items:null},
@@ -202,8 +276,32 @@ export default {
                             {db_name:'urine_big_glucose',label:'Glucose',checked:false,result:'',items:['neg','trace','+','++','+++','++++']},
                         ]
                     }
-
                 ],
+                epoc:{
+                    gas:[
+                        {db_name:'epoc_ph',label:'PH',checked:false,result:''},
+                        {db_name:'epoc_pco2',label:'Pc02',checked:false,result:''},
+                        {db_name:'epoc_po2',label:'P02',checked:false,result:''},
+                        {db_name:'epoc_chco3',label:'CHCO3',checked:false,result:''},
+                        {db_name:'epoc_be',label:'Be',checked:false,result:''},
+                        {db_name:'epoc_cso2',label:'CSO2',checked:false,result:''},
+                    ],
+                    chem:[
+                        {db_name:'epoc_na+',label:'Na+',checked:false,result:''},
+                        {db_name:'epoc_ka+',label:'Ka+',checked:false,result:''},
+                        {db_name:'epoc_ca+',label:'Ca++',checked:false,result:''},
+                        {db_name:'epoc_cl',label:'CL-',checked:false,result:''},
+                        {db_name:'epoc_hct',label:'HCT',checked:false,result:''},
+                        {db_name:'epoc_chgb',label:'CHgb',checked:false,result:''},
+                    ],
+                    meta:[
+                        {db_name:'epoc_glu',label:'Glu',checked:false,result:''},
+                        {db_name:'epoc_lac',label:'Lac',checked:false,result:''},
+                        {db_name:'epoc_crea',label:'Crea',checked:false,result:''},
+                        {db_name:'epoc_urea',label:'Urea',checked:false,result:''},
+
+                    ]
+                },
                 remark:''
             },
             accessory:{
@@ -243,6 +341,16 @@ export default {
                     // test.result=this.accessory.results[0][test.db_name]
                 })
             })
+            this.formData.epoc.gas.forEach(epc=>{
+                epc.checked=data[epc.db_name]
+            })
+            this.formData.epoc.chem.forEach(epc=>{
+                epc.checked=data[epc.db_name]
+            })
+            this.formData.epoc.meta.forEach(epc=>{
+                epc.checked=data[epc.db_name]
+            })
+            ///////////////////////////////////////////
             if(this.accessory.results.length>0){
                 this.accessory.form_read_only=true
                 this.formData.blood_test.pos_neg.forEach(bt=>{
@@ -256,6 +364,15 @@ export default {
                     ut.children.forEach(test=>{
                         test.result=this.accessory.results[0][test.db_name]
                     })
+                })
+                this.formData.epoc.gas.forEach(gas=>{
+                    gas.result=this.accessory.results[0][gas.db_name]
+                })
+                this.formData.epoc.chem.forEach(gas=>{
+                    gas.result=this.accessory.results[0][gas.db_name]
+                })
+                this.formData.epoc.meta.forEach(gas=>{
+                    gas.result=this.accessory.results[0][gas.db_name]
                 })
             }
         }

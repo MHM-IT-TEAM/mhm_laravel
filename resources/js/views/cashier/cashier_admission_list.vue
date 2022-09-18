@@ -121,6 +121,7 @@ export default {
             search:'',
             dialogDelete: false,
             headers: [
+                {text:'Time',value:'time'},
                 { text: 'Patient Id', value: 'patient_id' },
                 { text: 'First Name', value: 'patient.firstName' },
                 { text: 'Last Name', value: 'patient.lastName' },

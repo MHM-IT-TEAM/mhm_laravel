@@ -24,6 +24,7 @@
     <table class= "table">
         <thead>
         <tr>
+            <th>Category</th>
             <th>Service</th>
             <th>Amount</th>
 
@@ -34,10 +35,13 @@
         $total=0;
         @endphp
         @foreach($data as $line)
-            <tr>
-                <td>{{$line->service}}</td>
-                <td>{{$line->value}}</td>
-            </tr>
+           @if($line->value>0)
+               <tr>
+                   <td>{{$line->category}}</td>
+                   <td>{{$line->service}}</td>
+                   <td>{{$line->value}}</td>
+               </tr>
+           @endif
             @php
                 $total+=$line->value;
             @endphp

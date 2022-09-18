@@ -29,6 +29,7 @@ import cashier_payment from "./views/cashier/cashier_payment";
 //Obstetrics
 import cpn_admission from "./views/medical/obstetrics/cpn/cpn_admission";
 import obstetrics_layout from "./views/medical/obstetrics/layouts/obstetrics_layout";
+import obstetrics_view_internal_lab_result from "./views/medical/obstetrics/obstetrics_view_internal_lab_result";
 
 //Overview
 import overview_layout from "./views/medical/overview/layouts/overview_layout";
@@ -112,6 +113,10 @@ import dentist_layout from "./views/medical/dentist/layouts/dentist_layout"
 import dentist_patient_list from "./views/medical/dentist/dentist_patient_list";
 import dental_diagnostic_form from "./views/medical/dentist/dental_diagnostic_form";
 import item_order_dentist from "./views/medical/dentist/item_order_dentist";
+// Woundcare
+import wound_care_layout from "./views/medical/woundcare/layout/wound_care_layout";
+import wound_care_form from "./views/medical/woundcare/wound_care_form";
+import woundcare_list from "./views/medical/woundcare/woundcare_list";
 //inventory_system
 //Nurse station
 import nurse_station_layout from "./views/medical/nurse_station/layout/nurse_station_layout";
@@ -153,6 +158,7 @@ import patient_list_of_cpn from "./views/medical/obstetrics/cpn/patient_list_of_
 import cpn_followup from "./views/medical/obstetrics/cpn/cpn_followup";
 import first_cpn_list from "./views/medical/obstetrics/cpn/first_cpn_list";
 import cpn_followup_list from "./views/medical/obstetrics/cpn/cpn_followup_list";
+import cpn_internal_lab_list from "./views/medical/obstetrics/cpn/cpn_internal_lab_list";
 // POSTPARTUM
 import postpartum_list from "./views/medical/obstetrics/postpartum/postpartum_list";
 import postpartum_form from "./views/medical/obstetrics/postpartum/postpartum_form";
@@ -167,6 +173,7 @@ import baby_milk_pro_followup from "./views/medical/obstetrics/baby/baby_milk_pr
 import baby_milk_pro_list from "./views/medical/obstetrics/baby/baby_milk_pro_list";
 import baby_sickness from "./views/medical/obstetrics/baby/baby_sickness";
 import baby_sickness_list from "./views/medical/obstetrics/baby/baby_sickness_list";
+import baby_internal_lab_list from "./views/medical/obstetrics/baby/baby_internal_lab_list";
 //Family planning
 import family_planning_list from "./views/medical/obstetrics/family_planning/family_planning_list";
 import family_planning_form from "./views/medical/obstetrics/family_planning/family_planning_form";
@@ -175,6 +182,7 @@ import item_order_obstetrics from "./views/medical/obstetrics/item_order_obstetr
 //report Pink statistics
 import pink_statistics from "./views/medical/obstetrics/report/pink_statistics";
 import cashier_lunch_payment_list from "./views/cashier/cashier_lunch_payment_list";
+
 
 
 Vue.use(VueRouter);
@@ -411,6 +419,11 @@ const routes = [
                 meta: { title : 'Prenatal Care Followup' }
             },
             {
+                path:'cpn_internal_lab_list',
+                name:'cpn_internal_lab_list',
+                component:cpn_internal_lab_list
+            },
+            {
                 path: 'cpn_followup/:cpn_ref?',
                 name: 'cpn_followup',
                 component: cpn_followup
@@ -462,6 +475,11 @@ const routes = [
                 name: 'baby_vaccination_list',
                 component:baby_vaccination_list,
                 meta: { title : 'Baby vaccination' }
+            },
+            {
+                path:'baby_internal_lab_list',
+                name:'baby_internal_lab_list',
+                component:baby_internal_lab_list
             },
             {
                 path: 'baby_vaccination_card',
@@ -516,6 +534,11 @@ const routes = [
                 path:'postpartum_form',
                 name:'postpartum_form',
                 component:postpartum_form
+            },
+            {
+                path:'internal_lab/result',
+                name:'obstetrics_view_internal_lab_result',
+                component: obstetrics_view_internal_lab_result
             }
         ]
     },
@@ -789,6 +812,7 @@ const routes = [
      | Generalist
      |-----------------------------
      */
+
     {
         path:'/generalist',
         component:generalist_layout,
@@ -820,6 +844,28 @@ const routes = [
             },
         ]
     },
+    /**
+     |-----------------------------
+     | WoundCare
+     |-----------------------------
+     */
+    {
+        path:'/woundcare',
+        component:wound_care_layout,
+        children:[
+            {
+                path:'list',
+                name:'wound_care_list',
+                component:woundcare_list
+            },
+            {
+                path:'form',
+                name:'wound_care_form',
+                component:wound_care_form
+            }
+        ]
+    },
+
     /**
      |-----------------------------
      | Dentist

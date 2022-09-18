@@ -16,7 +16,10 @@ class InternalLabController extends Controller
      */
     public function index()
     {
-        return InternalLabRequest::with(['admission'=>function($data){return $data->with(['patient','service','service_activity'])->get();},'lab_work_step','internalLabResults'])->get();
+//        return InternalLabRequest::with(['admission'=>function($data){return $data->with(['patient','service','service_activity'])->get();},'lab_work_step','internalLabResults'])->get();
+        return InternalLabRequest::with(['admission.patient','admission.service','admission.service_activity','lab_work_step','internalLabResults'])
+            ->orderByDesc('created_at')->get();
+
     }
 
     /**

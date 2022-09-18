@@ -1055,6 +1055,65 @@
         v-on:authorized="authorized"
         v-model="accessory.auth_dialog"
       />
+        <v-speed-dial
+            v-model="speed_dial.fab"
+            :top="true"
+            :right="true"
+            direction="bottom"
+            :open-on-hover="speed_dial.hover"
+            :transition="speed_dial.transition"
+        >
+            <template v-slot:activator>
+                <v-btn
+                    v-model="speed_dial.fab"
+                    color="blue darken-2"
+                    dark
+                    fab
+                >
+                    <v-icon v-if="speed_dial.fab">
+                        mdi-close
+                    </v-icon>
+                    <v-icon v-else >
+                        mdi-briefcase-check
+                    </v-icon>
+                </v-btn>
+            </template>
+            <v-btn
+                fab
+                dark
+                small
+                color="green"
+                @click="accessory.show_internal_lab=true"
+            >
+                IL
+            </v-btn>
+<!--            <v-btn-->
+<!--                fab-->
+<!--                dark-->
+<!--                small-->
+<!--                color="indigo"-->
+<!--            >-->
+<!--                <v-icon>mdi-plus</v-icon>-->
+<!--            </v-btn>-->
+<!--            <v-btn-->
+<!--                fab-->
+<!--                dark-->
+<!--                small-->
+<!--                color="red"-->
+<!--            >-->
+<!--                <v-icon>mdi-delete</v-icon>-->
+<!--            </v-btn>-->
+        </v-speed-dial>
+        <v-dialog
+            v-model="accessory.show_internal_lab"
+        >
+            <v-card>
+
+                <v-card-text class="p-2">
+                    <internal_lab :form_type="'request'" :admission="$route.params.admission"/>
+                </v-card-text>
+            </v-card>
+        </v-dialog>
     </v-app>
   </div>
 </template>
@@ -1064,6 +1123,7 @@ import { validationMixin } from "vuelidate";
 import moment from "moment"
 import gestationalAge from "../../../../components/gestational_age_control";
 import seniorAuthDialog from "../../../../components/senior_auth_dialog";
+import Internal_lab from "../../labwork/internal/internal_lab";
 const {
   required,
   minValue,
@@ -1076,7 +1136,7 @@ const {
 } = require("vuelidate/lib/validators");
 export default {
   name: "cpn_admission",
-  components: { gestationalAge, seniorAuthDialog },
+  components: {Internal_lab, gestationalAge, seniorAuthDialog },
   props: ["is_overview", "reference"],
   mixins: [validationMixin],
   data() {
@@ -1192,7 +1252,20 @@ export default {
         ultrasound_link_error_message: "",
         auth_dialog: false,
         authorized_user: false,
+          show_internal_lab:false
       },
+        speed_dial:{
+            direction: 'top',
+            fab: false,
+            fling: false,
+            hover: false,
+            tabs: null,
+            top: false,
+            right: true,
+            bottom: true,
+            left: false,
+            transition: 'slide-y-reverse-transition',
+        },
     };
   },
   created() {
@@ -1752,5 +1825,12 @@ td {
 }
 .narrow {
   width: 85px;
+}
+.v-speed-dial {
+    position: absolute;
+}
+
+.v-btn--floating {
+    position: relative;
 }
 </style>

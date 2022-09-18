@@ -24,7 +24,7 @@ class CreatePostpartsTable extends Migration
             $table->string('bp',50)->nullable();
             $table->string('perineum',50)->nullable();
             $table->text('woundcare')->nullable();
-            $table->string('breast_size',50)->nullable();
+            $table->string('breast',50)->nullable();
             $table->string('belly_size',50)->nullable();
             $table->string('uterus_size',50)->nullable();
             $table->string('bleeding',50)->nullable();

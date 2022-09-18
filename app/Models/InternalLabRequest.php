@@ -31,6 +31,11 @@ class InternalLabRequest extends Model
                 $this[$test['db_name']]=$test['checked'];
             }
         }
+        foreach($request->epoc as $epoc){
+            foreach($epoc as $test){
+                $this[$test['db_name']]=$test['checked'];
+            }
+        }
         foreach($request->urine_test as $ut){
             foreach($ut['children'] as $child){
                 $this[$child['db_name']]=$child['checked'];

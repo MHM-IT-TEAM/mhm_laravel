@@ -55,6 +55,7 @@ export default {
     return {
       isLoading: false,
       headers: [
+        {text:'Time',value:'time'},
         { text: "Id", value: "patient_id" },
         { text: "First Name", value: "patient.firstName" },
         { text: "Last Name", value: "patient.lastName" },
@@ -84,7 +85,8 @@ export default {
                 name:"cpn_followup",
                 params:{
                     cpn_admission: response.data,
-                    admission_id:item.id
+                    admission_id:item.id,
+                    admission:item
                 }
             });
         })

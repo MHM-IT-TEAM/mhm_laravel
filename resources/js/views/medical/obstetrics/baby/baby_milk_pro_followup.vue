@@ -56,28 +56,29 @@
                     <label>Remark</label>
                     <textarea class="form-control form-control-sm" v-model="formData.remark"/>
                 </div>
-                <div class="table-responsive">
-                    <table class="table table-sm">
-                        <tr>
-                            <th>Milk/Food</th>
-                            <th>Qty</th>
-                        </tr>
-                        <tr>
-                            <td>
-                                <select class="form-control form-control-sm" v-model="accessory.temporary_milk_data.milk">
-                                    <option v-for="m in milk" :value="m">{{m.name}}</option>
-                                </select>
-                            </td>
-                            <td>
-                                <input type="number" class="form-control form-control-sm" @keydown.enter="add_milk_row" v-model="accessory.temporary_milk_data.qty"/>
-                            </td>
-                        </tr>
-                        <tr v-for="row in formData.milk_given">
-                            <td>{{row.milk.name}}</td>
-                            <td>{{row.qty}}</td>
-                        </tr>
-                    </table>
-                </div>
+<!--                <div class="table-responsive">-->
+<!--                    <table class="table table-sm">-->
+<!--                        <tr>-->
+<!--                            <th>Milk/Food</th>-->
+<!--                            <th>Qty</th>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td>-->
+<!--                                <select class="form-control form-control-sm" v-model="accessory.temporary_milk_data.milk">-->
+<!--                                    <option v-for="m in milk" :value="m">{{m.name}}</option>-->
+<!--                                </select>-->
+<!--                            </td>-->
+<!--                            <td>-->
+<!--                                <input type="number" class="form-control form-control-sm" @keydown.enter="add_milk_row" v-model="accessory.temporary_milk_data.qty"/>-->
+<!--                            </td>-->
+<!--                        </tr>-->
+<!--                        <tr v-for="row in formData.milk_given">-->
+<!--                            <td>{{row.milk.name}}</td>-->
+<!--                            <td>{{row.qty}}</td>-->
+<!--                        </tr>-->
+<!--                    </table>-->
+<!--                </div>-->
+                <give_medicine @get_value="get_medicines" :reset="reset_medication_list"/>
             </v-card-text>
 
             <v-card-actions>
@@ -107,9 +108,10 @@
 <script>
 import Baby_milk_pro_admission from "./baby_milk_pro_admission";
 import Patient_information from "../../../../components/patient_information";
+import Give_medicine from "../../../../components/give_medicine";
 export default {
     name: "baby_milk_pro_followup",
-    components: {Patient_information, Baby_milk_pro_admission},
+    components: {Give_medicine, Patient_information, Baby_milk_pro_admission},
     data(){
         return{
             dialog:false,
@@ -123,7 +125,7 @@ export default {
                 admission_id:'',
                 weight:null,
                 remark:'',
-                milk_given:[]
+                medication:[]
             },
             accessory:{
                 temporary_milk_data:{
@@ -135,7 +137,8 @@ export default {
                     story:'',
                     milkprogram_followups:[]
                 }
-            }
+            },
+            reset_medication_list:false
         }
     },
     created(){
@@ -158,6 +161,9 @@ export default {
         add_milk_row(){
             this.formData.milk_given.push(this.accessory.temporary_milk_data)
             this.accessory.temporary_milk_data={milk:null, qty:''}
+        },
+        get_medicines(data){
+            this.formData.medication=data
         },
         async submit(){
             await axios.post("/api/v1/patient_system/out_patient/obstetrical/milkPro/store_followup",this.formData).then(response=>{

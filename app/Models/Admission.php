@@ -9,6 +9,8 @@ class Admission extends Model
 {
     use HasFactory;
     protected $guarded=[];
+    protected $appends=['time'];
+
     public function patient(){
         return $this->belongsTo(Patient::class);
     }
@@ -33,5 +35,9 @@ class Admission extends Model
     }
     public function babySicknesses(){
         return $this->hasMany(BabySickness::class);
+    }
+    public function getTimeAttribute()
+    {
+        return $this->created_at->format('H:i:s');
     }
 }

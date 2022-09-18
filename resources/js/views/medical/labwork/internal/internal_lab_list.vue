@@ -85,7 +85,8 @@ export default {
     computed:{
         filtered_list(){
             if(this.service_id !=='' && this.service_id !==undefined){
-                return this.list.filter(item=>item.admission.service_id===this.service_id)
+                // return this.list.filter(item=>item.admission.service_id===this.service_id)
+                return this.list.filter(item=>this.service_id.includes(item.admission.service_id))
             }else return this.list
         }
     }

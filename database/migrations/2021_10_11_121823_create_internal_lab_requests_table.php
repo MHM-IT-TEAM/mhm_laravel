@@ -44,7 +44,7 @@ class CreateInternalLabRequestsTable extends Migration
             $table->smallInteger('urine_big_bilirubin')->nullable();
             $table->smallInteger('urine_big_glucose')->nullable();
             $table->text('remark')->nullable();
-            $table->string('user',50)->nullable();
+            $table->string('user_id',50)->nullable();
         });
     }
 

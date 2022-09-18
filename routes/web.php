@@ -64,6 +64,12 @@ Route::group(['prefix'=>'generalist','middleware'=>'auth'],function(){
         return view("medical/generalist/home");
     })->name('generalist_home')->where('any','.*');
 });
+//woundcare
+Route::group(['prefix'=>'woundcare','middleware'=>'auth'],function(){
+    Route::get('/{any}',function(){
+        return view("medical/generalist/home");
+    })->name('woundcare_home')->where('any','.*');
+});
 //dentist
 Route::group(['prefix'=>'dentist','middleware'=>'auth'],function(){
     Route::get('/{any}',function(){

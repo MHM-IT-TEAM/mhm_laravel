@@ -12,6 +12,7 @@ export default {
     data(){
         return{
             headers: [
+                {text:'Time',value:'time'},
                 { text: "Id", value: "patient_id" },
                 { text: "First Name", value: "patient.firstName" },
                 { text: "Last Name", value: "patient.lastName" },
@@ -29,6 +30,7 @@ export default {
                     patient_id: item.patient_id,
                     fullName:nullToString(item.patient.firstName) +" "+ nullToString(item.patient.lastName),
                     admission_id: item.id,
+                    admission:item
                 },
             });
         }

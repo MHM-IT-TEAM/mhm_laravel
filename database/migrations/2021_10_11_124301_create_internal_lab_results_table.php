@@ -41,6 +41,8 @@ class CreateInternalLabResultsTable extends Migration
             $table->string('urine_big_ketane')->nullable();
             $table->string('urine_big_bilirubin')->nullable();
             $table->string('urine_big_glucose')->nullable();
+            //new epoc columns
+
             $table->text('remark')->nullable();
             $table->foreignId('user_id')->nullable();
         });
