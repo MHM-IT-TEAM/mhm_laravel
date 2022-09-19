@@ -7,7 +7,7 @@
                    <h6>{{$route.params.fullName}}</h6>
                    <v-row>
                        <v-col cols="4">
-                           <v-textarea label="Diagnostic" rows="2" v-model="formData.diagnostic"/>
+                           <v-textarea label="Diagnostic" rows="2" v-model="formData.diagnostic" :error="$v.formData.diagnostic.$error"/>
                        </v-col>
                        <v-col>
                            <v-textarea label="Description" rows="2"v-model="formData.description"/>
@@ -49,11 +49,38 @@
                                </td>
                            </tr>
                        </table>
-                       <give_medicine @get_value="get_medicines" :reset="reset_medication_list"/>
                    </div>
-                   <div class="form-group">
-                       <label>Appointment</label>
-                       <input type="date" class="form-control form-control-sm" v-model="formData.appointment" style="width:150px">
+                   <give_medicine @get_value="get_medicines" :reset="reset_medication_list"/>
+
+                   <div class="row">
+                      <div class="col-10">
+                          <div class="form-group">
+                              <label>Appointment</label>
+                              <input type="date" class="form-control form-control-sm" v-model="formData.appointment" style="width:150px">
+                          </div>
+                      </div>
+                      <div class="col-2 text-right" >
+                          <v-btn small color="primary" class="mt-4" dark @click="submit" :loading="form_is_submitting">Submit</v-btn>
+                      </div>
+                  </div>
+               </v-card-text>
+           </v-card>
+           <v-card>
+                <v-card-title>Data in the system</v-card-title>
+               <v-card-text>
+                   <div class="table-responsive">
+                       <table class="table table-sm">
+                           <tr>
+                               <td>Date</td>
+                               <td>Diagnostic</td>
+                               <td>Description</td>
+                           </tr>
+                           <tr v-for="row in data_in_system">
+                               <td>{{row.created_at}}</td>
+                               <td>{{row.diagnostic}}</td>
+                               <td>{{row.description}}</td>
+                           </tr>
+                       </table>
                    </div>
                </v-card-text>
            </v-card>
@@ -63,9 +90,15 @@
 
 <script>
 import Give_medicine from "../../../components/give_medicine";
+import { validationMixin } from "vuelidate";
+const {
+    required,
+    requiredIf,
+} = require("vuelidate/lib/validators");
 export default {
     name: "wound_care_form",
     components: {Give_medicine},
+    mixins: [validationMixin],
     data(){
         return{
             materials:[
@@ -79,8 +112,13 @@ export default {
             ],
             formData:{
                 admission_id:'',
+                patient_id:'',
+                diagnostic:'',
+                description:'',
                 materials:[],
-                appointment:''
+                medication:[],
+                appointment:'',
+
             },
             temp_row:{
                 material:'',
@@ -88,20 +126,57 @@ export default {
                 unit:''
             },
             reset_medication_list:false,
+            form_is_submitting:false,
+            data_in_system:[]
         }
     },
+    validations(){
+      return {
+          formData:{
+              diagnostic:{required},
+          }
+      }
+    },
+    created(){
+        this.formData.admission_id=this.$route.params.admission_id
+        this.formData.patient_id=this.$route.params.patient_id
+        this.init()
+    },
     methods:{
+        init(){
+            axios.get(`/api/v1/patient_system/woundcare/${this.$route.params.patient_id}`).then(response=>{
+                this.data_in_system=response.data
+            })
+        },
         add_row(){
-            this.formData.materials.push(this.temp_row)
-            this.temp_row={
-                material:'',
-                quantity:'',
-                unit:''
+            if(this.temp_row.quantity !=='' && this.temp_row.unit && this.temp_row.material !==''){
+                this.formData.materials.push(this.temp_row)
+                this.temp_row={
+                    material:'',
+                    quantity:'',
+                    unit:''
+                }
             }
         },
         get_medicines(data){
             this.formData.medication=data
         },
+        submit(){
+            this.$v.$touch();
+            if (!this.$v.$invalid){
+                this.formData.user_id = window.auth.user.id
+                this.form_is_submitting=true
+                axios.post('/api/v1/patient_system/woundcare', this.formData).then(response=>{
+                    this.$toast.open({
+                        message: `Data submitted`,
+                        position: "top-right",
+                    });
+                    this.form_is_submitting=false
+                    this.$router.push({name:'wound_care_list'})
+                })
+
+            }
+        }
     }
 }
 </script>

@@ -77,6 +77,8 @@ Route::prefix('/v1')->group(function(){
             Route::get('lunch_orders',[\App\Http\Controllers\V1\patient_system\cashier\PaymentController::class,'list_of_lunch_orders']);
             Route::post('pay_lunch',[\App\Http\Controllers\V1\patient_system\cashier\PaymentController::class,'pay_lunch']);
         });
+        //Woundcare
+        Route::resource('woundcare',\App\Http\Controllers\V1\patient_system\woundcare\WoundCareController::class);
         //out patient
         Route::group(['prefix'=>'out_patient'],function(){
             //general doctor
@@ -87,6 +89,7 @@ Route::prefix('/v1')->group(function(){
                 Route::resource('consultation',App\Http\Controllers\V1\patient_system\out_patient\general\GeneralistController::class);
 
             });
+
             //Dentist
             Route::group(['prefix'=>'dentist'],function(){
                 Route::get('today_task/{patient_id}',[\App\Http\Controllers\V1\patient_system\out_patient\dental\DentalTreatmentController::class,'today_task']);
@@ -137,7 +140,6 @@ Route::prefix('/v1')->group(function(){
                 });
                 //POSTPARTUM
                 Route::resource('postpartum',\App\Http\Controllers\V1\patient_system\out_patient\obstetrical\PostPartController::class);
-
             });
         });
         // In patient

@@ -24,6 +24,6 @@ class StorkMedicineController extends Controller
         return response()->success();
     }
     public function show($id){
-        return StorkMedicine::with('item')->where('stork_admission_id',$id)->get();
+        return StorkMedicine::with('item')->where('stork_admission_id',$id)->orderBy('created_at','desc')->get();
     }
 }

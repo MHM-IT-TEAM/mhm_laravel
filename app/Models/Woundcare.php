@@ -5,9 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class StorkWoundCare extends Model
+class Woundcare extends Model
 {
     use HasFactory;
     protected $guarded=[];
+    public function woundcare_materials(){
+        return $this->hasMany(WoundcareMaterial::class);
+    }
 
 }
