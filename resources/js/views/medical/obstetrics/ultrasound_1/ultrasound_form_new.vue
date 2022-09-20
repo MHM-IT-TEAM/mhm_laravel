@@ -219,12 +219,12 @@
                 ></v-autocomplete>
             </v-card-text>
         </v-card>
-        <button
-            class="btn btn-primary mt-12 float-right d-print-none"
-            @click="submit"
+        <v-btn small color="primary"
+            class="btn  mt-12 float-right d-print-none"
+            @click="submit" :loading="form_is_submitting"
         >
             Submit
-        </button>
+        </v-btn>
     </div>
 </template>
 
@@ -270,6 +270,7 @@ export default {
                 ultrasound_ga:'',
                 corrected_ga:''
             },
+            form_is_submitting:false
         }
     },
     created(){
@@ -339,6 +340,7 @@ export default {
             }
         },
         submit(){
+            this.form_is_submitting=true
             this.formData.forEach(data=>{
                 data.medical_staff=this.medical_staff_str
                 data.calculated_ga=this.accessory.calculated_ga
@@ -350,6 +352,7 @@ export default {
             axios.post("/api/v1/patient_system/out_patient/obstetrical/ultrasound/details",this.formData).then(response=>{
                 if(response.data.success) {
                     this.$emit("success")
+                    this.form_is_submitting=false
                 }
             })
         }

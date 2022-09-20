@@ -12,5 +12,8 @@ class Woundcare extends Model
     public function woundcare_materials(){
         return $this->hasMany(WoundcareMaterial::class);
     }
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
 
 }

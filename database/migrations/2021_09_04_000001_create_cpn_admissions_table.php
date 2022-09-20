@@ -25,7 +25,7 @@ class CreateCpnAdmissionsTable extends Migration
             $table->integer('ev')->nullable();
             $table->string('dda',20)->nullable();
             $table->boolean('patient_at_risk')->nullable();
-            $table->string('risk_description',50)->nullable();
+            $table->string('risk_description',250)->nullable();
             $table->boolean('planned_oc')->nullable();
             $table->string('planned_oc_date',50)->nullable();
             $table->boolean('preeclampsia_needed')->nullable();
@@ -57,7 +57,7 @@ class CreateCpnAdmissionsTable extends Migration
             $table->string('preg_wom_medication',100)->nullable();
             $table->string('preg_wom_chronical_disease',50)->nullable();
             $table->string('preg_wom_allergie',50)->nullable();
-            $table->string('preg_wom_former_illness',50)->nullable();
+            $table->string('preg_wom_former_illness',250)->nullable();
             $table->string('responsible',50)->nullable();
             $table->bigInteger('ultrasound_admission_id')->nullable();
             $table->boolean('high_frequency_prenatal_care')->nullable();

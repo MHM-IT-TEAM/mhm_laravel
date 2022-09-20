@@ -74,11 +74,31 @@
                                <td>Date</td>
                                <td>Diagnostic</td>
                                <td>Description</td>
+                               <td>Material</td>
+                               <td>User</td>
                            </tr>
                            <tr v-for="row in data_in_system">
                                <td>{{row.created_at}}</td>
                                <td>{{row.diagnostic}}</td>
                                <td>{{row.description}}</td>
+                               <td>
+                                   <table class="table table-sm">
+                                       <tr>
+                                           <th>Name</th>
+                                           <th>QTY</th>
+                                           <th>Unit</th>
+                                       </tr>
+                                       <tr v-for="r in row.woundcare_materials">
+                                           <td>{{ r.material }}</td>
+                                           <td>{{ r.qty }}</td>
+                                           <td>{{ r.unit}}</td>
+                                       </tr>
+                                   </table>
+                               </td>
+                               <td>
+                                   {{row.user.name}}-({{row.user.employee_id}})
+                               </td>
+
                            </tr>
                        </table>
                    </div>

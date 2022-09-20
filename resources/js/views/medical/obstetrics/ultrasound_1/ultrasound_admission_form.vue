@@ -1,223 +1,225 @@
 <template>
-    <div class="container-fluid vh-100">
-        <v-card>
-            <v-card-title>
-                Ultrasound Admission
-            </v-card-title>
-            <v-card-text>
-                <patient_information :patient_id="$route.params.admission.patient_id"/>
-                <p class="title"><v-icon class="text-white">mdi-stethoscope</v-icon> B) Medical Data</p>
-                <div class="form-group w-25">
-                    <label>Is the patient pregnant</label>
-                    <select class="form-control form-control-sm" v-model.number="formData.is_patient_pregnant">
-                        <option value="0">Negativ</option>
-                        <option value="1">positiv</option>
-                    </select>
-                </div>
-                <div class="form-group" v-if="formData.is_patient_pregnant===0">
-                    <label>Remark:</label>
-                    <textarea class="form-control" v-model="formData.remark_when_patient_not_pregnant">
-
-                    </textarea>
-                </div>
-              <div v-if="formData.is_patient_pregnant">
-                  <div class="form-row">
-                      <div class="form-group col-6">
-                          <label>Date of last period</label>
-                          <date-picker
-                              v-model=" formData.last_period_date"
-                              mode="date"
-                              :masks="accessory.dateConfig.masks"
-                              :max-date="new Date()"
-                              @input="get_calculated_ga(formData.last_period_date)"
-                              v-if="!formData.unknown_lpd"
-                              ref="last_period_date"
-                          >
-                              <template
-                                  v-slot="{
-                                                inputValue,
-                                                inputEvents,
-                                              }"
-                              >
-                                  <input
-                                      class="
-                                                  date-picker
-                                                  bg-white
-                                                  form-control form-control-sm
-                                                  px-2
-                                                  py-1
-                                                  rounded
-                                                "
-                                      :class="{'is-invalid':$v.formData.last_period_date.$error}"
-                                      :value="inputValue"
-                                      v-on="inputEvents"
-                                  />
-                              </template>
-                          </date-picker>
-                      </div>
-                      <div class="form-group col-6 mt-8">
-                          <label>
-                              Check here if the date of last period is unknown
-                          </label>
-                          <input  type="checkbox" v-model="formData.unknown_lpd">
-                      </div>
-                  </div>
-                  <h6>Gestational age</h6>
-                  <table class="table table-sm">
-                      <tr>
-                          <td :class="{'bg-success':formData.edd_method==='calc'}">Calculated</td>
-                          <td :class="{'bg-success':formData.edd_method==='us'}">Ultrasound</td>
-                          <td :class="{'bg-success':formData.edd_method==='corrected'}">Corrected</td>
-                      </tr>
-                      <tr>
-                          <td>
-                            <gestational-age v-model="formData.calculated_ga"/>
-                          </td>
-                          <td>
-                              <gestational-age v-model="formData.ultrasound_ga"/>
-                              <span v-if="$v.formData.ultrasound_ga.$error" class="text-danger"><small> required</small></span>
-                          </td>
-                          <td>
-                              <gestational-age v-model="formData.corrected_ga"/>
-                          </td>
-                      </tr>
-                  </table>
-                  <div class="form-group w-25">
-                      <label>EDD method</label>
-                      <select class="form-control form-control-sm" v-model="formData.edd_method" :class="{'form-control is-invalid':$v.formData.edd_method.$error}">
-                          <option value="calc">calculated</option>
-                          <option value="us">Ultrasound</option>
-                          <option value="corrected">Corrected</option>
-                      </select>
-                      <div class="invalid-feedback" v-if="{'form-control is-invalid':$v.formData.edd_method.$error}">
-                          You have to choose the EDD method
-                      </div>
-                  </div>
-                  <h6>Estimated date of delivery</h6>
-                  <table class="table table-sm">
-                      <tr>
-                          <td>Calculated</td>
-                          <td>Ultrasound</td>
-                          <td>Corrected</td>
-                      </tr>
-                      <tr>
-                          <td>
-                              <date-picker
-                                  v-model=" formData.edd_calculated"
-                                  mode="date"
-                                  :model-config="accessory.dateConfig"
-                                  :masks="accessory.dateConfig.masks"
-                                  :min-date="new Date()"
-                              >
-                                  <template
-                                      v-slot="{
-                                                inputValue,
-                                                inputEvents,
-                                              }"
-                                  >
-                                      <input
-                                          class="
-                                                  date-picker
-                                                  bg-white
-                                                  form-control form-control-sm
-                                                  px-2
-                                                  py-1
-                                                  rounded
-                                                "
-                                          :value="inputValue"
-                                          v-on="inputEvents"
-                                      />
-                                  </template>
-                              </date-picker>
-                          </td>
-                          <td>
-                              <date-picker
-                                  v-model=" formData.edd_ultrasound"
-                                  mode="date"
-                                  :model-config="accessory.dateConfig"
-                                  :masks="accessory.dateConfig.masks"
-                                  :min-date="new Date()"
-                                  ref="edd_ultrasound"
-                                  @popoverWillShow="move_ultrasound_date_picker('edd_ultrasound')"
-                              >
-                                  <template
-                                      v-slot="{
-                                                inputValue,
-                                                inputEvents,
-                                              }"
-                                  >
-                                      <input
-                                          class="
-                                                  date-picker
-                                                  bg-white
-                                                  form-control form-control-sm
-                                                  px-2
-                                                  py-1
-                                                  rounded
-                                                "
-                                          :class="{'is-invalid':$v.formData.edd_ultrasound.$error}"
-                                          :value="inputValue"
-                                          v-on="inputEvents"
-                                      />
-                                  </template>
-                              </date-picker>
-                          </td>
-                          <td>
-                              <date-picker
-                                  v-model=" formData.edd_corrected"
-                                  mode="date"
-                                  :model-config="accessory.dateConfig"
-                                  :masks="accessory.dateConfig.masks"
-                                  :min-date="new Date()"
-                                  ref="edd_corrected"
-                                  @popoverWillShow="move_ultrasound_date_picker('edd_corrected')"
-                              >
-                                  <template
-                                      v-slot="{
-                                                inputValue,
-                                                inputEvents,
-                                              }"
-                                  >
-                                      <input
-                                          class="
-                                                  date-picker
-                                                  bg-white
-                                                  form-control form-control-sm
-                                                  px-2
-                                                  py-1
-                                                  rounded
-                                                "
-                                          :value="inputValue"
-                                          v-on="inputEvents"
-                                      />
-                                  </template>
-                              </date-picker>
-                          </td>
-                      </tr>
-                  </table>
-                <div class="row">
-                    <div class="col-4">
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" v-model="formData.multiple_pregnancy">
-                            <label class="form-check-label">Multiple pregnancy</label>
-                        </div>
-                    </div>
-                    <div class="col-8">
-                        <label>Count of fetus</label>
-                        <select class="form-control form-control-sm"
-                                v-model.number="formData.count_of_fetus"
-                                v-if="formData.multiple_pregnancy">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
+    <v-app>
+        <div class="container-fluid vh-100">
+            <v-card>
+                <v-card-title>
+                    Ultrasound Admission
+                </v-card-title>
+                <v-card-text>
+                    <patient_information :patient_id="$route.params.admission.patient_id"/>
+                    <p class="title"><v-icon class="text-white">mdi-stethoscope</v-icon> B) Medical Data</p>
+                    <div class="form-group w-25">
+                        <label>Is the patient pregnant</label>
+                        <select class="form-control form-control-sm" v-model.number="formData.is_patient_pregnant">
+                            <option value="0">Negativ</option>
+                            <option value="1">positiv</option>
                         </select>
                     </div>
-                </div>
-              </div>
-                <button class=" float-right mt-6 btn btn-sm btn-primary" @click="submit">Submit</button>
-            </v-card-text>
-        </v-card>
-    </div>
+                    <div class="form-group" v-if="formData.is_patient_pregnant===0">
+                        <label>Remark:</label>
+                        <textarea class="form-control" v-model="formData.remark_when_patient_not_pregnant">
+
+                    </textarea>
+                    </div>
+                    <div v-if="formData.is_patient_pregnant">
+                        <div class="form-row">
+                            <div class="form-group col-6">
+                                <label>Date of last period</label>
+                                <date-picker
+                                    v-model=" formData.last_period_date"
+                                    mode="date"
+                                    :masks="accessory.dateConfig.masks"
+                                    :max-date="new Date()"
+                                    @input="get_calculated_ga(formData.last_period_date)"
+                                    v-if="!formData.unknown_lpd"
+                                    ref="last_period_date"
+                                >
+                                    <template
+                                        v-slot="{
+                                                inputValue,
+                                                inputEvents,
+                                              }"
+                                    >
+                                        <input
+                                            class="
+                                                  date-picker
+                                                  bg-white
+                                                  form-control form-control-sm
+                                                  px-2
+                                                  py-1
+                                                  rounded
+                                                "
+                                            :class="{'is-invalid':$v.formData.last_period_date.$error}"
+                                            :value="inputValue"
+                                            v-on="inputEvents"
+                                        />
+                                    </template>
+                                </date-picker>
+                            </div>
+                            <div class="form-group col-6 mt-8">
+                                <label>
+                                    Check here if the date of last period is unknown
+                                </label>
+                                <input  type="checkbox" v-model="formData.unknown_lpd">
+                            </div>
+                        </div>
+                        <h6>Gestational age</h6>
+                        <table class="table table-sm">
+                            <tr>
+                                <td :class="{'bg-success':formData.edd_method==='calc'}">Calculated</td>
+                                <td :class="{'bg-success':formData.edd_method==='us'}">Ultrasound</td>
+                                <td :class="{'bg-success':formData.edd_method==='corrected'}">Corrected</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <gestational-age v-model="formData.calculated_ga"/>
+                                </td>
+                                <td>
+                                    <gestational-age v-model="formData.ultrasound_ga"/>
+                                    <span v-if="$v.formData.ultrasound_ga.$error" class="text-danger"><small> required</small></span>
+                                </td>
+                                <td>
+                                    <gestational-age v-model="formData.corrected_ga"/>
+                                </td>
+                            </tr>
+                        </table>
+                        <div class="form-group w-25">
+                            <label>EDD method</label>
+                            <select class="form-control form-control-sm" v-model="formData.edd_method" :class="{'form-control is-invalid':$v.formData.edd_method.$error}">
+                                <option value="calc">calculated</option>
+                                <option value="us">Ultrasound</option>
+                                <option value="corrected">Corrected</option>
+                            </select>
+                            <div class="invalid-feedback" v-if="{'form-control is-invalid':$v.formData.edd_method.$error}">
+                                You have to choose the EDD method
+                            </div>
+                        </div>
+                        <h6>Estimated date of delivery</h6>
+                        <table class="table table-sm">
+                            <tr>
+                                <td>Calculated</td>
+                                <td>Ultrasound</td>
+                                <td>Corrected</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <date-picker
+                                        v-model=" formData.edd_calculated"
+                                        mode="date"
+                                        :model-config="accessory.dateConfig"
+                                        :masks="accessory.dateConfig.masks"
+                                        :min-date="new Date()"
+                                    >
+                                        <template
+                                            v-slot="{
+                                                inputValue,
+                                                inputEvents,
+                                              }"
+                                        >
+                                            <input
+                                                class="
+                                                  date-picker
+                                                  bg-white
+                                                  form-control form-control-sm
+                                                  px-2
+                                                  py-1
+                                                  rounded
+                                                "
+                                                :value="inputValue"
+                                                v-on="inputEvents"
+                                            />
+                                        </template>
+                                    </date-picker>
+                                </td>
+                                <td>
+                                    <date-picker
+                                        v-model=" formData.edd_ultrasound"
+                                        mode="date"
+                                        :model-config="accessory.dateConfig"
+                                        :masks="accessory.dateConfig.masks"
+                                        :min-date="new Date()"
+                                        ref="edd_ultrasound"
+                                        @popoverWillShow="move_ultrasound_date_picker('edd_ultrasound')"
+                                    >
+                                        <template
+                                            v-slot="{
+                                                inputValue,
+                                                inputEvents,
+                                              }"
+                                        >
+                                            <input
+                                                class="
+                                                  date-picker
+                                                  bg-white
+                                                  form-control form-control-sm
+                                                  px-2
+                                                  py-1
+                                                  rounded
+                                                "
+                                                :class="{'is-invalid':$v.formData.edd_ultrasound.$error}"
+                                                :value="inputValue"
+                                                v-on="inputEvents"
+                                            />
+                                        </template>
+                                    </date-picker>
+                                </td>
+                                <td>
+                                    <date-picker
+                                        v-model=" formData.edd_corrected"
+                                        mode="date"
+                                        :model-config="accessory.dateConfig"
+                                        :masks="accessory.dateConfig.masks"
+                                        :min-date="new Date()"
+                                        ref="edd_corrected"
+                                        @popoverWillShow="move_ultrasound_date_picker('edd_corrected')"
+                                    >
+                                        <template
+                                            v-slot="{
+                                                inputValue,
+                                                inputEvents,
+                                              }"
+                                        >
+                                            <input
+                                                class="
+                                                  date-picker
+                                                  bg-white
+                                                  form-control form-control-sm
+                                                  px-2
+                                                  py-1
+                                                  rounded
+                                                "
+                                                :value="inputValue"
+                                                v-on="inputEvents"
+                                            />
+                                        </template>
+                                    </date-picker>
+                                </td>
+                            </tr>
+                        </table>
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" v-model="formData.multiple_pregnancy">
+                                    <label class="form-check-label">Multiple pregnancy</label>
+                                </div>
+                            </div>
+                            <div class="col-8">
+                                <label>Count of fetus</label>
+                                <select class="form-control form-control-sm"
+                                        v-model.number="formData.count_of_fetus"
+                                        v-if="formData.multiple_pregnancy">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <v-btn class=" float-right mt-6 btn " small :loading="form_is_submitting" @click="submit" color="primary">Submit</v-btn>
+                </v-card-text>
+            </v-card>
+        </div>
+    </v-app>
 </template>
 
 <script>
@@ -298,6 +300,7 @@ export default {
                     "Ando",
                 ],
             },
+            form_is_submitting:false
         }
     },
     validations:{
@@ -320,13 +323,16 @@ export default {
             }
             this.formData.admission_id= this.admission.id
             this.formData.patient_id= this.admission.patient_id
+            this.form_is_submitting=true
             axios.post('/api/v1/patient_system/out_patient/obstetrical/ultrasound/admission',this.formData).then(
                 response=>{
                    if(response.data.success){
                        // this.$router.push({name:'ultrasound_exam_crud',params:{admission:this.admission}})
                        this.formData=Object.assign({},this.default_data)
                        this.$emit('success')
+                       this.form_is_submitting=false
                    }
+
                 }
             )
         },

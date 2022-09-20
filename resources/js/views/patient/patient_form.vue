@@ -293,25 +293,6 @@
                           </div>
                           <!--Avatar and Nationality-->
                       </div>
-                      <div class="row">
-                          <div class="col-6">
-                              <div class="form-group">
-                                  <label>Patient category</label>
-                                  <select class="form-control" v-model="patient.patient_category_id">
-                                      <option v-for="item in patient_category" :value="item.id">{{item.name}}</option>
-                                  </select>
-                                  <span class="text-white bg-danger" v-if="$v.patient.patient_category_id.$error">You must choose a category</span>
-                              </div>
-                          </div>
-                          <div class="col-6"  v-if="this.patient.patient_category_id===5">
-                              <div class="form-group">
-                                  <label>write the name of the organization</label>
-                                  <select class="form-control" v-model="patient.mhm_partner_id">
-                                      <option v-for="item in mhm_partner" :value="item.id">{{item.name}}</option>
-                                  </select>
-                              </div>
-                          </div>
-                      </div>
                       <!--personal detail-->
                       <br />
                       <h4>Corespondance</h4>
@@ -327,6 +308,7 @@
                                           name="adress"
                                           id="adress"
                                           v-model="patient.adress"
+                                          @change="check_fkt"
                                       />
                                       <div v-if="$v.patient.adress.$error">
                                           <div
@@ -370,6 +352,26 @@
                           </div>
                       </div>
                       <br />
+                      <div class="row">
+                          <div class="col-6">
+                              <div class="form-group">
+                                  <label>Patient category</label>
+                                  <select class="form-control" v-model="patient.patient_category_id">
+                                      <option v-for="item in patient_category" :value="item.id">{{item.name}}</option>
+                                  </select>
+                                  <span class="text-white bg-danger" v-if="$v.patient.patient_category_id.$error">You must choose a category</span>
+                              </div>
+                          </div>
+                          <div class="col-6"  v-if="this.patient.patient_category_id===5">
+                              <div class="form-group">
+                                  <label>write the name of the organization</label>
+                                  <select class="form-control" v-model="patient.mhm_partner_id">
+                                      <option v-for="item in mhm_partner" :value="item.id">{{item.name}}</option>
+                                  </select>
+                              </div>
+                          </div>
+                      </div>
+                      <br/>
                       <h4>Contact Famille</h4>
                       <hr />
                       <div class="row">
@@ -626,6 +628,7 @@ export default {
     patient:{
        async handler(val){
            this.check_data(val)
+
         },
         deep:true
     }
@@ -641,6 +644,16 @@ export default {
         this.fokontany=[]
         axios.get("/api/v1/extra/fokontany").then(response=> response.data.forEach(fkt=>this.fokontany.push(fkt.name)))
     },
+      check_fkt(){
+          let address = this.patient.adress.toLowerCase().split(" ");
+          const lower = this.fokontany.map(element => {
+              return element.toLowerCase();
+          });
+          console.log(address)
+          address.forEach((ad) => {
+              return this.patient.patient_category_id=lower.includes(ad)?1:2
+          })
+      },
     getPatientCategory(){
         this.patientCategory=[]
         axios.get("/api/v1/patient_system/patient/category").then(response=>this.patient_category=response.data)

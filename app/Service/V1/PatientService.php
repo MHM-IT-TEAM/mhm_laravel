@@ -59,7 +59,7 @@ class PatientService
         $patient->fill($this->patientData)->save();
         $this->patId= $patient->id;
         $this->storeEmData();
-        event(new PatientCreatedEvent($patient));
+//        event(new PatientCreatedEvent($patient));
         return $patient;
     }
     /**

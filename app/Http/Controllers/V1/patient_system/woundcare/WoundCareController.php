@@ -50,7 +50,7 @@ class WoundCareController extends Controller
      */
     public function show($id)
     {
-        return Woundcare::where('patient_id',$id)->with('woundcare_materials')->orderByDesc('created_at')->get();
+        return Woundcare::where('patient_id',$id)->with(['woundcare_materials','user'])->orderByDesc('created_at')->get();
     }
 
     /**
