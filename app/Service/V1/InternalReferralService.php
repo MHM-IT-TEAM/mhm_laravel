@@ -26,7 +26,7 @@ class InternalReferralService
             'status'=>'RUNNING',
             'payment_status'=>'PAID',//to bypass the cash system
             'admission_type_id'=>2,
-            'remark'=>$request->remark
+            'remark'=>$request->reason_for_transfer
         ]);
         //insert to internalReferral table
         InternalReferral::create([

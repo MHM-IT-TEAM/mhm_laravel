@@ -27,7 +27,7 @@ Route::prefix('/v1')->group(function(){
             Route::get('/category',function(){
                 return \App\Models\PatientCategory::all();
             });
-            Route::get('update_category/{patient_id}/{category_id}',[\App\Http\Controllers\v1\patient_system\patient\PatientController::class,'update_category']);
+            Route::put('update_category/{patient_id}/{category_id}',[\App\Http\Controllers\v1\patient_system\patient\PatientController::class,'update_category']);
             //patient quick search
             Route::get('/search',[\App\Http\Controllers\v1\patient_system\patient\PatientController::class,'search']);
             Route::get('/with_due_sum/{id}',[\App\Http\Controllers\v1\patient_system\patient\PatientController::class,'with_due_sum']);

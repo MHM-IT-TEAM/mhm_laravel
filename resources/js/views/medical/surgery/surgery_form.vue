@@ -351,6 +351,19 @@
                 <v-btn depressed color="primary" @click="submit" class="mt-2" :loading="loading">Submit</v-btn>
             </v-card-text>
         </v-card>
+        <v-dialog
+            v-model="show_internal_referral"
+        >
+            <v-card>
+                <v-card-title class="text-h5">
+                    Refer to Stork Center
+                </v-card-title>
+
+                <v-card-text>
+                  <internal_referral :admission="$route.params.surgery.admission" @form_submitted="form_is_submitted"/>
+                </v-card-text>
+            </v-card>
+        </v-dialog>
     </div>
 </template>
 
@@ -359,6 +372,7 @@ import Patient_information from "../../../components/patient_information";
 import { validationMixin } from "vuelidate";
 import moment from "moment"
 import _ from "lodash"
+import Internal_referral from "../../../components/internal_referral";
 const {
     required,
     requiredIf,
@@ -369,7 +383,7 @@ const {
 } = require("vuelidate/lib/validators");
 export default {
     name: "surgery_form",
-    components: {Patient_information},
+    components: {Internal_referral, Patient_information},
     mixins: [validationMixin],
     data(){
         return{
@@ -412,7 +426,8 @@ export default {
             type_of_surgery:['plastic'],
             temp_med:{medicine:'', dosage:'',time:''},
             loading:false,
-            avatar:''
+            avatar:'',
+            show_internal_referral:false
         }
     },
     validations:{
@@ -439,6 +454,14 @@ export default {
 
         }
     },
+    watch:{
+        formData:{
+            handler(val){
+                if(val.dismissal_outcome==='stay')this.show_internal_referral=true
+            },
+            deep:true
+        }
+    },
     methods:{
        async submit(){
            this.$v.formData.$touch();
@@ -453,6 +476,10 @@ export default {
                 this.$router.push({name:'surgery_list'})
             })
            this.loading=false
+        },
+        form_is_submitted(){
+           this.show_internal_referral=false
+            this.$toast.open({position: 'top-right', type: 'success', message: 'the patient is referred to Stork center'})
         },
         fetch_surgery(id){
             axios.get(`/api/v1/patient_system/surgery/resource/${id}`).then(

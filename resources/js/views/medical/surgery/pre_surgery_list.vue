@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <patient_list :service_id="34" :service_activity_id="45" :headers="headers" @edit="show_modal" title="PRE SURGERY LIST" :refresh="refresh_list" />
+        <patient_list :service_activity_id="service_activities" :headers="headers" @edit="show_modal" title="PRE SURGERY LIST" :refresh="refresh_list" />
         <v-dialog
             v-model="modal"
             max-width="500"
@@ -68,6 +68,7 @@ export default {
                 admission_id:'',
                 patient_id:''
             },
+            service_activities:[45],
             modal:false,
             refresh_list:false
         }

@@ -22,7 +22,7 @@ export default {
                 { text: "Actions", value: "actions", sortable: false },
 
             ],
-            service_activities:[23,24,25,26,27,28,45]
+            service_activities:[23,24,25,26,27,28]
         }
     },
     methods:{

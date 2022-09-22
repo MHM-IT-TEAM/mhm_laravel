@@ -51,6 +51,7 @@
                               {{ item.admission_type.code }}
                           </v-chip>
                       </template>
+<!--                      <template v-slot:item.service_name="{ item }">{{ item.id }}</template>-->
                   </v-data-table>
               </v-card-text>
           </v-card>

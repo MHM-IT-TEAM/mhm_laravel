@@ -494,11 +494,11 @@ export default {
             let adress = this.formData.patient.adress.toLowerCase().split(" ");
             let check = false;
             adress.forEach((ad) => {
-              if (this.accessory.fokontany.indexOf(ad) !== -1) {
+              if (this.accessory.fokontany.includes(ad)) {
                 check = true;
-                axios.get(`/api/v1/patient_system/patient/update_category/${this.formData.patient.id}/1`)
+                axios.put(`/api/v1/patient_system/patient/update_category/${this.formData.patient.id}/1`)
               }else{
-                  axios.get(`/api/v1/patient_system/patient/update_category/${this.formData.patient.id}/0`)
+                  axios.put(`/api/v1/patient_system/patient/update_category/${this.formData.patient.id}/2`)
               }
             });
             this.formData.patient.sector = check;

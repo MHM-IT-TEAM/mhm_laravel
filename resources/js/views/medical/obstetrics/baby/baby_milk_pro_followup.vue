@@ -1,6 +1,6 @@
 <template>
 <div class="container-fluid w-75">
-   <patient_information patient_id="10900"/>
+   <patient_information :patient_id="$route.params.patient_id" v-if="$route.params.patient_id !==''"/>
     <div class="form-group">
         <label class="label" >Mom Id</label>
         <input type="number" readonly class="form-control form-control-sm w-25" v-model="accessory.milk_pro_admission_data.mom_id">
