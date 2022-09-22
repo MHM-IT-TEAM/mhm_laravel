@@ -360,32 +360,32 @@ export default {
                 {
                     room:'Red room',
                     color:'red',
-                    beds:this.start_list.filter(list=>list.bed.room==='red')
+                    beds:this.start_list.filter(list=>list.bed.room==='red').sort((a,b)=>(a.bed.code >  b.bed.code) ? 1 : ((b.bed.code >  a.bed.code) ? -1 : 0))
                 },
                 {
                     room:'Yellow room',
                     color:'yellow',
-                    beds:this.start_list.filter(list=>list.bed.room==='yellow')
+                    beds:this.start_list.filter(list=>list.bed.room==='yellow').sort((a,b)=>(a.bed.code >  b.bed.code) ? 1 : ((b.bed.code >  a.bed.code) ? -1 : 0))
                 },
                 {
                     room:'Recovery room',
                     color:'blue',
-                    beds:this.start_list.filter(list=>list.bed.room==='recovery')
+                    beds:this.start_list.filter(list=>list.bed.room==='recovery').sort((a,b)=>(a.bed.code >  b.bed.code) ? 1 : ((b.bed.code >  a.bed.code) ? -1 : 0))
                 },
                 {
                     room:'STC',
                     color:'green',
-                    beds:this.start_list.filter(list=>list.bed.room==='STC')
+                    beds:this.start_list.filter(list=>list.bed.room==='STC').sort((a,b)=>(a.bed.code  > b.bed.code) ? 1 : ((b.bed.code >  a.bed.code) ? -1 : 0))
                 },
                 {
                     room:'Turquoise',
                     color:'cyan',
-                    beds:this.start_list.filter(list=>list.bed.room==='TQU')
+                    beds:this.start_list.filter(list=>list.bed.room==='TQU').sort((a,b)=>(a.bed.code >  b.bed.code) ? 1 : ((b.bed.code >  a.bed.code) ? -1 : 0))
                 },
                 {
                     room:'Pink',
                     color:'pink',
-                    beds:this.start_list.filter(list=>list.bed.room==='PINK')
+                    beds:this.start_list.filter(list=>list.bed.room==='PINK').sort((a, b) => a.code - b.code)
                 },
             ]
         },
