@@ -26,7 +26,7 @@ Route::group(['prefix'=>'admin','middleware'=>'auth'],function(){
     })->name('admin_home')->where('any','.*');
 });
 // home
-Route::get('/home',function(){
+Route::middleware('auth')->get('/home',function(){
     $user= Auth::user();
     $pages=$user->pages()->get();
     return view('/home')->with('pages',$pages);

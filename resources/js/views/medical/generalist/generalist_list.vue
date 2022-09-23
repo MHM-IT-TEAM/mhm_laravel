@@ -1,6 +1,6 @@
 <template>
   <div class="container w-75">
-    <patient-list :headers="headers" :service_id="6" @edit="process_consultation" title="General doctor" />
+    <patient-list :headers="headers" :service_activity_id="service_activities" @edit="process_consultation" title="General doctor" />
   </div>
 </template>
 
@@ -20,6 +20,7 @@ export default {
         { text: "Status", value: "status" },
         { text: "Actions", value: "actions", sortable: false },
       ],
+        service_activities:[6]
     };
   },
   methods: {

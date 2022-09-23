@@ -7,7 +7,7 @@
                     <v-col cols="10">
                         <patient_information :patient_id="formData.patient_id "  v-if="formData.patient_id !==''"/>
                     </v-col>
-                    <v-col cols="2">
+                    <v-col cols="2" class="text-center">
                         <v-img
                             max-height="150"
                             max-width="250"
@@ -15,6 +15,13 @@
                             :src="'/storage/assets/media/images/patients/avatar/'+avatar"
                             lazy-src="https://i.pravatar.cc/300"
                         ></v-img>
+                        <v-avatar
+                            color="brown"
+                            size="48"
+                            v-if="! avatar"
+                        >
+                            <span class="white--text text-h5">IMG</span>
+                        </v-avatar>
                     </v-col>
                 </v-row>
             </v-card-text>
