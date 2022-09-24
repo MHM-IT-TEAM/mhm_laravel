@@ -45,6 +45,8 @@ Route::prefix('/v1')->group(function(){
             Route::resource('service_price',\App\Http\Controllers\v1\patient_system\consultation\ServicePriceController::class);
             Route::resource('admission',\App\Http\Controllers\V1\patient_system\admission\AdmissionController::class);
         });
+        //Additional Consultation
+        Route::resource('additional_consultation',\App\Http\Controllers\V1\patient_system\additional_consultation\AdditionalConsultationController::class);
         //Internal referral
         Route::resource('internal_referral',\App\Http\Controllers\V1\patient_system\internal_referral\InternalReferralController::class);
         //External referral

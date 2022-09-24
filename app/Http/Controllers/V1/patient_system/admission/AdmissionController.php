@@ -4,6 +4,7 @@ namespace App\Http\Controllers\V1\patient_system\admission;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\AdmissionRequest;
+use App\Models\AdditionalConsultation;
 use App\Models\Admission;
 use App\Models\InternalReferral;
 use App\Service\Medical\obstetrics\CpnAdmissionService;
@@ -100,7 +101,30 @@ class AdmissionController extends Controller
             });
         }
 
-        return $admission->get();
+        foreach($result= $admission->get() as $data){
+            //check if it is a referral
+            if($data->admission_type_id===2){
+                // get the "from id in the internal referral table"
+                $src_adm_id= InternalReferral::where('to_admission_id',$data->id)->first();
+                if($src_adm_id){
+                    $src_adm_id=$src_adm_id->from_admission_id;
+                    $raw=Admission::with(['category','service','service_activity'])->find($src_adm_id);
+                    $data->from_admission=$raw->category['name']."/". $raw->service['name']."/".$raw->service_activity['name'];
+                }
+            }
+            //check if it is additional consultation
+            if($data->admission_type_id===3){
+                // get the "from id in the internal referral table"
+                $src_adm_id= AdditionalConsultation::where('to_admission_id',$data->id)->first();
+                if($src_adm_id){
+                    $src_adm_id=$src_adm_id->from_admission_id;
+                    $raw=Admission::with(['category','service','service_activity'])->find($src_adm_id);
+                    $data->from_admission=$raw->category['name']."/". $raw->service['name']."/".$raw->service_activity['name'];
+                }
+            }
+        }
+        return $result;
+
     }
 
 }

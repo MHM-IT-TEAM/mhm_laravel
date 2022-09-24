@@ -20,6 +20,9 @@ class Admission extends Model
     public function service_activity(){
         return $this->belongsTo(ServiceActivity::class);
     }
+    public function category(){
+        return $this->belongsTo(Category::class);
+    }
 
     public function admissionCareDetails(){
         return $this->hasMany(AdmissionCareDetail::class);

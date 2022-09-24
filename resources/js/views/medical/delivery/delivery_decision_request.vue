@@ -52,6 +52,7 @@ export default {
                 { text: "First Name", value: "patient.firstName" },
                 { text: "Last Name", value: "patient.lastName" },
                 { text: "Type of admission", value:"admission_type.code", sortable: false },
+                { text: "From", value:"from_admission" },
                 {text:"nature",value:"service_activity.name"},
                 { text: "Status", value: "status" },
                 { text: "Actions", value: "actions", sortable: false },

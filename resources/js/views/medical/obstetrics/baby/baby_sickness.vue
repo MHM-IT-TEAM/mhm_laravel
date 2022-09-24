@@ -35,6 +35,15 @@
                     >
                         IL
                     </v-btn>
+                    <v-btn
+                        fab
+                        dark
+                        small
+                        color="purple"
+                        @click="accessory.show_additional_consult=true"
+                    >
+                        AC
+                    </v-btn>
                 </v-speed-dial>
             </v-card-title>
             <v-card-text>
@@ -146,6 +155,16 @@
                 </v-card-text>
             </v-card>
         </v-dialog>
+        <v-dialog
+            v-model="accessory.show_additional_consult"
+        >
+            <v-card>
+
+                <v-card-text class="p-2">
+                    <additional_consultation :admission="$route.params.admission"/>
+                </v-card-text>
+            </v-card>
+        </v-dialog>
     </div>
 </template>
 
@@ -153,6 +172,7 @@
 import { validationMixin } from "vuelidate";
 import Give_medicine from "../../../../components/give_medicine";
 import Internal_lab from "../../labwork/internal/internal_lab";
+import Additional_consultation from "../../../../components/additional_consultation";
 const {
     required,
     requiredIf,
@@ -160,7 +180,7 @@ const {
 export default {
     name: "baby_sickness",
     mixins: [validationMixin],
-    components: {Internal_lab, Give_medicine},
+    components: {Additional_consultation, Internal_lab, Give_medicine},
     data(){
         return{
             formData:{
@@ -190,7 +210,8 @@ export default {
                 left: false,
                 transition: 'slide-y-reverse-transition',
             },
-            show_internal_lab:false
+            show_internal_lab:false,
+            show_additional_consultfalse,
         }
     },
     validations:{

@@ -34,6 +34,24 @@
                     >
                         IL
                     </v-btn>
+                    <v-btn
+                        fab
+                        dark
+                        small
+                        color="orange"
+                        @click="accessory.show_internal_referral=true"
+                    >
+                        IR
+                    </v-btn>
+                    <v-btn
+                        fab
+                        dark
+                        small
+                        color="purple"
+                        @click="accessory.show_additional_consult=true"
+                    >
+                        AC
+                    </v-btn>
                 </v-speed-dial>
                 <div class="mt-6 p-2" v-if="patient_details">
                     <span>{{ patientFullName }}</span>
@@ -638,6 +656,26 @@
                         </v-card-text>
                     </v-card>
                 </v-dialog>
+            <v-dialog
+                v-model="accessory.show_additional_consult"
+            >
+                <v-card>
+
+                    <v-card-text class="p-2">
+                        <additional_consultation :admission="$route.params.admission"/>
+                    </v-card-text>
+                </v-card>
+            </v-dialog>
+            <v-dialog
+                v-model="accessory.show_internal_referral"
+            >
+                <v-card>
+
+                    <v-card-text class="p-2">
+                        <internal_referral :admission="$route.params.admission" @form_submitted="accessory.show_internal_referral=false"/>
+                    </v-card-text>
+                </v-card>
+            </v-dialog>
         </v-app>
     </div>
 </template>
@@ -648,6 +686,8 @@ import gestationalAge from "../../../../components/gestational_age_control.vue"
 import seniorAuthDialog from "../../../../components/senior_auth_dialog.vue"
 import Give_medicine from "../../../../components/give_medicine";
 import Internal_lab from "../../labwork/internal/internal_lab";
+import Additional_consultation from "../../../../components/additional_consultation";
+import Internal_referral from "../../../../components/internal_referral";
 const {
     required,
     requiredIf,
@@ -659,7 +699,9 @@ const {
     export default {
         name: "cpn_followup",
         mixins: [validationMixin],
-        components: {Internal_lab, Give_medicine, gestationalAge, seniorAuthDialog },
+        components: {
+            Internal_referral,
+            Additional_consultation, Internal_lab, Give_medicine, gestationalAge, seniorAuthDialog },
         props:['is_overview','cpn_admission_id'],
         data: () => ({
             dialog: false,
@@ -828,7 +870,9 @@ const {
                     },
                 },
                 isLoading: false,
-                show_internal_lab:false
+                show_internal_lab:false,
+                show_additional_consult:false,
+                show_internal_referral:false
             },
             reset_medication_list:false,
             speed_dial:{

@@ -36,6 +36,15 @@
                    >
                        IL
                    </v-btn>
+                   <v-btn
+                       fab
+                       dark
+                       small
+                       color="purple"
+                       @click="accessory.show_additional_consult=true"
+                   >
+                       AC
+                   </v-btn>
                </v-speed-dial>
            </v-card-title>
            <v-row class="p-2">
@@ -195,6 +204,16 @@
                 </v-card-text>
             </v-card>
         </v-dialog>
+        <v-dialog
+            v-model="accessory.show_additional_consult"
+        >
+            <v-card>
+
+                <v-card-text class="p-2">
+                  <additional_consultation :admission="$route.params.admission"/>
+                </v-card-text>
+            </v-card>
+        </v-dialog>
     </v-app>
 </div>
 </template>
@@ -206,13 +225,14 @@ import {mapGetters,mapActions} from 'vuex'
 import Give_medicine from "../../../../components/give_medicine";
 import Baby_weight_gain from "./baby_weight_gain";
 import Internal_lab from "../../labwork/internal/internal_lab";
+import Additional_consultation from "../../../../components/additional_consultation";
 const {
     required,
     requiredIf,
 } = require("vuelidate/lib/validators");
 export default {
     name: "baby_checkup",
-    components:{Internal_lab, Baby_weight_gain, Give_medicine, weight_overview},
+    components:{Additional_consultation, Internal_lab, Baby_weight_gain, Give_medicine, weight_overview},
     mixins: [validationMixin],
     data(){
         return{
@@ -244,7 +264,8 @@ export default {
                 gl_impression:['Healthy','Weak','Infection sign','In Danger'],
                 reset_medication_list:false,
                 dialog:false,
-                show_internal_lab:false
+                show_internal_lab:false,
+                show_additional_consult:false
             },
             speed_dial:{
                 direction: 'top',

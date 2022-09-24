@@ -66,6 +66,7 @@ import obstetrics_overview from "./views/medical/overview/obstetrics_overview";
     import stork_view_internal_lab_result from "./views/medical/in_patient/stork_center/stork_view_internal_lab_result";
     import stork_supply_list from "./views/medical/in_patient/stork_center/stork_supply_list";
     import stork_pay_lunch from "./views/medical/in_patient/stork_center/stork_pay_lunch";
+    import stork_additional_consult from "./views/medical/in_patient/stork_center/stork_additional_consult";
 
 //Delivery
     import delivery_layout from "./views/medical/delivery/layouts/delivery_layout";
@@ -690,7 +691,13 @@ const routes = [
                 path:'lunch',
                 name:'stork_pay_lunch',
                 component:stork_pay_lunch
+            },
+            {
+                path:'additional_consultation',
+                name:'stork_additional_consultation',
+                component:stork_additional_consult
             }
+
 
 
 

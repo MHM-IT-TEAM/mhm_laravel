@@ -232,6 +232,7 @@ export default {
                 children:[
                     {text:'internal',url:'stork_internal_consultation'},
                     {text:'external',url:'stork_external_consultation'},
+                    {text:'additional',url:'stork_additional_consultation'},
                 ]
             },
             {
