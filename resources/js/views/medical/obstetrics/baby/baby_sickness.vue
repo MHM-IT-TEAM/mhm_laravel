@@ -40,7 +40,7 @@
                         dark
                         small
                         color="purple"
-                        @click="accessory.show_additional_consult=true"
+                        @click="show_additional_consult=true"
                     >
                         AC
                     </v-btn>
@@ -156,7 +156,7 @@
             </v-card>
         </v-dialog>
         <v-dialog
-            v-model="accessory.show_additional_consult"
+            v-model="show_additional_consult"
         >
             <v-card>
 
