@@ -211,7 +211,7 @@ export default {
                 transition: 'slide-y-reverse-transition',
             },
             show_internal_lab:false,
-            show_additional_consultfalse,
+            show_additional_consult:false,
         }
     },
     validations:{
