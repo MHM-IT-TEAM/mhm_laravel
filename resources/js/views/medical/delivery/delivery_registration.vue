@@ -709,7 +709,7 @@
             </v-row>
             <v-row justify="center">
                 <v-col cols="2">
-                    <button type="submit" class="btn" id="submit" @click="submit">Submit</button>
+                    <v-btn  class="btn" id="submit" @click="submit" :loading="form_is_submitting" color="primary">Submit</v-btn>
                 </v-col>
             </v-row>
         </div>
@@ -891,7 +891,8 @@ export default {
                 where:'',
                 position:'',
                 degree:''
-            }
+            },
+            form_is_submitting:false
 
         }
     },
@@ -972,6 +973,7 @@ export default {
         async submit(){
             this.$v.$touch()
             if(!this.$v.$invalid){
+                this.form_is_submitting=true
                 this.formData.code= this.new_code
                 this.formData.user_id = window.auth.user.id
                 this.formData.induction_method= this.formData.induction_method.constructor===Array?  this.formData.induction_method.join():this.formData.induction_method
@@ -984,6 +986,7 @@ export default {
                 })
                 await axios.post('/api/v1/patient_system/delivery/register_birth',this.formData).then(response=>{
                     if(response.data.success){
+                        this.form_is_submitting=false
                         this.$toast.open({
                             message:JSON.stringify(response.data.patients),
                             duration:0,
