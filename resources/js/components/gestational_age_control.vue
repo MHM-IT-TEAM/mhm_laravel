@@ -2,7 +2,7 @@
   <div class="form-check-inline">
     <select v-model="gestationalAge.week" :disabled="readonly">
       <option v-if="isNull" value="" selected></option>
-      <option v-for="i in 41" :value="i" :key="i">{{ i }}</option>
+      <option v-for="i in 42" :value="i" :key="i">{{ i }}</option>
     </select>
     <strong class="m-auto">+</strong>
     <select v-model="gestationalAge.day" :disabled="readonly">
