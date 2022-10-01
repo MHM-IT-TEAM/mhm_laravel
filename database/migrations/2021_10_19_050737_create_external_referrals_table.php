@@ -30,7 +30,7 @@ class CreateExternalReferralsTable extends Migration
             $table->string('extra_supervision_details')->nullable();
             $table->text('events')->nullable();
             $table->string('driver')->nullable();
-            $table->integer('medical_team');
+            $table->text('medical_team')->nullable();
             $table->text('remark')->nullable();
             $table->foreignId('user_id')->nullable();
         });

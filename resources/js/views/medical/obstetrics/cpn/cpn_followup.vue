@@ -1059,8 +1059,10 @@ const {
                     });
                     this.cpn_data= cpn_data;
                     this.patient_details = fetch.data.patient;
+                    let follow_up= cpn_data[cpn_data.length -1]
                     //gestational age
-                    let [src_date,src_ga]= [fetch.data.created_at,fetch.data.gestational_age]
+                    let [src_date,src_ga]= [follow_up.created_at,follow_up.gestational_age]
+                    console.log(src_date,src_ga)
                     const diff = new Date()- new Date(src_date);
                     const diff_in_days = Math.round(diff / 1000 / 60 / 60 / 24);
                     const ga_weeks = Math.floor(diff_in_days / 7);

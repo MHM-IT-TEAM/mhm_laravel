@@ -34,11 +34,11 @@ class CreateUltrasoundDetailsTable extends Migration
             $table->string('amniotic_liquid',10)->nullable();
             $table->string('ga_equality',10)->nullable();
             $table->boolean('proportional_growth')->nullable();
-            $table->string('placenta_type',10)->nullable();
-            $table->string('amniotic_fluid',10)->nullable();
-            $table->string('position_of_baby',10)->nullable();
-            $table->string('presentation_of_baby',10)->nullable();
-            $table->string('suspicion_for_malformation',10)->nullable();
+            $table->string('placenta_type',100)->nullable();
+            $table->string('amniotic_fluid',100)->nullable();
+            $table->string('position_of_baby',100)->nullable();
+            $table->string('presentation_of_baby',100)->nullable();
+            $table->string('suspicion_for_malformation',100)->nullable();
             $table->text('malformation_explanation')->nullable();
             $table->string('calculated_ga')->nullable();
             $table->string('ultrasound_ga')->nullable();

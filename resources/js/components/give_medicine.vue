@@ -9,18 +9,15 @@
                            v-model="accessory.medication.item"
                            label="description"
                            track-by="description"
-                           id="multiSelect"
                            open-direction="below"
                            :options="accessory.medicines_temp_list"
                            :searchable="true"
                            :internal-search="false"
-                           :clear-on-select="true"
-                           :close-on-select="true"
-                           :show-no-results="false"
                            :hide-selected="true"
                            @search-change="fetchItem"
                            class="multiSelect"
                            autocomplete="off"
+                           onfocus="handleFocus()"
                        >
                        </multiselect>
                    </td>
@@ -127,6 +124,9 @@ export default {
                     this.accessory.medicines_temp_list = response.data.data
                 });
             }
+        },
+        handleFocus(){
+            console.log("here")
         }
     }
 }

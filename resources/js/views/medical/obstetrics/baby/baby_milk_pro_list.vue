@@ -41,7 +41,9 @@ export default {
                         name: "milk_pro_followup",
                         params: {
                             patient_id: item.patient_id,
-                            milk_pro_admission:response.data.milk_program_admission
+                            milk_pro_admission:response.data.milk_program_admission,
+                            admission_id: item.id,
+                            admission:item
                         },
                     });
                 }
