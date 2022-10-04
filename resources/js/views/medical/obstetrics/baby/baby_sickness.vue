@@ -75,7 +75,12 @@
                     <div class="col">
                         <div class="form-group">
                             <label>Lungs</label>
-                            <input type="number" v-model="formData.lungs" class="form-control form-control-sm"/>
+<!--                            <input type="number" v-model="formData.lungs" class="form-control form-control-sm"/>-->
+                            <select class="form-control form-control-sm" v-model="formData.lungs">
+                                <option value="free">Free</option>
+                                <option value=" a bit obstructed">A bit obstructed</option>
+                                <option value="obstructed">obstructed</option>
+                            </select>
                         </div>
                     </div>
                     <div class="col">

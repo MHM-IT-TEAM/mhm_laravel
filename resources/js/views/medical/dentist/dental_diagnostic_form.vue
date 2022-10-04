@@ -1,5 +1,5 @@
 <template>
-    <div class="container w-75">
+    <div class="container-fluid">
          <v-app>
              <patient_information :patient_id="formData.admission.patient_id" />
             <h6 class="table-title ml-2 font-weight-bold"><v-icon class="text-white">mdi-stethoscope</v-icon> &nbsp B) Today's actions</h6>
@@ -527,7 +527,7 @@ export default {
                 this.accessory.price_list.extraction= response.data.find(data=>data.id===10)
                 this.accessory.price_list.care= response.data.find(data=>data.id===13)
                 this.accessory.price_list.Cleaning= response.data.find(data=>data.id===12)
-                if(this.patient_age<=15){
+                if(this.patient_age<=12){
                     this.accessory.is_adult=false
                     //the price of milk tooth extraction is different from the adult
                     this.accessory.price_list.extraction= response.data.find(data=>data.id===11)
@@ -538,9 +538,6 @@ export default {
             await this.get_previous_checkup()
             //get the todo list for today if existing
             this.get_today_task()
-
-
-
         },
         process(tooth,i,row){
             this.accessory.temporary_chosen_tooth=tooth

@@ -1059,7 +1059,7 @@ const {
                     });
                     this.cpn_data= cpn_data;
                     this.patient_details = fetch.data.patient;
-                    let follow_up= cpn_data[cpn_data.length -1]
+                    let follow_up= cpn_data[cpn_data.length -1] || {created_at:fetch.data.created_at, gestational_age:fetch.data.gestational_age}
                     //gestational age
                     let [src_date,src_ga]= [follow_up.created_at,follow_up.gestational_age]
                     console.log(src_date,src_ga)

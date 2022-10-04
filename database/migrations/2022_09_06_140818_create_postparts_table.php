@@ -22,6 +22,13 @@ class CreatePostpartsTable extends Migration
             $table->string('eyes',50)->nullable();
             $table->string('legs',50)->nullable();
             $table->string('bp',50)->nullable();
+            $table->string('bp_l',50)->nullable();
+            $table->string('bp_r',50)->nullable();
+            $table->string('pulse',50)->nullable();
+            $table->string('temp',50)->nullable();
+            $table->string('spo2',50)->nullable();
+            $table->string('oedema',50)->nullable();
+            $table->string('weight',50)->nullable();
             $table->string('perineum',50)->nullable();
             $table->text('woundcare')->nullable();
             $table->string('breast',50)->nullable();

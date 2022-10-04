@@ -32,6 +32,7 @@ export default {
                     patient_id: item.patient_id,
                     fullName:nullToString(item.patient.firstName) +" "+ nullToString(item.patient.lastName),
                     admission_id: item.id,
+                    admission:item
                 },
             });
         }

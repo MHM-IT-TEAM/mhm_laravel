@@ -11,6 +11,44 @@
             ></v-textarea>
             <div class="row">
                 <div class="col">
+                   <div class="form-group">
+                       <label>BP L</label>
+                       <input type="text" class="form-control form-control-sm" v-model="formData.bp_l"/>
+                   </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label>BP R</label>
+                        <input type="text" class="form-control form-control-sm" v-model="formData.bp_r"/>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label>Pulse</label>
+                        <input type="text" class="form-control form-control-sm" v-model="formData.pulse"/>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label>SPO2</label>
+                        <input type="text" class="form-control form-control-sm" v-model="formData.spo2"/>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label>Temp</label>
+                        <input type="text" class="form-control form-control-sm" v-model="formData.temp"/>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label>Weight</label>
+                        <input type="text" class="form-control form-control-sm" v-model="formData.weight"/>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
                     <div class="form-group">
                         <label>Eyes</label>
                         <input type="text" v-model="formData.eyes" class="form-control form-control-sm"/>
@@ -129,11 +167,18 @@ export default {
                 eyes:'',
                 legs:'',
                 bp:'',
+                bp_l:'',
+                bp_r:'',
+                pulse:'',
+                spo2:'',
+                temp:'',
+                weight:'',
                 perineum:'',
                 woundcare:'',
                 breast:'',
                 uterus_size:'',
                 bleeding:'',
+                oedema:'',
                 urine:'',
                 kacka:'',
                 medication:[]
@@ -149,10 +194,19 @@ export default {
     },
     created(){
         this.get_data()
+        this.init()
     },
     methods:{
         get_medicines(data){
             this.formData.medication=data
+        },
+        init(){
+            let src= this.$route.params.admission
+            this.formData.bp= `${src.taSysto}/${src.taDia} `
+            this.formData.pulse=src.pulse
+            this.formData.temp=src.temp
+            this.formData.weight=src.weight
+            this.formData.spo2=src.spo2
         },
         get_data(){
             axios.get(`/api/v1/patient_system/out_patient/obstetrical/postpartum/${this.$route.params.patient_id}`).then(
