@@ -107,4 +107,9 @@ class SurgeryController extends Controller
         $admission->save();
         return response()->json(['success'=>true]);
     }
+    public function pre_surgery_list(){
+        return Admission::with('patient','admission_type','admissionCareDetails','service_activity')
+            ->where('payment_status','PAID')
+            ->where('service_id',34)->get();
+    }
 }

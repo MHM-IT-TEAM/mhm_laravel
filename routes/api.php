@@ -207,6 +207,7 @@ Route::prefix('/v1')->group(function(){
         // Surgery
         Route::group(['prefix'=>'surgery'],function(){
             Route::post('cancel',[\App\Http\Controllers\v1\patient_system\surgery\SurgeryController::class,'cancel']);
+            Route::post('pre_surgery_list',[\App\Http\Controllers\v1\patient_system\surgery\SurgeryController::class,'pre_surgery_list']);
             Route::resource('resource',\App\Http\Controllers\v1\patient_system\surgery\SurgeryController::class);
         });
         //System
