@@ -60,8 +60,12 @@ class Item extends Model
         ]);
         return $item;
     }
-    public function scopeGetLastCode($query,$prefix){
-        return $this->where('description','like',$prefix.'%')->orderBy('id','desc')->take(1)->pluck('code');
+    public function scopeGetLastCode($query,$prefix,$type){
+        return $this->where('description','like',$prefix.'%')
+            ->where('item_type_id',$type)
+            ->orderBy('id','desc')
+            ->take(1)
+            ->pluck('code');
     }
     public function scopeApplyFilter($query, $filter){
         $filters= collect($filter);

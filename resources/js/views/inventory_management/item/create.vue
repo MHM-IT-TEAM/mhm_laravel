@@ -25,6 +25,14 @@
                 />
               </div>
             </div>
+              <div class="row">
+                  <div class="form-group col-6">
+                      <label>Type</label><span class="text-danger">*</span>
+                      <select class="form-control form-control-sm" v-model="formData.item_type_id" @change="formData.description=''">
+                          <option v-for="type in item_type" :value="type.id">{{type.name}}</option>
+                      </select>
+                  </div>
+              </div>
             <div class="form-group">
               <label>Name</label><span class="text-danger">*</span>
               <input
@@ -34,6 +42,7 @@
                 autocomplete="off"
                 v-model="formData.description"
                 @change="getCode"
+                :disabled="formData.item_type_id===''"
               />
             </div>
             <div class="row">
@@ -53,12 +62,7 @@
                 </div>
             </div>
             <div class="row">
-              <div class="form-group col-6">
-                <label>Type</label><span class="text-danger">*</span>
-                <select class="form-control form-control-sm" v-model="formData.item_type_id">
-                    <option v-for="type in item_type" :value="type.id">{{type.name}}</option>
-                </select>
-              </div>
+
               <div class="form-group col-6">
                 <label>Unit</label>
                 <select class="form-control form-control-sm" v-model="formData.item_unit_id" >
@@ -190,16 +194,44 @@ export default {
             let descr = this.formData.description
             if(descr.length>4){
                 descr=descr.substring(0,5)
-                await axios.get('/api/v1/inventory_system/item/code',{params:{code:descr}})
+                await axios.get(`/api/v1/inventory_system/item/code`,{params:{code:descr,type:this.formData.item_type_id}})
                 .then(response=>{
-                    if(response.data.length>0){
-                        let split= response.data[0].split('-')
-                        let rank= parseInt(split[1])+1
-                        let newRank= rank<10?'0'+rank:rank
-                        this.formData.code= split[0]+'-'+newRank
-                    }else{
-                        this.formData.code= descr.toUpperCase()+'-'+'01'
+                    if(this.formData.item_type_id===1){
+                        if(response.data.length>0){
+                            let split= response.data[0].split('-')
+                            let rank= parseInt(split[1])+1
+                            let newRank
+                            if(rank<100 && rank>10){
+                                newRank='0'+rank
+                            }else if (rank<10){
+                                newRank='00'+rank
+                            }else{
+                                newRank=rank
+                            }
+                            this.formData.code=split[0]+'-'+newRank
+
+                        }else{
+                            this.formData.code= descr.toUpperCase()+'-'+'01'
+                        }
+                    } else{
+                        if(response.data.length>0){
+                            let split= response.data[0].split('-')
+                            let rank= parseInt(split[2])+1
+                            let newRank
+                            if(rank<100 && rank>10){
+                                newRank='0'+rank
+                            }else if (rank<10){
+                                newRank='00'+rank
+                            }else{
+                                newRank=rank
+                            }
+                            this.formData.code= "C-"+split[1]+'-'+newRank
+
+                        }else{
+                            this.formData.code= "C-"+descr.toUpperCase()+'-'+'01'
+                        }
                     }
+
 
                 })
             }

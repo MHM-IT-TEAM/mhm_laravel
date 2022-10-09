@@ -43,7 +43,7 @@ class ItemController extends Controller
 
     public function getCode(Request $request){
         $item= new Item();
-        return $item->getLastCode($request->code);
+        return $item->getLastCode($request->code,$request->type);
     }
     public function count_per_type(){
         return response()->json([
