@@ -336,7 +336,7 @@
                                         </v-btn>
                                     </div>
                                     <div class="row border mb-2 border-info" v-if="accessory.add_med_during">
-                                        <div class="col-md-3 col-sm-6">
+                                        <div class="col-md-2 col-sm-6">
                                             <input type="time" class="form-control mt-2" v-model="accessory.search.time"/>
                                         </div>
                                         <div class="col-sm-6">
@@ -348,8 +348,11 @@
                                                 dense
                                             ></v-select>
                                         </div>
-                                        <div class="col-md-3 col-sm-6">
+                                        <div class="col-md-2 col-sm-6">
                                             <input type="number" class="form-control  mt-2" placeholder=" quantity" @keydown.enter.prevent="add_medicine('medicines_used_during')" v-model="accessory.search.quantity" />
+                                        </div>
+                                        <div class="col-md-2 col-sm-2">
+                                            <v-btn color="purple" x-small @click="add_medicine('medicines_used_during')" class="mt-4" dark>Add</v-btn>
                                         </div>
                                     </div>
                                     <div class="row bg-secondary text-white" v-for="row in formData.medicines_used_during">
@@ -378,7 +381,7 @@
                                         </v-btn>
                                     </div>
                                     <div class="row border border-info mb-2" v-if="accessory.add_med_after">
-                                        <div class="col-md-3 col-sm-6">
+                                        <div class="col-md-2 col-sm-6">
                                             <input type="time" class="form-control mt-2" v-model="accessory.search.time"/>
                                         </div>
                                         <div class="col-sm-6">
@@ -389,8 +392,11 @@
                                                 dense
                                             ></v-select>
                                         </div>
-                                        <div class="col-md-3 col-sm-6">
+                                        <div class="col-md-2 col-sm-6">
                                             <input type="number" class="form-control  mt-2" placeholder=" quantity" @keydown.enter.prevent="add_medicine('medicines_used_after')" v-model="accessory.search.quantity" />
+                                        </div>
+                                        <div class="col-md-2 col-sm-2">
+                                            <v-btn color="purple" class="mt-4" x-small @click="add_medicine('medicines_used_after')" dark>Add</v-btn>
                                         </div>
                                     </div>
                                     <div class="row bg-secondary text-white" v-for="row in formData.medicines_used_after">

@@ -28,6 +28,7 @@ import cashier_payment from "./views/cashier/cashier_payment";
 
 //Obstetrics
 import cpn_admission from "./views/medical/obstetrics/cpn/cpn_admission";
+import new_cpn_admission from "./views/medical/obstetrics/cpn/new_cpn_admission";
 import obstetrics_layout from "./views/medical/obstetrics/layouts/obstetrics_layout";
 import obstetrics_view_internal_lab_result from "./views/medical/obstetrics/obstetrics_view_internal_lab_result";
 
@@ -402,6 +403,11 @@ const routes = [
         name: 'obstetrics_home',
         component: obstetrics_layout,
         children: [
+            {
+                path:'cpn/admission/new',
+                name:'new_cpn_admission',
+                component:new_cpn_admission
+            },
             {
                 path: 'first_cpn_list',
                 name: 'first_cpn_list',

@@ -29,7 +29,7 @@ export default {
   methods: {
     editItem(item) {
        this.$router.push({
-        name:"cpn_admission",
+        name:"cpn_admission",//new_cpn_admission
         params:{
           patient: item.patient,
           weight: item.weight,

@@ -331,8 +331,9 @@ export default {
                        this.formData=Object.assign({},this.default_data)
                        this.$emit('success')
                        this.form_is_submitting=false
+                   }else{
+                       this.$router.push({name:'ultrasound_queue'})
                    }
-
                 }
             )
         },

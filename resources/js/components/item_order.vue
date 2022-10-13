@@ -48,7 +48,9 @@
                     <td>
                         <input type="number" class="form-control" v-model="accessory.line.quantity" @keypress.enter="add_row"/>
                     </td>
-                    <td></td>
+                    <td>
+                        <v-btn color="purple" x-small @click="add_row" dark>Add</v-btn>
+                    </td>
                 </tr>
                 <tr v-for="(line,i) in formData.order_details" v-if="formData.order_details.length>0">
                     <td colspan="2">
