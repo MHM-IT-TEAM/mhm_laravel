@@ -323,7 +323,7 @@ export default {
             }
             this.formData.admission_id= this.admission.id
             this.formData.patient_id= this.admission.patient_id
-            this.form_is_submitting=true
+            // this.form_is_submitting=true
             axios.post('/api/v1/patient_system/out_patient/obstetrical/ultrasound/admission',this.formData).then(
                 response=>{
                    if(response.data.success){

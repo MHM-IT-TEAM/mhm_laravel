@@ -17,17 +17,16 @@ class UltrasoundAdmissionService
 {
     public function store_admission($request){
         //Insert into the admission table
-        $request=collect($request);
-        if($request->get('is_patient_pregnant')===1){
+        if($request['is_patient_pregnant']===1){
             $ultrasound_admission= UltrasoundAdmission::create($request);
-            for($i=0;$i<$request->get('count_of_fetus');$i++){
+            for($i=0;$i<$request['count_of_fetus'];$i++){
                 Fetus::create(["ultrasound_admission_id"=>$ultrasound_admission->id]);
             }
             // If The ultrasound ist positive then create new admission for the (CPN)
-            $this->create_first_prenatal_checkup_admission($request->get('admission_id'),$request->get('patient_id'),$ultrasound_admission->id);
+            $this->create_first_prenatal_checkup_admission($request['admission_id'],$request['patient_id'],$ultrasound_admission->id);
             return response()->json(['success'=>true]);
         }else{
-            $admission= Admission::find($request->get('admission_id'));
+            $admission= Admission::find($request['admission_id']);
             $admission->status='DONE';
             $admission->save();
             return response()->json(['status'=>'cancelled']);

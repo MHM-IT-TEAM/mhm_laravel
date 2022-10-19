@@ -182,6 +182,7 @@ Route::prefix('/v1')->group(function(){
                 route::post('update_mobilisation',[\App\Http\Controllers\V1\patient_system\in_patient\stork_center\StorkAdmissionController::class,'update_mobilisation']);
                 route::post('pay_lunch',[\App\Http\Controllers\V1\patient_system\in_patient\stork_center\StorkAdmissionController::class,'pay_lunch']);
                 route::get('lunch_list/{admission_id}',[\App\Http\Controllers\V1\patient_system\in_patient\stork_center\StorkAdmissionController::class,'lunch_list']);
+                route::get('patient_cpn_data/{patient_id}',[\App\Http\Controllers\V1\patient_system\in_patient\stork_center\StorkAdmissionController::class,'patient_cpn_data']);
 //                route::get('/fetch_patient_data/{patient_id}',[\App\Http\Controllers\V1\patient_system\maternity\MaternityAdmissionController::class,'fetch_patient_data']);
 //                route::get('/last_code',[\App\Http\Controllers\V1\patient_system\maternity\MaternityAdmissionController::class,'last_code']);
 //                route::get('/last_birth_code',[\App\Http\Controllers\V1\patient_system\maternity\BirthRegistrationController::class,'last_birth_code']);

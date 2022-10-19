@@ -5,6 +5,7 @@ namespace App\Http\Controllers\V1\patient_system\in_patient\stork_center;
 use App\Http\Controllers\Controller;
 use App\Models\Bed;
 use App\Models\LunchOrder;
+use App\Models\Patient;
 use App\Models\PatientCareCategoryHistory;
 use App\Models\PatientMobilisationHistory;
 use App\Models\StorkAdmission;
@@ -141,6 +142,9 @@ class StorkAdmissionController extends Controller
     }
     public function lunch_list($admission_id){
         return LunchOrder::with(['lunch_menu'])->where('admission_id',$admission_id)->get();
+    }
+    public function patient_cpn_data($patient_id){
+        return Patient::with('cpnAdmissions.followups')->find($patient_id);
     }
 
 }

@@ -112,6 +112,15 @@
                                                           mdi-eye
                                                       </v-icon>
                                                   </v-btn>
+<!--                                                  <v-btn-->
+<!--                                                      class="mx-2"-->
+<!--                                                      dark-->
+<!--                                                      x-small-->
+<!--                                                      @click="launch_projection(bed)"-->
+<!--                                                      color="primary"-->
+<!--                                                  >-->
+<!--                                                     Projection-->
+<!--                                                  </v-btn>-->
                                               </v-card-actions>
                                           </v-card-text>
                                       </v-card>
@@ -181,6 +190,15 @@
                   </v-card-text>
               </v-card>
           </v-dialog>
+          <v-dialog
+              v-model="projection_dialog"
+          >
+              <v-card>
+                  <v-card-text>
+                      <bed_overview :stork_admission="chosen_stork_admission"/>
+                  </v-card-text>
+              </v-card>
+          </v-dialog>
       </v-app>
    </div>
 
@@ -189,9 +207,10 @@
 <script>
 import moment from "moment";
 import Stork_admission from "./stork_admission";
+import Bed_overview from "./overview/bed_overview";
 export default {
     name: "stork_patient_list",
-    components: {Stork_admission},
+    components: {Bed_overview, Stork_admission},
     data: () => ({
         start_list:[],
         dialog_menu:false,
@@ -272,7 +291,8 @@ export default {
         mobilisation_menu:['bed rest','strict bed rest','mobilisation','no restriction'],
         search_text:'',
         overview_dialog:false,
-        chosen_stork_admission:null
+        projection_dialog:false,
+        chosen_stork_admission:null,
 
     }),
     created(){
@@ -352,6 +372,11 @@ export default {
             this.chosen_stork_admission={}
             this.overview_dialog=true
             this.chosen_stork_admission= Object.assign({},bed)
+        },
+        async launch_projection(bed){
+            this.projection_dialog=true
+            this.chosen_stork_admission= Object.assign({},bed)
+
         }
     },
     computed:{

@@ -82,7 +82,12 @@ class PatientController extends Controller
     }
     public function update_category($patient_id,$category_id){
         $patient= Patient::find($patient_id);
-        $patient->patient_category_id=$category_id;
-        $patient->save();
+        $execption=[1,3,4];
+
+        if( !in_array($patient->patient_category_id,$execption)) {
+            $patient->patient_category_id=$category_id;
+            $patient->save();
+        }
+
     }
 }
