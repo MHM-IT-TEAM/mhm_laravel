@@ -29,7 +29,7 @@ class CreatePregnancyHistoriesTable extends Migration
             $table->string('baby_condition',20)->nullable();
             $table->string('sa',10)->nullable();
             $table->text('pueperium')->nullable();
-            $table->boolean('ourPatient')->nullable();
+            $table->boolean('our_patient')->nullable();
         });
     }
 

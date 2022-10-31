@@ -14,25 +14,25 @@ class CpnAdmissionService
 {
     private $admission;
     private $pregHisto;
-    private $ultrasound_service;
     public function __construct()
     {
         $this->admission=new CpnAdmission();
         $this->pregHisto=new PregnancyHistory();
-        $this->ultrasound_service = new UltrasoundService();
     }
     public function store($request){
         $admission = $this->admission->fill($this->fill_data($request));
         $admission->save();
         if(count($request->pregnancy_history)>0){
             foreach($request->pregnancy_history as $preg){
-                $this->pregHisto->create($this->pregHistoData($preg,$request->patient_id));
+                if($preg['nr_year'] !==''){
+                    $this->pregHisto->create($this->pregHistoData($preg,$request->patient_id));
+                }
             }
         }
-        if($request->has('consultation_id')){
-            $consultation= Admission::find($request->consultation_id);
-            $consultation->status='DONE';
-            $consultation->save();
+        if($request->has('admission_id')){
+            $admission= Admission::find($request->admission_id);
+            $admission->status='DONE';
+            $admission->save();
         }
 
         return ["success"=>true,"cpn_admission"=>CpnAdmission::with('patient')->find($this->admission->id)];
@@ -88,31 +88,27 @@ class CpnAdmissionService
             'syphilis'=>$request->syphilis,
             'responsible'=>$request->responsible,
             'ultrasound_admission_id'=>$request->ultrasound_admission_id,
-            'ddr'=>$request->ultrasound_data['ddr'],
             'unknown_lpd'=>$request->ultrasound_data['unknown_lpd'],
             'gestational_age'=>$request->ultrasound_data['gestational_age'],
             'edd_method'=>$request->ultrasound_data['edd_method'],
-            'edd_calc'=>$request->ultrasound_data['edd_calc'],
             'edd_ultrasound'=>$request->ultrasound_data['edd_ultrasound'],
             'edd_corrected'=>$request->ultrasound_data['edd_corrected'],
-            'selected_edd'=>$request->ultrasound_data['selected_edd'],
 
         ];
     }
     private function pregHistoData($preg,$patient_id){
         return [
             'patient_id'=>$patient_id,
-            'pregnancy'=>$preg['pregnancy'],
             'birth_type'=>$preg['birth_type'],
             'birth_place'=>$preg['birth_place'],
-            'birth_problems'=>$preg['birth_problems'],
+            'birth_problems'=>$preg['problem'],
             'baby_gender'=>$preg['baby_gender'],
             'baby_weight'=>$preg['baby_weight'],
             'infection'=>$preg['infection'],
             'malformation'=>$preg['malformation'],
             'baby_condition'=>$preg['baby_condition'],
-            'ourPatient'=>$preg['ourPatient'],
-            'sa'=>$preg['sa'],
+            'our_patient'=>$preg['our_patient'],
+            'sa'=>$preg['ga'],
             'pueperium'=>$preg['pueperium'],
             'nr_year'=>$preg['nr_year']
         ];

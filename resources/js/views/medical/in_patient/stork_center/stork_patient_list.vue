@@ -112,15 +112,15 @@
                                                           mdi-eye
                                                       </v-icon>
                                                   </v-btn>
-<!--                                                  <v-btn-->
-<!--                                                      class="mx-2"-->
-<!--                                                      dark-->
-<!--                                                      x-small-->
-<!--                                                      @click="launch_projection(bed)"-->
-<!--                                                      color="primary"-->
-<!--                                                  >-->
-<!--                                                     Projection-->
-<!--                                                  </v-btn>-->
+                                                  <v-btn
+                                                      class="mx-2"
+                                                      dark
+                                                      x-small
+                                                      @click="launch_projection(bed)"
+                                                      color="primary"
+                                                  >
+                                                     Projection
+                                                  </v-btn>
                                               </v-card-actions>
                                           </v-card-text>
                                       </v-card>
@@ -186,7 +186,7 @@
           >
               <v-card>
                   <v-card-text>
-                      <stork_admission is_overview :stork_admission="chosen_stork_admission"/>
+                      <stork_admission is_overview :stork_admission="chosen_stork_admission" v-if="overview_dialog"/>
                   </v-card-text>
               </v-card>
           </v-dialog>
@@ -227,7 +227,8 @@ export default {
                     // {text:'Excretion',url:''},
                     // {text:'Post partum checkup',url:''},
                     {text:'Vital signs',url:'stork_vital_signs'},
-                    {text:'diagnoses',url:'stork_diagnose'},
+                    {text:'Diagnoses',url:'stork_diagnose'},
+                    {text:'Anamnese',url:'stork_anamnese'},
                 ]
             },
             {
@@ -235,6 +236,7 @@ export default {
                 icon: 'mdi-account',
                 active:false ,
                 children:[
+                    {text:"plan",url:'stork_patient_plan'},
                     {text:"Medicines",url:'stork_give_medicine'},
                     {text:"Woundcare",url:'stork_wound_care'},
                     {text:"Mobilisation",url:'stork_mobilisation'},
@@ -374,8 +376,9 @@ export default {
             this.chosen_stork_admission= Object.assign({},bed)
         },
         async launch_projection(bed){
-            this.projection_dialog=true
+            // this.chosen_stork_admission={}
             this.chosen_stork_admission= Object.assign({},bed)
+            this.projection_dialog=true
 
         }
     },

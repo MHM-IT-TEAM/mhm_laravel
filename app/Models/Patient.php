@@ -46,6 +46,9 @@ class Patient extends Model
     public function familyPlannings(){
         return $this->hasMany(FamilyPlanning::class);
     }
+    public function pregnancy_histories(){
+        return $this->hasMany(PregnancyHistory::class);
+}
 
     public function search($searchWords){
         $query = $this->with("emContacts");

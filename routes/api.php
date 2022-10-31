@@ -35,6 +35,8 @@ Route::prefix('/v1')->group(function(){
         });
         //Vital sign
         Route::resource('vital_sign',\App\Http\Controllers\V1\patient_system\vital_sign\VitalSignController::class);
+        //Anamnese
+        Route::resource('anamnese',\App\Http\Controllers\V1\patient_system\anamnese\AnamneseController::class);
         //Admission
         Route::group(['prefix'=>'admission'],function(){
             Route::resource('priority',\App\Http\Controllers\V1\patient_system\consultation\AdmissionPriorityController::class);
@@ -111,6 +113,8 @@ Route::prefix('/v1')->group(function(){
                     Route::post('patient_cpn_search',[\App\Http\Controllers\V1\patient_system\out_patient\obstetrical\CpnAdmissionController::class,'patient_cpn_search']);
                     Route::get('patient_list_of_cpn_admissions/{patient_id}',[\App\Http\Controllers\V1\patient_system\out_patient\obstetrical\CpnAdmissionController::class,'patient_list_of_cpn_admissions']);
                     Route::get('get_recent_cpn_admissions_for_patient/{patient_id}', [\App\Http\Controllers\V1\patient_system\out_patient\obstetrical\CpnFollowupController::class, 'get_recent_cpn_admissions_for_patient']);
+                    Route::put('update_ultrasound_edd/{id}',[\App\Http\Controllers\V1\patient_system\out_patient\obstetrical\CpnAdmissionController::class,'update_ultrasound_edd']);
+                    Route::get('pregnancy_history/{patient_id}',[\App\Http\Controllers\V1\patient_system\out_patient\obstetrical\CpnAdmissionController::class,'patient_pregnancy_history']);
                 });
                 //new ultrasound routes
                 Route::group(['prefix'=>'ultrasound'],function(){
@@ -183,6 +187,8 @@ Route::prefix('/v1')->group(function(){
                 route::post('pay_lunch',[\App\Http\Controllers\V1\patient_system\in_patient\stork_center\StorkAdmissionController::class,'pay_lunch']);
                 route::get('lunch_list/{admission_id}',[\App\Http\Controllers\V1\patient_system\in_patient\stork_center\StorkAdmissionController::class,'lunch_list']);
                 route::get('patient_cpn_data/{patient_id}',[\App\Http\Controllers\V1\patient_system\in_patient\stork_center\StorkAdmissionController::class,'patient_cpn_data']);
+                route::get('last_diagnose/{stork_admission_id}',[\App\Http\Controllers\V1\patient_system\in_patient\stork_center\StorkDiagnoseController::class,'last_diagnose']);
+                route::resource('plan',\App\Http\Controllers\v1\patient_system\in_patient\stork_center\StorkPlanController::class);
 //                route::get('/fetch_patient_data/{patient_id}',[\App\Http\Controllers\V1\patient_system\maternity\MaternityAdmissionController::class,'fetch_patient_data']);
 //                route::get('/last_code',[\App\Http\Controllers\V1\patient_system\maternity\MaternityAdmissionController::class,'last_code']);
 //                route::get('/last_birth_code',[\App\Http\Controllers\V1\patient_system\maternity\BirthRegistrationController::class,'last_birth_code']);

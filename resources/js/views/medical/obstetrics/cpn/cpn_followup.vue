@@ -1027,7 +1027,7 @@ const {
                         //new data
                         this.$v.editedItem.$touch();
                         this.editedItem.cpn_admission_id=this.manual_cpn_admission_id_search;
-                        this.editedItem.admission_id= this.$route.params.admission_id
+                        this.editedItem.admission_id= this.$route.params.admission.id
                         this.editedItem.responsible=window.auth.user.name;
                         if (!this.$v.$invalid) {
 
@@ -1082,12 +1082,11 @@ const {
             },
             async navigateToAdmission(){
                 this.$router.push({
-                    name:"cpn_admission",
+                    name:"new_cpn_admission",
                     params:{
-                        patient:this.$route.params.admission.patient,
-                        weight:this.$route.params.admission.weight,
+                        cpn_admission:this.$route.params.cpn_admission,
                         admission:this.$route.params.admission,
-                        admission_id:this.$route.params.admission.id,
+                        from_followup:true
                     }
                 })
             },

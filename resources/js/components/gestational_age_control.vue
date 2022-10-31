@@ -17,8 +17,6 @@ export default {
   name: "gestationalAge",
   computed: {
     computedValue() {
-      // if (this.isNull)
-      //   return null;
       return this.gestationalAge.week + "+" + this.gestationalAge.day;
     }
   },

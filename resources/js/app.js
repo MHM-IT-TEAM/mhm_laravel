@@ -30,6 +30,7 @@ import auto_logout from "./components/auto_logout";
 
 
 
+
 window.Vue = require('vue').default;
 library.add(fas)
 
@@ -48,6 +49,7 @@ Vue.use(VueBarcodeScanner)
 Vue.prototype.moment = moment
 //api routes shortening
 Vue.prototype.CONSULTATION ='/api/v1/patient_system/out_patient/consultation'
+
 
 
 /**

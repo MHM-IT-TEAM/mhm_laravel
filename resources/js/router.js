@@ -49,8 +49,7 @@ import obstetrics_overview from "./views/medical/overview/obstetrics_overview";
     import stork_internal_consultation from "./views/medical/in_patient/stork_center/stork_internal_consultation";
     import stork_external_consultation from "./views/medical/in_patient/stork_center/stork_external_consultation";
     import stork_dismissal from "./views/medical/in_patient/stork_center/stork_dismissal";
-    import stork_pregnancy_card_search from "./views/medical/in_patient/stork_center/stork_pregnancy_card_search";
-    import stork_patient_list_of_cpn from "./views/medical/in_patient/stork_center/stork_patient_list_of_cpn";
+    import stork_anamnese from "./views/medical/in_patient/stork_center/stork_anamnese";
     import in_patient_book from "./views/medical/in_patient/in_patient_book";
     import stork_order from "./views/medical/in_patient/stork_center/stork_order";
     import stork_internal_labwork from "./views/medical/in_patient/stork_center/stork_internal_labwork";
@@ -69,6 +68,7 @@ import obstetrics_overview from "./views/medical/overview/obstetrics_overview";
     import stork_pay_lunch from "./views/medical/in_patient/stork_center/stork_pay_lunch";
     import stork_additional_consult from "./views/medical/in_patient/stork_center/stork_additional_consult";
     import bed_overview from "./views/medical/in_patient/stork_center/overview/bed_overview";
+    import stork_plan_for_patient from "./views/medical/in_patient/stork_center/stork_plan_for_patient";
 
 //Delivery
     import delivery_layout from "./views/medical/delivery/layouts/delivery_layout";
@@ -547,7 +547,9 @@ const routes = [
                 path:'internal_lab/result',
                 name:'obstetrics_view_internal_lab_result',
                 component: obstetrics_view_internal_lab_result
-            }
+            },
+
+
         ]
     },
 
@@ -602,6 +604,11 @@ const routes = [
                 path:'diagnostic/vital_signs',
                 name:'stork_vital_signs',
                 component: stork_vital_signs
+            },
+            {
+                path:'diagnostic/anamnese',
+                name:'stork_anamnese',
+                component: stork_anamnese
             },
             //treatment
             {
@@ -708,7 +715,12 @@ const routes = [
                 path:'bed_overview',
                 name:'stork_bed_overview',
                 component:bed_overview
-            }
+            },
+            {
+                path:'plan',
+                name:'stork_patient_plan',
+                component: stork_plan_for_patient
+            },
         ]
     },
     /**

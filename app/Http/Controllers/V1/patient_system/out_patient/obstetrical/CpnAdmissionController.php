@@ -57,4 +57,14 @@ class CpnAdmissionController extends Controller
     public function patient_list_of_cpn_admissions($id){
         return Patient::with(['cpnAdmissions','ultrasoundAdmissions'])->find($id);
     }
+    public function patient_pregnancy_history($id){
+        return Patient::with('pregnancy_histories')->find($id);
+    }
+    public function update_ultrasound_edd($id,Request $request){
+//        dd($request->all());
+        $ultrasound_admission= UltrasoundAdmission::find($id);
+        $ultrasound_admission[$request->column]=$request->new_val;
+        $ultrasound_admission->save();
+        return response()->json(['success'=>true]);
+    }
 }
