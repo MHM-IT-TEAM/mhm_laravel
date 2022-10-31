@@ -7,9 +7,9 @@
                     <div class="col-8">
                         Plan for {{fullName}}
                     </div>
-                    <div class="col-4">
-                        Date: <input type="date" v-model="formData.when"/>
-                    </div>
+<!--                    <div class="col-4">-->
+<!--                        Date: <input type="date" v-model="formData.when"/>-->
+<!--                    </div>-->
                 </div>
             </v-card-title>
             <v-card-text>
@@ -45,12 +45,19 @@
                                             </div>
                                         </td>
                                         <td>
+                                            <div class="form-group">
+                                                <label>Day</label>
+                                                <input type="number" class="form-control form-control-sm" v-model="temp_row.day"/>
+                                            </div>
+                                        </td>
+                                        <td>
                                             <v-btn x-small dark color="purple" style="margin-top:30px" @click="push_row(1)">Add</v-btn>
                                         </td>
                                     </tr>
                                     <tr v-for="row in tasks.medicines">
                                         <td>[{{row.to_do.code}}] - {{row.to_do.description}}</td>
                                         <td>{{row.frequency}}</td>
+                                        <td>{{row.day}}</td>
                                     </tr>
                                 </table>
                             </div>
@@ -147,7 +154,7 @@ export default {
     data(){
         return{
             temp_medicine:{med:'',dosage:''},
-            temp_row:{to_do:"",frequency:""},
+            temp_row:{to_do:"",frequency:"",day:""},
             temp_action:{action:'',frequency:''},
             list_of_actions:[],
             avalaible_medicines:[],
@@ -184,7 +191,7 @@ export default {
             if(this.temp_row.to_do !=='' && this.temp_row.frequency !==''){
                 this.formData.to_do.push(this.temp_row)
             }
-            this.temp_row={to_do:'',frequency:''}
+            this.temp_row={to_do:'',frequency:'',day:''}
         },
         null_to_str(str){
             return str?str:""

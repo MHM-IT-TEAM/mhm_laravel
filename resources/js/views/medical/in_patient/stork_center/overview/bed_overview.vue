@@ -68,7 +68,7 @@
                            <tr>
                                <td class="first-col">Vital signs</td>
                                <td>
-                                   {{`BPL: ${last_vital_sign.bp_l} | BPR: ${last_vital_sign.bp_l} | Pulse: ${last_vital_sign.pulse} |Temp: ${last_vital_sign.temp} | SPO2: ${last_vital_sign.spo2}  `}}
+                                   {{`BPL: ${last_vital_sign.bp_l} | BPR: ${last_vital_sign.bp_r} | Pulse: ${last_vital_sign.pulse} |Temp: ${last_vital_sign.temp} | SPO2: ${last_vital_sign.spo2}  `}}
                                </td>
                            </tr>
                            <tr>
@@ -79,7 +79,7 @@
                                            {{row.to_do}}
                                        </div>
                                        <div class="col ">
-                                           {{row.to_do_frequency}}
+                                           {{row.to_do_frequency}} (D-{{row.day}})
                                        </div>
                                    </div>
                                </td>
@@ -174,7 +174,8 @@ export default {
             )
             await axios.get(`/api/v1/patient_system/in_patient/stork/patient_cpn_data/${this.stork_admission.patient.id}`).then(
                 response=>{
-                   if(response.data.length>0) this.cpn_data=response.data.cpn_admissions[response.data.cpn_admissions.length -1]
+                    console.log(response.data)
+                   if(response.data.cpn_admissions.length>0) this.cpn_data=response.data.cpn_admissions[response.data.cpn_admissions.length -1]
                 }
             )
             //get the latest diagnose

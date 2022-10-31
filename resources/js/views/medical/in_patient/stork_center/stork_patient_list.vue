@@ -195,7 +195,7 @@
           >
               <v-card>
                   <v-card-text>
-                      <bed_overview :stork_admission="chosen_stork_admission"/>
+                      <bed_overview :stork_admission="chosen_stork_admission" v-if="projection_dialog"/>
                   </v-card-text>
               </v-card>
           </v-dialog>

@@ -23,7 +23,8 @@ class StorkPlanService
                     'stork_plan_id'=>$sp->id,
                     'to_do'=>$row['to_do'],
                     'to_do_frequency'=>$row['frequency'],
-                    'type'=>$row['type']
+                    'type'=>$row['type'],
+                    'day'=>$row['day']
                 ]);
             }
             return response()->json(['success'=>true]);
