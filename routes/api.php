@@ -189,6 +189,7 @@ Route::prefix('/v1')->group(function(){
                 route::get('patient_cpn_data/{patient_id}',[\App\Http\Controllers\V1\patient_system\in_patient\stork_center\StorkAdmissionController::class,'patient_cpn_data']);
                 route::get('last_diagnose/{stork_admission_id}',[\App\Http\Controllers\V1\patient_system\in_patient\stork_center\StorkDiagnoseController::class,'last_diagnose']);
                 route::resource('plan',\App\Http\Controllers\v1\patient_system\in_patient\stork_center\StorkPlanController::class);
+                route::resource('comment',\App\Http\Controllers\V1\patient_system\in_patient\stork_center\StorkCommentController::class);
 //                route::get('/fetch_patient_data/{patient_id}',[\App\Http\Controllers\V1\patient_system\maternity\MaternityAdmissionController::class,'fetch_patient_data']);
 //                route::get('/last_code',[\App\Http\Controllers\V1\patient_system\maternity\MaternityAdmissionController::class,'last_code']);
 //                route::get('/last_birth_code',[\App\Http\Controllers\V1\patient_system\maternity\BirthRegistrationController::class,'last_birth_code']);

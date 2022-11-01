@@ -69,6 +69,7 @@ import obstetrics_overview from "./views/medical/overview/obstetrics_overview";
     import stork_additional_consult from "./views/medical/in_patient/stork_center/stork_additional_consult";
     import bed_overview from "./views/medical/in_patient/stork_center/overview/bed_overview";
     import stork_plan_for_patient from "./views/medical/in_patient/stork_center/stork_plan_for_patient";
+    import stork_comment from "./views/medical/in_patient/stork_center/stork_comment";
 
 //Delivery
     import delivery_layout from "./views/medical/delivery/layouts/delivery_layout";
@@ -720,6 +721,11 @@ const routes = [
                 path:'plan',
                 name:'stork_patient_plan',
                 component: stork_plan_for_patient
+            },
+            {
+                path:'comment',
+                name:'stork_comment',
+                component: stork_comment
             },
         ]
     },

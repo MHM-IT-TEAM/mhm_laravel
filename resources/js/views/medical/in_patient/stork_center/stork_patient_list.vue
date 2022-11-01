@@ -221,14 +221,14 @@ export default {
                 icon: 'mdi-clock',
                 active:false,
                 children:[
-                    {text:'Balance Sheet',url:'stork_diagnostic_balance_list'},
-                    {text:'Pregnancy checkup',url:'stork_diagnostic_pregnancy_checkup'},
-                    {text:'Weekly measurments',url:'stork_weekly_measurments'},
-                    // {text:'Excretion',url:''},
-                    // {text:'Post partum checkup',url:''},
-                    {text:'Vital signs',url:'stork_vital_signs'},
-                    {text:'Diagnoses',url:'stork_diagnose'},
                     {text:'Anamnese',url:'stork_anamnese'},
+                    {text:'Balance Sheet',url:'stork_diagnostic_balance_list'},
+                    {text:'Comment',url:'stork_comment'},
+                    {text:'Diagnoses',url:'stork_diagnose'},
+                    // {text:'Post partum checkup',url:''},
+                    {text:'Pregnancy checkup',url:'stork_diagnostic_pregnancy_checkup'},
+                    {text:'Vital signs',url:'stork_vital_signs'},
+                    {text:'Weekly measurments',url:'stork_weekly_measurments'},
                 ]
             },
             {

@@ -112,7 +112,39 @@
                            <tr>
                                <td class="first-col">Comments</td>
                                <td>
-                                   {{plan_data.comment}}
+                                  <v-card>
+                                      <v-card-text>
+                                          <v-virtual-scroll
+                                              :items="comments"
+                                              :item-height="200"
+                                              height="200"
+                                          >
+<!--                                              <ul  v-for="row in comments">-->
+<!--                                                  <li>-->
+<!--                                                      {{row.comment}} - <small class="font-italic">{{row.user.name}} ({{row.created_at}})</small>-->
+<!--                                                  </li>-->
+<!--                                              </ul>-->
+                                              <template v-slot:default="{ item }">
+                                                  <v-list-item>
+                                                      <v-list-item-action>
+                                                          <v-btn
+                                                              fab
+                                                              small
+                                                              depressed
+                                                              color="primary"
+                                                          >
+                                                              {{ item.user.name[0].toUpperCase() }}
+                                                          </v-btn>
+                                                      </v-list-item-action>
+                                                      <v-list-item-content>
+                                                          {{ item.comment }} <v-spacer></v-spacer><small class="font-italic">{{item.user.name}} ({{item.created_at}})</small>
+                                                      </v-list-item-content>
+                                                  </v-list-item>
+                                              </template>
+                                          </v-virtual-scroll>
+
+                                      </v-card-text>
+                                  </v-card>
                                </td>
                            </tr>
                        </table>
@@ -149,6 +181,7 @@ export default {
             },
             last_diagnose:{},
             anamneses:[],
+            comments:[],
             plan_data:{
                 actions:[],
                 medicines:[],
@@ -190,6 +223,13 @@ export default {
             axios.get(`/api/v1/patient_system/anamnese/${this.stork_admission.patient_id}`).then(response=>{
                 this.anamneses=response.data
             })
+            //get comments
+            axios.get(`/api/v1/patient_system/in_patient/stork/comment/${this.stork_admission.id}`).then(response=>{
+                this.comments=response.data
+                this.comments.forEach(data=>{
+                    data.created_at= this.date_format(data.created_at)
+                })
+            })
 
 
         },
@@ -207,7 +247,10 @@ export default {
         },
         null_to_str(str){
             return str?str:""
-        }
+        },
+        date_format(date){
+            return moment(date).format("MMM Do YY");
+        },
     },
     watch:{
         stork_admission:{
