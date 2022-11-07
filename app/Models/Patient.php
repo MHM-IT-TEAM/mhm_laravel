@@ -29,7 +29,7 @@ class Patient extends Model
         return $this->hasManyThrough(BabyCheckup::class,Admission::class);
     }
     public function birth(){
-        return $this->belongsTo(Birth::class);
+        return $this->hasOne(Birth::class);
     }
     public function birth_medical_data(){
         return $this->hasMany(BirthMedicalDataBaby::class);

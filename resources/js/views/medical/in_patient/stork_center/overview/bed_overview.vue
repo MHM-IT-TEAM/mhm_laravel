@@ -10,7 +10,7 @@
                    </v-system-bar>
                    <v-card-text>
                        <div class="table-responsive">
-                           <table class="table table-sm table-bordered">
+                           <table class="table table-sm table-bordered" v-if="patient_age>1">
                                <tr>
                                    <td rowspan="2"></td>
                                    <td>ID</td>
@@ -34,6 +34,29 @@
                                    <td>{{cpn_data.miscarriage}}</td>
                                    <td>{{cpn_data.ev}}</td>
                                    <td>{{cpn_data.dda}}</td>
+                               </tr>
+                           </table>
+                           <table class="table table-sm table-bordered" v-if="patient_age<=1">
+                               <tr>
+                                   <td rowspan="2"></td>
+                                   <td>ID</td>
+                                   <td>Name</td>
+                                   <td>BW</td>
+                                   <td>GA Birth</td>
+                                   <td>GA Today</td>
+                                   <td>APGAR</td>
+                                   <td>Gender</td>
+                                   <td>Age</td>
+                               </tr>
+                               <tr>
+                                   <td>{{stork_admission.patient.id}}</td>
+                                   <td>{{fullName}}</td>
+                                   <td>{{birth_weight}}</td>
+                                   <td>{{ga_birth}}</td>
+                                   <td>{{baby_ga_now}}</td>
+                                   <td>{{baby_apgar}}</td>
+                                   <td>{{baby_gender}}</td>
+                                   <td>{{patient_age_in_days}}</td>
                                </tr>
                            </table>
                        </div>
@@ -109,6 +132,20 @@
                                   </ul>
                               </td>
                           </tr>
+                           <tr v-if="patient_age<=1 && vital_signs.length>0">
+                               <td>Weight</td>
+                               <td>
+                                   <div class="row">
+                                       <div class="col"  v-for="row in vital_signs">{{row.weight}}</div>
+                                   </div>
+                                   <div class="row">
+                                       <div class="col"  v-for="row in weight_differences">
+                                           {{row.weight}} <v-icon>{{row.icon}}</v-icon>
+                                       </div>
+                                   </div>
+                               </td>
+<!--                               <td v-for="row in vital_signs">{{row.weight}}</td>-->
+                           </tr>
                            <tr>
                                <td class="first-col">Comments</td>
                                <td>
@@ -148,6 +185,12 @@
                                </td>
                            </tr>
                        </table>
+<!--                       <table class="table table-sm">-->
+<!--                           <tr>-->
+<!--                               <td>Weight</td>-->
+<!--                               <td>22</td>-->
+<!--                           </tr>-->
+<!--                       </table>-->
 
                        <div class="w-100 text-center">
                            <v-btn color="primary" small @click="switch_screen_mode">
@@ -187,7 +230,13 @@ export default {
                 medicines:[],
                 comment:''
             },
-            last_vital_sign:{}
+            last_vital_sign:{},
+            vital_signs:[],
+            birth_weight:'',
+            ga_birth:'',
+            baby_apgar:'',
+            baby_gender:'',
+            baby_ga_now:''
         }
     },
     mounted(){
@@ -214,9 +263,9 @@ export default {
             //get the latest diagnose
             await axios.get(`/api/v1/patient_system/in_patient/stork/last_diagnose/${this.stork_admission.id}`).then(resp=>this.last_diagnose=resp.data)
             //get latest vitalSigns
-            await axios.get(`/api/v1/patient_system/vital_sign/${this.stork_admission.admission_id}`).then(
-                response=>{
+            await axios.get(`/api/v1/patient_system/vital_sign/${this.stork_admission.admission_id}`).then(response=>{
                     if(response.data.length>0) this.last_vital_sign=response.data[response.data.length -1]
+                    this.vital_signs=response.data
                 }
             )
             //get anamneses
@@ -230,6 +279,17 @@ export default {
                     data.created_at= this.date_format(data.created_at)
                 })
             })
+            //if patient is baby
+            if(this.patient_age<1){
+                axios.get(`/api/v1/patient_system/patient/birth_data/${this.stork_admission.patient_id}`).then(response=>{
+                    let med_data=response.data.birth_medical_data[0]
+                    this.birth_weight=med_data.weight
+                    this.ga_birth=response.data.birth.GA
+                    this.baby_gender=med_data.gender
+                    this.baby_apgar=`${med_data.apgar_1}/${med_data.apgar_2}/${med_data.apgar_3}`
+                    this.baby_ga_now=this.current_gestational_age(response.data.birth.created_at,response.data.birth.GA)
+                })
+            }
 
 
         },
@@ -251,6 +311,20 @@ export default {
         date_format(date){
             return moment(date).format("MMM Do YY");
         },
+        current_gestational_age(src_date,src_ga){
+            // src_date= this.ultrasound_data.created_at
+            const diff = new Date()- new Date(src_date);
+            const diff_in_days = Math.round(diff / 1000 / 60 / 60 / 24);
+            const ga_weeks = Math.floor(diff_in_days / 7);
+            const ga_days = diff_in_days % 7;
+            // splitting src date
+            let [left_ga,right_ga]= [parseInt(src_ga.split('+')[0]),parseInt(src_ga.split('+')[1])]
+            // summing the right part
+            let ga_in_days= ga_days+ right_ga
+            let ga_in_week= ga_weeks+ left_ga
+            if (ga_in_days>6) ga_in_week++
+            return ga_in_week + "+"+ ga_in_days
+        }
     },
     watch:{
         stork_admission:{
@@ -266,11 +340,28 @@ export default {
             return this.null_to_str(this.stork_admission.patient.firstName) +" "+ this.null_to_str(this.stork_admission.patient.lastName)
         },
         patient_age(){
-            var difference =
-                Date.now() - new Date(this.stork_admission.patient.birthDate).getTime();
+            var difference = Date.now() - new Date(this.stork_admission.patient.birthDate).getTime();
             var age = new Date(difference);
             return Math.abs(age.getUTCFullYear() - 1970);
+
         },
+        patient_age_in_days(){
+            var a = moment();
+            var b = moment(new Date(this.stork_admission.patient.birthDate));
+           return a.diff(b, 'days') // 1
+        },
+        weight_differences(){
+            let start_weight= 0|| this.birth_weight
+            let first_weight=this.vital_signs[0].weight -start_weight
+            let first_icon=first_weight<this.birth_weight?'mdi-arrow-down-bold':'mdi-arrow-up-bold'
+            let result=[]
+            result.push({weight:this.vital_signs[0].weight -start_weight,icon:first_icon})
+            for(let i=1;i<this.vital_signs.length;i++){
+                let icon=this.vital_signs[i].weight<this.vital_signs[i-1].weight?'mdi-arrow-down-bold':'mdi-arrow-up-bold'
+                result.push({weight:this.vital_signs[i].weight-this.vital_signs[i-1].weight,icon:icon})
+            }
+            return result
+        }
     }
 }
 </script>

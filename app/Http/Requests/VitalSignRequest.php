@@ -31,6 +31,7 @@ class VitalSignRequest extends FormRequest
             'pulse'=>'nullable',
             'spo2'=>'nullable',
             'temp'=>'nullable',
+            'weight'=>'nullable',
             'user'=>'nullable'
         ];
     }

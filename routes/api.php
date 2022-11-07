@@ -32,6 +32,7 @@ Route::prefix('/v1')->group(function(){
             Route::get('/search',[\App\Http\Controllers\v1\patient_system\patient\PatientController::class,'search']);
             Route::get('/with_due_sum/{id}',[\App\Http\Controllers\v1\patient_system\patient\PatientController::class,'with_due_sum']);
             Route::resource('patient',\App\Http\Controllers\v1\patient_system\patient\PatientController::class);
+            Route::get('birth_data/{id}',[\App\Http\Controllers\v1\patient_system\patient\PatientController::class,'birth_data']);
         });
         //Vital sign
         Route::resource('vital_sign',\App\Http\Controllers\V1\patient_system\vital_sign\VitalSignController::class);

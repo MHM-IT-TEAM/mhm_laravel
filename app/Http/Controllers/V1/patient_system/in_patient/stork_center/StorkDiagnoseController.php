@@ -24,4 +24,5 @@ class StorkDiagnoseController extends Controller
     public function last_diagnose($stork_admission_id){
         return StorkDiagnose::where('stork_admission_id',$stork_admission_id)->latest()->first();
     }
+
 }

@@ -23,6 +23,7 @@ class CreateVitalSignsTable extends Migration
             $table->integer('pulse')->nullable();
             $table->integer('spo2')->nullable();
             $table->string('temp',10)->nullable();
+            $table->integer('weight')->nullable();
             $table->string("user")->nullable();
 
         });
