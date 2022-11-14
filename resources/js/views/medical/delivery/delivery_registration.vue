@@ -13,7 +13,7 @@
                             <div class="form-inline">
                                 <div class="form-group">
                                     <label>Date</label>
-                                    <input v-model="formData.birth_date" type="date" :class="{'error':$v.formData.birth_date.$error}"/>
+                                    <input v-model="formData.birth_date" type="date" :max="new Date().toISOString().split('T')[0]" :class="{'error':$v.formData.birth_date.$error}"/>
                                 </div>
                                 <div class="form-group">
                                     <label>Time:</label>
@@ -464,12 +464,18 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-sm-4 col-md-2">
-                                    <div class="form-group">
+                                <div class="col-sm-3 col-md-2">
+                                    <div class="form-group ">
                                         <label>Modus</label>
                                         <select  v-model="baby.modus" :class="{ 'error': v.modus.$error }" class="form-control form-control-sm">
                                             <option v-for="type in modus">{{type.name}}</option>
                                         </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3 col-md-1">
+                                    <div class="form-group">
+                                        <label class="form-check-label" >Sterilization</label>
+                                        <input type="checkbox"  class="form-check-input" style="margin-top: 35px;"  v-model.number="baby.sterilisation"/>
                                     </div>
                                 </div>
                                 <div class="col-sm-6 col-md-2">
@@ -751,6 +757,7 @@ export default {
                         death_explanation:'',
                         death_type:'',
                         modus:'',
+                        sterilisation:false,
                         position:'',
                         presentation:'',
                         correlation:'',
@@ -857,6 +864,7 @@ export default {
                 death_explanation:'',
                 death_type:'',
                 modus:'',
+                sterilisation:false,
                 position:'',
                 presentation:'',
                 correlation:'',

@@ -5,11 +5,15 @@ namespace App\Http\Controllers\V1\admin;
 use App\Http\Controllers\Controller;
 use App\Models\Admission;
 use App\Models\DentalTreatment;
+use App\Models\StorkAction;
+use App\Models\StorkAdmission;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
     public function statistics_overview(){
+
         return response()->json([
             "ulm"=>[],
             "midMob"=>[],
@@ -32,13 +36,15 @@ class AdminController extends Controller
             "pediatric_vaccination"=>$this->_populate(Admission::class,17),
             "pediatric_checkup"=>$this->_populate(Admission::class,18),
             "pediatric_sickness"=>$this->_populate(Admission::class,19),
-            "pediatric_injury"=>[],
-            "dermatological"=>[],
-            "inpatient_general"=>[],
-            "inpatient_dental"=>[],
-            "inpatient_obstetrical"=>[],
-            "inpatient_pediatric"=>[],
-            "inpatient_dermatological"=>[],
+            "pediatric_injury"=>$this->_populate(Admission::class,20),
+            "dermatological"=>$this->_populate(Admission::class,21),
+            "in_patient_general"=>$this->_populate(Admission::class,23),
+            "in_patient_dental"=>$this->_populate(Admission::class,24),
+            "in_patient_obstetrical"=>$this->_populate(Admission::class,25),
+            "in_patient_obstetrical_action"=>$this->_count_actions(25),
+            "in_patient_pediatric"=>$this->_populate(Admission::class,26),
+            "in_patient_pediatric_action"=>$this->_count_actions(26),
+            "in_patient_dermatological"=>$this->_populate(Admission::class,27),
             "inpatient_other"=>[],
             "deliveries"=>[],
             "surgery_general"=>[],
@@ -46,6 +52,29 @@ class AdminController extends Controller
             "surgery_pediatric"=>[],
             "surgery_other"=>[],
         ]);
+    }
+    private function _count_actions($service_activity){
+        $pre_list=[];
+        $result=[];
+        $actions= Admission::where('service_activity_id',$service_activity)->with('storkAdmission.stork_actions')->get()->pluck('storkAdmission.stork_actions');
+        foreach($actions as $act){
+          if(isset($act) && count($act)>0 ){
+              foreach($act as $value){
+                  $pre_list[]=intval(Carbon::parse($value['created_at'])->format('m'));
+              }
+          }
+        }
+        $output= array_count_values($pre_list);
+        for($i=0; $i<12;$i++){
+
+            if (!array_key_exists($i+1,$output))
+            {
+                $result[] = 0;
+            }else{
+                $result[]=$output[$i+1];
+            }
+        }
+        return $result;
     }
     private function _populate($class,$service_activity_id){
         $output=[];

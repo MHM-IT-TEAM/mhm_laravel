@@ -53,6 +53,7 @@ export default {
                 { text: 'Delivery date', value: 'delivery.date' },
                 { text: 'Delivery time', value: 'delivery.time' },
                 { text: 'Modus', value: 'baby.modus' },
+                { text: 'Sterilisation', value: 'baby.sterilisation' },
                 { text: 'Induction', value: 'delivery.induction' },
                 { text: 'Induction method', value: 'delivery.induction_method' },
                 {text:'Position mom',value:'mom.position'},

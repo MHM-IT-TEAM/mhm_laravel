@@ -105,7 +105,7 @@
                 </div>
                 <div class="card mt-2">
                     <div class="card-body">
-                        <v-textarea label="Comment" v-model="formData.comment"/>
+                        <v-textarea label="Labwork" v-model="formData.laboratory"/>
                     </div>
                 </div>
                 <v-btn color="primary" small @click="submit" :loading="is_loading" class="mt-2">Submit</v-btn>
@@ -164,7 +164,8 @@ export default {
                 to_do:[],
                 when:'',
                 stork_admission_id:'',
-                user_id:''
+                user_id:'',
+                laboratory:''
             },
             data_in_system:[]
         }

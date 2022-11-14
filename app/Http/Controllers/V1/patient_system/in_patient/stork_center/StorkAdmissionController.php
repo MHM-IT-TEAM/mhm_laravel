@@ -92,7 +92,7 @@ class StorkAdmissionController extends Controller
         //
     }
     public function in_patient_book(){
-        return StorkAdmission::with(['patient','stork_dismissal','service'])->get();
+        return StorkAdmission::with(['patient','stork_dismissal','service'])->orderByDesc('created_at')->get();
     }
     public function change_bed(Request $request){
         $stork_admission= StorkAdmission::find($request->stork_admission_id);

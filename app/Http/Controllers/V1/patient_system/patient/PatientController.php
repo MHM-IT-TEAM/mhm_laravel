@@ -91,6 +91,6 @@ class PatientController extends Controller
 
     }
     public function birth_data($id){
-        return Patient::with(['birth_medical_data','birth'])->find($id);
+        return Patient::with(['birth_medical_data.birth'])->find($id);
     }
 }

@@ -15,7 +15,7 @@ class StorkPlanService
             $sp=StorkPlan::create([
                 'stork_admission_id'=>$request->stork_admission_id,
                 'user_id'=>$request->user_id,
-                'comment'=>$request->comment,
+                'laboratory'=>$request->laboratory,
                 'when'=>$request->when
             ]);
             foreach($request->to_do as $row){

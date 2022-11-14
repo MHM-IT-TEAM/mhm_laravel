@@ -48,6 +48,7 @@
                               <th>Pos of baby</th>
                               <th>Pres of baby</th>
                               <th>Amnio liquid</th>
+                              <th>Remark</th>
                               <th>Medical staff</th>
                               </thead>
                               <tbody>
@@ -72,6 +73,7 @@
                                   <td>{{row.position_of_baby}}</td>
                                   <td>{{row.presentation_of_baby}}</td>
                                   <td>{{row.amniotic_liquid}}</td>
+                                  <td>{{row.remark}}</td>
                                   <td>{{row.medical_staff}}</td>
                               </tr>
                               </tbody>

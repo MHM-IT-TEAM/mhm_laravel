@@ -2,7 +2,7 @@
     <div class="container" id="container">
         <v-app>
            <div class=" d-flex justify-content-center align-items-center">
-               <v-card width="100vw" height="100vh">
+               <v-card width="100vw" min-height="100vh">
                    <v-system-bar  :color="stork_admission.bed.room.toLowerCase()" >
                        <div class="text-center w-100 font-weight-bold title">
                            {{stork_admission.bed.description}}
@@ -34,6 +34,7 @@
                                    <td>{{cpn_data.miscarriage}}</td>
                                    <td>{{cpn_data.ev}}</td>
                                    <td>{{cpn_data.dda}}</td>
+                                   <td>{{cpn_data.current_ga}}</td>
                                </tr>
                            </table>
                            <table class="table table-sm table-bordered" v-if="patient_age<=1">
@@ -122,6 +123,12 @@
                                    </table>
                                </td>
                            </tr>
+                           <tr>
+                               <td  class="first-col">Labworks</td>
+                               <td>
+                                    {{plan_data.laboratory}}
+                               </td>
+                           </tr>
                           <tr>
                               <td class="first-col">Anamnese</td>
                               <td>
@@ -144,25 +151,20 @@
                                        </div>
                                    </div>
                                </td>
-<!--                               <td v-for="row in vital_signs">{{row.weight}}</td>-->
                            </tr>
                            <tr>
                                <td class="first-col">Comments</td>
                                <td>
                                   <v-card>
                                       <v-card-text>
-                                          <v-virtual-scroll
-                                              :items="comments"
-                                              :item-height="200"
-                                              height="200"
-                                          >
-<!--                                              <ul  v-for="row in comments">-->
-<!--                                                  <li>-->
-<!--                                                      {{row.comment}} - <small class="font-italic">{{row.user.name}} ({{row.created_at}})</small>-->
-<!--                                                  </li>-->
-<!--                                              </ul>-->
-                                              <template v-slot:default="{ item }">
-                                                  <v-list-item>
+                                          <v-list disabled>
+                                              <v-list-item-group
+                                                  color="primary"
+                                              >
+                                                  <v-list-item
+                                                      v-for="(item, i) in comments"
+                                                      :key="i"
+                                                  >
                                                       <v-list-item-action>
                                                           <v-btn
                                                               fab
@@ -177,21 +179,14 @@
                                                           {{ item.comment }} <v-spacer></v-spacer><small class="font-italic">{{item.user.name}} ({{item.created_at}})</small>
                                                       </v-list-item-content>
                                                   </v-list-item>
-                                              </template>
-                                          </v-virtual-scroll>
+                                              </v-list-item-group>
+                                          </v-list>
 
                                       </v-card-text>
                                   </v-card>
                                </td>
                            </tr>
                        </table>
-<!--                       <table class="table table-sm">-->
-<!--                           <tr>-->
-<!--                               <td>Weight</td>-->
-<!--                               <td>22</td>-->
-<!--                           </tr>-->
-<!--                       </table>-->
-
                        <div class="w-100 text-center">
                            <v-btn color="primary" small @click="switch_screen_mode">
                                <span v-if="!full_screen">Full screen</span>
@@ -220,7 +215,8 @@ export default {
                 abortion:'',
                 miscarriage:'',
                 ev:'',
-                dda:''
+                dda:'',
+                current_ga:''
             },
             last_diagnose:{},
             anamneses:[],
@@ -228,7 +224,7 @@ export default {
             plan_data:{
                 actions:[],
                 medicines:[],
-                comment:''
+                laboratory:''
             },
             last_vital_sign:{},
             vital_signs:[],
@@ -250,14 +246,17 @@ export default {
                     if(response.data.length>0){
                         this.plan_data.medicines=response.data[response.data.length -1].stork_plan_details.filter(item=>item.type===1)
                         this.plan_data.actions=response.data[response.data.length -1].stork_plan_details.filter(item=>item.type===2)
-                        this.plan_data.comment=response.data[response.data.length -1].comment
+                        this.plan_data.laboratory=response.data[response.data.length -1].laboratory
                     }
                 }
             )
             await axios.get(`/api/v1/patient_system/in_patient/stork/patient_cpn_data/${this.stork_admission.patient.id}`).then(
                 response=>{
                     console.log(response.data)
-                   if(response.data.cpn_admissions.length>0) this.cpn_data=response.data.cpn_admissions[response.data.cpn_admissions.length -1]
+                   if(response.data.cpn_admissions.length>0){
+                       this.cpn_data=response.data.cpn_admissions[response.data.cpn_admissions.length -1]
+                       this.cpn_data.current_ga= this.current_gestational_age(this.cpn_data.updated_at,this.cpn_data.gestational_age)
+                   }
                 }
             )
             //get the latest diagnose
@@ -282,12 +281,12 @@ export default {
             //if patient is baby
             if(this.patient_age<1){
                 axios.get(`/api/v1/patient_system/patient/birth_data/${this.stork_admission.patient_id}`).then(response=>{
-                    let med_data=response.data.birth_medical_data[0]
+                    let med_data=response.data.birth_medical_data
                     this.birth_weight=med_data.weight
-                    this.ga_birth=response.data.birth.GA
+                    this.ga_birth=med_data.birth.GA
                     this.baby_gender=med_data.gender
                     this.baby_apgar=`${med_data.apgar_1}/${med_data.apgar_2}/${med_data.apgar_3}`
-                    this.baby_ga_now=this.current_gestational_age(response.data.birth.created_at,response.data.birth.GA)
+                    this.baby_ga_now=this.current_gestational_age(med_data.birth.created_at,med_data.birth.GA)
                 })
             }
 

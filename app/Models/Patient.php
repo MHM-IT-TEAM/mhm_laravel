@@ -32,7 +32,7 @@ class Patient extends Model
         return $this->hasOne(Birth::class);
     }
     public function birth_medical_data(){
-        return $this->hasMany(BirthMedicalDataBaby::class);
+        return $this->hasOne(BirthMedicalDataBaby::class);
     }
     public function cpnAdmissions(){
         return $this->hasMany(CpnAdmission::class);

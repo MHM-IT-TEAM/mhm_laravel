@@ -43,4 +43,7 @@ class Admission extends Model
     {
         return $this->created_at->format('H:i:s');
     }
+    public function storkAdmission(){
+        return $this->hasOne(StorkAdmission::class);
+    }
 }

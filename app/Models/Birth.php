@@ -165,6 +165,7 @@ class Birth extends Model
                         'lastName'=>$birth->birthAdminData[0]['baby_lastName'],
                         'gender'=>$birth->birthAdminData[0]['baby_gender'],
                         'modus'=>$birth->birthMedicalDataBabies[0]['modus'],
+                        'sterilisation'=>$birth->birthMedicalDataBabies[0]['sterilisation'],
                         'position'=>$birth->birthMedicalDataBabies[0]['position'],
                         'malformation'=>$birth->birthMedicalDataBabies[0]['malformation'],
                         'weight'=>$birth->birthMedicalDataBabies[0]['weight'],

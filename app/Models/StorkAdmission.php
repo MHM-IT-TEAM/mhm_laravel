@@ -42,5 +42,8 @@ class StorkAdmission extends Model
     public function patient_mobilisation_histories(){
         return $this->hasMany(PatientMobilisationHistory::class);
     }
+    public function stork_actions(){
+        return $this->hasMany(StorkAction::class);
+    }
 
 }

@@ -17,16 +17,16 @@
                 height="90vh"
                 multi-sort
             >
-                <template v-slot:item.id="{ item }">
-                    <v-btn
-                       @click="overview"
-                        dark
-                       text
-                       color="purple"
-                    >
-                        {{ item.id}}
-                    </v-btn>
-                </template>
+<!--                <template v-slot:item.id="{ item }">-->
+<!--                    <v-btn-->
+<!--                       @click="overview"-->
+<!--                        dark-->
+<!--                       text-->
+<!--                       color="purple"-->
+<!--                    >-->
+<!--                        {{ item.id}}-->
+<!--                    </v-btn>-->
+<!--                </template>-->
 
             </v-data-table>
         </div>

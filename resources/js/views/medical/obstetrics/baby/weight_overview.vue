@@ -31,7 +31,7 @@ export default {
             this.birthDate= Date.parse(this.baby_checkup_data.birthDate)
             this.weight_list=this.baby_checkup_data.baby_checkups
             this.baby_name = this.baby_checkup_data.firstName
-            this.birth_weight = this.baby_checkup_data?.birth_medical_data[0]?.birth_weight ?? this.baby_checkup_data?.baby_checkups[0]?.weight
+            this.birth_weight = this.baby_checkup_data?.birth_medical_data?.weight ?? this.baby_checkup_data?.baby_checkups[0]?.weight
 
 
 

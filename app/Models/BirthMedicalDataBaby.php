@@ -25,6 +25,7 @@ class BirthMedicalDataBaby extends Model
             'patient_id'=>$patient_id,
             'gender'=>$request['gender'],
             'modus'=>$request['modus'],
+            'sterilisation'=>$request['sterilisation'],
             'weight'=>$request['weight'],
             'head'=>$request['head'],
             'chest'=>$request['chest'],

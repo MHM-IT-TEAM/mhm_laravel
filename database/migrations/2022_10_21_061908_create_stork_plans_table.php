@@ -18,7 +18,7 @@ class CreateStorkPlansTable extends Migration
             $table->timestamps();
             $table->foreignId('stork_admission_id');
             $table->integer("user_id")->nullable();
-            $table->text("comment")->nullable();
+            $table->text("laboratory")->nullable();
             $table->string("when")->nullable();
         });
     }
