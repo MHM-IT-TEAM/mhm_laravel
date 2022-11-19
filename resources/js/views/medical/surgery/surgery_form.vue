@@ -218,10 +218,12 @@
                             :error="$v.formData.dismissal_outcome.$error"
                             :readonly="formData.is_edit"
                             row
+
                         >
                             <v-radio
                                 label="Stay"
                                 value="stay"
+                                @click="show_internal_referral=true"
                             ></v-radio>
                             <v-radio
                                 label="Go Home"
@@ -452,14 +454,6 @@ export default {
            await this.fetch_surgery(this.$route.params.id)
             this.is_edit=true
 
-        }
-    },
-    watch:{
-        formData:{
-            handler(val){
-                if(val.dismissal_outcome==='stay')this.show_internal_referral=true
-            },
-            deep:true
         }
     },
     methods:{

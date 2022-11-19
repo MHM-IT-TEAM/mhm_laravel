@@ -45,7 +45,7 @@
                            </button>
                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                <a class="dropdown-item" href="#" @click="process(item)" v-if="item.status==='CONFIRMED'">Process</a>
-                               <a class="dropdown-item" href="#" @click="edit(item)" v-if="item.status!=='CONFIRMED'">Edit</a>
+<!--                               <a class="dropdown-item" href="#" @click="edit(item)" v-if="item.status!=='CONFIRMED'">Edit</a>-->
                            </div>
                        </div>
                    </template>

@@ -296,8 +296,6 @@ class StorkActionGroupSeeder extends Seeder
                 'type'=>'medical_care'
             ],
 
-
-
         ]);
     }
 }

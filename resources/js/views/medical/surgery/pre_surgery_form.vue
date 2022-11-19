@@ -172,7 +172,7 @@ export default {
                     input: 'DD/MMM/YYYY',
                 },
             },
-            type_of_surgery:['plastic'],
+            type_of_surgery:['plastic','pediatric'],
             loading:false,
             avatar:''
         }

@@ -48,7 +48,12 @@
                </v-speed-dial>
            </v-card-title>
            <v-row class="p-2">
-               <v-col cols="6">
+               <v-col cols="12">
+                   <v-row>
+                       <v-col>
+                           <weight_overview></weight_overview>
+                       </v-col>
+                   </v-row>
                    <v-row>
                        <v-col>
                            <v-card>
@@ -83,6 +88,11 @@
                                </v-simple-table>
                               <button class="btn btn-sm btn-secondary" @click="weight_control">Weight control</button>
                            </v-card>
+                       </v-col>
+                   </v-row>
+                   <v-row>
+                       <v-col>
+                           <give_medicine @get_value="get_medicines" :reset="accessory.reset_medication_list"/>
                        </v-col>
                    </v-row>
                    <v-row>
@@ -149,21 +159,6 @@
                            </v-card>
                        </v-col>
                    </v-row>
-               </v-col>
-               <v-col cols="6">
-                   <v-card>
-                       <v-row>
-                          <v-col>
-                              <weight_overview></weight_overview>
-                          </v-col>
-                       </v-row>
-                       <v-row>
-                           <v-col>
-                               <give_medicine @get_value="get_medicines" :reset="accessory.reset_medication_list"/>
-                           </v-col>
-                       </v-row>
-
-                   </v-card>
                </v-col>
            </v-row>
 
