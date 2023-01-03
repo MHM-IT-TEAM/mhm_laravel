@@ -29,13 +29,12 @@ We installed following versions.
 |node js|18.12.1|
 |npm|8.19.2|
 
-###1. Install Xampp
-###2. Checkout mhm-laravel projects
+### 1. Install Xampp
+### 2. Checkout mhm-laravel projects
 
 And save *xampp/htdocs/mhm_laravel* folder. 
 
-###3. Check php version in Xamp installation and change if necessary
-`php -v`
+### 3. Check php version in Xamp installation `php -v` and change if necessary
 
 If version is higher than 8.x.x than you need to manually downgrade to php 7.4.3 or 7.4.7	
 I recommend this instruction. It worked for me:
@@ -44,13 +43,13 @@ I recommend this instruction. It worked for me:
 (I have the php windows installer from here, same as in above tutorial: [https://www.php.net/releases/](https://www.php.net/releases/)    7.4.3, threadsaf, zip or .exe (important!)
 And copy *xampp/php/php.ini-development* and rename it to *xampp/php/php.ini*
 
-###4. Install Composer
+### 4. Install Composer
 Download composer [https://getcomposer.org/download/](https://getcomposer.org/download/)
 And install.
 
-###5. Install Laravel
+### 5. Install Laravel
 
-open gitbash in *xamp/htdocs/mhm_laravel* project
+open gitbash in *xampp/htdocs/mhm_laravel* project
 `composer install`
 (if errors then make sure php.ini has enabled the required extensions. Remove)
 
@@ -61,7 +60,7 @@ open gitbash in *xamp/htdocs/mhm_laravel* project
 1. Open Xampp control panel
 2. Start apache (webserver) 
 3. Start mysql (database)
-4. Run command in cmd at *xamp/htdocs/mhm_laravel*: `php artisan serve`
+4. Open cmd at *xampp/htdocs/mhm_laravel* and run: `php artisan serve`
 
 You should be able to access:
 - localhost:8000/phpMyAdmin
@@ -77,8 +76,8 @@ Open localhost:8000/phpMyAdmin: Import both databases
 
 If error: File to big to upload.
 Then adapt fileupload accordingly:
-Open file: *xampp/php/php.ini*
-Modify two lines:
+1. Open file: *xampp/php/php.ini*
+2. Modify two lines:
 ```
 post_max_size=40M
 upload_max_filesize=40M
@@ -112,6 +111,10 @@ npm update vue-loader
 npm run dev
 ```
 5. Home-website should be able to redirect to joycenter/admission, and other pages as well.
+
+## Finish, application should run now!!
+
+To learn more about laravel ...
 
 
 ## About Laravel
