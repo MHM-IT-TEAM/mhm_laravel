@@ -13,7 +13,7 @@
 The web application is a laravel application containing php and java script parts.
 It runs with the apache webserver and mysql database, together in xampp.
 
-This guide will lead you through the setup and installation
+This guide will lead you through the setup and installation.
 
 
 ## Which Software I need to install?
