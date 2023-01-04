@@ -49,11 +49,13 @@ And install.
 
 ### 5. Install Laravel
 
-open gitbash in *xampp/htdocs/mhm_laravel* project
+open gitbash in *xampp/htdocs/mhm_laravel* project:
+
 `composer install`
-(if errors then make sure php.ini has enabled the required extensions. Remove)
+(if errors then make sure php.ini has enabled the required extensions. Remove the `;` at the beginning of the line.)
 
 `php artisan migrate`          (this migrate the project as laravel project and installs all dependencies in mhm_laravel/vendor folder)
+
 `php artisan serve`            (this starts the laravel app. this is mandatory to see it in browser. )
 
 ## Run application
