@@ -1072,7 +1072,10 @@ const {
                     // summing the right part
                     let ga_in_days= ga_days+ right_ga
                     let ga_in_week= ga_weeks+ left_ga
-                    if (ga_in_days>6) ga_in_week++
+                    if (ga_in_days>6) {
+                        ga_in_week++;
+                        ga_in_days=ga_in_days-7
+                    }
                     this.editedItem.gestational_age= ga_in_week + "+"+ ga_in_days
                 }
                 else {
