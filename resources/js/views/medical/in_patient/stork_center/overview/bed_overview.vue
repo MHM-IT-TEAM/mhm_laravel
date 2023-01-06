@@ -165,18 +165,8 @@
                                                       v-for="(item, i) in comments"
                                                       :key="i"
                                                   >
-                                                      <v-list-item-action>
-                                                          <v-btn
-                                                              fab
-                                                              small
-                                                              depressed
-                                                              color="primary"
-                                                          >
-                                                              {{ item.user.name[0].toUpperCase() }}
-                                                          </v-btn>
-                                                      </v-list-item-action>
                                                       <v-list-item-content>
-                                                          {{ item.comment }} <v-spacer></v-spacer><small class="font-italic">{{item.user.name}} ({{item.created_at}})</small>
+                                                          {{ item.comment }} <v-spacer></v-spacer><small class="font-italic">({{item.created_at}})</small>
                                                       </v-list-item-content>
                                                   </v-list-item>
                                               </v-list-item-group>
