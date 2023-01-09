@@ -86,7 +86,7 @@
                                         </td>
                                         <td>
                                             <div class="form-group">
-                                                <label>Dosage/Frequency</label>
+                                                <label>Note</label>
                                                 <input type="text" class="form-control form-control-sm" v-model="temp_row.frequency"/>
                                             </div>
                                         </td>
