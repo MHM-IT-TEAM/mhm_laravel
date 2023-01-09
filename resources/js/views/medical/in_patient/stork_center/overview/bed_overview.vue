@@ -98,14 +98,19 @@
                            <tr>
                                <td  class="first-col">Medicines</td>
                                <td>
-                                   <div class="row" v-for="row in plan_data.medicines" >
-                                       <div class="col">
-                                           {{row.to_do}}
-                                       </div>
-                                       <div class="col ">
-                                           {{row.to_do_frequency}} (D-{{row.day}})
-                                       </div>
-                                   </div>
+                                   <table class="table table-sm table-borderless">
+                                       <tr v-for="row in plan_data.medicines">
+                                           <td style="width:10%">
+                                               {{row.created_at +":"}} 
+                                           </td>
+                                           <td style="width:30%">
+                                               {{row.to_do}}
+                                           </td>
+                                           <td>
+                                               {{row.to_do_frequency}}
+                                           </td>
+                                       </tr>
+                                   </table>
                                </td>
                            </tr>
                            <tr>
@@ -113,6 +118,9 @@
                                <td>
                                    <table class="table table-sm table-borderless">
                                        <tr v-for="row in plan_data.actions">
+                                           <td style="width:10%">
+                                               {{row.created_at +":"}} 
+                                           </td>
                                            <td style="width:30%">
                                                {{row.to_do}}
                                            </td>
@@ -126,7 +134,16 @@
                            <tr>
                                <td  class="first-col">Labworks</td>
                                <td>
-                                    {{plan_data.laboratory}}
+                                   <table class="table table-sm table-borderless">
+                                       <tr v-for="row in plan_data.laboratory">
+                                            <td style="width:10%">
+                                               {{row.created_at +":"}} 
+                                           </td>
+                                           <td>
+                                               {{ row.description}}
+                                           </td>
+                                       </tr>
+                                   </table>
                                </td>
                            </tr>
                           <tr>
@@ -155,25 +172,17 @@
                            <tr>
                                <td class="first-col">Comments</td>
                                <td>
-                                  <v-card>
-                                      <v-card-text>
-                                          <v-list disabled>
-                                              <v-list-item-group
-                                                  color="primary"
-                                              >
-                                                  <v-list-item
-                                                      v-for="(item, i) in comments"
-                                                      :key="i"
-                                                  >
-                                                      <v-list-item-content>
-                                                          {{ item.comment }} <v-spacer></v-spacer><small class="font-italic">({{item.created_at}})</small>
-                                                      </v-list-item-content>
-                                                  </v-list-item>
-                                              </v-list-item-group>
-                                          </v-list>
-
-                                      </v-card-text>
-                                  </v-card>
+                                   <table class="table table-sm table-borderless">
+                                       <tr v-for="row in comments">
+                                            <td style="width:10%">
+                                               {{row.created_at +":"}} 
+                                           </td>
+                                           <td>
+                                               {{ row.comment}}
+                                           </td>
+                                       </tr>
+                                   </table>
+                               </td>
                                </td>
                            </tr>
                        </table>
@@ -214,7 +223,7 @@ export default {
             plan_data:{
                 actions:[],
                 medicines:[],
-                laboratory:''
+                laboratory:[]
             },
             last_vital_sign:{},
             vital_signs:[],
@@ -233,13 +242,41 @@ export default {
             //get plan data
             axios.get(`/api/v1/patient_system/in_patient/stork/plan/${this.stork_admission.id}`).then(
                 response=>{
+                    
                     if(response.data.length>0){
-                        this.plan_data.medicines=response.data[response.data.length -1].stork_plan_details.filter(item=>item.type===1)
-                        this.plan_data.actions=response.data[response.data.length -1].stork_plan_details.filter(item=>item.type===2)
-                        this.plan_data.laboratory=response.data[response.data.length -1].laboratory
+                        
+                        let medicines=[];
+                        let actions=[];
+                        const laboratory=[];
+
+                        response.data.forEach(data=>{
+                            if( data.stork_plan_details != null){
+                                
+                                // Get actions
+                                const list=data.stork_plan_details.filter(item=>item.type===2);
+                                list.forEach(item=>item.created_at=this.date_format(item.created_at));
+                                actions=actions.concat(list);
+
+                                // Get medicines
+                                const list2 = data.stork_plan_details.filter(item=>item.type===1);
+                                list2.forEach(item=> item.created_at =this.date_format(item.created_at));
+                                medicines=medicines.concat(list2);
+                                
+                            }
+                            // Get laboratory work
+                            if(data.laboratory!=null){
+                                const item ={description:data.laboratory, created_at:this.date_format(data.created_at) };
+                                laboratory.push(item);
+                            }
+                        })
+                        this.plan_data.medicines=medicines;
+                        this.plan_data.laboratory=laboratory;
+                        this.plan_data.actions=actions;
+                        
                     }
                 }
             )
+      
             await axios.get(`/api/v1/patient_system/in_patient/stork/patient_cpn_data/${this.stork_admission.patient.id}`).then(
                 response=>{
                     console.log(response.data)
