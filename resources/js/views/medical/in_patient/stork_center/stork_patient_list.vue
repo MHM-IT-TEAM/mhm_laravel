@@ -217,13 +217,21 @@ export default {
         chosen_patient:null,
         dropdown: [
             {
+                text: 'Projection',
+                icon: 'mdi-clock',
+                active:false,
+                children:[                    
+                    {text:"Plan",url:'stork_patient_plan'},
+                    {text:'Anamnese',url:'stork_anamnese'},
+                    {text:'Comment',url:'stork_comment'},
+                ]
+            },
+            {
                 text: 'Diagnostic',
                 icon: 'mdi-clock',
                 active:false,
                 children:[
-                    {text:'Anamnese',url:'stork_anamnese'},
                     {text:'Balance Sheet',url:'stork_diagnostic_balance_list'},
-                    {text:'Comment',url:'stork_comment'},
                     {text:'Diagnoses',url:'stork_diagnose'},
                     // {text:'Post partum checkup',url:''},
                     {text:'Pregnancy checkup',url:'stork_diagnostic_pregnancy_checkup'},
@@ -236,7 +244,6 @@ export default {
                 icon: 'mdi-account',
                 active:false ,
                 children:[
-                    {text:"plan",url:'stork_patient_plan'},
                     {text:"Medicines",url:'stork_give_medicine'},
                     {text:"Woundcare",url:'stork_wound_care'},
                     {text:"Mobilisation",url:'stork_mobilisation'},
