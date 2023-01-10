@@ -61,131 +61,131 @@
                                </tr>
                            </table>
                        </div>
-                       <table class="table table-sm table-bordered">
-                           <tr>
-                               <td class="first-col" style="width:10%" >Level of Care</td>
-                               <td  style="width:90%" >{{stork_admission.level_of_care}}</td>
-                           </tr>
-                           <tr>
-                               <td class="first-col">Mobilisation status</td>
-                               <td  >
-                                   {{stork_admission.mobilisation_status}}
-                               </td>
-                           </tr>
-                           <tr>
-                               <td>Diagnose on entry</td>
-                               <td>
-                                   {{stork_admission.admission_diagnosis}}
-                               </td>
-                           </tr>
-                           <tr>
-                               <td class="first-col">Days</td>
-                               <td style="width:45%">{{d(stork_admission.created_at)}}</td>
-                           </tr>
+                            <table class="table table-sm table-bordered">
+                                <tr>
+                                    <td class="first-col" style="width:10%" >Level of Care</td>
+                                    <td  style="width:90%" >{{stork_admission.level_of_care}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="first-col">Mobilisation status</td>
+                                    <td  >
+                                        {{stork_admission.mobilisation_status}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Diagnose on entry</td>
+                                    <td>
+                                        {{stork_admission.admission_diagnosis}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="first-col">Days</td>
+                                    <td style="width:45%">{{d(stork_admission.created_at)}}</td>
+                                </tr>
 
-                           <tr>
-                               <td class="first-col">Diagnoses</td>
-                               <td>
-                                   {{last_diagnose.diagnose}}-({{last_diagnose.type}})
-                               </td>
-                           </tr>
-                           <tr>
-                               <td class="first-col">Vital signs</td>
-                               <td>
-                                   {{`BPL: ${last_vital_sign.bp_l} | BPR: ${last_vital_sign.bp_r} | Pulse: ${last_vital_sign.pulse} |Temp: ${last_vital_sign.temp} | SPO2: ${last_vital_sign.spo2}  `}}
-                               </td>
-                           </tr>
-                           <tr>
-                               <td  class="first-col">Medicines</td>
-                               <td>
-                                   <table class="table table-sm table-borderless">
-                                       <tr v-for="row in plan_data.medicines">
-                                           <td style="width:10%">
-                                               {{row.created_at +":"}} 
-                                           </td>
-                                           <td style="width:30%">
-                                               {{row.to_do}}
-                                           </td>
-                                           <td>
-                                               {{row.to_do_frequency}}
-                                           </td>
-                                       </tr>
-                                   </table>
-                               </td>
-                           </tr>
-                           <tr>
-                               <td  class="first-col">Actions</td>
-                               <td>
-                                   <table class="table table-sm table-borderless">
-                                       <tr v-for="row in plan_data.actions">
-                                           <td style="width:10%">
-                                               {{row.created_at +":"}} 
-                                           </td>
-                                           <td style="width:30%">
-                                               {{row.to_do}}
-                                           </td>
-                                           <td>
-                                               {{row.to_do_frequency}}
-                                           </td>
-                                       </tr>
-                                   </table>
-                               </td>
-                           </tr>
-                           <tr>
-                               <td  class="first-col">Labworks</td>
-                               <td>
-                                   <table class="table table-sm table-borderless">
-                                       <tr v-for="row in plan_data.laboratory">
-                                            <td style="width:10%">
-                                               {{row.created_at +":"}} 
-                                           </td>
-                                           <td>
-                                               {{ row.description}}
-                                           </td>
-                                       </tr>
-                                   </table>
-                               </td>
-                           </tr>
-                          <tr>
-                              <td class="first-col">Anamnese</td>
-                              <td>
-                                  <ul  v-for="row in anamneses">
-                                      <li>
-                                          {{row.anamnese}}
-                                      </li>
-                                  </ul>
-                              </td>
-                          </tr>
-                           <tr v-if="patient_age<=1 && vital_signs.length>0">
-                               <td>Weight</td>
-                               <td>
-                                   <div class="row">
-                                       <div class="col"  v-for="row in vital_signs">{{row.weight}}</div>
-                                   </div>
-                                   <div class="row">
-                                       <div class="col"  v-for="row in weight_differences">
-                                           {{row.weight}} <v-icon>{{row.icon}}</v-icon>
-                                       </div>
-                                   </div>
-                               </td>
-                           </tr>
-                           <tr>
-                               <td class="first-col">Comments</td>
-                               <td>
-                                   <table class="table table-sm table-borderless">
-                                       <tr v-for="row in comments">
-                                            <td style="width:10%">
-                                               {{row.created_at +":"}} 
-                                           </td>
-                                           <td>
-                                               {{ row.comment}}
-                                           </td>
-                                       </tr>
-                                   </table>
-                               </td>
-                               </td>
-                           </tr>
-                       </table>
+                                <tr>
+                                    <td class="first-col">Diagnoses</td>
+                                    <td>
+                                        {{last_diagnose.diagnose}}-({{last_diagnose.type}})
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="first-col">Vital signs</td>
+                                    <td>
+                                        {{`BPL: ${last_vital_sign.bp_l} | BPR: ${last_vital_sign.bp_r} | Pulse: ${last_vital_sign.pulse} |Temp: ${last_vital_sign.temp} | SPO2: ${last_vital_sign.spo2}  `}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td  class="first-col">Medicines</td>
+                                    <td>
+                                        <table class="table table-sm table-borderless">
+                                            <tr v-for="row in plan_data.medicines">
+                                                <td style="width:10%">
+                                                    {{row.created_at +":"}} 
+                                                </td>
+                                                <td style="width:30%">
+                                                    {{row.to_do}}
+                                                </td>
+                                                <td>
+                                                    {{row.to_do_frequency}}
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td  class="first-col">Actions</td>
+                                    <td>
+                                        <table class="table table-sm table-borderless">
+                                            <tr v-for="row in plan_data.actions">
+                                                <td style="width:10%">
+                                                    {{row.created_at +":"}} 
+                                                </td>
+                                                <td style="width:30%">
+                                                    {{row.to_do}}
+                                                </td>
+                                                <td>
+                                                    {{row.to_do_frequency}}
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td  class="first-col">Labworks</td>
+                                    <td>
+                                        <table class="table table-sm table-borderless">
+                                            <tr v-for="row in plan_data.laboratory">
+                                                    <td style="width:10%">
+                                                    {{row.created_at +":"}} 
+                                                </td>
+                                                <td>
+                                                    {{ row.description}}
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="first-col">Anamnese</td>
+                                    <td>
+                                        <ul  v-for="row in anamneses">
+                                            <li>
+                                                {{row.anamnese}}
+                                            </li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                <tr v-if="patient_age<=1 && vital_signs.length>0">
+                                    <td>Weight</td>
+                                    <td>
+                                        <div class="row">
+                                            <div class="col"  v-for="row in vital_signs">{{row.weight}}</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col"  v-for="row in weight_differences">
+                                                {{row.weight}} <v-icon>{{row.icon}}</v-icon>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="first-col">Comments</td>
+                                    <td>
+                                        <table class="table table-sm table-borderless">
+                                            <tr v-for="row in comments">
+                                                    <td style="width:10%">
+                                                    {{row.created_at +":"}} 
+                                                </td>
+                                                <td>
+                                                    {{ row.comment}}
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                    </td>
+                                </tr>
+                            </table>
                        <div class="w-100 text-center">
                            <v-btn color="primary" small @click="switch_screen_mode">
                                <span v-if="!full_screen">Full screen</span>
@@ -323,9 +323,10 @@ export default {
             return moment().diff(moment(input), "days")+1
         },
         switch_screen_mode(){
-            var element = document.querySelector("#container");
+            //var elem = document.querySelector("#container");
+             var elem =document.documentElement;
             if(!this.full_screen){
-                element.requestFullscreen()
+                if (elem.requestFullscreen) {elem.requestFullscreen()}
             }else{
                 document.exitFullscreen()
             }
