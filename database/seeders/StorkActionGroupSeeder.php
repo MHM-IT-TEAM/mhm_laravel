@@ -295,6 +295,11 @@ class StorkActionGroupSeeder extends Seeder
                 'category'=>'both',
                 'type'=>'medical_care'
             ],
+            [
+                'description'=>'Bilirubin test',
+                'category'=>'baby',
+                'type'=>'medical_care'
+            ],
 
         ]);
     }
