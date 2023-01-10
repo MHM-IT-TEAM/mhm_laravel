@@ -90,6 +90,6 @@ class StorkCommentController extends Controller
      */
     public function destroy($id)
     {
-        //
+        StorkComment::find($id)->delete();
     }
 }
