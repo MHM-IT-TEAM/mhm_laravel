@@ -83,6 +83,7 @@ class StorkPlanController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $service= new StorkPlanService();
+        $service->destroy($id);
     }
 }

@@ -118,6 +118,7 @@
                                     <td>#</td>
                                     <td>Date</td>
                                     <td>Details</td>
+                                    <td></td>
                                 </tr>
                                 <tr v-for="(row,id) in data_in_system">
                                     <td>{{id+1}}</td>
@@ -132,8 +133,24 @@
                                             </div>
                                         </div>
                                     </td>
+                                    <td>
+                                        <v-icon small @click="deleteItem(row)">mdi-delete
+
+                                        </v-icon>
+                                    </td>
                                 </tr>
                             </table>
+                            <v-dialog v-model="dialogDelete" max-width="500px">
+                                <v-card>
+                                    <v-card-title class="headline">Are you sure you want to delete this item?</v-card-title>
+                                    <v-card-actions>
+                                        <v-spacer></v-spacer>
+                                        <v-btn color="blue darken-1" text @click="closeDelete">Cancel</v-btn>
+                                        <v-btn color="blue darken-1" text @click="deleteItemConfirm">OK</v-btn>
+                                        <v-spacer></v-spacer>
+                                    </v-card-actions>
+                                </v-card>
+                            </v-dialog>
                         </div>
                     </div>
                 </div>
@@ -167,9 +184,19 @@ export default {
                 user_id:'',
                 laboratory:''
             },
-            data_in_system:[]
+            data_in_system:[],
+            editedIndex: -1,
+            editedItem:"",
+            defaultItem: {
+            },
+            dialogDelete: false
         }
-    },
+    },    
+    watch: {            
+            dialogDelete (val) {
+                val || this.closeDelete()
+            }
+        },
     created(){
         axios.get('/api/v1/extra/stork_action_group').then(response=>this.list_of_actions=response.data)
         this.formData.stork_admission_id= this.$route.params.stork_admission.id
@@ -214,7 +241,24 @@ export default {
                     }
                 }
             )
-        }
+        },
+        deleteItem (item) {
+            this.editedIndex = this.data_in_system.indexOf(item)
+            this.editedItem = Object.assign({}, item)
+            this.dialogDelete = true
+        },
+        deleteItemConfirm () {
+            this.data_in_system.splice(this.editedIndex, 1)
+            this.closeDelete()
+            axios.delete(`/api/v1/patient_system/in_patient/stork/plan/${this.editedItem.id}`)
+        },
+        closeDelete () {
+                this.dialogDelete = false
+                this.$nextTick(() => {
+                    this.editedItem = Object.assign({}, this.defaultItem)
+                    this.editedIndex = -1
+                })
+            }
 
     },
     computed:{

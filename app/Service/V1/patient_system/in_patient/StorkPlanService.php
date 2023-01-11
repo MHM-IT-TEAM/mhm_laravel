@@ -29,12 +29,18 @@ class StorkPlanService
             }
             return response()->json(['success'=>true]);
         });
+    }
 
+    public function destroy($id){
+        StorkPlanDetail::where('stork_plan_id', $id)->delete();
+        StorkPlan::find($id)->delete();
+        
+    }
 //        StorkPlan::create([
 //            'stork_admission_id'=>$request->stork_admission_id,
 //            'user_id'=>$request->user_id,
 //            'comment'=>$request->comment,
 //            'when'=>$request->when
 //        ]);
-    }
+    
 }
