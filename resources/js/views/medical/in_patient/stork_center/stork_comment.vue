@@ -30,7 +30,7 @@
                                     <td>
                                         <v-checkbox                                     small
                                                 @click="update(item)"
-                                                v-model="item.is_in_projection"
+                                                v-model="item.show_in_projection"
                                             >                                                
                                         </v-checkbox>
                                     </td>
@@ -147,7 +147,7 @@ export default {
                 })
             },
         update(item){
-            axios.put(`/api/v1/patient_system/in_patient/stork/comment/update_showInProjection/${item.id}/${item.is_in_projection}`);
+            axios.put(`/api/v1/patient_system/in_patient/stork/comment/update_showInProjection/${item.id}/${item.show_in_projection}`);
         }
 
     },

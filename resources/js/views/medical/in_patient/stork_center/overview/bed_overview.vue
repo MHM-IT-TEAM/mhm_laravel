@@ -174,7 +174,7 @@
                                     <td>
                                         <table class="table table-sm table-borderless">
                                             <tr v-for="row in comments">
-                                                <div v-if="row.is_in_projection==1">
+                                                <div v-if="row.show_in_projection==1">
                                                     <td style="width:10%">
                                                         {{row.created_at +":"}} 
                                                     </td>
