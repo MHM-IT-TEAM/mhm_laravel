@@ -19,6 +19,7 @@ class CreateStorkCommentsTable extends Migration
             $table->foreignId('stork_admission_id');
             $table->text('comment');
             $table->foreignId('user_id');
+            $table->boolean('show_in_projection')->default(1);
         });
     }
 
