@@ -124,7 +124,7 @@ npm run dev
 1. Create a new migration table with: `php artisan make:migration add_$COLUMN_to_$TABLE`
 2. Edit this file. Add column to up-function, eg: $table->boolean('column_name')->default(0);
 3. Run: `composer dumpauto`
-4. Run: `php artisan migrate`
+4. Run: `php artisan migrate` or with a specific file: `php artisan migrate --path="./database/migrations/$FILENAME.php" `
 5. Finish, check in database table if column was created.
 
 

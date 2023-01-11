@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateStorkCommentsTable extends Migration
+class AddShowInProjectionToStorkCommentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,8 @@ class CreateStorkCommentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('stork_comments', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-            $table->foreignId('stork_admission_id');
-            $table->text('comment');
-            $table->foreignId('user_id');
+        Schema::table('stork_comments', function (Blueprint $table) {
+            $table->boolean('show_in_projection')->default(1);
         });
     }
 
@@ -29,6 +25,8 @@ class CreateStorkCommentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('stork_comments');
+        Schema::table('stork_comments', function (Blueprint $table) {
+            //
+        });
     }
 }
