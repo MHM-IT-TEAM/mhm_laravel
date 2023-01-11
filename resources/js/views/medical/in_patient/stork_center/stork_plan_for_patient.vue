@@ -134,6 +134,11 @@
                                         </div>
                                     </td>
                                     <td>
+                                        <v-checkbox small @click="update(row)" v-model="row.show_in_projection">
+                                            
+                                        </v-checkbox>
+                                    </td>
+                                    <td>
                                         <v-icon small @click="deleteItem(row)">mdi-delete
 
                                         </v-icon>
@@ -258,7 +263,10 @@ export default {
                     this.editedItem = Object.assign({}, this.defaultItem)
                     this.editedIndex = -1
                 })
-            }
+            },
+        update(item){
+            axios.put(`/api/v1/patient_system/in_patient/stork/plan/update_showInProjection/${item.id}/${item.show_in_projection}`)
+        }
 
     },
     computed:{

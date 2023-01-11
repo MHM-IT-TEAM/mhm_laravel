@@ -86,4 +86,10 @@ class StorkPlanController extends Controller
         $service= new StorkPlanService();
         $service->destroy($id);
     }
+
+    public function update_showInProjection($id, $showInProjection){
+        $service= new StorkPlanService();
+        $service->update_showInProjection($id, $showInProjection);
+
+    }
 }

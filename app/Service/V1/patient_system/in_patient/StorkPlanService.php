@@ -36,6 +36,19 @@ class StorkPlanService
         StorkPlan::find($id)->delete();
         
     }
+
+    public function update_showInProjection($id, $showInProjection){
+        $plan_details = StorkPlanDetail::where('stork_plan_id', $id)->get();
+        
+        foreach($plan_details as $item){            
+            $item->show_in_projection = $showInProjection=='true' ? 1 : 0;
+            $item->save();
+        }
+
+        $plan = StorkPlan::find($id);
+        $plan->show_in_projection = $showInProjection=='true' ? 1 : 0;
+        $plan->save();
+    }
 //        StorkPlan::create([
 //            'stork_admission_id'=>$request->stork_admission_id,
 //            'user_id'=>$request->user_id,

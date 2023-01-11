@@ -100,15 +100,17 @@
                                     <td>
                                         <table class="table table-sm table-borderless">
                                             <tr v-for="row in plan_data.medicines">
-                                                <td style="width:10%">
-                                                    {{row.created_at +":"}} 
-                                                </td>
-                                                <td style="width:30%">
-                                                    {{row.to_do}}
-                                                </td>
-                                                <td>
-                                                    {{row.to_do_frequency}}
-                                                </td>
+                                                <div v-if="row.show_in_projection==1">
+                                                    <td style="width:10%">
+                                                        {{row.created_at +":"}} 
+                                                    </td>
+                                                    <td style="width:30%">
+                                                        {{row.to_do}}
+                                                    </td>
+                                                    <td>
+                                                        {{row.to_do_frequency}}
+                                                    </td>
+                                                </div>
                                             </tr>
                                         </table>
                                     </td>
@@ -118,15 +120,17 @@
                                     <td>
                                         <table class="table table-sm table-borderless">
                                             <tr v-for="row in plan_data.actions">
-                                                <td style="width:10%">
-                                                    {{row.created_at +":"}} 
-                                                </td>
-                                                <td style="width:30%">
-                                                    {{row.to_do}}
-                                                </td>
-                                                <td>
-                                                    {{row.to_do_frequency}}
-                                                </td>
+                                                <div v-if="row.show_in_projection==1">
+                                                    <td style="width:10%">
+                                                        {{row.created_at +":"}} 
+                                                    </td>
+                                                    <td style="width:30%">
+                                                        {{row.to_do}}
+                                                    </td>
+                                                    <td>
+                                                        {{row.to_do_frequency}}
+                                                    </td>
+                                                </div>
                                             </tr>
                                         </table>
                                     </td>
@@ -136,12 +140,15 @@
                                     <td>
                                         <table class="table table-sm table-borderless">
                                             <tr v-for="row in plan_data.laboratory">
+                                                <div v-if="row.show_in_projection==1">
                                                     <td style="width:10%">
-                                                    {{row.created_at +":"}} 
-                                                </td>
-                                                <td>
-                                                    {{ row.description}}
-                                                </td>
+                                                        {{row.created_at +":"}} 
+                                                    </td>
+                                                    <td>
+                                                        {{ row.description}}
+                                                    </td>
+
+                                                </div>
                                             </tr>
                                         </table>
                                     </td>
@@ -267,7 +274,7 @@ export default {
                             }
                             // Get laboratory work
                             if(data.laboratory!=null){
-                                const item ={description:data.laboratory, created_at:this.date_format(data.created_at) };
+                                const item ={description:data.laboratory, created_at:this.date_format(data.created_at), show_in_projection:data.show_in_projection };
                                 laboratory.push(item);
                             }
                         })
@@ -281,7 +288,6 @@ export default {
       
             await axios.get(`/api/v1/patient_system/in_patient/stork/patient_cpn_data/${this.stork_admission.patient.id}`).then(
                 response=>{
-                    console.log(response.data)
                    if(response.data.cpn_admissions.length>0){
                        this.cpn_data=response.data.cpn_admissions[response.data.cpn_admissions.length -1]
                        this.cpn_data.current_ga= this.current_gestational_age(this.cpn_data.updated_at,this.cpn_data.gestational_age)
