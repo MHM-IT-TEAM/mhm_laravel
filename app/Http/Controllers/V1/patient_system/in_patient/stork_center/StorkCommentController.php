@@ -92,4 +92,10 @@ class StorkCommentController extends Controller
     {
         StorkComment::find($id)->delete();
     }
+
+    public function update_showInProjection($id, $isInProjection){
+        $comment= StorkComment::find($id);
+        $comment->is_in_projection = $isInProjection=='true'? 1 : 0;
+        $response = $comment->save();
+    }
 }

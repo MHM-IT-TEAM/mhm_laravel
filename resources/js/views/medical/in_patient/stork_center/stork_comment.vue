@@ -19,6 +19,7 @@
                                     <td>Date</td>
                                     <td>Comment</td>
                                     <td>User</td>
+                                    <td>Show in projection</td>
                                     <td></td>
                                 </tr>
                                 <tr v-for="(item,i ) in data_in_system">
@@ -26,6 +27,13 @@
                                     <td>{{ item.created_at }}</td>
                                     <td>{{ item.comment }}</td>
                                     <td>{{ item.user.name }}</td>
+                                    <td>
+                                        <v-checkbox                                     small
+                                                @click="update(item)"
+                                                v-model="item.is_in_projection"
+                                            >                                                
+                                        </v-checkbox>
+                                    </td>
                                     <td>
                                         <v-icon                                     small
                                             @click="deleteItem(item)"
@@ -138,6 +146,9 @@ export default {
                     this.editedIndex = -1
                 })
             },
+        update(item){
+            axios.put(`/api/v1/patient_system/in_patient/stork/comment/update_showInProjection/${item.id}/${item.is_in_projection}`);
+        }
 
     },
     computed:{

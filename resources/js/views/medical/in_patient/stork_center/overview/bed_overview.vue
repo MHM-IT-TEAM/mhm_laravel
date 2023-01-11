@@ -174,12 +174,14 @@
                                     <td>
                                         <table class="table table-sm table-borderless">
                                             <tr v-for="row in comments">
+                                                <div v-if="row.is_in_projection==1">
                                                     <td style="width:10%">
-                                                    {{row.created_at +":"}} 
-                                                </td>
-                                                <td>
-                                                    {{ row.comment}}
-                                                </td>
+                                                        {{row.created_at +":"}} 
+                                                    </td>
+                                                    <td>
+                                                        {{ row.comment}}
+                                                    </td>
+                                                </div>
                                             </tr>
                                         </table>
                                     </td>
