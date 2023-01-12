@@ -5,7 +5,7 @@
            <v-card-text>
                <h1 class="title">VITAL SIGNS</h1>
                <patient_information :patient_id="patient_id"/>
-               <p class="table-title"><v-icon class="text-blue">mdi-account-circle</v-icon>  &nbsp B) Today's diagnostic</p>
+               <p class="table-title"><v-icon class="text-blue">mdi-account-circle</v-icon> &nbsp B) Today's diagnostic</p>
                <div class="table-responsive">
                    <table class="table table-sm">
                        <tr>
@@ -146,7 +146,7 @@ export default {
             axios.post('/api/v1/patient_system/vital_sign',this.formData).then(response=>{
                 this.list=response.data
                 this.formData={
-                    admission_id:'',
+                    admission_id: this.formData.admission_id,
                     bp_l:'',
                     bp_r:'',
                     pulse:'',
