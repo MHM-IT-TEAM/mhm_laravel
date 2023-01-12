@@ -101,7 +101,7 @@
                                         <table class="table table-sm table-borderless">
                                             <tr v-for="row in plan_data.medicines">
                                                 <div v-if="row.show_in_projection==1">
-                                                    <td style="width:10%">
+                                                    <td style="width:15%">
                                                         {{row.created_at +":"}} 
                                                     </td>
                                                     <td style="width:30%">
@@ -109,6 +109,9 @@
                                                     </td>
                                                     <td>
                                                         {{row.to_do_frequency}}
+                                                    </td>
+                                                    <td>
+                                                        {{"Day: " + row.day + " ( done: "+ row.days_diff + ")"}}
                                                     </td>
                                                 </div>
                                             </tr>
@@ -121,7 +124,7 @@
                                         <table class="table table-sm table-borderless">
                                             <tr v-for="row in plan_data.actions">
                                                 <div v-if="row.show_in_projection==1">
-                                                    <td style="width:10%">
+                                                    <td style="width:15%">
                                                         {{row.created_at +":"}} 
                                                     </td>
                                                     <td style="width:30%">
@@ -141,7 +144,7 @@
                                         <table class="table table-sm table-borderless">
                                             <tr v-for="row in plan_data.laboratory">
                                                 <div v-if="row.show_in_projection==1">
-                                                    <td style="width:10%">
+                                                    <td style="width:15%">
                                                         {{row.created_at +":"}} 
                                                     </td>
                                                     <td>
@@ -182,9 +185,9 @@
                                         <table class="table table-sm table-borderless">
                                             <tr v-for="row in comments">
                                                 <div v-if="row.show_in_projection==1">
-                                                    <td style="width:10%">
+                                                    <!-- <td style="width:10%">
                                                         {{row.created_at +":"}} 
-                                                    </td>
+                                                    </td> -->
                                                     <td>
                                                         {{ row.comment}}
                                                     </td>
@@ -268,7 +271,10 @@ export default {
 
                                 // Get medicines
                                 const list2 = data.stork_plan_details.filter(item=>item.type===1);
-                                list2.forEach(item=> item.created_at =this.date_format(item.created_at));
+                                list2.forEach(item=> {
+                                    item.days_diff=this.calculateDaysDiff(item.created_at, item.day);
+                                    item.created_at =this.date_format(item.created_at);
+                                });
                                 medicines=medicines.concat(list2);
                                 
                             }
@@ -362,7 +368,14 @@ export default {
                 ga_in_days=ga_in_days-7;
             } 
             return ga_in_week + "+"+ ga_in_days
+        },
+        calculateDaysDiff( created_at, days){
+            const diff1 = new Date() - new Date(created_at);
+            let diff_in_days = Math.round(diff1 / 1000 / 60 / 60 / 24);
+            const days_done=diff_in_days < days ? diff_in_days : days;
+            return days_done;
         }
+       
     },
     watch:{
         stork_admission:{
