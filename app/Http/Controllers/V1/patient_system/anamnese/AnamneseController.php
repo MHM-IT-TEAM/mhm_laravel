@@ -89,6 +89,6 @@ class AnamneseController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Anamnese::find($id)->delete();
     }
 }
