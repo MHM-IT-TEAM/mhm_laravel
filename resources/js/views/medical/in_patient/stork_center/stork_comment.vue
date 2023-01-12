@@ -35,8 +35,8 @@
                                         </v-checkbox>
                                     </td>
                                     <td>
-                                        <v-icon                                     small
-                                            @click="deleteItem(item)"
+                                        <v-icon                                     medium
+                                            @click="deleteItem(item)" class="mt-5"
                                         >
                                             mdi-delete
                                         </v-icon>

@@ -87,7 +87,7 @@
                                         <td>
                                             <div class="form-group">
                                                 <label>Note</label>
-                                                <input type="text" class="form-control form-control-sm" v-model="temp_row.frequency"/>
+                                                <input type="text" class="form-control form-control-sm" v-model="temp_row.note"/>
                                             </div>
                                         </td>
                                         <td style="width:5%">
@@ -118,6 +118,7 @@
                                     <td>#</td>
                                     <td>Date</td>
                                     <td>Details</td>
+                                    <td>Show in projection</td>
                                     <td></td>
                                 </tr>
                                 <tr v-for="(row,id) in data_in_system">
@@ -139,7 +140,7 @@
                                         </v-checkbox>
                                     </td>
                                     <td>
-                                        <v-icon small @click="deleteItem(row)">mdi-delete
+                                        <v-icon medium @click="deleteItem(row)" class="mt-5">mdi-delete
 
                                         </v-icon>
                                     </td>
@@ -176,7 +177,7 @@ export default {
     data(){
         return{
             temp_medicine:{med:'',dosage:''},
-            temp_row:{to_do:"",frequency:"",day:""},
+            temp_row:{to_do:"",frequency:"",day:"", note:""},
             temp_action:{action:'',frequency:''},
             list_of_actions:[],
             avalaible_medicines:[],
@@ -221,10 +222,15 @@ export default {
         },
         push_row(type){
             this.temp_row.type=type
-            if(this.temp_row.to_do !=='' && this.temp_row.frequency !==''){
-                this.formData.to_do.push(this.temp_row)
-            }
-            this.temp_row={to_do:'',frequency:'',day:''}
+            if(type==1){
+                if(this.temp_row.to_do !=='' && this.temp_row.frequency !==''){
+                    this.formData.to_do.push(this.temp_row)
+                }}else if(type==2){
+                if(this.temp_row.to_do !=='' && this.temp_row.note !==''){
+                    this.temp_row.frequency= this.temp_row.note;
+                    this.formData.to_do.push(this.temp_row)   
+                }}
+            this.temp_row={to_do:'',frequency:'',day:'', note:""}
         },
         null_to_str(str){
             return str?str:""
