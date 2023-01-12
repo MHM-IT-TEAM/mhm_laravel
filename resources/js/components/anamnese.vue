@@ -102,11 +102,8 @@ export default {
         submit(){
             this.formData.user_id = window.auth.user.id
             axios.post('/api/v1/patient_system/anamnese',this.formData).then(response=>{
-                this.list=response.data
-                this.formData={
-                    admission_id:'',
-                   patient_id:''
-                }
+                this.list=response.data;
+                this.formData.anamnese='';
             })
         },
         deleteItem (item) {
