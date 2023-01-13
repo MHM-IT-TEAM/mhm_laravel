@@ -8,7 +8,6 @@
 </p>
 
 
-
 # Getting started
 The web application is a laravel application containing php and java script parts.
 It runs with the apache webserver and mysql database, together in xampp.
