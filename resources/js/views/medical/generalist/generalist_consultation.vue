@@ -411,7 +411,7 @@
 <!--               </v-expansion-panels>-->
            </div>
            <div class="text-right mt-6">
-               <v-btn color="info"  @click="submit">submit</v-btn>
+               <v-btn color="info" :loading="form_is_submitting" @click="submit">submit</v-btn>
            </div>
        </v-app>
     </div>
@@ -477,7 +477,8 @@ export default {
                 wound_care: '',
                 stitches: '',
                 nebulizer: '',
-                outcome:''
+                outcome:'',
+                form_is_submitting:false
             },
             accessory: {
                 dateConfig: {
@@ -567,12 +568,14 @@ export default {
         },
         async submit() {
             this.$v.$touch()
-            if (this.$v.$invalid) {
+            if (this.$v.$invalid) {             
                 return true;
             }
+            this.form_is_submitting=true
             this.formData.responsible = window.auth.user.name
             await axios.post('/api/v1/patient_system/out_patient/generalist/consultation', this.formData).then(response => {
                 if (response.data.success) {
+                    this.form_is_submitting=false
                     this.$toast.open({position: 'top-right', type: 'success', message: response.data.msg})
                     this.reset_form()
                     this.$v.$reset()
