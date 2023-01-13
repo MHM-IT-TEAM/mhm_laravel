@@ -86,8 +86,8 @@
                                         </td>
                                         <td>
                                             <div class="form-group">
-                                                <label>Dosage/Frequency</label>
-                                                <input type="text" class="form-control form-control-sm" v-model="temp_row.frequency"/>
+                                                <label>Note</label>
+                                                <input type="text" class="form-control form-control-sm" v-model="temp_row.note"/>
                                             </div>
                                         </td>
                                         <td style="width:5%">
@@ -118,6 +118,8 @@
                                     <td>#</td>
                                     <td>Date</td>
                                     <td>Details</td>
+                                    <td>Show in projection</td>
+                                    <td></td>
                                 </tr>
                                 <tr v-for="(row,id) in data_in_system">
                                     <td>{{id+1}}</td>
@@ -132,8 +134,29 @@
                                             </div>
                                         </div>
                                     </td>
+                                    <td>
+                                        <v-checkbox small @click="update(row)" v-model="row.show_in_projection">
+                                            
+                                        </v-checkbox>
+                                    </td>
+                                    <td>
+                                        <v-icon medium @click="deleteItem(row)" class="mt-5">mdi-delete
+
+                                        </v-icon>
+                                    </td>
                                 </tr>
                             </table>
+                            <v-dialog v-model="dialogDelete" max-width="500px">
+                                <v-card>
+                                    <v-card-title class="headline">Are you sure you want to delete this item?</v-card-title>
+                                    <v-card-actions>
+                                        <v-spacer></v-spacer>
+                                        <v-btn color="blue darken-1" text @click="closeDelete">Cancel</v-btn>
+                                        <v-btn color="blue darken-1" text @click="deleteItemConfirm">OK</v-btn>
+                                        <v-spacer></v-spacer>
+                                    </v-card-actions>
+                                </v-card>
+                            </v-dialog>
                         </div>
                     </div>
                 </div>
@@ -154,7 +177,7 @@ export default {
     data(){
         return{
             temp_medicine:{med:'',dosage:''},
-            temp_row:{to_do:"",frequency:"",day:""},
+            temp_row:{to_do:"",frequency:"",day:"", note:""},
             temp_action:{action:'',frequency:''},
             list_of_actions:[],
             avalaible_medicines:[],
@@ -167,9 +190,19 @@ export default {
                 user_id:'',
                 laboratory:''
             },
-            data_in_system:[]
+            data_in_system:[],
+            editedIndex: -1,
+            editedItem:"",
+            defaultItem: {
+            },
+            dialogDelete: false
         }
-    },
+    },    
+    watch: {            
+            dialogDelete (val) {
+                val || this.closeDelete()
+            }
+        },
     created(){
         axios.get('/api/v1/extra/stork_action_group').then(response=>this.list_of_actions=response.data)
         this.formData.stork_admission_id= this.$route.params.stork_admission.id
@@ -189,10 +222,15 @@ export default {
         },
         push_row(type){
             this.temp_row.type=type
-            if(this.temp_row.to_do !=='' && this.temp_row.frequency !==''){
-                this.formData.to_do.push(this.temp_row)
-            }
-            this.temp_row={to_do:'',frequency:'',day:''}
+            if(type==1){
+                if(this.temp_row.to_do !=='' && this.temp_row.frequency !==''){
+                    this.formData.to_do.push(this.temp_row)
+                }}else if(type==2){
+                if(this.temp_row.to_do !=='' && this.temp_row.note !==''){
+                    this.temp_row.frequency= this.temp_row.note;
+                    this.formData.to_do.push(this.temp_row)   
+                }}
+            this.temp_row={to_do:'',frequency:'',day:'', note:""}
         },
         null_to_str(str){
             return str?str:""
@@ -214,6 +252,26 @@ export default {
                     }
                 }
             )
+        },
+        deleteItem (item) {
+            this.editedIndex = this.data_in_system.indexOf(item)
+            this.editedItem = Object.assign({}, item)
+            this.dialogDelete = true
+        },
+        deleteItemConfirm () {
+            this.data_in_system.splice(this.editedIndex, 1)
+            this.closeDelete()
+            axios.delete(`/api/v1/patient_system/in_patient/stork/plan/${this.editedItem.id}`)
+        },
+        closeDelete () {
+                this.dialogDelete = false
+                this.$nextTick(() => {
+                    this.editedItem = Object.assign({}, this.defaultItem)
+                    this.editedIndex = -1
+                })
+            },
+        update(item){
+            axios.put(`/api/v1/patient_system/in_patient/stork/plan/update_showInProjection/${item.id}/${item.show_in_projection}`)
         }
 
     },

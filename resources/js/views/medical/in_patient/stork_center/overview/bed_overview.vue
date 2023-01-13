@@ -61,132 +61,143 @@
                                </tr>
                            </table>
                        </div>
-                       <table class="table table-sm table-bordered">
-                           <tr>
-                               <td class="first-col" style="width:10%" >Level of Care</td>
-                               <td  style="width:90%" >{{stork_admission.level_of_care}}</td>
-                           </tr>
-                           <tr>
-                               <td class="first-col">Mobilisation status</td>
-                               <td  >
-                                   {{stork_admission.mobilisation_status}}
-                               </td>
-                           </tr>
-                           <tr>
-                               <td>Diagnose on entry</td>
-                               <td>
-                                   {{stork_admission.admission_diagnosis}}
-                               </td>
-                           </tr>
-                           <tr>
-                               <td class="first-col">Days</td>
-                               <td style="width:45%">{{d(stork_admission.created_at)}}</td>
-                           </tr>
+                            <table class="table table-sm table-bordered">
+                                <tr>
+                                    <td class="first-col" style="width:10%" >Level of Care</td>
+                                    <td  style="width:90%" >{{stork_admission.level_of_care}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="first-col">Mobilisation status</td>
+                                    <td  >
+                                        {{stork_admission.mobilisation_status}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Diagnose on entry</td>
+                                    <td>
+                                        {{stork_admission.admission_diagnosis}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="first-col">Days</td>
+                                    <td style="width:45%">{{d(stork_admission.created_at)}}</td>
+                                </tr>
 
-                           <tr>
-                               <td class="first-col">Diagnoses</td>
-                               <td>
-                                   {{last_diagnose.diagnose}}-({{last_diagnose.type}})
-                               </td>
-                           </tr>
-                           <tr>
-                               <td class="first-col">Vital signs</td>
-                               <td>
-                                   {{`BPL: ${last_vital_sign.bp_l} | BPR: ${last_vital_sign.bp_r} | Pulse: ${last_vital_sign.pulse} |Temp: ${last_vital_sign.temp} | SPO2: ${last_vital_sign.spo2}  `}}
-                               </td>
-                           </tr>
-                           <tr>
-                               <td  class="first-col">Medicines</td>
-                               <td>
-                                   <div class="row" v-for="row in plan_data.medicines" >
-                                       <div class="col">
-                                           {{row.to_do}}
-                                       </div>
-                                       <div class="col ">
-                                           {{row.to_do_frequency}} (D-{{row.day}})
-                                       </div>
-                                   </div>
-                               </td>
-                           </tr>
-                           <tr>
-                               <td  class="first-col">Actions</td>
-                               <td>
-                                   <table class="table table-sm table-borderless">
-                                       <tr v-for="row in plan_data.actions">
-                                           <td style="width:30%">
-                                               {{row.to_do}}
-                                           </td>
-                                           <td>
-                                               {{row.to_do_frequency}}
-                                           </td>
-                                       </tr>
-                                   </table>
-                               </td>
-                           </tr>
-                           <tr>
-                               <td  class="first-col">Labworks</td>
-                               <td>
-                                    {{plan_data.laboratory}}
-                               </td>
-                           </tr>
-                          <tr>
-                              <td class="first-col">Anamnese</td>
-                              <td>
-                                  <ul  v-for="row in anamneses">
-                                      <li>
-                                          {{row.anamnese}}
-                                      </li>
-                                  </ul>
-                              </td>
-                          </tr>
-                           <tr v-if="patient_age<=1 && vital_signs.length>0">
-                               <td>Weight</td>
-                               <td>
-                                   <div class="row">
-                                       <div class="col"  v-for="row in vital_signs">{{row.weight}}</div>
-                                   </div>
-                                   <div class="row">
-                                       <div class="col"  v-for="row in weight_differences">
-                                           {{row.weight}} <v-icon>{{row.icon}}</v-icon>
-                                       </div>
-                                   </div>
-                               </td>
-                           </tr>
-                           <tr>
-                               <td class="first-col">Comments</td>
-                               <td>
-                                  <v-card>
-                                      <v-card-text>
-                                          <v-list disabled>
-                                              <v-list-item-group
-                                                  color="primary"
-                                              >
-                                                  <v-list-item
-                                                      v-for="(item, i) in comments"
-                                                      :key="i"
-                                                  >
-                                                      <v-list-item-action>
-                                                          <v-btn
-                                                              fab
-                                                              small
-                                                              depressed
-                                                              color="primary"
-                                                          >
-                                                              {{ item.user.name[0].toUpperCase() }}
-                                                          </v-btn>
-                                                      </v-list-item-action>
-                                                      <v-list-item-content>
-                                                          {{ item.comment }} <v-spacer></v-spacer><small class="font-italic">{{item.user.name}} ({{item.created_at}})</small>
-                                                      </v-list-item-content>
-                                                  </v-list-item>
-                                              </v-list-item-group>
-                                          </v-list>
+                                <tr>
+                                    <td class="first-col">Diagnoses</td>
+                                    <td>
+                                        {{last_diagnose.diagnose}}-({{last_diagnose.type}})
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="first-col">Vital signs</td>
+                                    <td>
+                                        {{`BPL: ${last_vital_sign.bp_l} | BPR: ${last_vital_sign.bp_r} | Pulse: ${last_vital_sign.pulse} |Temp: ${last_vital_sign.temp} | SPO2: ${last_vital_sign.spo2}  `}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td  class="first-col">Medicines</td>
+                                    <td>
+                                        <table class="table table-sm table-borderless">
+                                            <tr v-for="row in plan_data.medicines">
+                                                <div v-if="row.show_in_projection==1">
+                                                    <td style="width:15%">
+                                                        {{row.created_at +":"}} 
+                                                    </td>
+                                                    <td style="width:30%">
+                                                        {{row.to_do}}
+                                                    </td>
+                                                    <td>
+                                                        {{row.to_do_frequency}}
+                                                    </td>
+                                                    <td>
+                                                        {{"Day: " + row.day + " ( done: "+ row.days_diff + ")"}}
+                                                    </td>
+                                                </div>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td  class="first-col">Actions</td>
+                                    <td>
+                                        <table class="table table-sm table-borderless">
+                                            <tr v-for="row in plan_data.actions">
+                                                <div v-if="row.show_in_projection==1">
+                                                    <td style="width:15%">
+                                                        {{row.created_at +":"}} 
+                                                    </td>
+                                                    <td style="width:30%">
+                                                        {{row.to_do}}
+                                                    </td>
+                                                    <td>
+                                                        {{row.to_do_frequency}}
+                                                    </td>
+                                                </div>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td  class="first-col">Labworks</td>
+                                    <td>
+                                        <table class="table table-sm table-borderless">
+                                            <tr v-for="row in plan_data.laboratory">
+                                                <div v-if="row.show_in_projection==1">
+                                                    <td style="width:15%">
+                                                        {{row.created_at +":"}} 
+                                                    </td>
+                                                    <td>
+                                                        {{ row.description}}
+                                                    </td>
 
-                                      </v-card-text>
-                                  </v-card>
-                               </td>
-                           </tr>
-                       </table>
+                                                </div>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="first-col">Anamnese</td>
+                                    <td>
+                                        <ul  v-for="row in anamneses">
+                                            <li>
+                                                {{row.anamnese}}
+                                            </li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                <tr v-if="patient_age<=1 && vital_signs.length>0">
+                                    <td>Weight</td>
+                                    <td>
+                                        <div class="row">
+                                            <div class="col"  v-for="row in vital_signs">{{row.weight}}</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col"  v-for="row in weight_differences">
+                                                {{row.weight}} <v-icon>{{row.icon}}</v-icon>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="first-col">Comments</td>
+                                    <td>
+                                        <table class="table table-sm table-borderless">
+                                            <tr v-for="row in comments">
+                                                <div v-if="row.show_in_projection==1">
+                                                    <!-- <td style="width:10%">
+                                                        {{row.created_at +":"}} 
+                                                    </td> -->
+                                                    <td>
+                                                        {{ row.comment}}
+                                                    </td>
+                                                </div>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                    </td>
+                                </tr>
+                            </table>
                        <div class="w-100 text-center">
                            <v-btn color="primary" small @click="switch_screen_mode">
                                <span v-if="!full_screen">Full screen</span>
@@ -224,7 +235,7 @@ export default {
             plan_data:{
                 actions:[],
                 medicines:[],
-                laboratory:''
+                laboratory:[]
             },
             last_vital_sign:{},
             vital_signs:[],
@@ -243,16 +254,46 @@ export default {
             //get plan data
             axios.get(`/api/v1/patient_system/in_patient/stork/plan/${this.stork_admission.id}`).then(
                 response=>{
+                    
                     if(response.data.length>0){
-                        this.plan_data.medicines=response.data[response.data.length -1].stork_plan_details.filter(item=>item.type===1)
-                        this.plan_data.actions=response.data[response.data.length -1].stork_plan_details.filter(item=>item.type===2)
-                        this.plan_data.laboratory=response.data[response.data.length -1].laboratory
+                        
+                        let medicines=[];
+                        let actions=[];
+                        const laboratory=[];
+
+                        response.data.forEach(data=>{
+                            if( data.stork_plan_details != null){
+                                
+                                // Get actions
+                                const list=data.stork_plan_details.filter(item=>item.type===2);
+                                list.forEach(item=>item.created_at=this.date_format(item.created_at));
+                                actions=actions.concat(list);
+
+                                // Get medicines
+                                const list2 = data.stork_plan_details.filter(item=>item.type===1);
+                                list2.forEach(item=> {
+                                    item.days_diff=this.calculateDaysDiff(item.created_at, item.day);
+                                    item.created_at =this.date_format(item.created_at);
+                                });
+                                medicines=medicines.concat(list2);
+                                
+                            }
+                            // Get laboratory work
+                            if(data.laboratory!=null){
+                                const item ={description:data.laboratory, created_at:this.date_format(data.created_at), show_in_projection:data.show_in_projection };
+                                laboratory.push(item);
+                            }
+                        })
+                        this.plan_data.medicines=medicines;
+                        this.plan_data.laboratory=laboratory;
+                        this.plan_data.actions=actions;
+                        
                     }
                 }
             )
+      
             await axios.get(`/api/v1/patient_system/in_patient/stork/patient_cpn_data/${this.stork_admission.patient.id}`).then(
                 response=>{
-                    console.log(response.data)
                    if(response.data.cpn_admissions.length>0){
                        this.cpn_data=response.data.cpn_admissions[response.data.cpn_admissions.length -1]
                        this.cpn_data.current_ga= this.current_gestational_age(this.cpn_data.updated_at,this.cpn_data.gestational_age)
@@ -296,9 +337,10 @@ export default {
             return moment().diff(moment(input), "days")+1
         },
         switch_screen_mode(){
-            var element = document.querySelector("#container");
+            //var elem = document.querySelector("#container");
+             var elem =document.documentElement;
             if(!this.full_screen){
-                element.requestFullscreen()
+                if (elem.requestFullscreen) {elem.requestFullscreen()}
             }else{
                 document.exitFullscreen()
             }
@@ -321,9 +363,19 @@ export default {
             // summing the right part
             let ga_in_days= ga_days+ right_ga
             let ga_in_week= ga_weeks+ left_ga
-            if (ga_in_days>6) ga_in_week++
+            if (ga_in_days>6){
+                ga_in_week++;
+                ga_in_days=ga_in_days-7;
+            } 
             return ga_in_week + "+"+ ga_in_days
+        },
+        calculateDaysDiff( created_at, days){
+            const diff1 = new Date() - new Date(created_at);
+            let diff_in_days = Math.round(diff1 / 1000 / 60 / 60 / 24);
+            const days_done=diff_in_days < days ? diff_in_days : days;
+            return days_done;
         }
+       
     },
     watch:{
         stork_admission:{
