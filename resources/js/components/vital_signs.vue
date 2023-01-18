@@ -15,7 +15,6 @@
                            <td>pulse</td>
                            <td>Spo2</td>
                            <td>Temp</td>
-                           <td>Weight</td>
                            <td></td>
                        </tr>
                        <tr>
@@ -36,9 +35,6 @@
                            </td>
                            <td>
                                <input type="text" class="form-control form-control-sm" v-model="formData.temp">
-                           </td>
-                           <td>
-                               <input type="text" class="form-control form-control-sm" v-model="formData.weight">
                            </td>
                            <td>
                                <v-btn
@@ -80,9 +76,6 @@
                                <th class="text-left">
                                    TEMP
                                </th>
-                               <th class="text-left">
-                                   Weight
-                               </th>
                                <th>User</th>
                            </tr>
                            </thead>
@@ -98,7 +91,6 @@
                                <td>{{ item.pulse }}</td>
                                <td>{{ item.spo2 }}</td>
                                <td>{{ item.temp}}</td>
-                               <td>{{ item.weight}}</td>
                                <td>{{ item.user}}</td>
                            </tr>
                            </tbody>
@@ -128,8 +120,7 @@ export default {
                 bp_r:'',
                 pulse:'',
                 temp:'',
-                spo2:'',
-                weight:''
+                spo2:''
             },
             list:[]
         }
@@ -151,8 +142,7 @@ export default {
                     bp_r:'',
                     pulse:'',
                     temp:'',
-                    spo2:'',
-                    weight:''
+                    spo2:''
                 }
             })
         }
