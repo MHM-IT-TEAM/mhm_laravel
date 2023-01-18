@@ -296,7 +296,7 @@ export default {
                 response=>{
                    if(response.data.cpn_admissions.length>0){
                        this.cpn_data=response.data.cpn_admissions[response.data.cpn_admissions.length -1]
-                       this.cpn_data.current_ga= this.current_gestational_age(this.cpn_data.updated_at,this.cpn_data.gestational_age)
+                       this.cpn_data.current_ga= this.current_gestational_age(this.cpn_data.created_at,this.cpn_data.gestational_age)
                    }
                 }
             )
