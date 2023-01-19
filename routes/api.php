@@ -173,6 +173,7 @@ Route::prefix('/v1')->group(function(){
                 route::get('show_wound_care/{stork_admission_id}',[\App\Http\Controllers\V1\patient_system\in_patient\stork_center\StorkWoundCareController::class,'show']);
                 route::post('store_action',[\App\Http\Controllers\V1\patient_system\in_patient\stork_center\StorkActionController::class,'store']);
                 route::get('show_action/{stork_admission_type}/{action_type}',[\App\Http\Controllers\V1\patient_system\in_patient\stork_center\StorkActionController::class,'show']);
+                route::get('stork_action/{stork_admission_type}/{action_id}',[\App\Http\Controllers\V1\patient_system\in_patient\stork_center\StorkActionController::class,'stork_action']);
                 route::post('ext_ref_update_stork_admission',[\App\Http\Controllers\V1\patient_system\in_patient\stork_center\StorkExternalReferralController::class,'update_stork_admission']);
                 route::get('show_medicine/{stork_admission_id}',[\App\Http\Controllers\V1\patient_system\in_patient\stork_center\StorkMedicineController::class,'show']);
                 route::resource('pregnancy_checkup',\App\Http\Controllers\V1\patient_system\in_patient\stork_center\StorkPregnancyCheckupController::class);

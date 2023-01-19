@@ -23,4 +23,8 @@ class StorkActionController extends Controller
           return $query->where('type',$action_type)->get();
       }])->orderBy('created_at','desc')->get();
     }
+
+    public function stork_action($stork_admission_id, $action_id){
+        return StorkAction::where("stork_admission_id", $stork_admission_id)->where("stork_action_group_id",$action_id)->orderBy('created_at','asc')->get();
+    }
 }

@@ -167,14 +167,22 @@
                                     </td>
                                 </tr>
                                 <tr v-if="patient_age<=1 && vital_signs.length>0">
-                                    <td>Weight</td>
+                                    <td>Weight (Date)</td>
+                                    <td>
+                                        <div class="row ml-1 mt-1 text-center" >
+                                            <div class="col" v-for="weight in weights">
+                                                <div class="row">{{weight.value}}g</div>
+                                                <div class="row">({{weight.created_at}})</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr v-if="patient_age<=1 && vital_signs.length>0">
+                                    <td>Gain/Loss</td>
                                     <td>
                                         <div class="row">
-                                            <div class="col"  v-for="row in vital_signs">{{row.weight}}</div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col"  v-for="row in weight_differences">
-                                                {{row.weight}} <v-icon>{{row.icon}}</v-icon>
+                                            <div class="col"  v-for="diff in weight_differences">
+                                                {{diff.weight}}g <v-icon>{{diff.icon}}</v-icon>
                                             </div>
                                         </div>
                                     </td>
@@ -220,6 +228,7 @@ export default {
     data(){
         return{
             full_screen:false,
+            action_groups:[],
             cpn_data:{
                 gravida:'',
                 parity:'',
@@ -239,6 +248,7 @@ export default {
             },
             last_vital_sign:{},
             vital_signs:[],
+            weights:[],
             birth_weight:'',
             ga_birth:'',
             baby_apgar:'',
@@ -308,10 +318,20 @@ export default {
                     this.vital_signs=response.data
                 }
             )
+            await axios.get('/api/v1/extra/stork_action_group').then(response=>this.action_groups=response.data)
+
+            const take_weight_id=this.action_groups.find(element=>element.description=='Take weight' && element.type=='medical_care').id
+        
+            // get medical care take weight with max 6 entries due to space in projection
+            await axios.get(`/api/v1/patient_system/in_patient/stork/stork_action/${this.stork_admission.id}/41`).then(
+                response=>{this.weights=response.data.slice(-7,-1)})
+           
+
             //get anamneses
             axios.get(`/api/v1/patient_system/anamnese/${this.stork_admission.patient_id}`).then(response=>{
                 this.anamneses=response.data
             })
+
             //get comments
             axios.get(`/api/v1/patient_system/in_patient/stork/comment/${this.stork_admission.id}`).then(response=>{
                 this.comments=response.data
@@ -380,7 +400,7 @@ export default {
     watch:{
         stork_admission:{
             handler:function(data){
-                console.log(data)
+                //console.log(data)
                 this.init()
             },
             deep:true
@@ -402,14 +422,18 @@ export default {
            return a.diff(b, 'days') // 1
         },
         weight_differences(){
-            let start_weight= 0|| this.birth_weight
-            let first_weight=this.vital_signs[0].weight -start_weight
-            let first_icon=first_weight<this.birth_weight?'mdi-arrow-down-bold':'mdi-arrow-up-bold'
             let result=[]
-            result.push({weight:this.vital_signs[0].weight -start_weight,icon:first_icon})
-            for(let i=1;i<this.vital_signs.length;i++){
-                let icon=this.vital_signs[i].weight<this.vital_signs[i-1].weight?'mdi-arrow-down-bold':'mdi-arrow-up-bold'
-                result.push({weight:this.vital_signs[i].weight-this.vital_signs[i-1].weight,icon:icon})
+            // If weights are not fetched from database yet
+            if(this.weights.length===0){
+                return result
+            }
+            let start_weight= 0|| this.birth_weight
+            let first_weight=this.weights[0].value -start_weight
+            let first_icon=first_weight<this.birth_weight?'mdi-arrow-down-bold':'mdi-arrow-up-bold'
+            result.push({weight:first_weight,icon:first_icon})
+            for(let i=1;i<this.weights.length;i++){
+                let icon=this.weights[i].value<this.weights[i-1].value?'mdi-arrow-down-bold':'mdi-arrow-up-bold'
+                result.push({weight:this.weights[i].value-this.weights[i-1].value,icon:icon})
             }
             return result
         }
