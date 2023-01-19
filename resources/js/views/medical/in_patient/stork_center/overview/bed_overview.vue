@@ -175,7 +175,7 @@
                                         <div class="row ml-1 mt-1 text-center" >
                                             <div class="col" v-for="weight in weights">
                                                 <div class="row">{{weight.value}}g</div>
-                                                <div class="row">({{weight.created_at}})</div>
+                                                <div class="row">({{weight.created_at.slice(0,-5)}})</div>
                                             </div>
                                         </div>
                                     </td>
@@ -327,7 +327,9 @@ export default {
         
             // get medical care take weight with max 6 entries due to space in projection
             await axios.get(`/api/v1/patient_system/in_patient/stork/stork_action/${this.stork_admission.id}/41`).then(
-                response=>{this.weights=response.data.slice(-7,-1)})
+                response=>{
+                    this.weights=response.data.slice(-6)}
+                    )
            
 
             //get anamneses
