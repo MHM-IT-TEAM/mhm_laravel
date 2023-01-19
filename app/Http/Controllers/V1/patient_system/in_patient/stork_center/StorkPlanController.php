@@ -49,7 +49,7 @@ class StorkPlanController extends Controller
      */
     public function show($id)
     {
-        return StorkPlan::with('stork_plan_details')->where('stork_admission_id',$id)->get();
+        return StorkPlan::with('stork_plan_details')->where('stork_admission_id',$id)->orderBy('created_at',"desc")->get();
     }
 
     /**

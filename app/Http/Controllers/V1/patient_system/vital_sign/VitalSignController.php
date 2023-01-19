@@ -49,7 +49,7 @@ class VitalSignController extends Controller
      */
     public function show($id)
     {
-        return VitalSign::where('admission_id',$id)->get();
+        return VitalSign::where('admission_id',$id)->orderBy("created_at","desc")->get();
     }
 
     /**
