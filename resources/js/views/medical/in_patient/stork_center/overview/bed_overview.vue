@@ -170,7 +170,7 @@
                                     </td>
                                 </tr>
                                 <tr v-if="patient_age<=1 && vital_signs.length>0">
-                                    <td>Weight (Date)</td>
+                                    <td>Weight<br>(Date)</td>
                                     <td>
                                         <div class="row ml-1 mt-1 text-center" >
                                             <div class="col" v-for="weight in weights">
