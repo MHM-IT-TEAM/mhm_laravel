@@ -317,7 +317,7 @@ export default {
             await axios.get(`/api/v1/patient_system/in_patient/stork/last_diagnose/${this.stork_admission.id}`).then(resp=>this.last_diagnose=resp.data)
             //get latest vitalSigns
             await axios.get(`/api/v1/patient_system/vital_sign/${this.stork_admission.admission_id}`).then(response=>{
-                    if(response.data.length>0) this.last_vital_sign=response.data[response.data.length -1]
+                    if(response.data.length>0) this.last_vital_sign=response.data[0]
                     this.vital_signs=response.data
                 }
             )
