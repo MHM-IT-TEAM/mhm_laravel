@@ -91,7 +91,10 @@
                                 </tr>
                                 <tr>
                                     <td class="first-col">Vital signs</td>
-                                    <td>
+                                    <td v-if="patient_age<=1">
+                                        {{`Pulse: ${last_vital_sign.pulse} |Temp: ${last_vital_sign.temp} | SPO2: ${last_vital_sign.spo2}  `}}
+                                    </td>
+                                    <td v-if="patient_age>1">
                                         {{`BPL: ${last_vital_sign.bp_l} | BPR: ${last_vital_sign.bp_r} | Pulse: ${last_vital_sign.pulse} |Temp: ${last_vital_sign.temp} | SPO2: ${last_vital_sign.spo2}  `}}
                                     </td>
                                 </tr>
