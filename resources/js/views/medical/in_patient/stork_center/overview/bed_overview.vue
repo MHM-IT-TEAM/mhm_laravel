@@ -328,8 +328,13 @@ export default {
             // get medical care take weight with max 6 entries due to space in projection
             await axios.get(`/api/v1/patient_system/in_patient/stork/stork_action/${this.stork_admission.id}/41`).then(
                 response=>{
-                    this.weights=response.data.slice(-6)}
-                    )
+                    this.weights=response.data.slice(-6)
+                    // cut the g in the weight
+                    this.weights.forEach(data=>{
+                        data.value=data.value.replace('g','')                        
+                    })
+                }
+            )
            
 
             //get anamneses
