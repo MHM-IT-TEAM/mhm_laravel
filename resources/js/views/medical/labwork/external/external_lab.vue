@@ -162,6 +162,7 @@ export default {
                         {db_name:'blood_crp',label:'CRP',checked:false,result:'',items:['neg','[10-40]','[40-80]','>80']},
                         {db_name:'blood_glycemia',label:'Glycemia',checked:false,result:'',items:null},
                         {db_name:'blood_hb',label:'HB',checked:false,result:'',items:null},
+                        {db_name:'blood_hk',label:'HK',checked:false,result:'',items:null},
                         // {db_name:'blood_ptt',label:'PTT',checked:false,result:'',items:null},
                     ]
                 },
