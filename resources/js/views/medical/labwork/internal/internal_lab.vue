@@ -239,6 +239,7 @@ export default {
                     result:[
                         {db_name:'blood_bg',label:'BG',checked:false,result:'',items:['A','B','O+','O-','AB','pos','neg']},
                         {db_name:'blood_hb',label:'HB',checked:false,result:'',items:null},
+                        {db_name:'blood_hk',label:'HK',checked:false,result:'',items:null},
                         {db_name:'blood_bilirubin',label:'Bilirubin',checked:false,result:'',items:null},
                         {db_name:'blood_glycemia',label:'Glycemia',checked:false,result:'',items:null},
                         {db_name:'blood_ogtt',label:'OGTT',checked:false,result:'',items:['neg','suspicious','pos']},
