@@ -191,6 +191,8 @@ Route::prefix('/v1')->group(function(){
                 route::get('patient_cpn_data/{patient_id}',[\App\Http\Controllers\V1\patient_system\in_patient\stork_center\StorkAdmissionController::class,'patient_cpn_data']);
                 route::get('last_diagnose/{stork_admission_id}',[\App\Http\Controllers\V1\patient_system\in_patient\stork_center\StorkDiagnoseController::class,'last_diagnose']);
                 route::resource('plan',\App\Http\Controllers\v1\patient_system\in_patient\stork_center\StorkPlanController::class);
+                route::put('update_storkplandetail/{det_id}/{det_stop}/{det_stopdate}',[\App\Http\Controllers\v1\patient_system\in_patient\stork_center\StorkPlanController::class,'update_storkplandetail']);
+                route::put('update_stop/{det_id}/{det_stop}',[\App\Http\Controllers\v1\patient_system\in_patient\stork_center\StorkPlanController::class,'update_stop']);
                 Route::group(['prefix'=>'plan'],function(){
                     route::put('update_showInProjection/{plan_id}/{showInProjection}',[\App\Http\Controllers\V1\patient_system\in_patient\stork_center\StorkPlanController::class, 'update_showInProjection']);               
                 });

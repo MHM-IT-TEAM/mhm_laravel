@@ -118,7 +118,7 @@
                                     <td>#</td>
                                     <td>Date</td>
                                     <td>Details</td>
-                                    <td>Show in projection</td>
+                                    <td>Show in <br> projection</td>
                                     <td></td>
                                 </tr>
                                 <tr v-for="(row,id) in data_in_system">
@@ -129,8 +129,16 @@
                                             <div class="col-6">
                                                 {{det.to_do}}
                                             </div>
-                                            <div class="col-6">
+                                            <div class="col-2">
                                                 {{det.to_do_frequency}}
+                                            </div>
+                                            <div class="col-4" v-if="det.type==1">
+                                                <div class="row pt-2">
+                                                    <v-checkbox small v-model="det.stop" @click="updateDet(det)">                                                  
+                                                    </v-checkbox>
+                                                    <label class="pt-5">{{det.stopdate}}</label>
+                                                </div>
+                                                
                                             </div>
                                         </div>
                                     </td>
@@ -176,9 +184,9 @@ export default {
     name: "stork_plan_for_patient",
     data(){
         return{
-            temp_medicine:{med:'',dosage:''},
-            temp_row:{to_do:"",frequency:"",day:"", note:""},
-            temp_action:{action:'',frequency:''},
+            temp_medicine:{med:'',dosage:'', stop:'', stopdate:''},
+            temp_row:{to_do:"",frequency:"",day:"", note:"", stop:'', stopdate:''},
+            temp_action:{action:'',frequency:'', stop:'', stopdate:''},
             list_of_actions:[],
             avalaible_medicines:[],
             is_loading:false,
@@ -272,8 +280,27 @@ export default {
             },
         update(item){
             axios.put(`/api/v1/patient_system/in_patient/stork/plan/update_showInProjection/${item.id}/${item.show_in_projection}`)
-        }
+        },
+        
+        getStopDateString(created_at){
+            let today=new Date();
+            const diff1 = today - new Date(created_at);
+            let diff_in_days = Math.round(diff1 / 1000 / 60 / 60 / 24) +1; 
+            const stopdate= "D"+diff_in_days + " Stop ("+ today.getDate() +"."+today.getMonth()+1+"."+today.getFullYear()+ ")";
 
+            return stopdate;
+            
+        },
+        updateDet(det){
+            if(det.stop==true){
+                det.stopdate=this.getStopDateString(det.created_at)
+                axios.put(`/api/v1/patient_system/in_patient/stork/update_storkplandetail/${det.id}/${det.stop}/${det.stopdate}`)
+            }else{
+                det.stopdate=""
+                axios.put(`/api/v1/patient_system/in_patient/stork/update_stop/${det.id}/${det.stop}`)
+            }
+
+        }
     },
     computed:{
         fullName(){

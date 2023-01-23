@@ -5,6 +5,8 @@ namespace App\Http\Controllers\v1\patient_system\in_patient\stork_center;
 use App\Http\Controllers\Controller;
 use App\Models\StorkPlan;
 use App\Service\V1\patient_system\in_patient\StorkPlanService;
+
+use App\Models\StorkPlanDetail;
 use Illuminate\Http\Request;
 
 class StorkPlanController extends Controller
@@ -91,5 +93,20 @@ class StorkPlanController extends Controller
         $service= new StorkPlanService();
         $service->update_showInProjection($id, $showInProjection);
 
+    }
+
+    public function update_storkplandetail($id, $stop, $stopdate){
+        $stork_plan_detail=StorkPlanDetail::find($id);
+        $stork_plan_detail->stop=(bool)$stop;
+        $stork_plan_detail->stopdate=$stopdate;
+        $stork_plan_detail->save();
+    }
+
+    public function update_stop($id, $stop){
+        $stork_plan_detail=StorkPlanDetail::find($id);
+        error_log($stop);
+        $stork_plan_detail->stop=(int)$stop;
+        $stork_plan_detail->stopdate="";
+        $stork_plan_detail->save();
     }
 }
