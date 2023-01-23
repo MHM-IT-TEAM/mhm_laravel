@@ -82,7 +82,7 @@ export default {
                 remark:'',
                 new_user:false
             },
-            methods:['Microgynon','Microlut','DMPA-IM','DMPA-SC','Male condom','Female condom','Implanon NXT'],
+            methods:['Microgynon','Microlut','DMPA-IM','DMPA-SC','Male condom','Female condom','Implanon NXT', 'Levoplant'],
             reset_medication_list:false,
         }
     },
