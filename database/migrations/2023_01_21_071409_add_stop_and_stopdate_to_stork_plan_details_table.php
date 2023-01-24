@@ -15,8 +15,7 @@ class AddStopAndStopdateToStorkPlanDetailsTable extends Migration
     {
         Schema::table('stork_plan_details', function (Blueprint $table) {
             $table->boolean("stop")->default(false);
-            $table->string("stopdate");
-            //
+            $table->string("stopdate")->default("");
         });
     }
 

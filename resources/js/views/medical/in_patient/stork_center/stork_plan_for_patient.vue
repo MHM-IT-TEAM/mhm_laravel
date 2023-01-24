@@ -250,7 +250,7 @@ export default {
             this.is_loading=true
             this.formData.to_do.forEach(l=>{
                 if(l.type===1){
-                    l.to_do= `[${l.to_do.code}]-${l.to_do.description}`
+                    l.to_do= l.to_do.description
                 }
             })
             axios.post('/api/v1/patient_system/in_patient/stork/plan',this.formData).then(
